@@ -124,10 +124,6 @@ void PlayerHunter::Avoidance(void)
 	// 入力
 	if (GetCtrl(0)->Trigger(Input::GAMEPAD_CROSS, DIK_M))
 	{
-		if (wapon_)
-		{
-			wapon_->AttackEnd();
-		}
 		animCnt_     =	ANIMATION_DEFAULT;
 		BitAdd(flag_, IS_AVOIDANCE);
 		animation_   = Animation::Roll;
@@ -188,10 +184,6 @@ void PlayerHunter::Attack(void)
 		// 攻撃していない時
 		if (!BitCheck(flag_, IS_ATTACK))
 		{
-			if (wapon_)
-			{
-				wapon_->AttackStart();
-			}
 			// 最初の攻撃モーション
 			animCnt_ = 0.75f;
 			BitAdd(flag_, IS_ATTACK);
@@ -218,10 +210,6 @@ void PlayerHunter::Attack(void)
 			// 次の入力がある
 			if (BitCheck(flag_, IS_NEXT_SLASH))
 			{
-				if (wapon_)
-				{
-					wapon_->AttackStart();
-				}
 				// 次の攻撃を行う
 				BitSub(flag_, IS_NEXT_SLASH);
 				// アニメーションが最後まで行ったら最初に戻る
@@ -233,10 +221,6 @@ void PlayerHunter::Attack(void)
 		// アニメーションの終了
 		if (BitCheck(flag_, IS_END_ANIMATION))
 		{
-			if (wapon_)
-			{
-				wapon_->AttackEnd();
-			}
 			// 抜刀待機状態に戻る
 			BitSub(flag_, IS_ATTACK);
 			animation_ = Animation::SetupWait;

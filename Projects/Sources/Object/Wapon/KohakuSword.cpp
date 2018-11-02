@@ -39,7 +39,6 @@ void KohakuSword::Init(void)
 		collider_->SetOffset(VECTOR3(0, 60, 0));
 		collider_->SetSize(VECTOR3(2, 20, 105));
 		collider_->Update();
-		collider_->SetEnable(false);
 	}
 }
 
@@ -49,7 +48,6 @@ void KohakuSword::Init(void)
  * @return	‚È‚µ						*/
 void KohakuSword::Uninit(void)
 {
-	DeletePtr(collider_);
 }
 
 /* @fn		Update
@@ -85,6 +83,11 @@ void KohakuSword::PaidSword(void)
 	transform_.rotation = PAID_ROTATION;
 
 	transform_.parentMtx = body_;
+
+	if (collider_)
+	{
+		collider_->SetEnable(false);
+	}
 }
 
 void KohakuSword::DrawnSword(void)
@@ -95,6 +98,11 @@ void KohakuSword::DrawnSword(void)
 	transform_.rotation = DRAWN_ROTATION;
 
 	transform_.parentMtx = hand_;
+
+	if (collider_)
+	{
+		collider_->SetEnable(true);
+	}
 }
 
 void KohakuSword::GuiUpdate(void)
