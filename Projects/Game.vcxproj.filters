@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source\リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source\Scene">
+      <UniqueIdentifier>{873cc807-033a-4495-a3aa-e761cccd77f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Scene\EachScene">
+      <UniqueIdentifier>{ff978e3f-54d1-47f7-ae9d-1aebb46d1ca6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Object">
+      <UniqueIdentifier>{42e8fc0f-778c-4c7a-b8f1-f890c767e261}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Object\UI">
+      <UniqueIdentifier>{c1f30dfa-b770-4b1e-8678-7a87f4fd028c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Object\StaticObject">
+      <UniqueIdentifier>{d10fff57-9856-469c-b3c6-66340576e9bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Object\Wapon">
+      <UniqueIdentifier>{bb84b7f7-f518-4e7a-bb87-41c7d53582a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Object\Player">
+      <UniqueIdentifier>{55cecd86-0221-47f4-80d7-14665d63f901}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Sources\Scene\EachScene\GameScene.cpp">
+      <Filter>Source\Scene\EachScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Object\UI\Timer.cpp">
+      <Filter>Source\Object\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Object\StaticObject\PaidGoodsBox.cpp">
+      <Filter>Source\Object\StaticObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Object\Dragon.cpp">
+      <Filter>Source\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Object\Wapon\KohakuSword.cpp">
+      <Filter>Source\Object\Wapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Object\Player\PlayerMove.cpp">
+      <Filter>Source\Object\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Object\Player\PlayerHunter.cpp">
+      <Filter>Source\Object\Player</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Sources\Scene\EachScene\GameScene.h">
+      <Filter>Source\Scene\EachScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\UI\Timer.h">
+      <Filter>Source\Object\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\StaticObject\PaidGoodsBox.h">
+      <Filter>Source\Object\StaticObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\Dragon.h">
+      <Filter>Source\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\Wapon\Wapon.h">
+      <Filter>Source\Object\Wapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\Wapon\KohakuSword.h">
+      <Filter>Source\Object\Wapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\Player\PlayerMove.h">
+      <Filter>Source\Object\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\Player\PlayerHunter.h">
+      <Filter>Source\Object\Player</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

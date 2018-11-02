@@ -1,0 +1,511 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="FrameWork">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="FrameWork\リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="FrameWork\Define">
+      <UniqueIdentifier>{4f0e227c-4fb7-42be-862a-0c9dce480903}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Window">
+      <UniqueIdentifier>{0b90942c-0093-4a9b-97b4-48ac1d439127}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Systems">
+      <UniqueIdentifier>{98fdb333-afe1-403c-90ab-1409bb97401d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Systems\Input">
+      <UniqueIdentifier>{37acff2d-ddb7-485c-aea7-02c053bb8eea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Scene">
+      <UniqueIdentifier>{873cc807-033a-4495-a3aa-e761cccd77f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Scene\EachScene">
+      <UniqueIdentifier>{ff978e3f-54d1-47f7-ae9d-1aebb46d1ca6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Systems\Camera">
+      <UniqueIdentifier>{ae9a0742-168c-4282-917a-553234c8a415}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Graphics">
+      <UniqueIdentifier>{181eba20-8422-4a6a-b71a-48c0cb6cd305}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Graphics\DirectX11">
+      <UniqueIdentifier>{77cb2143-4274-4f17-919b-309607a5837e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Systems\Renderer">
+      <UniqueIdentifier>{a9ba5ff8-ec94-4f91-9793-31fc806d3b32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Systems\Renderer\Model">
+      <UniqueIdentifier>{f0b94d28-4ce0-40d2-8a48-3090530b5ded}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Systems\Renderer\Sprite">
+      <UniqueIdentifier>{8d6fdfc9-02a7-4065-ba19-3849ce582548}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Object">
+      <UniqueIdentifier>{42e8fc0f-778c-4c7a-b8f1-f890c767e261}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Systems\Renderer\Shader">
+      <UniqueIdentifier>{1bf685b9-1cbd-4411-8cb7-66e55a912179}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Systems\Sound">
+      <UniqueIdentifier>{1cf5ba7c-b534-4603-9b07-0725f5384ebd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Systems\Collider">
+      <UniqueIdentifier>{0dad0a8f-b0f8-4d3a-b998-0a465c0eef3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Systems\Particle">
+      <UniqueIdentifier>{0e29662a-c83d-4b32-a65d-6577a1f9801b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Systems\DebugSetting">
+      <UniqueIdentifier>{204f545b-b554-47a6-bb25-d6b78a41e3a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Systems\DebugSetting\ImGUI">
+      <UniqueIdentifier>{4f4483c4-d303-4719-a264-9edc17dd98ce}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="FrameWork\Define\Color.h">
+      <Filter>FrameWork\Define</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Define\Define.h">
+      <Filter>FrameWork\Define</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Define\Matrix.h">
+      <Filter>FrameWork\Define</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Define\Vector.h">
+      <Filter>FrameWork\Define</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Graphics\DirectX11\DirectX11.h">
+      <Filter>FrameWork\Graphics\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Graphics\DirectX11\DirectX11Wrapper.h">
+      <Filter>FrameWork\Graphics\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Graphics\DirectX11\WICTextureLoader.h">
+      <Filter>FrameWork\Graphics\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Graphics\Graphics.h">
+      <Filter>FrameWork\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Graphics\Wrapper.h">
+      <Filter>FrameWork\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Object\Object.h">
+      <Filter>FrameWork\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Object\ObjectManager.h">
+      <Filter>FrameWork\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Scene\BaseScene.h">
+      <Filter>FrameWork\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Scene\SceneManager.h">
+      <Filter>FrameWork\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Scene\EachScene\PauseScene.h">
+      <Filter>FrameWork\Scene\EachScene</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Scene\EachScene\ResultScene.h">
+      <Filter>FrameWork\Scene\EachScene</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Scene\EachScene\TitleScene.h">
+      <Filter>FrameWork\Scene\EachScene</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Camera\AtObjCamera.h">
+      <Filter>FrameWork\Systems\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Camera\Camera.h">
+      <Filter>FrameWork\Systems\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Camera\CameraManager.h">
+      <Filter>FrameWork\Systems\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Collider\Collider2D.h">
+      <Filter>FrameWork\Systems\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Collider\Collider2DManager.h">
+      <Filter>FrameWork\Systems\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Collider\Collider3D.h">
+      <Filter>FrameWork\Systems\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Collider\Collider3DManager.h">
+      <Filter>FrameWork\Systems\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Collider\ColliderRenderer.h">
+      <Filter>FrameWork\Systems\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Input\BaseInput.h">
+      <Filter>FrameWork\Systems\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Input\BinInput.h">
+      <Filter>FrameWork\Systems\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Input\Controller.h">
+      <Filter>FrameWork\Systems\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Input\Input.h">
+      <Filter>FrameWork\Systems\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Input\KeyInput.h">
+      <Filter>FrameWork\Systems\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Input\PS4Input.h">
+      <Filter>FrameWork\Systems\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Input\XInput.h">
+      <Filter>FrameWork\Systems\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Particle\Particle.h">
+      <Filter>FrameWork\Systems\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Particle\ParticleManager.h">
+      <Filter>FrameWork\Systems\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Renderer\Model\LoadModel.h">
+      <Filter>FrameWork\Systems\Renderer\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Renderer\Model\MeshRenderer.h">
+      <Filter>FrameWork\Systems\Renderer\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Renderer\Model\Model.h">
+      <Filter>FrameWork\Systems\Renderer\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Renderer\Shader\2DCircleGauge.h">
+      <Filter>FrameWork\Systems\Renderer\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Renderer\Shader\BillboardShader.h">
+      <Filter>FrameWork\Systems\Renderer\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Renderer\Shader\CSSkinningRender.h">
+      <Filter>FrameWork\Systems\Renderer\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Renderer\Shader\Default.h">
+      <Filter>FrameWork\Systems\Renderer\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Renderer\Shader\DepthShadow.h">
+      <Filter>FrameWork\Systems\Renderer\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Renderer\Shader\PointSprite.h">
+      <Filter>FrameWork\Systems\Renderer\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Renderer\Shader\Shader.h">
+      <Filter>FrameWork\Systems\Renderer\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Renderer\Shader\ShaderManager.h">
+      <Filter>FrameWork\Systems\Renderer\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Renderer\Shader\SkinningShadow.h">
+      <Filter>FrameWork\Systems\Renderer\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Renderer\Shader\ZTexture.h">
+      <Filter>FrameWork\Systems\Renderer\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Renderer\Sprite\CanvasRenderer.h">
+      <Filter>FrameWork\Systems\Renderer\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Renderer\Sprite\CanvasRendererManager.h">
+      <Filter>FrameWork\Systems\Renderer\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Renderer\Sprite\SpriteRenderer.h">
+      <Filter>FrameWork\Systems\Renderer\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Renderer\Sprite\Texture.h">
+      <Filter>FrameWork\Systems\Renderer\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Renderer\MeshField.h">
+      <Filter>FrameWork\Systems\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Renderer\ObjectRenderer.h">
+      <Filter>FrameWork\Systems\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Renderer\ObjectRendererManager.h">
+      <Filter>FrameWork\Systems\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Sound\Sound.h">
+      <Filter>FrameWork\Systems\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\BaseManager.h">
+      <Filter>FrameWork\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\GameSystems.h">
+      <Filter>FrameWork\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Light.h">
+      <Filter>FrameWork\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Loading.h">
+      <Filter>FrameWork\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Score.h">
+      <Filter>FrameWork\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Screenshot.h">
+      <Filter>FrameWork\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Windows\Dialog.h">
+      <Filter>FrameWork\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Windows\resource.h">
+      <Filter>FrameWork\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Windows\Windows.h">
+      <Filter>FrameWork\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\DebugSetting\Debug.h">
+      <Filter>FrameWork\Systems\DebugSetting</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\DebugSetting\GUI.h">
+      <Filter>FrameWork\Systems\DebugSetting</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\DebugSetting\GuiManager.h">
+      <Filter>FrameWork\Systems\DebugSetting</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Renderer\SkyDome.h">
+      <Filter>FrameWork\Systems\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\DebugSetting\ImGUI\imconfig.h">
+      <Filter>FrameWork\Systems\DebugSetting\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\DebugSetting\ImGUI\imgui.h">
+      <Filter>FrameWork\Systems\DebugSetting\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\DebugSetting\ImGUI\imgui_impl_dx11.h">
+      <Filter>FrameWork\Systems\DebugSetting\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\DebugSetting\ImGUI\imgui_internal.h">
+      <Filter>FrameWork\Systems\DebugSetting\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\DebugSetting\ImGUI\imstb_rectpack.h">
+      <Filter>FrameWork\Systems\DebugSetting\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\DebugSetting\ImGUI\imstb_textedit.h">
+      <Filter>FrameWork\Systems\DebugSetting\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\DebugSetting\ImGUI\imstb_truetype.h">
+      <Filter>FrameWork\Systems\DebugSetting\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\DebugSetting\ImGUI\stb_rect_pack.h">
+      <Filter>FrameWork\Systems\DebugSetting\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\DebugSetting\ImGUI\stb_textedit.h">
+      <Filter>FrameWork\Systems\DebugSetting\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\DebugSetting\ImGUI\stb_truetype.h">
+      <Filter>FrameWork\Systems\DebugSetting\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\DebugSetting\ImGUI\imgui_impl_win32.h">
+      <Filter>FrameWork\Systems\DebugSetting\ImGUI</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="FrameWork\Define\Matrix.cpp">
+      <Filter>FrameWork\Define</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Define\Vector.cpp">
+      <Filter>FrameWork\Define</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Graphics\DirectX11\DirectX11.cpp">
+      <Filter>FrameWork\Graphics\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Graphics\DirectX11\DirectX11Wrapper.cpp">
+      <Filter>FrameWork\Graphics\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Graphics\DirectX11\WICTextureLoader.cpp">
+      <Filter>FrameWork\Graphics\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Object\Object.cpp">
+      <Filter>FrameWork\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Object\ObjectManager.cpp">
+      <Filter>FrameWork\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Scene\BaseScene.cpp">
+      <Filter>FrameWork\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Scene\SceneManager.cpp">
+      <Filter>FrameWork\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Scene\EachScene\PauseScene.cpp">
+      <Filter>FrameWork\Scene\EachScene</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Scene\EachScene\ResultScene.cpp">
+      <Filter>FrameWork\Scene\EachScene</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Scene\EachScene\TitleScene.cpp">
+      <Filter>FrameWork\Scene\EachScene</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Camera\AtObjCamera.cpp">
+      <Filter>FrameWork\Systems\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Camera\Camera.cpp">
+      <Filter>FrameWork\Systems\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Camera\CameraManager.cpp">
+      <Filter>FrameWork\Systems\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Collider\Collider2D.cpp">
+      <Filter>FrameWork\Systems\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Collider\Collider2DManager.cpp">
+      <Filter>FrameWork\Systems\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Collider\Collider3D.cpp">
+      <Filter>FrameWork\Systems\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Collider\Collider3DManager.cpp">
+      <Filter>FrameWork\Systems\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Collider\ColliderRenderer.cpp">
+      <Filter>FrameWork\Systems\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Input\BinInput.cpp">
+      <Filter>FrameWork\Systems\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Input\Controller.cpp">
+      <Filter>FrameWork\Systems\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Input\Input.cpp">
+      <Filter>FrameWork\Systems\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Input\KeyInput.cpp">
+      <Filter>FrameWork\Systems\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Input\PS4Input.cpp">
+      <Filter>FrameWork\Systems\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Input\XInput.cpp">
+      <Filter>FrameWork\Systems\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Particle\Particle.cpp">
+      <Filter>FrameWork\Systems\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Particle\ParticleManager.cpp">
+      <Filter>FrameWork\Systems\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Renderer\Model\LoadModel.cpp">
+      <Filter>FrameWork\Systems\Renderer\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Renderer\Model\MeshRenderer.cpp">
+      <Filter>FrameWork\Systems\Renderer\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Renderer\Model\Model.cpp">
+      <Filter>FrameWork\Systems\Renderer\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Renderer\Shader\2DCircleGauge.cpp">
+      <Filter>FrameWork\Systems\Renderer\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Renderer\Shader\BillboardShader.cpp">
+      <Filter>FrameWork\Systems\Renderer\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Renderer\Shader\CSSkinningRender.cpp">
+      <Filter>FrameWork\Systems\Renderer\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Renderer\Shader\Default.cpp">
+      <Filter>FrameWork\Systems\Renderer\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Renderer\Shader\DepthShadow.cpp">
+      <Filter>FrameWork\Systems\Renderer\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Renderer\Shader\PointSprite.cpp">
+      <Filter>FrameWork\Systems\Renderer\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Renderer\Shader\Shader.cpp">
+      <Filter>FrameWork\Systems\Renderer\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Renderer\Shader\ShaderManager.cpp">
+      <Filter>FrameWork\Systems\Renderer\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Renderer\Shader\SkinningShadow.cpp">
+      <Filter>FrameWork\Systems\Renderer\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Renderer\Shader\ZTexture.cpp">
+      <Filter>FrameWork\Systems\Renderer\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Renderer\Sprite\CanvasRenderer.cpp">
+      <Filter>FrameWork\Systems\Renderer\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Renderer\Sprite\CanvasRendererManager.cpp">
+      <Filter>FrameWork\Systems\Renderer\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Renderer\Sprite\SpriteRenderer.cpp">
+      <Filter>FrameWork\Systems\Renderer\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Renderer\Sprite\Texture.cpp">
+      <Filter>FrameWork\Systems\Renderer\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Renderer\MeshField.cpp">
+      <Filter>FrameWork\Systems\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Renderer\ObjectRenderer.cpp">
+      <Filter>FrameWork\Systems\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Renderer\ObjectRendererManager.cpp">
+      <Filter>FrameWork\Systems\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Sound\Sound.cpp">
+      <Filter>FrameWork\Systems\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\GameSystems.cpp">
+      <Filter>FrameWork\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Light.cpp">
+      <Filter>FrameWork\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Loading.cpp">
+      <Filter>FrameWork\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Score.cpp">
+      <Filter>FrameWork\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Screenshot.cpp">
+      <Filter>FrameWork\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Windows\Dialog.cpp">
+      <Filter>FrameWork\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Windows\Windows.cpp">
+      <Filter>FrameWork\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\main.cpp">
+      <Filter>FrameWork</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\DebugSetting\Debug.cpp">
+      <Filter>FrameWork\Systems\DebugSetting</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\DebugSetting\GUI.cpp">
+      <Filter>FrameWork\Systems\DebugSetting</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\DebugSetting\GuiManager.cpp">
+      <Filter>FrameWork\Systems\DebugSetting</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Renderer\SkyDome.cpp">
+      <Filter>FrameWork\Systems\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\DebugSetting\ImGUI\imgui.cpp">
+      <Filter>FrameWork\Systems\DebugSetting\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\DebugSetting\ImGUI\imgui_draw.cpp">
+      <Filter>FrameWork\Systems\DebugSetting\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\DebugSetting\ImGUI\imgui_impl_dx11.cpp">
+      <Filter>FrameWork\Systems\DebugSetting\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\DebugSetting\ImGUI\imgui_widgets.cpp">
+      <Filter>FrameWork\Systems\DebugSetting\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\DebugSetting\ImGUI\imgui_impl_win32.cpp">
+      <Filter>FrameWork\Systems\DebugSetting\ImGUI</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="FrameWork\Windows\resource.rc">
+      <Filter>FrameWork\リソース ファイル</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

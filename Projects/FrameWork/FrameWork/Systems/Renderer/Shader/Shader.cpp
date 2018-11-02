@@ -1,0 +1,24 @@
+//-----------------------------------------------------------------------------
+//
+//	シェーダー[Shader.cpp]
+//	Auther : 戸澤翔太
+//																	2018/08/18
+//-----------------------------------------------------------------------------
+#include "Shader.h"
+#include "ShaderManager.h"
+#include "../../GameSystems.h"
+#include "../../../Windows/Windows.h"
+
+#include "../../../Graphics/DirectX11/DirectX11Wrapper.h"
+
+HRESULT Shader::Init(void)
+{
+	dev_ = manager_->GetSystems()->GetRenderer()->GetWrapper();
+	if (dev_ == nullptr) { return E_FAIL; }
+	vertexShader_ = dev_->CreateVertexShader(fileName_, vMethod_, vVersion_, layout_, layoutSize_);
+	if (vertexShader_ == Wrapper::R_ERROR) { return E_FAIL; }
+	pixelShader_ = dev_->CreatePixelShader(fileName_, pMethod_, pVersion_);
+	if (pixelShader_ == Wrapper::R_ERROR) { return E_FAIL; }
+
+	return S_OK;
+}
