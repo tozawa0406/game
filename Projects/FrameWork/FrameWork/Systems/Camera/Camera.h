@@ -20,7 +20,7 @@ class Camera : public GUI
 	friend class CameraManager;
 public:
 	// 画角
-	static constexpr int FOV = 90;
+	static constexpr int FOV = 80;
 	// ニアクリップ
 	static constexpr float C_NEAR = 0.1f;
 	// ファークリップ

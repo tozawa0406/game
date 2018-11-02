@@ -6,6 +6,11 @@
 *.lo
 *.o
 *.obj
+*.iobj
+*.pdb
+*.ipdb
+*.db
+*.ini
 
 # Precompiled Headers
 *.gch
@@ -30,3 +35,18 @@
 *.exe
 *.out
 *.app
+
+# Build result
+.vs/
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+[Ww]in32/
+x64/
+x86/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+

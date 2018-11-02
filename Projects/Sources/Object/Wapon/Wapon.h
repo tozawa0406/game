@@ -31,6 +31,9 @@ public:
 		this->PaidSword();
 	}
 
+	inline void AttackStart(void) { if (collider_) { collider_->SetEnable(true);  } }
+	inline void AttackEnd(void)   { if (collider_) { collider_->SetEnable(false); } }
+
 protected:
 	//! ”[“ˆ—
 	virtual void PaidSword(void) = 0;
