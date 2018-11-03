@@ -83,8 +83,8 @@ void Collider3D::OBB::Update(void)
 {
 	transform_ = object_->GetTransform();
 
-	transform_.position += offset_;
 	MATRIX m = MATRIX().Identity();
+	m.Translation(offset_);
 	m.Create(&transform_);
 
 	VECTOR3 s = VECTOR3(1);
@@ -107,6 +107,7 @@ void Collider3D::OBB::Update(void)
 
 	renderer_.Update(this);
 
-	transform_.position = object_->GetTransform().globalPosition;
-	transform_.position += offset_ * s;
+	transform_.position = VECTOR3(m._41, m._42, m._43);
+
+//	transform_.position += offset_ * s;
 }

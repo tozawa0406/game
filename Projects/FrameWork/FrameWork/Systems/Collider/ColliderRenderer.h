@@ -26,6 +26,8 @@ struct ColliderRenderer
 	~ColliderRenderer(void);
 
 	const Transform& GetTransform(void) const { return transform; }
+	const VECTOR3&	 GetOffset(void)	const { return offset; }
+	const VECTOR3&	 GetSize(void)		const { return size; }
 	UINT GetVertexBuffer(void) const { return vertexBuffer; }
 	UINT GetVertexNum(void)	   const { return vnum;    }
 	UINT GetPrimitiveNum(void) const { return pnum;         }
@@ -46,6 +48,8 @@ struct ColliderRenderer
 
 private:
 	Transform	transform;
+	VECTOR3		size;
+	VECTOR3		offset;
 
 	Wrapper::PRIMITIVE::TYPE type;
 	BYTE		pnum;

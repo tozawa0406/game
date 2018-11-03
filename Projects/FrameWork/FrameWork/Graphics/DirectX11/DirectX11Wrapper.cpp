@@ -607,6 +607,11 @@ void DirectX11Wrapper::Draw(const ColliderRenderer* obj)
 
 	MATRIX mtx = mtx.Identity();
 
+	const auto& scale = obj->GetTransform().scale;
+	VECTOR3 s = VECTOR3(1 / scale.x, 1 / scale.y, 1 / scale.z);
+	mtx.Scaling(obj->GetSize() * s);
+	mtx.Translation(obj->GetOffset() * s);
+
 	auto tr = obj->GetTransform();
 
 	for (;;)

@@ -34,7 +34,7 @@ void ColliderRendererManager::Draw(void)
 
 
 ColliderRenderer::ColliderRenderer(void) : enable(false), vertexBuffer(0), vnum(0)
-										 , type(Wrapper::PRIMITIVE::TYPE::POINT)
+										 , type(Wrapper::PRIMITIVE::TYPE::POINT), offset(0), size(1)
 {
 	transform.position = VECTOR3(0, 0, 0);
 	transform.rotation = VECTOR3(0, 0, 0);
@@ -54,8 +54,9 @@ ColliderRenderer::~ColliderRenderer(void)
 void ColliderRenderer::Update(const Collider3DBase* col)
 {
 	transform = col->transform_;
-	transform.scale	   = col->size_;
-	enable = col->enable_;
+	offset    = col->offset_;
+	size      = col->size_;
+	enable    = col->enable_;
 }
 
 void ColliderRenderer::Update(const Collider2DBase* col)

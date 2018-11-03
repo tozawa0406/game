@@ -15,6 +15,10 @@ class Dragon : public Object
 	enum class Collision : uint8
 	{
 		BODY = 0,
+		HEAD,
+		TAIL,
+		WING_R,
+		WING_L,
 		MAX
 	};
 public:
