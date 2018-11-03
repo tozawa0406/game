@@ -193,7 +193,7 @@ void PlayerHunter::Attack(void)
 				wapon_->AttackStart();
 			}
 			// Å‰‚ÌUŒ‚ƒ‚[ƒVƒ‡ƒ“
-			animCnt_ = 0.75f;
+			animCnt_ = 0.6f;
 			BitAdd(flag_, IS_ATTACK);
 			animation_ = Animation::Slash_1;
 			mesh_.ChangeAnimation((int)animation_, 15);

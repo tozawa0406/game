@@ -9,6 +9,8 @@
 
 //! @def	移動速度
 static constexpr float MOVE_SPEED = 0.06f;
+//! @def	回避速度
+static constexpr float AVOIDANCE_SPEED = 2.75f;
 //! @def	大きさ
 static constexpr float SCALE = 0.1f;
 
@@ -216,19 +218,19 @@ void PlayerMove::Move(void)
 	// 正規化
 	inputDir_ = VecNorm(inputDir_);
 
-	inputDash_  = (GetCtrl(0)->Press(Input::GAMEPAD_R1, DIK_LSHIFT)) ? 2.0f : 1.0f;;
+	inputDash_  = (GetCtrl(0)->Press(Input::GAMEPAD_R1, DIK_LSHIFT)) ? 2.5f : 1.0f;;
 
 	// 納刀抜刀中は移動無し
 	if (!BitCheck(flag_, IS_AVOIDANCE | IS_SETUP | IS_ATTACK))
 	{
-		// 走り判定
+		// 抜刀判定(歩きを遅くする)
 		if (BitCheck(flag_, IS_DRAWN)) { inputDash_ = 0.75f; }
 		inputDir_ *= inputDash_;
 
 		// アニメーション切り替え
 		if (fabs(inputDir_.x) + fabs(inputDir_.y) > 0)
 		{
-			animCnt_   = 0.75f;
+			animCnt_   = 0.55f;
 			animation_ = (inputDash_ <= 1) ? (BitCheck(flag_, IS_DRAWN)) ? Animation::SetupWalk : Animation::Walk : Animation::Run;
 			int cnt = (animation_ == Animation::Run) ? 15 : ANIMATION_CHANGE_FRAME30;
 			mesh_.ChangeAnimation((int)animation_, cnt);
@@ -252,7 +254,7 @@ void PlayerMove::Move(void)
 
 	if (BitCheck(flag_, IS_AVOIDANCE))
 	{
-		velocity_ += avoidanceDir_ * MOVE_SPEED * 2.25f;
+		velocity_ += avoidanceDir_ * MOVE_SPEED * AVOIDANCE_SPEED;
 	}
 
 	// 移動向きによりキャラクターの向きを変える
