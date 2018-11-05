@@ -112,6 +112,14 @@ public:
 			SRASH_2,
 			SRASH_3,
 
+			D_WAIT,
+			D_WALK,
+			D_RUN,
+			D_SCREAM,
+			D_HIT,
+			D_DIE,
+
+
 			MAX
 		};
 		enum class Result : int
@@ -135,23 +143,30 @@ private:
 		{ directoryName + "unitychan/unitychan.bmx"				},
 		{ directoryName + "wapon/kohaku_sword/kohaku_sword.bmx" },
 		{ directoryName + "box/TreasureChest.bmx"				},
-		{ directoryName + "dragon/dragon.bmx"					},
+		{ directoryName + "terror_dragon/terror_dragon.bmx"		},
 	};
 
 	const ANIMATION_INFO animationGameFileName[(int)Animation::Game::MAX]
 	{
-		{ directoryName + "unitychan_animation/unitychan_WAIT00.bamx"		, (int)Game::UNITY_CHAN },
-		{ directoryName + "unitychan_animation/unitychan_WAIT01.bamx"		, (int)Game::UNITY_CHAN },
-		{ directoryName + "unitychan_animation/unitychan_WAIT02.bamx"		, (int)Game::UNITY_CHAN },
-		{ directoryName + "unitychan_animation/unitychan_WALK00_F.bamx"		, (int)Game::UNITY_CHAN },
-		{ directoryName + "unitychan_animation/unitychan_RUN00_F.bamx"		, (int)Game::UNITY_CHAN },
-		{ directoryName + "unitychan_animation/unitychan_Roll.bamx"			, (int)Game::UNITY_CHAN },
-		{ directoryName + "unitychan_animation/unitychan_Setup.bamx"		, (int)Game::UNITY_CHAN },
-		{ directoryName + "unitychan_animation/unitychan_SetupWait.bamx"	, (int)Game::UNITY_CHAN },
-		{ directoryName + "unitychan_animation/unitychan_SetupWalk.bamx"	, (int)Game::UNITY_CHAN },
-		{ directoryName + "unitychan_animation/unitychan_SLASH1.bamx"		, (int)Game::UNITY_CHAN },
-		{ directoryName + "unitychan_animation/unitychan_SLASH2.bamx"		, (int)Game::UNITY_CHAN },
-		{ directoryName + "unitychan_animation/unitychan_SLASH3.bamx"		, (int)Game::UNITY_CHAN },
+		{ directoryName + "unitychan_animation/unitychan_WAIT00.bamx"			, (int)Game::UNITY_CHAN },
+		{ directoryName + "unitychan_animation/unitychan_WAIT01.bamx"			, (int)Game::UNITY_CHAN },
+		{ directoryName + "unitychan_animation/unitychan_WAIT02.bamx"			, (int)Game::UNITY_CHAN },
+		{ directoryName + "unitychan_animation/unitychan_WALK00_F.bamx"			, (int)Game::UNITY_CHAN },
+		{ directoryName + "unitychan_animation/unitychan_RUN00_F.bamx"			, (int)Game::UNITY_CHAN },
+		{ directoryName + "unitychan_animation/unitychan_Roll.bamx"				, (int)Game::UNITY_CHAN },
+		{ directoryName + "unitychan_animation/unitychan_Setup.bamx"			, (int)Game::UNITY_CHAN },
+		{ directoryName + "unitychan_animation/unitychan_SetupWait.bamx"		, (int)Game::UNITY_CHAN },
+		{ directoryName + "unitychan_animation/unitychan_SetupWalk.bamx"		, (int)Game::UNITY_CHAN },
+		{ directoryName + "unitychan_animation/unitychan_SLASH1.bamx"			, (int)Game::UNITY_CHAN },
+		{ directoryName + "unitychan_animation/unitychan_SLASH2.bamx"			, (int)Game::UNITY_CHAN },
+		{ directoryName + "unitychan_animation/unitychan_SLASH3.bamx"			, (int)Game::UNITY_CHAN },
+		
+		{ directoryName + "terror_dragon_animation/terror_dragon_idle2.bamx"	, (int)Game::DRAGON		},
+		{ directoryName + "terror_dragon_animation/terror_dragon_walk.bamx"		, (int)Game::DRAGON		},
+		{ directoryName + "terror_dragon_animation/terror_dragon_run.bamx"		, (int)Game::DRAGON		},
+		{ directoryName + "terror_dragon_animation/terror_dragon_scream.bamx"	, (int)Game::DRAGON		},
+		{ directoryName + "terror_dragon_animation/terror_dragon_hit.bamx"		, (int)Game::DRAGON		},
+		{ directoryName + "terror_dragon_animation/terror_dragon_die.bamx"		, (int)Game::DRAGON		},
 	};
 
 public:

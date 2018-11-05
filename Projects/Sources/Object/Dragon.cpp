@@ -6,11 +6,11 @@
 #include <FrameWork/Systems/Input/Controller.h>
 
 //! @def	大きさ
-static constexpr float SCALE = 1.75f;
+static constexpr float SCALE = 0.9f;
 
 /* @fn		コンストラクタ
  * @brief	変数の初期化			*/
-Dragon::Dragon(void) : Object(Object::Tag::ENEMY)
+Dragon::Dragon(void) : Object(Object::Tag::ENEMY), animNum_(0)
 {
 	for (auto& c : collision_)
 	{
@@ -30,7 +30,7 @@ Dragon::~Dragon(void)
  * @return	なし					*/
 void Dragon::Init(void)
 {
-	transform_.position		= VECTOR3(0, 0, 50);
+	transform_.position		= VECTOR3(0, 0, 0);
 	transform_.rotation.y   = PI;
 	transform_.scale		= VECTOR3(SCALE);
 
@@ -125,15 +125,13 @@ void Dragon::Update(void)
 	}
 	mesh_.material.diffuse = color;
 
-	//transform_.position.x += GetCtrl(0)->PressRange(Input::AXIS_LX, DIK_A, DIK_D);
-	//transform_.position.z += GetCtrl(0)->PressRange(Input::AXIS_LY, DIK_S, DIK_W);
 
-	//if (GetCtrl(0)->Press(Input::GAMEPAD_L1, DIK_Q))
-	//{
-	//	transform_.rotation.y -= 0.05f;
-	//}
-	//if (GetCtrl(0)->Press(Input::GAMEPAD_R1, DIK_E))
-	//{
-	//	transform_.rotation.y += 0.05f;
-	//}
+	mesh_.Animation(0.75f);
+
+	if (GetCtrl(0)->Trigger(Input::GAMEPAD_L3, DIK_LCONTROL))
+	{
+		animNum_++;
+		if (animNum_ >= static_cast<uint8>(Animation::MAX)) { animNum_ = 0; }
+		mesh_.ChangeAnimation(animNum_, 30);
+	}
 }

@@ -28,7 +28,7 @@ public:
 
 	// カメラの初期座標
 	static constexpr float POS_X = 0.0f;
-	static constexpr float POS_Y = 10.0f;
+	static constexpr float POS_Y = 20.0f;
 	static constexpr float POS_Z = -50.0f;
 
 	// デストラクタ
@@ -60,7 +60,7 @@ public:
 protected:
 	// コンストラクタ
 	Camera(CameraManager* parent, int number, VECTOR3 pos = VECTOR3(POS_X, POS_Y, POS_Z),
-		VECTOR3 at = VECTOR3(0.0f, 0.0f, 0.0f));
+		VECTOR3 at = VECTOR3(0.0f, 10.0f, 0.0f));
 
 	// 親クラス
 	CameraManager* parent_;

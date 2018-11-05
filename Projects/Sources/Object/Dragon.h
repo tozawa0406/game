@@ -21,6 +21,19 @@ class Dragon : public Object
 		WING_L,
 		MAX
 	};
+
+	enum class Animation : uint8
+	{
+		WAIT = 0,
+		WALK,
+		RUN,
+		SCREAM,
+		HIT,
+		DIE,
+
+		MAX
+	};
+
 public:
 	Dragon(void);
 	~Dragon(void);
@@ -30,6 +43,7 @@ public:
 	void Update(void) override;
 
 private:
+	uint8		 animNum_;
 	MeshRenderer mesh_;
 	Collider3D::OBB* collision_[static_cast<uint8>(Collision::MAX)];
 };
