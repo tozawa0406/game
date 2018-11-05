@@ -1,52 +1,61 @@
-//-----------------------------------------------------------------------------
-//
-//	GUI管理[GuiManager.h]
-//	Auther : 戸澤翔太
-//																	2018/08/18
-//-----------------------------------------------------------------------------
+/*
+ * @file		GuiManager.h
+ * @brief		GUI管理
+ * @author		戸澤翔太
+ * @data		2018/11/05
+ */
 #ifndef _GUI_MANAGER_H_
 #define _GUI_MANAGER_H_
 
 #include "../../Define/Define.h"
+#include "../BaseManager.h"
 #include "../../Windows/Windows.h"
 #include "ImGUI/imgui.h"
 #include "GUI.h"
 
 class Systems;
 class Debug;
-class GuiManager
+class GuiManager : public BaseManager<GUI>
 {
-	static constexpr int   WINDOW_MARGIN_X = 20;
-	static constexpr int   WINDOW_MARGIN_Y = 20;
-	static constexpr float WINDOW_WIDTH  = ((float)Windows::WIDTH  - WINDOW_MARGIN_X * 6) / 5;
-	static constexpr float WINDOW_HEIGHT = ((float)Windows::HEIGHT - WINDOW_MARGIN_Y * 6) / 5;
 public:
 	static constexpr int FLASHING   = 10;
 	static constexpr int SELECT_GUI = 30;
 
-	GuiManager(Debug* debug);
+	GuiManager(void);
 	~GuiManager(void);
-	void GuiUpdate(void);
-	void Update(void);
-	void Draw(void);
-	const VECTOR3* GetSelect(void);
-	Debug* GetDebug(void) { return debug; }
+	HRESULT Init(void)   override;
+	void	Uninit(void) override;
+	void	Update(void) override;
+	void	Draw(void)   override;
 
-	bool GetLookObject(void) { return lookObject; }
+	void	GuiUpdate(void);
+
+	const VECTOR3* GetSelect(void);
+
+	// @brief	Initの前に呼び出し
+	inline void SetDebug(Debug* debug) { debug_ = debug; }
+
+	// Getter
+	inline Debug*	GetDebug(void)		{ return debug_;		}
+	inline bool		GetLookObject(void) { return lookObject_;	}
 
 private:
-	Debug* debug;
-	std::vector<GUI*> gui;
+	//! 親へのポインタ
+	Debug* debug_;
 	friend GUI;
 
-	bool guiObject  = false;
-	bool guiSubject = false;
-
-	bool lookObject = false;
+	//! Object群のGuiリスト表示
+	bool guiObject_;
+	//! Subject群のGuiリスト表示
+	bool guiSubject_;
+	//! Guiを選択したオブジェクトを注視する
+	bool lookObject_;
+	//! アップデート後に描画したかどうか
 	bool draw_;
-
-	int drawNum = 0;
-	int frame = 0;
+	//! 現在表示しているGuiの数
+	int drawNum_;
+	//! 演出で使うフレームのカウンタ
+	int frame_;
 };
 
 #endif // _GUI_MANAGER_H_

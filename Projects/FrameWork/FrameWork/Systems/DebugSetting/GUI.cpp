@@ -16,7 +16,7 @@ GUI::GUI(Systems* systems, Object* obj, string name)
 	this->tag  = name;
 
 	this->guiManager = systems->GetDebug()->GetGuiManager();
-	guiManager->gui.push_back(this);
+	guiManager->Add(this);
 #else
 	UNREFERENCED_PARAMETER(systems);
 	UNREFERENCED_PARAMETER(obj);
@@ -27,6 +27,6 @@ GUI::GUI(Systems* systems, Object* obj, string name)
 GUI::~GUI(void)
 {
 #ifdef _SELF_DEBUG
-	RemoveVector(guiManager->gui, this);
+	guiManager->Remove(this);
 #endif
 }

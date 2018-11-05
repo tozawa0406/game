@@ -44,6 +44,7 @@
     <ClInclude Include="FrameWork\Systems\Camera\AtObjCamera.h" />
     <ClInclude Include="FrameWork\Systems\Camera\Camera.h" />
     <ClInclude Include="FrameWork\Systems\Camera\CameraManager.h" />
+    <ClInclude Include="FrameWork\Systems\Camera\MoveCamera.h" />
     <ClInclude Include="FrameWork\Systems\Collider\Collider2D.h" />
     <ClInclude Include="FrameWork\Systems\Collider\Collider2DManager.h" />
     <ClInclude Include="FrameWork\Systems\Collider\Collider3D.h" />
@@ -120,6 +121,7 @@
     <ClCompile Include="FrameWork\Systems\Camera\AtObjCamera.cpp" />
     <ClCompile Include="FrameWork\Systems\Camera\Camera.cpp" />
     <ClCompile Include="FrameWork\Systems\Camera\CameraManager.cpp" />
+    <ClCompile Include="FrameWork\Systems\Camera\MoveCamera.cpp" />
     <ClCompile Include="FrameWork\Systems\Collider\Collider2D.cpp" />
     <ClCompile Include="FrameWork\Systems\Collider\Collider2DManager.cpp" />
     <ClCompile Include="FrameWork\Systems\Collider\Collider3D.cpp" />

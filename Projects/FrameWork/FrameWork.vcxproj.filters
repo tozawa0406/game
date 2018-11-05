@@ -302,6 +302,9 @@
     <ClInclude Include="FrameWork\Systems\DebugSetting\ImGUI\imgui_impl_win32.h">
       <Filter>FrameWork\Systems\DebugSetting\ImGUI</Filter>
     </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Camera\MoveCamera.h">
+      <Filter>FrameWork\Systems\Camera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FrameWork\Define\Matrix.cpp">
@@ -501,6 +504,9 @@
     </ClCompile>
     <ClCompile Include="FrameWork\Systems\DebugSetting\ImGUI\imgui_impl_win32.cpp">
       <Filter>FrameWork\Systems\DebugSetting\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Camera\MoveCamera.cpp">
+      <Filter>FrameWork\Systems\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

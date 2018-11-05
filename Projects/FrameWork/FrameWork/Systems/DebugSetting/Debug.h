@@ -1,9 +1,9 @@
-//-----------------------------------------------------------------------------
-//
-//	デバッグ処理[Debug.h]
-//	Auther : 戸澤翔太
-//																	2018/08/18
-//-----------------------------------------------------------------------------
+/*
+ * @file		Debug.h
+ * @brief		デバッグ操作
+ * @author		戸澤翔太
+ * @data		2018/11/05
+ */
 #ifndef _DEBUG_H_
 #define _DEBUG_H_
 
@@ -13,31 +13,32 @@
 class GuiManager;
 class Debug : public Interface
 {
-	friend class Windows;
-	friend class Systems;
-	friend struct Primitive;
-	friend struct ColliderRenderer;
 public:
-
 	Debug(Systems* systems);
-	~Debug(void) override;
-	HRESULT Init(void)  override { return S_OK; }
-	void   Update(void) override;
-	void   On(void);
-	string BoolToString(bool judge);
+	~Debug(void);
+	HRESULT Init(void)   override;
+	void	Uninit(void) override;
+	void    Update(void) override;
+	void	Draw(void)   override;
+	void    On(void);
+	
+	// Getter
+	inline bool			GetDebug(void)		{ return debug_;		}
+	inline bool			GetDebugPause(void) { return debugPause_;	}
+	inline GuiManager*	GetGuiManager(void) { return gui_;			}
+	// Setter
+	inline void SetDebugPause(bool pause) { debugPause_ = pause; }
 
-	bool GetDebug(void) { return debug; }
-	bool GetDebugPause(void) { return debugPause; }
-	void SetDebugPause(bool pause) { debugPause = pause; }
-	GuiManager* GetGuiManager(void) { return gui; }
+	/* @fn		BoolToString
+	 * @brief	bool型の文字列描画
+	 * @param	(judge)		文字列にしたいbool型
+	 * @return	結果となる文字列		*/
+	inline string BoolToString(bool judge) { return (judge) ? "true" : "false"; }
 
 private:
-	void Draw(void) override;
-
-	GuiManager*  gui;
-
-	bool debug;
-	bool debugPause;
+	GuiManager*		gui_;			//! guiのマネージャ
+	bool			debug_;			//! デッバグ時かどうか
+	bool			debugPause_;	//! デバッグ用のポーズを行うかどうか
 };
 
 #endif // _DEBUG_H_

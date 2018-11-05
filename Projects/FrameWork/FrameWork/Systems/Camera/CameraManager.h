@@ -25,7 +25,6 @@ public:
 	// カメラの個数
 	static constexpr int MAX_CAMERA = 2;
 
-
 	// デストラクタ
 	~CameraManager(void);
 
@@ -33,12 +32,15 @@ public:
 	void Draw(void);
 
 	// Getter
-	Camera*       GetCamera(void);
-	MATRIX&       GetView(void)         { return mtxView_;    }
-	MATRIX&       GetProj(void)         { return mtxProj_;    }
-	SceneManager* GetSceneManager(void) { return parent_;     }
-	int           GetMainNum(void)      { return mainCamera_; }
-	bool          GetLook(void)         { return look_;       }
+		   Camera*       GetCamera(void);
+	inline MATRIX&       GetView(void)         { return mtxView_;    }
+	inline MATRIX&       GetProj(void)         { return mtxProj_;    }
+	inline SceneManager* GetSceneManager(void) { return parent_;     }
+	inline int           GetMainNum(void)      { return mainCamera_; }
+	inline bool          GetLook(void)         { return look_;       }
+
+	// デバッグカメラへの移行
+	void DebugMove(void);
 
 	// 追従カメラの作成
 	Camera* CreateAtObjCamera(Object* obj, int i);
@@ -49,15 +51,12 @@ private:
 	// コンストラクタ
 	CameraManager(SceneManager* parent);
 
-	// デバッグカメラへの移行
-	void DebugMove(void);
-
 	// 行列変換
 	void CreateMatrix(void);
 
 	// 子
 	Camera* camera_[MAX_CAMERA];
-//	Camera* debugCamera_ = nullptr;
+	Camera* debugCamera_;
 
 	// 行列
 	MATRIX  mtxView_;

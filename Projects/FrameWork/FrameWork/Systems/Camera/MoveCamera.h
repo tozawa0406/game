@@ -15,7 +15,7 @@ class MoveCamera : public Camera
 	friend class CameraManager;
 
 	// ˆÚ“®‘¬“x
-	static constexpr float MOVE_SPEED = 0.02f;
+	static constexpr float MOVE_SPEED = 0.06f;
 	// ‰ñ“]‘¬“x
 	static constexpr float ROTATION_SPEED = 0.002f;
 
