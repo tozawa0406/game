@@ -1376,13 +1376,18 @@ void DirectX11Wrapper::CreateScreenshot(string& filename)
 
 	D3D11_TEXTURE2D_DESC td;
 	screenShot_.pBuffer->GetDesc(&td);
+	td.SampleDesc.Count   = 1;
+	td.SampleDesc.Quality = 0;
 	td.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
 	ID3D11Texture2D* tempTexture;
 	dev->CreateTexture2D(&td, NULL, &tempTexture);
 
 	const auto& pContext = directX11_->GetDeviceContext();
-	pContext->CopyResource(tempTexture, screenShot_.pBuffer);
-	D3DX11SaveTextureToFile(pContext, tempTexture, D3DX11_IFF_BMP, filename.c_str());
+	// マルチサンプリングをしている場合
+	pContext->ResolveSubresource(tempTexture, 0, screenShot_.pBuffer, 0, DXGI_FORMAT_R8G8B8A8_UNORM);
+	// マルチサンプリングを使用していない場合
+//	pContext->CopyResource(tempTexture, screenShot_.pBuffer);
+	const auto temp = D3DX11SaveTextureToFile(pContext, tempTexture, D3DX11_IFF_BMP, filename.c_str());
 
 	// 吐き出したテクスチャを読み込み
 	std::wstring name(filename.begin(), filename.end());

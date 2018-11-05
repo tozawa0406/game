@@ -105,29 +105,6 @@ bool DirectX11::SetDevice(void)
 	ReleasePtr(pAdapter);
 	ReleasePtr(pDXGI);
 
-
-
-	//// スワップチェーンの設定
-	//DXGI_SWAP_CHAIN_DESC sd;
-	//ZeroMemory(&sd, sizeof(DXGI_SWAP_CHAIN_DESC));
-	//sd.BufferCount = 1;
-	//sd.BufferDesc.Width  = Graphics::WIDTH;
-	//sd.BufferDesc.Height = Graphics::HEIGHT;
-	//sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-	//// リフレッシュレート 60fps 
-	//sd.BufferDesc.RefreshRate.Numerator   = 60;		// 分子
-	//sd.BufferDesc.RefreshRate.Denominator = 1;		// 分母
-	//sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-	//sd.OutputWindow = window_->GetHWND();
-	//sd.SampleDesc.Count = 1;
-	//sd.SampleDesc.Quality = 0;
-	//sd.Windowed = true;// !Windows::FULL_SCREEN;
-
-	
-	//hr = D3D11CreateDeviceAndSwapChain(NULL, D3D_DRIVER_TYPE_HARDWARE, NULL, 0, &FeatureLevel, 1, D3D11_SDK_VERSION, &sd, &pSwapChain_, &pDevice_, NULL, &pDeviceContext_);
-	//if (FAILED(hr))
-	//{ return false; }
-
 	//レンダーターゲットビューの作成
 	ID3D11Texture2D *pBackBuffer;
 	pSwapChain_->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
