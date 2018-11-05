@@ -84,18 +84,23 @@ void Collider3D::OBB::Update(void)
 	transform_ = object_->GetTransform();
 
 	MATRIX m = MATRIX().Identity();
-	m.Translation(offset_);
+
+	const auto& scale = transform_.scale;
+	VECTOR3 s = VECTOR3(1 / scale.x, 1 / scale.y, 1 / scale.z);
+	m.Scaling(size_ * s);
+	m.Translation(offset_ * s);
+
 	m.Create(&transform_);
 
-	VECTOR3 s = VECTOR3(1);
+	s = VECTOR3(1);
 	if (transform_.parent)
 	{
 		s = transform_.parent->scale;
 	}
 
-	length_[0] = size_.x * 0.6f * s.x;
-	length_[1] = size_.y * 0.6f * s.y;
-	length_[2] = size_.z * 0.6f * s.z;
+	length_[0] = size_.x * 0.5f * s.x;
+	length_[1] = size_.y * 0.5f * s.y;
+	length_[2] = size_.z * 0.5f * s.z;
 
 	VECTOR3 t;
 	t = VecNorm(VECTOR3(m._11, m._12, m._13));

@@ -111,9 +111,14 @@ void Dragon::Update(void)
 			auto hits = c->Hit();
 			for (auto& hit : hits)
 			{
-				if (hit->GetTag() == Object::Tag::WAPON)
+				const auto& tag = hit->GetTag();
+				if (tag == Object::Tag::WAPON)
 				{
 					color = COLOR(1, 0, 0, 1);
+				}
+				if (tag == Object::Tag::PLAYER)
+				{
+					color = COLOR(0, 0, 0, 1);
 				}
 			}
 		}
