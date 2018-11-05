@@ -18,7 +18,7 @@
 
 GuiManager::GuiManager(Debug* debug) : draw_(true)
 {
-#ifdef _DEBUG
+#ifdef _SELF_DEBUG
 	this->debug = debug;
 
 	const auto& window = debug->GetSystems()->GetWindow();
@@ -45,7 +45,7 @@ GuiManager::GuiManager(Debug* debug) : draw_(true)
 
 GuiManager::~GuiManager(void)
 {
-#ifdef _DEBUG
+#ifdef _SELF_DEBUG
 	for (int i = 0; i < (int)gui.size();)
 	{
 		RemoveVector(gui, gui[0]);
@@ -65,7 +65,7 @@ GuiManager::~GuiManager(void)
 
 void GuiManager::GuiUpdate(void)
 {
-#ifdef _DEBUG
+#ifdef _SELF_DEBUG
 	if (!draw_) { return; }
 	draw_ = false;
 	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
@@ -266,7 +266,7 @@ void GuiManager::GuiUpdate(void)
 
 void GuiManager::Update(void)
 {
-#ifdef _DEBUG
+#ifdef _SELF_DEBUG
 	GuiUpdate();
 	if (frame > 0)
 	{
@@ -296,7 +296,7 @@ const VECTOR3* GuiManager::GetSelect(void)
 
 void GuiManager::Draw(void)
 {
-#ifdef _DEBUG
+#ifdef _SELF_DEBUG
 	if (draw_) { return; }
 	draw_ = true;
 	if (Windows::GRAPHICS_TYPE == Graphics::Type::DirectX9 ||

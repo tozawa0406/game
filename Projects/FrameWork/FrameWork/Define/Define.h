@@ -7,6 +7,11 @@
 #ifndef _DEFINE_H_
 #define _DEFINE_H_
 
+// 就プレ用にデバッグ機能もReleaseで吐き出すために_DEBUGではいけない
+// デバッグ機能を吐き出したくない時に消す
+// デバッグ用でもいらない機能はそのまま「_DEBUG」
+#define _SELF_DEBUG
+
 #include <Windows.h>
 
 #include <type_traits>

@@ -14,7 +14,7 @@
 //ƒ|ƒŠƒSƒ“•`‰æˆ—
 void ColliderRendererManager::Draw(void)
 {
-#ifdef _DEBUG
+#ifdef _SELF_DEBUG
 	if (!systems_->GetDebug()->GetDebug()) { return; }
 
 	const auto& dev = systems_->GetRenderer()->GetWrapper();
@@ -43,7 +43,7 @@ ColliderRenderer::ColliderRenderer(void) : enable(false), vertexBuffer(0), vnum(
 
 ColliderRenderer::~ColliderRenderer(void)
 {
-#ifdef _DEBUG
+#ifdef _SELF_DEBUG
 	const auto& dev = systems->GetRenderer()->GetWrapper();
 	dev->ReleaseBuffer(vertexBuffer, Wrapper::FVF::VERTEX_3D);
 
@@ -68,7 +68,7 @@ void ColliderRenderer::Update(const Collider2DBase* col)
 
 void ColliderRenderer::ColliderRectangle(const Collider2DBase* col)
 {
-#ifdef _DEBUG
+#ifdef _SELF_DEBUG
 	const int vn = 5;
 
 	VECTOR3 p[vn - 1] =
@@ -108,7 +108,7 @@ void ColliderRenderer::ColliderRectangle(const Collider2DBase* col)
 
 void ColliderRenderer::ColliderCircle(const Collider2DBase* col)
 {
-#ifdef _DEBUG
+#ifdef _SELF_DEBUG
 	float theta = 0.0f;
 
 	float r = col->size_.x * 0.5f;
@@ -148,7 +148,7 @@ void ColliderRenderer::ColliderCircle(const Collider2DBase* col)
 void ColliderRenderer::ColliderSegment(const Collider3DBase* col)
 {
 	this->systems = col->systems_;
-#ifdef _DEBUG
+#ifdef _SELF_DEBUG
 	VECTOR3 p[2] =
 	{
 		{              - 0.5f,              - 0.5f,              - 0.5f},
@@ -181,7 +181,7 @@ void ColliderRenderer::ColliderSegment(const Collider3DBase* col)
 void ColliderRenderer::ColliderSphere(const Collider3DBase* col, bool second)
 {
 	this->systems = col->systems_;
-#ifdef _DEBUG
+#ifdef _SELF_DEBUG
 	float theta = 0.0f;
 
 	float r = col->size_.x * 0.5f;

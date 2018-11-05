@@ -77,7 +77,7 @@ void CameraManager::DebugMove(void)
 //	// ImGuiで選択されているオブジェクトのpos
 //	const VECTOR3* selectObj = nullptr;
 //
-//#ifdef _DEBUG
+//#ifdef _SELF_DEBUG
 //	selectObj = parent_->GetSystems()->GetDebug()->GetGuiManager()->GetSelect();
 //#endif
 //	if (!parent->GetSystems()->GetDebug()->GetGuiManager()->GetLookObject())

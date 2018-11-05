@@ -205,7 +205,7 @@ void SceneManager::ChangeActual(void)
 // BACKƒ{ƒ^ƒ“‚Å‘JˆÚ
 void SceneManager::ForceSceneChange(void)
 {
-#ifdef _DEBUG
+#ifdef _SELF_DEBUG
 	if(systems_->GetInput()->GetCtrl(0)->Press(Input::GAMEPAD_HOME, DIK_BACK))
 	{
 		Change(); 

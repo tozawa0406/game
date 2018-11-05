@@ -14,21 +14,21 @@
 Debug::Debug(Systems* systems) : Interface(systems), debug(false)
 {
 	debugPause = false;
-#if defined(_DEBUG) || defined(DEBUG)
+#ifdef _SELF_DEBUG
 	gui = new GuiManager(this);
 #endif
 }
 
 Debug::~Debug(void)
 {
-#if defined(_DEBUG) || defined(DEBUG)
+#ifdef _SELF_DEBUG
 	DeletePtr(gui);
 #endif
 }
 
 void Debug::On(void)
 {
-#ifdef _DEBUG
+#ifdef _SELF_DEBUG
 	//ƒtƒ‰ƒO‚Ì”½“]
 	debug = !debug;
 #endif
@@ -37,7 +37,7 @@ void Debug::On(void)
 string Debug::BoolToString(bool judge)
 {
 	string temp = "false";
-#ifdef _DEBUG
+#ifdef _SELF_DEBUG
 	if (judge) { temp = "true"; }
 #else
 	UNREFERENCED_PARAMETER(judge);

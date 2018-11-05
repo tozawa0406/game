@@ -10,7 +10,7 @@
 
 GUI::GUI(Systems* systems, Object* obj, string name)
 {
-#ifdef _DEBUG
+#ifdef _SELF_DEBUG
 	this->obj  = obj;
 	this->name = name;
 	this->tag  = name;
@@ -26,7 +26,7 @@ GUI::GUI(Systems* systems, Object* obj, string name)
 //デストラクタ
 GUI::~GUI(void)
 {
-#ifdef _DEBUG
+#ifdef _SELF_DEBUG
 	RemoveVector(guiManager->gui, this);
 #endif
 }
