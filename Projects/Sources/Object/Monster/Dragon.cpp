@@ -7,6 +7,8 @@
 #include <FrameWork/Scene/SceneManager.h>
 #include <FrameWork/Systems/Input/Controller.h>
 
+#include "MonsterAttack/DragonScream.h"
+
 //! @def	大きさ
 static constexpr float SCALE = 0.9f;
 //! @def	移動速度
@@ -22,10 +24,12 @@ Dragon::Dragon(void) : Object(Object::Tag::ENEMY), GUI(Systems::Instance(), this
 	, velocity_(VECTOR3(0))
 	, front_(VECTOR3(0))
 	, right_(VECTOR3(0))
-	, animNum_(0)
+	, animation_(Animation::WAIT)
 	, animSpeed_(0)
 	, flag_(0)
 	, debugMove_(false)
+	, attack_(nullptr)
+	, currentAttack_(nullptr)
 	, cameraManager_(nullptr)
 	, camera_(nullptr)
 {
@@ -60,8 +64,8 @@ void Dragon::Init(void)
 	c1 = new Collider3D::OBB(this);
 	if (c1)
 	{
-		c1->SetOffset(VECTOR3(0, 8, 5) * s);
-		c1->SetSize(VECTOR3(5, 8, 10) * s);
+		c1->SetOffset(VECTOR3(0, 11.5f, -5) * s);
+		c1->SetSize(VECTOR3(10, 12, 20) * s);
 		c1->Update();
 	}
 
@@ -69,36 +73,15 @@ void Dragon::Init(void)
 	c2 = new Collider3D::OBB(this);
 	if (c2)
 	{
-		c2->SetOffset(VECTOR3(0, 14, 11) * s);
-		c2->SetSize(VECTOR3(3, 3, 4) * s);
+		c2->SetOffset(VECTOR3(0, 11, 18) * s);
+		c2->SetSize(VECTOR3(5, 5, 5) * s);
 		c2->Update();
 	}
 
-	auto& c3 = collision_[static_cast<int>(Collision::TAIL)];
-	c3 = new Collider3D::OBB(this);
-	if (c3)
+	attack_ = new DragonScream;
+	if (attack_)
 	{
-		c3->SetOffset(VECTOR3(0, 5, -15) * s);
-		c3->SetSize(VECTOR3(2, 2, 20) * s);
-		c3->Update();
-	}
-
-	auto& c4 = collision_[static_cast<int>(Collision::WING_R)];
-	c4 = new Collider3D::OBB(this);
-	if (c4)
-	{
-		c4->SetOffset(VECTOR3(10, 14, 0) * s);
-		c4->SetSize(VECTOR3(5, 5, 5) * s);
-		c4->Update();
-	}
-
-	auto& c5 = collision_[static_cast<int>(Collision::WING_L)];
-	c5 = new Collider3D::OBB(this);
-	if (c5)
-	{
-		c5->SetOffset(VECTOR3(-10, 14, 0) * s);
-		c5->SetSize(VECTOR3(5, 5, 5) * s);
-		c5->Update();
+		attack_->Init(this);
 	}
 
 #ifdef _SELF_DEBUG
@@ -139,6 +122,8 @@ void Dragon::Uninit(void)
 		DeletePtr(c);
 	}
 
+	UninitDeletePtr(attack_);
+
 	// 生成したTPSカメラの後始末
 	if (cameraManager_ && camera_)
 	{
@@ -152,6 +137,22 @@ void Dragon::Uninit(void)
  * @return	なし					*/
 void Dragon::Update(void)
 {
+#ifdef _SELF_DEBUG
+	DebugInput();
+#endif
+
+	bool change = mesh_.Animation(animSpeed_);
+
+	if (currentAttack_)
+	{
+		int temp = static_cast<int>(animation_);
+		if (currentAttack_->Update(transform_, velocity_, mesh_, animSpeed_, temp, change))
+		{
+			currentAttack_ = nullptr;
+		}
+		animation_ = static_cast<Animation>(temp);
+	}
+
 	Move();
 
 	COLOR color = COLOR(1, 1, 1, 1);
@@ -177,8 +178,6 @@ void Dragon::Update(void)
 		}
 	}
 	mesh_.material.diffuse = color;
-
-	mesh_.Animation(animSpeed_);
 }
 
 /* @fn		Move
@@ -189,23 +188,21 @@ void Dragon::Update(void)
 void Dragon::Move(void)
 {
 	CreateFrontVector();
-	BitSub(flag_, IS_DASH);
-
-#ifdef _SELF_DEBUG
-	DebugInput();
-#endif
 
 	// 移動向きによりキャラクターの向きを変える
 	if ((Abs(velocity_.x) + Abs(velocity_.z) > 0.02f))
 	{
-		animSpeed_ = 0.5f;
-		Animation anim = Animation::WALK;
-		if (BitCheck(flag_, IS_DASH))
+		if (animation_ == Animation::WAIT || (animation_ == Animation::WALK || animation_ == Animation::RUN))
 		{
-			animSpeed_ = 0.75f;
-			anim = Animation::RUN;
+			animSpeed_ = 0.5f;
+			animation_ = Animation::WALK;
+			if (BitCheck(flag_, IS_DASH))
+			{
+				animSpeed_ = 0.75f;
+				animation_ = Animation::RUN;
+			}
+			mesh_.ChangeAnimation(static_cast<int>(animation_), 30);
 		}
-		mesh_.ChangeAnimation(static_cast<int>(anim), 30);
 
 		VECTOR3 velocityNorm = VecNorm(velocity_);
 		VECTOR3 frontVelocityCross = VecCross(front_, velocityNorm);
@@ -227,9 +224,12 @@ void Dragon::Move(void)
 	}
 	else 
 	{
-		velocity_ = VECTOR3(0); 
-		mesh_.ChangeAnimation(static_cast<int>(Animation::WAIT), 30);
-		animSpeed_ = 0.75f;
+		velocity_ = VECTOR3(0);
+		if (animation_ == Animation::WALK || animation_ == Animation::RUN)
+		{
+			mesh_.ChangeAnimation(static_cast<int>(Animation::WAIT), 30);
+			animSpeed_ = 0.75f;
+		}
 	}
 
 	transform_.position += velocity_;
@@ -260,22 +260,26 @@ void Dragon::CreateFrontVector(void)
 
 /* @fn		DebugInput
  * @brief	デバッグ用操作
- * @sa		Move
+ * @sa		Update
  * @param	なし
  * @return	なし					*/
 void Dragon::DebugInput(void)
 {
 	if (!debugMove_) { return; }
 
+	const auto& ctrl = GetCtrl(0);
+	if (!ctrl) { return; }
+
 	VECTOR2 inputDir;
 	// Input
-	inputDir.x = (float)GetCtrl(0)->PressRange(Input::AXIS_LX, DIK_A, DIK_D);
-	inputDir.y = (float)GetCtrl(0)->PressRange(Input::AXIS_LY, DIK_S, DIK_W);
+	inputDir.x = (float)ctrl->PressRange(Input::AXIS_LX, DIK_A, DIK_D);
+	inputDir.y = (float)ctrl->PressRange(Input::AXIS_LY, DIK_S, DIK_W);
 	// 正規化
 	inputDir = VecNorm(inputDir);
 
 	float inputDash = 1;
-	if (GetCtrl(0)->Press(Input::GAMEPAD_R1, DIK_LSHIFT))
+	BitSub(flag_, IS_DASH);
+	if (ctrl->Press(Input::GAMEPAD_R1, DIK_LSHIFT))
 	{
 		inputDash = 10;
 		BitAdd(flag_, IS_DASH);
@@ -286,6 +290,18 @@ void Dragon::DebugInput(void)
 
 	velocity_ += front * inputDir.y * inputDash * MOVE_SPEED;
 	velocity_ -= right * inputDir.x * inputDash * MOVE_SPEED;
+
+	// 咆哮
+	if (ctrl->Trigger(Input::GAMEPAD_L2, DIK_T))
+	{
+		currentAttack_ = attack_;
+		if (currentAttack_) 
+		{
+			int temp = static_cast<int>(animation_);
+			currentAttack_->SetMove(mesh_, animSpeed_, temp);
+			animation_ = static_cast<Animation>(temp);
+		}
+	}
 }
 
 /* @fn		GuiUpdate

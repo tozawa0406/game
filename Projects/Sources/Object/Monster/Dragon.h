@@ -10,6 +10,7 @@
 #include <FrameWork/Define/Define.h>
 #include <FrameWork/Object/Object.h>
 #include <FrameWork/Systems/Camera/CameraManager.h>
+#include "MonsterAttack/MonsterAttack.h"
 
 class Dragon : public Object, public GUI
 {
@@ -22,7 +23,7 @@ class Dragon : public Object, public GUI
 		WING_L,
 		MAX
 	};
-
+public:
 	enum class Animation : uint8
 	{
 		WAIT = 0,
@@ -35,7 +36,6 @@ class Dragon : public Object, public GUI
 		MAX
 	};
 
-public:
 	Dragon(void);
 	~Dragon(void);
 
@@ -53,11 +53,14 @@ private:
 	VECTOR3				velocity_;
 	VECTOR3				front_;
 	VECTOR3				right_;
-	uint8				animNum_;
+	Animation			animation_;
 	float				animSpeed_;
 	uint				flag_;
 	MeshRenderer		mesh_;
 	Collider3D::OBB*	collision_[static_cast<uint8>(Collision::MAX)];
+
+	MonsterAttack*		attack_;
+	MonsterAttack*		currentAttack_;
 
 	CameraManager*	cameraManager_;
 	Camera*			camera_;

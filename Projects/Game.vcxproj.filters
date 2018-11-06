@@ -30,6 +30,12 @@
     <Filter Include="Source\Object\Player">
       <UniqueIdentifier>{55cecd86-0221-47f4-80d7-14665d63f901}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Object\Monster">
+      <UniqueIdentifier>{eb4533cd-db97-4146-abb1-8c8f4a96449c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Object\Monster\MonsterAttack">
+      <UniqueIdentifier>{291b4f01-64b7-4d9a-ae5e-b861fef2a3b6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sources\Scene\EachScene\GameScene.cpp">
@@ -41,9 +47,6 @@
     <ClCompile Include="Sources\Object\StaticObject\PaidGoodsBox.cpp">
       <Filter>Source\Object\StaticObject</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Object\Dragon.cpp">
-      <Filter>Source\Object</Filter>
-    </ClCompile>
     <ClCompile Include="Sources\Object\Wapon\KohakuSword.cpp">
       <Filter>Source\Object\Wapon</Filter>
     </ClCompile>
@@ -52,6 +55,12 @@
     </ClCompile>
     <ClCompile Include="Sources\Object\Player\PlayerHunter.cpp">
       <Filter>Source\Object\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Object\Monster\Dragon.cpp">
+      <Filter>Source\Object\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Object\Monster\MonsterAttack\DragonScream.cpp">
+      <Filter>Source\Object\Monster\MonsterAttack</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -64,9 +73,6 @@
     <ClInclude Include="Sources\Object\StaticObject\PaidGoodsBox.h">
       <Filter>Source\Object\StaticObject</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Object\Dragon.h">
-      <Filter>Source\Object</Filter>
-    </ClInclude>
     <ClInclude Include="Sources\Object\Wapon\Wapon.h">
       <Filter>Source\Object\Wapon</Filter>
     </ClInclude>
@@ -78,6 +84,15 @@
     </ClInclude>
     <ClInclude Include="Sources\Object\Player\PlayerHunter.h">
       <Filter>Source\Object\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\Monster\Dragon.h">
+      <Filter>Source\Object\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\Monster\MonsterAttack\MonsterAttack.h">
+      <Filter>Source\Object\Monster\MonsterAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\Monster\MonsterAttack\DragonScream.h">
+      <Filter>Source\Object\Monster\MonsterAttack</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
