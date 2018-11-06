@@ -78,6 +78,7 @@ protected:
 	MeshRenderer	mesh_;				//! メッシュ
 	uint			flag_;				//! フラグの管理
 	Animation		animation_;			//! アニメーション
+	CameraManager*	cameraManager_;		//! カメラマネージャー
 	Camera*			camera_;			//! カメラ
 
 	Collider3D::OBB* collider_;			//! 当たり判定
@@ -91,7 +92,6 @@ private:
 
 	const MATRIX*	body_;				//! 体のボーン行列
 	const MATRIX*	hand_;				//! 右手のボーン行列
-	CameraManager*	cameraManager_;		//! カメラマネージャー
 	int				waitTime_;			//! 待機待ち時間
 };
 

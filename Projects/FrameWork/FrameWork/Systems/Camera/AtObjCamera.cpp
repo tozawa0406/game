@@ -10,7 +10,7 @@
 
 // コンストラクタ
 AtObjCamera::AtObjCamera(CameraManager* parent, int number, VECTOR3 pos, Object* obj) : Camera(parent, number, pos, obj->GetTransform().position)
-											, obj_(obj), rot_(VECTOR2(0, -0.1f)), localPosition_(pos)
+											, obj_(obj), rot_(VECTOR2(0, 0)), localPosition_(pos)
 {
 }
 
@@ -68,7 +68,9 @@ void AtObjCamera::CreateVec(void)
 // 入力処理
 void AtObjCamera::Input(void)
 {
+	if (parent_ && parent_->GetMainNum() != number_) { return; }
 	const auto& ctrl = systems_->GetInput()->GetCtrl(0);
+
 	// 入力を検知
 	VECINT2 rAxis;
 	if (ctrl->GetCtrlNum() == Controller::CtrlNum::Key)

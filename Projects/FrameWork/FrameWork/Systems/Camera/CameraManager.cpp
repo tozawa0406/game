@@ -152,13 +152,13 @@ void CameraManager::CreateMatrix(void)
 }
 
 // 追従カメラの作成
-Camera* CameraManager::CreateAtObjCamera(Object* obj, int i)
+Camera* CameraManager::CreateAtObjCamera(Object* obj, int i, VECTOR3 pos)
 {
 	// カメラの個数が最大数なら
 	if (i >= MAX_CAMERA) { return nullptr; }
 
 	// 追従カメラの作成
-	AtObjCamera* temp = new AtObjCamera(this, cameraNum_, VECTOR3(0, 15, -10), obj);
+	AtObjCamera* temp = new AtObjCamera(this, i, pos, obj);
 	// 作成したものを配列に入れる
 	if (camera_[i] != nullptr)
 	{

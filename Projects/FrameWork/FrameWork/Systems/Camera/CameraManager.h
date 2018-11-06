@@ -31,6 +31,11 @@ public:
 	int Update(void);		// 更新処理
 	void Draw(void);
 
+	/* @fn		ChangeCamera
+	 * @brief	メインカメラの変更
+	 * @param	変更したいカメラの配列番号			*/
+	inline void ChangeCamera(int cameraNum) { (cameraNum < MAX_CAMERA) ? mainCamera_ = cameraNum : cameraNum; }
+
 	// Getter
 		   Camera*       GetCamera(void);
 	inline MATRIX&       GetView(void)         { return mtxView_;    }
@@ -43,7 +48,7 @@ public:
 	void DebugMove(void);
 
 	// 追従カメラの作成
-	Camera* CreateAtObjCamera(Object* obj, int i);
+	Camera* CreateAtObjCamera(Object* obj, int i, VECTOR3 pos = VECTOR3(0, 15, -10));
 	// 追従カメラの削除
 	void	     DestroyObjCamera(Camera* obj);
 

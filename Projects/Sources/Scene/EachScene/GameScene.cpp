@@ -29,9 +29,9 @@ GameScene::GameScene(SceneManager* manager) : BaseScene(manager), GUI(manager->G
 
 	objectManager_ = new ObjectManager(this);
 
-	//auto* player = objectManager_->Create<PlayerHunter>();
-	//auto* wapon  = objectManager_->Create<KohakuSword>();
-	//player->SetWapon(wapon);
+	auto* player = objectManager_->Create<PlayerHunter>();
+	auto* wapon  = objectManager_->Create<KohakuSword>();
+	player->SetWapon(wapon);
 	objectManager_->Create<Dragon>();
 	objectManager_->Create<Timer>();
 	objectManager_->Create<PaidGoodsBox>();

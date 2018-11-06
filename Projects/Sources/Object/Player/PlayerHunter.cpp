@@ -56,6 +56,12 @@ void PlayerHunter::Update(void)
 {
 	PlayerMove::Update();
 
+#ifdef _SELF_DEBUG
+	// デバッグ用、敵の操作中はプレイヤーの操作はしない
+	if (cameraManager_ && cameraManager_->GetMainNum() != 0) { return; }
+#endif
+
+
 	Setup();
 
 	Avoidance();

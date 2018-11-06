@@ -212,13 +212,24 @@ void PlayerMove::StandBy(void)
 			前ベクトルの生成、向きの変更、衝突判定		*/
 void PlayerMove::Move(void)
 {
-	// Input
-	inputDir_.x = (float)GetCtrl(0)->PressRange(Input::AXIS_LX, DIK_A, DIK_D);
-	inputDir_.y = (float)GetCtrl(0)->PressRange(Input::AXIS_LY, DIK_S, DIK_W);
-	// 正規化
-	inputDir_ = VecNorm(inputDir_);
+	auto ctrl = GetCtrl(0);
+	if (!ctrl) { return; }
 
-	inputDash_  = (GetCtrl(0)->Press(Input::GAMEPAD_R1, DIK_LSHIFT)) ? 2.5f : 1.0f;;
+#ifdef _SELF_DEBUG
+	// デバッグ用、敵の操作中にプレイヤーを操作しない
+	if (cameraManager_ && cameraManager_->GetMainNum() != 0) { ctrl = nullptr; }
+#endif
+
+	if (ctrl)
+	{
+		// Input
+		inputDir_.x = (float)ctrl->PressRange(Input::AXIS_LX, DIK_A, DIK_D);
+		inputDir_.y = (float)ctrl->PressRange(Input::AXIS_LY, DIK_S, DIK_W);
+		// 正規化
+		inputDir_ = VecNorm(inputDir_);
+
+		inputDash_ = (ctrl->Press(Input::GAMEPAD_R1, DIK_LSHIFT)) ? 2.5f : 1.0f;;
+	}
 
 	// 納刀抜刀中は移動無し
 	if (!BitCheck(flag_, IS_AVOIDANCE | IS_SETUP | IS_ATTACK))
@@ -260,8 +271,8 @@ void PlayerMove::Move(void)
 	// 移動向きによりキャラクターの向きを変える
 	if ((Abs(velocity_.x) + Abs(velocity_.z) > 0.02f))
 	{
-		VECTOR3 velocityNorm	= VecNorm(velocity_);
-		VECTOR3 frontVelocityCross		= VecCross(front_, velocityNorm);
+		VECTOR3 velocityNorm		= VecNorm(velocity_);
+		VECTOR3 frontVelocityCross	= VecCross(front_, velocityNorm);
 		float	dot = VecDot(front_, velocityNorm);
 
 		// 前か後ろに進みたいとき
