@@ -26,6 +26,7 @@ struct ColliderRenderer
 	~ColliderRenderer(void);
 
 	const Transform& GetTransform(void) const { return transform; }
+	const MATRIX*	 GetParentMtx(void) const { return parentMtx; }
 	const VECTOR3&	 GetOffset(void)	const { return offset; }
 	const VECTOR3&	 GetSize(void)		const { return size; }
 	UINT GetVertexBuffer(void) const { return vertexBuffer; }
@@ -50,6 +51,7 @@ private:
 	Transform	transform;
 	VECTOR3		size;
 	VECTOR3		offset;
+	const MATRIX* parentMtx;
 
 	Wrapper::PRIMITIVE::TYPE type;
 	BYTE		pnum;

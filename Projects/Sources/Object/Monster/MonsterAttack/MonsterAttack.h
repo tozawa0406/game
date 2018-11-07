@@ -9,11 +9,12 @@
 
 #include <FrameWork/Define/Define.h>
 #include <FrameWork/Object/Object.h>
+#include <FrameWork/Systems/DebugSetting/GUI.h>
 
-class MonsterAttack
+class MonsterAttack : public GUI
 {
 public:
-	MonsterAttack(void)	: enable_(false), frame_(0)	{}
+	MonsterAttack(void)	: GUI(Systems::Instance(), nullptr, "attack"), enable_(false), frame_(0)	{}
 	virtual ~MonsterAttack(void)	{}
 
 	virtual void Init(Object* object) = 0;

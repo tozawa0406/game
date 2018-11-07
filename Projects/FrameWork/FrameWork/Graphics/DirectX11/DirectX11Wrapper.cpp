@@ -611,6 +611,16 @@ void DirectX11Wrapper::Draw(const ColliderRenderer* obj)
 	VECTOR3 s = VECTOR3(1 / scale.x, 1 / scale.y, 1 / scale.z);
 	mtx.Scaling(obj->GetSize() * s);
 	mtx.Translation(obj->GetOffset() * s);
+	s = obj->GetSize() * s;
+
+	const auto& parentMtx = obj->GetParentMtx();
+	if (parentMtx)
+	{
+		//VECTOR3 parentScale = VECTOR3(1 / s.x, 1 / s.y, 1 / s.z);
+		//MATRIX temp = *parentMtx;
+		//temp.Scaling(parentScale);
+		//mtx *= temp;
+	}
 
 	auto tr = obj->GetTransform();
 

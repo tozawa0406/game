@@ -10,7 +10,7 @@
 #include "../../Object/ObjectManager.h"
 
 Collider3DBase::Collider3DBase(Object* obj, Type type) : systems_(Systems::Instance()), transform_(obj->GetTransform())
-													   , object_(obj), type_(type), enable_(true)
+													   , object_(obj), type_(type), enable_(true), parentMtx_(nullptr)
 {
 	offset_		= VECTOR3(0);
 	size_		= VECTOR3(1);
@@ -89,6 +89,15 @@ void Collider3D::OBB::Update(void)
 	VECTOR3 s = VECTOR3(1 / scale.x, 1 / scale.y, 1 / scale.z);
 	m.Scaling(size_ * s);
 	m.Translation(offset_ * s);
+	s = size_ * s;
+
+	if (parentMtx_)
+	{
+		//VECTOR3 parentScale = VECTOR3(1 / s.x, 1 / s.y, 1 / s.z);
+		//MATRIX temp = *parentMtx_;
+		//temp.Scaling(parentScale);
+		//m *= temp;
+	}
 
 	m.Create(&transform_);
 

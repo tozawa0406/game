@@ -62,6 +62,12 @@
     <ClCompile Include="Sources\Object\Monster\MonsterAttack\DragonScream.cpp">
       <Filter>Source\Object\Monster\MonsterAttack</Filter>
     </ClCompile>
+    <ClCompile Include="Sources\Object\Monster\MonsterAttack\DragonBite.cpp">
+      <Filter>Source\Object\Monster\MonsterAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Object\Monster\MonsterAttack\DragonWingAttack.cpp">
+      <Filter>Source\Object\Monster\MonsterAttack</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sources\Scene\EachScene\GameScene.h">
@@ -92,6 +98,12 @@
       <Filter>Source\Object\Monster\MonsterAttack</Filter>
     </ClInclude>
     <ClInclude Include="Sources\Object\Monster\MonsterAttack\DragonScream.h">
+      <Filter>Source\Object\Monster\MonsterAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\Monster\MonsterAttack\DragonBite.h">
+      <Filter>Source\Object\Monster\MonsterAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\Monster\MonsterAttack\DragonWingAttack.h">
       <Filter>Source\Object\Monster\MonsterAttack</Filter>
     </ClInclude>
   </ItemGroup>

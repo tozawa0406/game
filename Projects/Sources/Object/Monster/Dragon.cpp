@@ -6,8 +6,11 @@
 #include <FrameWork/Object/ObjectManager.h>
 #include <FrameWork/Scene/SceneManager.h>
 #include <FrameWork/Systems/Input/Controller.h>
+#include <FrameWork/Graphics/DirectX11/DirectX11Wrapper.h>
 
 #include "MonsterAttack/DragonScream.h"
+#include "MonsterAttack/DragonBite.h"
+#include "MonsterAttack/DragonWingAttack.h"
 
 //! @def	大きさ
 static constexpr float SCALE = 0.9f;
@@ -17,6 +20,11 @@ static constexpr float MOVE_SPEED = 0.03f;
 
 //! @def	走りフラグ
 static constexpr uint IS_DASH = 0x0001;
+
+//! @def	体のボーンの名前
+static const     string BONE_BODY = "Chest";
+//! @def	頭のボーンの名前
+static const     string BONE_HEAD = "Head";
 
 /* @fn		コンストラクタ
  * @brief	変数の初期化			*/
@@ -28,7 +36,6 @@ Dragon::Dragon(void) : Object(Object::Tag::ENEMY), GUI(Systems::Instance(), this
 	, animSpeed_(0)
 	, flag_(0)
 	, debugMove_(false)
-	, attack_(nullptr)
 	, currentAttack_(nullptr)
 	, cameraManager_(nullptr)
 	, camera_(nullptr)
@@ -36,6 +43,11 @@ Dragon::Dragon(void) : Object(Object::Tag::ENEMY), GUI(Systems::Instance(), this
 	for (auto& c : collision_)
 	{
 		c = nullptr;
+	}
+
+	for (auto& a : attack_)
+	{
+		a = nullptr;
 	}
 }
 
@@ -59,30 +71,19 @@ void Dragon::Init(void)
 
 	mesh_.Init(Systems::Instance(), (int)Model::Game::DRAGON, &transform_);
 
-	auto  s = transform_.scale;
-	auto& c1 = collision_[static_cast<int>(Collision::BODY)];
-	c1 = new Collider3D::OBB(this);
-	if (c1)
-	{
-		c1->SetOffset(VECTOR3(0, 11.5f, -5) * s);
-		c1->SetSize(VECTOR3(10, 12, 20) * s);
-		c1->Update();
-	}
+	CreateCollision();
+	
+	int arrayNum = static_cast<int>(AttackPattern::SCREAM);
+	attack_[arrayNum] = new DragonScream;
+	if (attack_[arrayNum]) { attack_[arrayNum]->Init(this); }
 
-	auto& c2 = collision_[static_cast<int>(Collision::HEAD)];
-	c2 = new Collider3D::OBB(this);
-	if (c2)
-	{
-		c2->SetOffset(VECTOR3(0, 11, 18) * s);
-		c2->SetSize(VECTOR3(5, 5, 5) * s);
-		c2->Update();
-	}
+	arrayNum = static_cast<int>(AttackPattern::BITE);
+	attack_[arrayNum] = new DragonBite;
+	if (attack_[arrayNum]) { attack_[arrayNum]->Init(this); }
 
-	attack_ = new DragonScream;
-	if (attack_)
-	{
-		attack_->Init(this);
-	}
+	arrayNum = static_cast<int>(AttackPattern::WING_ATTACK);
+	attack_[arrayNum] = new DragonWingAttack;
+	if (attack_[arrayNum]) { attack_[arrayNum]->Init(this); }
 
 #ifdef _SELF_DEBUG
 	// デバッグ用、敵操作時のカメラ
@@ -122,7 +123,10 @@ void Dragon::Uninit(void)
 		DeletePtr(c);
 	}
 
-	UninitDeletePtr(attack_);
+	for (auto& a : attack_)
+	{
+		UninitDeletePtr(a);
+	}
 
 	// 生成したTPSカメラの後始末
 	if (cameraManager_ && camera_)
@@ -178,6 +182,60 @@ void Dragon::Update(void)
 		}
 	}
 	mesh_.material.diffuse = color;
+}
+
+/* @fn		CreateCollsion
+ * @brief	当たり判定生成処理
+ * @sa		Init
+ * @param	なし
+ * @return	なし					*/
+void Dragon::CreateCollision(void)
+{
+	if (const auto& systems = Systems::Instance())
+	{
+		if (const auto& renderer = systems->GetRenderer())
+		{
+			if (DirectX11Wrapper* wrapper = static_cast<DirectX11Wrapper*>(renderer->GetWrapper()))
+			{
+				const auto& model = wrapper->GetModel(mesh_.GetModelNum());
+
+				auto  s = transform_.scale;
+				//auto& c1 = collision_[static_cast<int>(Collision::BODY)];
+				//c1 = new Collider3D::OBB(this);
+				//if (c1)
+				//{
+				//	for(auto& bone : model.bone)
+				//	{
+				//		if (bone.name == BONE_BODY)
+				//		{
+				//			c1->SetParentMtx(&bone.nowBone);
+				//			break;
+				//		}
+				//	}
+				//	c1->SetOffset(VECTOR3(0, -5, -7) * s);
+				//	c1->SetSize(VECTOR3(10, 12, 20) * s);
+				//	c1->Update();
+				//}
+
+				auto& c2 = collision_[static_cast<int>(Collision::HEAD)];
+				c2 = new Collider3D::OBB(this);
+				if (c2)
+				{
+					for (auto& bone : model.bone)
+					{
+						if (bone.name == BONE_HEAD)
+						{
+							c2->SetParentMtx(&bone.nowBone);
+							break;
+						}
+					}
+					c2->SetOffset(VECTOR3(0, 10, 10) * s);
+					c2->SetSize(VECTOR3(10, 10, 10) * s);
+					c2->Update();
+				}
+			}
+		}
+	}
 }
 
 /* @fn		Move
@@ -294,7 +352,7 @@ void Dragon::DebugInput(void)
 	// 咆哮
 	if (ctrl->Trigger(Input::GAMEPAD_L2, DIK_T))
 	{
-		currentAttack_ = attack_;
+		currentAttack_ = attack_[static_cast<int>(AttackPattern::SCREAM)];
 		if (currentAttack_) 
 		{
 			int temp = static_cast<int>(animation_);
@@ -302,6 +360,31 @@ void Dragon::DebugInput(void)
 			animation_ = static_cast<Animation>(temp);
 		}
 	}
+
+	// 噛みつき
+	if (ctrl->Trigger(Input::GAMEPAD_TRIANGLE, DIK_U))
+	{
+		currentAttack_ = attack_[static_cast<int>(AttackPattern::BITE)];
+		if (currentAttack_)
+		{
+			int temp = static_cast<int>(animation_);
+			currentAttack_->SetMove(mesh_, animSpeed_, temp);
+			animation_ = static_cast<Animation>(temp);
+		}
+	}
+
+	// 翼攻撃
+	if (ctrl->Trigger(Input::GAMEPAD_SQUARE, DIK_H))
+	{
+		currentAttack_ = attack_[static_cast<int>(AttackPattern::WING_ATTACK)];
+		if (currentAttack_)
+		{
+			int temp = static_cast<int>(animation_);
+			currentAttack_->SetMove(mesh_, animSpeed_, temp);
+			animation_ = static_cast<Animation>(temp);
+		}
+	}
+
 }
 
 /* @fn		GuiUpdate
@@ -323,4 +406,9 @@ void Dragon::GuiUpdate(void)
 	ImGui::Text(" : ");
 	ImGui::SameLine();
 	ImGui::Text((debugMove_) ? "true" : "false");
+
+	if (currentAttack_)
+	{
+		currentAttack_->GuiUpdate();
+	}
 }

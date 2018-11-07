@@ -24,6 +24,7 @@ class Collider3DBase
 protected:
 	Systems*			systems_;
 	Transform			transform_;
+	const MATRIX*		parentMtx_;
 	VECTOR3				offset_;
 	VECTOR3				direction_[3];
 	VECTOR3				size_;
@@ -59,6 +60,8 @@ public:
 	 * @brief	使用状況の取得
 	 * @return	使用状況					*/
 	inline bool IsEnable(void) { return enable_; }
+
+	inline void SetParentMtx(const MATRIX* mtx) { parentMtx_ = mtx; }
 
 	void HitStop(Object* hitObj, VECTOR3& pos, VECTOR2& velocity) { UNREFERENCED_PARAMETER(hitObj); UNREFERENCED_PARAMETER(pos); UNREFERENCED_PARAMETER(velocity); };
 };

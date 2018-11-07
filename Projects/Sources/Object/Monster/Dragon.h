@@ -23,6 +23,15 @@ class Dragon : public Object, public GUI
 		WING_L,
 		MAX
 	};
+
+	enum class AttackPattern : uint8
+	{
+		SCREAM = 0,
+		BITE,
+		WING_ATTACK,
+
+		MAX
+	};
 public:
 	enum class Animation : uint8
 	{
@@ -32,6 +41,9 @@ public:
 		SCREAM,
 		HIT,
 		DIE,
+		BITE,
+		WING_ATTACK,
+		TAKE_OFF,
 
 		MAX
 	};
@@ -46,6 +58,7 @@ public:
 	void GuiUpdate(void) override;
 
 private:
+	void CreateCollision(void);
 	void Move(void);
 	void CreateFrontVector(void);
 	void DebugInput(void);
@@ -59,7 +72,7 @@ private:
 	MeshRenderer		mesh_;
 	Collider3D::OBB*	collision_[static_cast<uint8>(Collision::MAX)];
 
-	MonsterAttack*		attack_;
+	MonsterAttack*		attack_[static_cast<int>(AttackPattern::MAX)];
 	MonsterAttack*		currentAttack_;
 
 	CameraManager*	cameraManager_;

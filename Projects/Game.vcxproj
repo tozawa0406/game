@@ -20,7 +20,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sources\Object\Monster\Dragon.cpp" />
+    <ClCompile Include="Sources\Object\Monster\MonsterAttack\DragonBite.cpp" />
     <ClCompile Include="Sources\Object\Monster\MonsterAttack\DragonScream.cpp" />
+    <ClCompile Include="Sources\Object\Monster\MonsterAttack\DragonWingAttack.cpp" />
     <ClCompile Include="Sources\Object\Player\PlayerHunter.cpp" />
     <ClCompile Include="Sources\Object\Player\PlayerMove.cpp" />
     <ClCompile Include="Sources\Object\StaticObject\PaidGoodsBox.cpp" />
@@ -30,7 +32,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sources\Object\Monster\Dragon.h" />
+    <ClInclude Include="Sources\Object\Monster\MonsterAttack\DragonBite.h" />
     <ClInclude Include="Sources\Object\Monster\MonsterAttack\DragonScream.h" />
+    <ClInclude Include="Sources\Object\Monster\MonsterAttack\DragonWingAttack.h" />
     <ClInclude Include="Sources\Object\Monster\MonsterAttack\MonsterAttack.h" />
     <ClInclude Include="Sources\Object\Player\PlayerHunter.h" />
     <ClInclude Include="Sources\Object\Player\PlayerMove.h" />

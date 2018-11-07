@@ -7,7 +7,7 @@
 #include "SkyDome.h"
 
 //! @def	‰_‚ð“®‚©‚·‘¬“x
-static constexpr float MOVE = 0.0001f;
+static constexpr float MOVE = 0.0002f;
 
 SkyDome::SkyDome(Systems* systems)
 {
