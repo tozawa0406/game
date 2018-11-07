@@ -25,6 +25,7 @@ protected:
 	Systems*			systems_;
 	Transform			transform_;
 	const MATRIX*		parentMtx_;
+	int					modelNum_;
 	VECTOR3				offset_;
 	VECTOR3				direction_[3];
 	VECTOR3				size_;
@@ -61,7 +62,9 @@ public:
 	 * @return	égópèÛãµ					*/
 	inline bool IsEnable(void) { return enable_; }
 
-	inline void SetParentMtx(const MATRIX* mtx) { parentMtx_ = mtx; }
+	inline void SetParentMtx(int modelNum, const MATRIX* mtx) { modelNum_ = modelNum; parentMtx_ = mtx; }
+
+	void SetRendererColor(COLOR color) { renderer_.SetColor(color); }
 
 	void HitStop(Object* hitObj, VECTOR3& pos, VECTOR2& velocity) { UNREFERENCED_PARAMETER(hitObj); UNREFERENCED_PARAMETER(pos); UNREFERENCED_PARAMETER(velocity); };
 };

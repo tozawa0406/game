@@ -14,7 +14,7 @@
 #include <FrameWork/Systems/Score.h>
 
 #include "../../Object/Player/PlayerHunter.h"
-#include "../../Object/Monster/Dragon.h"
+#include "../../Object/Monster/Dragon/Dragon.h"
 #include "../../Object/UI/Timer.h"
 #include "../../Object/StaticObject/PaidGoodsBox.h"
 #include "../../Object/Wapon/KohakuSword.h"

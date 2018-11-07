@@ -352,32 +352,27 @@ void PlayerMove::OnGround(void)
 void PlayerMove::GuiUpdate(void)
 {
 	ImGui::Text("state : ");
-	ImGui::SameLine();
 
 	if (BitCheck(flag_, IS_DRAWN))
 	{
-		ImGui::Text("drawn");
 		ImGui::SameLine();
+		ImGui::Text("drawn ");
 	}
 	if (BitCheck(flag_, IS_SETUP))
 	{
-		ImGui::Text("setup");
 		ImGui::SameLine();
+		ImGui::Text("setup ");
 	}
 	if (BitCheck(flag_, IS_AVOIDANCE))
 	{
-		ImGui::Text("avoidance");
 		ImGui::SameLine();
+		ImGui::Text("avoidance ");
 	}
 	if (BitCheck(flag_, IS_ATTACK))
 	{
-		ImGui::Text("attack");
 		ImGui::SameLine();
+		ImGui::Text("attack ");
 	}
-
-	ImGui::Text(" ");
-
-
 
 	ImGui::Text("front : %.2f, %.2f, %.2f", front_.x, front_.y, front_.z);
 	ImGui::Text("veloc : %.2f, %.2f, %.2f", velocity_.x, velocity_.y, velocity_.z);

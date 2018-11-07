@@ -7,7 +7,7 @@
 #ifndef _DRAGON_BITE_H_
 #define _DRAGON_BITE_H_
 
-#include "MonsterAttack.h"
+#include "../../MonsterAttack.h"
 
 class DragonBite : public MonsterAttack
 {
@@ -23,11 +23,9 @@ public:
 	void GuiUpdate(void) override;
 
 private:
-#ifdef _SELF_DEBUG
 	//! デッバグ機能で使用
-	float debug_speed_;			//*****使用の際には絶対に#ifdefで囲む*****
-	int   debug_changeFrame_;	//*****使用の際には絶対に#ifdefで囲む*****
-#endif
+	float debug_speed_;
+	int   debug_changeFrame_;
 };
 
 #endif // _DRAGON_BITE_H_

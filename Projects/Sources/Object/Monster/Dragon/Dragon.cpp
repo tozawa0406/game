@@ -7,10 +7,12 @@
 #include <FrameWork/Scene/SceneManager.h>
 #include <FrameWork/Systems/Input/Controller.h>
 #include <FrameWork/Graphics/DirectX11/DirectX11Wrapper.h>
+#include "../../../Scene/EachScene/GameScene.h"
 
-#include "MonsterAttack/DragonScream.h"
-#include "MonsterAttack/DragonBite.h"
-#include "MonsterAttack/DragonWingAttack.h"
+#include "Attack/DragonScream.h"
+#include "Attack/DragonBite.h"
+#include "Attack/DragonWingAttack.h"
+#include "Attack/DragonTakeOff.h"
 
 //! @def	大きさ
 static constexpr float SCALE = 0.9f;
@@ -20,11 +22,22 @@ static constexpr float MOVE_SPEED = 0.03f;
 
 //! @def	走りフラグ
 static constexpr uint IS_DASH = 0x0001;
+//! @def	飛行フラグ
+static constexpr uint IS_FLY = 0x0002;
 
 //! @def	体のボーンの名前
-static const     string BONE_BODY = "Chest";
+static const     string BONE_BODY = "Spine2";
+static const     VECTOR3 COLLISION_OFFSET_BODY = VECTOR3(-4, 1.5f, 0);
+static const     VECTOR3 COLLISION_SIZE_BODY   = VECTOR3(18, 9, 15);
 //! @def	頭のボーンの名前
 static const     string BONE_HEAD = "Head";
+static const     VECTOR3 COLLISION_OFFSET_HEAD = VECTOR3(5, 3, 0);
+static const     VECTOR3 COLLISION_SIZE_HEAD   = VECTOR3(6, 6, 6);
+
+//! @def	頭のボーンの名前
+static const     string BONE_WIND_L = "Head";
+static const     VECTOR3 COLLISION_OFFSET_WING_L = VECTOR3(0, -3, -4);
+static const     VECTOR3 COLLISION_SIZE_WING_L   = VECTOR3(7, 3, 3);
 
 /* @fn		コンストラクタ
  * @brief	変数の初期化			*/
@@ -83,6 +96,10 @@ void Dragon::Init(void)
 
 	arrayNum = static_cast<int>(AttackPattern::WING_ATTACK);
 	attack_[arrayNum] = new DragonWingAttack;
+	if (attack_[arrayNum]) { attack_[arrayNum]->Init(this); }
+
+	arrayNum = static_cast<int>(AttackPattern::TAKE_OFF);
+	attack_[arrayNum] = new DragonTakeOff;
 	if (attack_[arrayNum]) { attack_[arrayNum]->Init(this); }
 
 #ifdef _SELF_DEBUG
@@ -159,6 +176,22 @@ void Dragon::Update(void)
 
 	Move();
 
+	if (!BitCheck(flag_, IS_FLY) && animation_ != Animation::TAKE_OFF)
+	{
+		transform_.position.y = 0;
+		if (manager_)
+		{
+			if (const auto& scene = static_cast<GameScene*>(manager_->GetScene()))
+			{
+				if (const auto& meshfield = scene->GetMeshField())
+				{
+					float y = meshfield->Hit(transform_.position);
+					if (y > 0) { transform_.position.y += y; }
+				}
+			}
+		}
+	}
+
 	COLOR color = COLOR(1, 1, 1, 1);
 	for (auto& c : collision_)
 	{
@@ -200,22 +233,22 @@ void Dragon::CreateCollision(void)
 				const auto& model = wrapper->GetModel(mesh_.GetModelNum());
 
 				auto  s = transform_.scale;
-				//auto& c1 = collision_[static_cast<int>(Collision::BODY)];
-				//c1 = new Collider3D::OBB(this);
-				//if (c1)
-				//{
-				//	for(auto& bone : model.bone)
-				//	{
-				//		if (bone.name == BONE_BODY)
-				//		{
-				//			c1->SetParentMtx(&bone.nowBone);
-				//			break;
-				//		}
-				//	}
-				//	c1->SetOffset(VECTOR3(0, -5, -7) * s);
-				//	c1->SetSize(VECTOR3(10, 12, 20) * s);
-				//	c1->Update();
-				//}
+				auto& c1 = collision_[static_cast<int>(Collision::BODY)];
+				c1 = new Collider3D::OBB(this);
+				if (c1)
+				{
+					for(auto& bone : model.bone)
+					{
+						if (bone.name == BONE_BODY)
+						{
+							c1->SetParentMtx(mesh_.GetModelNum(), &bone.nowBone);
+							break;
+						}
+					}
+					c1->SetOffset(COLLISION_OFFSET_BODY * s);
+					c1->SetSize(COLLISION_SIZE_BODY * s);
+					c1->Update();
+				}
 
 				auto& c2 = collision_[static_cast<int>(Collision::HEAD)];
 				c2 = new Collider3D::OBB(this);
@@ -225,14 +258,32 @@ void Dragon::CreateCollision(void)
 					{
 						if (bone.name == BONE_HEAD)
 						{
-							c2->SetParentMtx(&bone.nowBone);
+							c2->SetParentMtx(mesh_.GetModelNum(), &bone.nowBone);
 							break;
 						}
 					}
-					c2->SetOffset(VECTOR3(0, 10, 10) * s);
-					c2->SetSize(VECTOR3(10, 10, 10) * s);
+					c2->SetOffset(COLLISION_OFFSET_HEAD * s);
+					c2->SetSize(COLLISION_SIZE_HEAD * s);
 					c2->Update();
 				}
+
+				auto& c3 = collision_[static_cast<int>(Collision::WING_L)];
+				c3 = new Collider3D::OBB(this);
+				if (c3)
+				{
+					for (auto& bone : model.bone)
+					{
+						if (bone.name == "WingClaw2_L")
+						{
+							c3->SetParentMtx(mesh_.GetModelNum(), &bone.nowBone);
+							break;
+						}
+					}
+					c3->SetOffset(COLLISION_OFFSET_WING_L * s);
+					c3->SetSize(COLLISION_SIZE_WING_L * s);
+					c3->Update();
+				}
+
 			}
 		}
 	}
@@ -282,7 +333,6 @@ void Dragon::Move(void)
 	}
 	else 
 	{
-		velocity_ = VECTOR3(0);
 		if (animation_ == Animation::WALK || animation_ == Animation::RUN)
 		{
 			mesh_.ChangeAnimation(static_cast<int>(Animation::WAIT), 30);
@@ -385,7 +435,34 @@ void Dragon::DebugInput(void)
 		}
 	}
 
+	// 飛行
+	if (ctrl->Trigger(Input::GAMEPAD_R2, DIK_G))
+	{
+		currentAttack_ = attack_[static_cast<int>(AttackPattern::TAKE_OFF)];
+		if (currentAttack_)
+		{
+			bool fly = BitCheck(flag_, IS_FLY);
+
+			int temp = static_cast<int>(animation_);
+			static_cast<DragonTakeOff*>(currentAttack_)->SetFly(fly);
+			currentAttack_->SetMove(mesh_, animSpeed_, temp);
+			animation_ = static_cast<Animation>(temp);
+
+			if(fly)
+			{
+				BitSub(flag_, IS_FLY);
+			}
+			else
+			{
+				BitAdd(flag_, IS_FLY);
+			}
+		}
+	}
+
 }
+
+static VECTOR3 oft  = COLLISION_OFFSET_WING_L;
+static VECTOR3 size = COLLISION_SIZE_WING_L;
 
 /* @fn		GuiUpdate
  * @brief	Guiの更新処理
@@ -393,6 +470,15 @@ void Dragon::DebugInput(void)
  * @return	なし					*/
 void Dragon::GuiUpdate(void)
 {
+	auto& c = collision_[static_cast<int>(Collision::WING_L)];
+	if (c)
+	{
+		ImGui::DragFloat3("offset", oft);
+		c->SetOffset(oft);
+		ImGui::DragFloat3("size", size);
+		c->SetSize(size);
+	}
+
 	// デバッグ用操作の切り替え
 	if (ImGui::Button("ctrl"))
 	{
@@ -406,6 +492,18 @@ void Dragon::GuiUpdate(void)
 	ImGui::Text(" : ");
 	ImGui::SameLine();
 	ImGui::Text((debugMove_) ? "true" : "false");
+
+	ImGui::Text("state : ");
+	if (BitCheck(flag_, IS_DASH))
+	{
+		ImGui::SameLine();
+		ImGui::Text("dash ");
+	}
+	if (BitCheck(flag_, IS_FLY))
+	{
+		ImGui::SameLine();
+		ImGui::Text("fly ");
+	}
 
 	if (currentAttack_)
 	{

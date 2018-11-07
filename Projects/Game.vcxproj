@@ -19,10 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Sources\Object\Monster\Dragon.cpp" />
-    <ClCompile Include="Sources\Object\Monster\MonsterAttack\DragonBite.cpp" />
-    <ClCompile Include="Sources\Object\Monster\MonsterAttack\DragonScream.cpp" />
-    <ClCompile Include="Sources\Object\Monster\MonsterAttack\DragonWingAttack.cpp" />
+    <ClCompile Include="Sources\Object\Monster\Dragon\Attack\DragonBite.cpp" />
+    <ClCompile Include="Sources\Object\Monster\Dragon\Attack\DragonScream.cpp" />
+    <ClCompile Include="Sources\Object\Monster\Dragon\Attack\DragonTakeOff.cpp" />
+    <ClCompile Include="Sources\Object\Monster\Dragon\Attack\DragonWingAttack.cpp" />
+    <ClCompile Include="Sources\Object\Monster\Dragon\Dragon.cpp" />
     <ClCompile Include="Sources\Object\Player\PlayerHunter.cpp" />
     <ClCompile Include="Sources\Object\Player\PlayerMove.cpp" />
     <ClCompile Include="Sources\Object\StaticObject\PaidGoodsBox.cpp" />
@@ -31,11 +32,12 @@
     <ClCompile Include="Sources\Scene\EachScene\GameScene.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Sources\Object\Monster\Dragon.h" />
-    <ClInclude Include="Sources\Object\Monster\MonsterAttack\DragonBite.h" />
-    <ClInclude Include="Sources\Object\Monster\MonsterAttack\DragonScream.h" />
-    <ClInclude Include="Sources\Object\Monster\MonsterAttack\DragonWingAttack.h" />
-    <ClInclude Include="Sources\Object\Monster\MonsterAttack\MonsterAttack.h" />
+    <ClInclude Include="Sources\Object\Monster\Dragon\Attack\DragonBite.h" />
+    <ClInclude Include="Sources\Object\Monster\Dragon\Attack\DragonScream.h" />
+    <ClInclude Include="Sources\Object\Monster\Dragon\Attack\DragonTakeOff.h" />
+    <ClInclude Include="Sources\Object\Monster\Dragon\Attack\DragonWingAttack.h" />
+    <ClInclude Include="Sources\Object\Monster\Dragon\Dragon.h" />
+    <ClInclude Include="Sources\Object\Monster\MonsterAttack.h" />
     <ClInclude Include="Sources\Object\Player\PlayerHunter.h" />
     <ClInclude Include="Sources\Object\Player\PlayerMove.h" />
     <ClInclude Include="Sources\Object\StaticObject\PaidGoodsBox.h" />

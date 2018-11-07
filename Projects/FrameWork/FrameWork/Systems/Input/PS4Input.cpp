@@ -156,8 +156,8 @@ void PS4Input::CreateButton(INPUT_BUTTON& newState, DIJOYSTATE& js)
 
 void PS4Input::CreateAxis(INPUT_AXIS& newState, DIJOYSTATE& js, INPUT_AXIS& state)
 {
-	newState.triggerL = (SHORT)js.lRx;
-	newState.triggerR = (SHORT)js.lRy;
+	newState.triggerL = (SHORT)max(js.lRx, 0);
+	newState.triggerR = (SHORT)max(js.lRy, 0);
 
 	newState.stickLX = (SHORT)js.lX;
 	newState.stickLY = (SHORT)js.lY;

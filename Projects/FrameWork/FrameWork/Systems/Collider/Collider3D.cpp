@@ -10,7 +10,7 @@
 #include "../../Object/ObjectManager.h"
 
 Collider3DBase::Collider3DBase(Object* obj, Type type) : systems_(Systems::Instance()), transform_(obj->GetTransform())
-													   , object_(obj), type_(type), enable_(true), parentMtx_(nullptr)
+													   , object_(obj), type_(type), enable_(true), parentMtx_(nullptr), modelNum_(-1)
 {
 	offset_		= VECTOR3(0);
 	size_		= VECTOR3(1);

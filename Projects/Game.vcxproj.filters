@@ -31,10 +31,13 @@
       <UniqueIdentifier>{55cecd86-0221-47f4-80d7-14665d63f901}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Object\Monster">
-      <UniqueIdentifier>{eb4533cd-db97-4146-abb1-8c8f4a96449c}</UniqueIdentifier>
+      <UniqueIdentifier>{81645504-274e-40fe-b5fe-0b92e6887f3a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Object\Monster\MonsterAttack">
-      <UniqueIdentifier>{291b4f01-64b7-4d9a-ae5e-b861fef2a3b6}</UniqueIdentifier>
+    <Filter Include="Source\Object\Monster\Dragon">
+      <UniqueIdentifier>{b67f874c-555d-4d67-bd29-2c3b5e0344ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Object\Monster\Dragon\Attack">
+      <UniqueIdentifier>{91b861d5-ef34-4330-ae95-8cc0d31df0d0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -56,17 +59,20 @@
     <ClCompile Include="Sources\Object\Player\PlayerHunter.cpp">
       <Filter>Source\Object\Player</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Object\Monster\Dragon.cpp">
-      <Filter>Source\Object\Monster</Filter>
+    <ClCompile Include="Sources\Object\Monster\Dragon\Dragon.cpp">
+      <Filter>Source\Object\Monster\Dragon</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Object\Monster\MonsterAttack\DragonScream.cpp">
-      <Filter>Source\Object\Monster\MonsterAttack</Filter>
+    <ClCompile Include="Sources\Object\Monster\Dragon\Attack\DragonBite.cpp">
+      <Filter>Source\Object\Monster\Dragon\Attack</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Object\Monster\MonsterAttack\DragonBite.cpp">
-      <Filter>Source\Object\Monster\MonsterAttack</Filter>
+    <ClCompile Include="Sources\Object\Monster\Dragon\Attack\DragonScream.cpp">
+      <Filter>Source\Object\Monster\Dragon\Attack</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Object\Monster\MonsterAttack\DragonWingAttack.cpp">
-      <Filter>Source\Object\Monster\MonsterAttack</Filter>
+    <ClCompile Include="Sources\Object\Monster\Dragon\Attack\DragonWingAttack.cpp">
+      <Filter>Source\Object\Monster\Dragon\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Object\Monster\Dragon\Attack\DragonTakeOff.cpp">
+      <Filter>Source\Object\Monster\Dragon\Attack</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -91,20 +97,23 @@
     <ClInclude Include="Sources\Object\Player\PlayerHunter.h">
       <Filter>Source\Object\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Object\Monster\Dragon.h">
+    <ClInclude Include="Sources\Object\Monster\MonsterAttack.h">
       <Filter>Source\Object\Monster</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Object\Monster\MonsterAttack\MonsterAttack.h">
-      <Filter>Source\Object\Monster\MonsterAttack</Filter>
+    <ClInclude Include="Sources\Object\Monster\Dragon\Dragon.h">
+      <Filter>Source\Object\Monster\Dragon</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Object\Monster\MonsterAttack\DragonScream.h">
-      <Filter>Source\Object\Monster\MonsterAttack</Filter>
+    <ClInclude Include="Sources\Object\Monster\Dragon\Attack\DragonBite.h">
+      <Filter>Source\Object\Monster\Dragon\Attack</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Object\Monster\MonsterAttack\DragonBite.h">
-      <Filter>Source\Object\Monster\MonsterAttack</Filter>
+    <ClInclude Include="Sources\Object\Monster\Dragon\Attack\DragonScream.h">
+      <Filter>Source\Object\Monster\Dragon\Attack</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Object\Monster\MonsterAttack\DragonWingAttack.h">
-      <Filter>Source\Object\Monster\MonsterAttack</Filter>
+    <ClInclude Include="Sources\Object\Monster\Dragon\Attack\DragonWingAttack.h">
+      <Filter>Source\Object\Monster\Dragon\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\Monster\Dragon\Attack\DragonTakeOff.h">
+      <Filter>Source\Object\Monster\Dragon\Attack</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

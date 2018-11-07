@@ -607,19 +607,29 @@ void DirectX11Wrapper::Draw(const ColliderRenderer* obj)
 
 	MATRIX mtx = mtx.Identity();
 
+	int modelMax = static_cast<int>(model_.size());
+	int modelNum = obj->GetModelNum();
+	VECTOR3 mScale = VECTOR3(0);
+	if (modelNum >= 0 && modelNum < modelMax)
+	{
+		MATRIX modelMtx = model_[modelNum].transMtx;
+		mScale = VECTOR3(1 / modelMtx._11, 1 / modelMtx._22, 1 / modelMtx._33);
+	}
 	const auto& scale = obj->GetTransform().scale;
 	VECTOR3 s = VECTOR3(1 / scale.x, 1 / scale.y, 1 / scale.z);
-	mtx.Scaling(obj->GetSize() * s);
-	mtx.Translation(obj->GetOffset() * s);
-	s = obj->GetSize() * s;
+	mtx.Scaling(obj->GetSize() * s * mScale);
+	mtx.Translation(obj->GetOffset() * s * mScale);
 
 	const auto& parentMtx = obj->GetParentMtx();
 	if (parentMtx)
 	{
-		//VECTOR3 parentScale = VECTOR3(1 / s.x, 1 / s.y, 1 / s.z);
-		//MATRIX temp = *parentMtx;
-		//temp.Scaling(parentScale);
-		//mtx *= temp;
+		MATRIX temp = *parentMtx;
+		if (modelNum >= 0 && modelNum < modelMax)
+		{
+			temp *= model_[modelNum].transMtx;
+		}
+		temp.Scaling(scale);
+		mtx *= temp;
 	}
 
 	auto tr = obj->GetTransform();
@@ -649,7 +659,7 @@ void DirectX11Wrapper::Draw(const ColliderRenderer* obj)
 	SHADER_DEFAULT_OBJECT sg;
 	sg.world	= mtx;
 	sg.texcoord = VECTOR4(0, 0, 1, 1);
-	sg.diffuse	= COLOR::RGBA(35, 191, 0, 255);
+	sg.diffuse  = obj->GetColor();
 	dev->UpdateSubresource(constant, 0, NULL, &sg, 0, 0);
 	dev->VSSetConstantBuffers(0, 1, &constantBuffer_[shader_[1].constantBuffer[0]]);
 	dev->VSSetConstantBuffers(1, 1, &constant);	// cbuffer‚ğg‚¤VS‚Éİ’è

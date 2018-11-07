@@ -1,4 +1,4 @@
-#include "DragonBite.h"
+#include "DragonWingAttack.h"
 #include "../Dragon.h"
 
 //! @def	アニメーションの速度を変える(速くする)タイミング
@@ -6,17 +6,13 @@ static constexpr int CHANGE_FRAME = 20;
 
 /* @fn		コンストラクタ
  * @brief	変数の初期化		*/
-DragonBite::DragonBite(void)
+DragonWingAttack::DragonWingAttack(void) : debug_speed_(0), debug_changeFrame_(CHANGE_FRAME)
 {
-#ifdef _SELF_DEBUG
-	debug_speed_		= 0;
-	debug_changeFrame_	= CHANGE_FRAME;
-#endif
 }
 
 /* @fn		デストラクタ
  * @brief	...					*/
-DragonBite::~DragonBite(void)
+DragonWingAttack::~DragonWingAttack(void)
 {
 }
 
@@ -24,7 +20,7 @@ DragonBite::~DragonBite(void)
  * @brief	初期化処理
  * @param	(object)	このクラスでは使わない
  * @return	なし				*/
-void DragonBite::Init(Object* object)
+void DragonWingAttack::Init(Object* object)
 {
 	UNREFERENCED_PARAMETER(object);
 }
@@ -33,7 +29,7 @@ void DragonBite::Init(Object* object)
  * @brief	後処理
  * @param	なし
  * @return	なし				*/
-void DragonBite::Uninit(void)
+void DragonWingAttack::Uninit(void)
 {
 }
 
@@ -44,7 +40,7 @@ void DragonBite::Uninit(void)
  * @param	(animNum)		アニメーションの番号
  * @return	なし
  * @detail	この攻撃特有のアニメーション、速度を設定する		*/
-void DragonBite::SetMove(MeshRenderer& mesh, float& animSpeed, int& animNum)
+void DragonWingAttack::SetMove(MeshRenderer& mesh, float& animSpeed, int& animNum)
 {
 	// 既に使用中なら重複防止
 	if (enable_) { return; }
@@ -52,15 +48,13 @@ void DragonBite::SetMove(MeshRenderer& mesh, float& animSpeed, int& animNum)
 	MonsterAttack::SetMove(mesh, animSpeed, animNum);
 
 	// 速度の設定
-	animSpeed = 0.4f;
-#ifdef _SELF_DEBUG
+	animSpeed	 = 0.6f;
 	debug_speed_ = animSpeed;
-#endif
 
 	// アニメーションの設定
-	animNum   = static_cast<int>(Dragon::Animation::BITE);
+	animNum = static_cast<int>(Dragon::Animation::WING_ATTACK);
 
-	// 実際の切り替え
+	// 実際のアニメーションの切り替え
 	mesh.ChangeAnimation(animNum, 15);
 }
 
@@ -75,12 +69,12 @@ void DragonBite::SetMove(MeshRenderer& mesh, float& animSpeed, int& animNum)
  * @return	攻撃が終了したらtrue
  * @detail	姿勢変更はなし、移動しないよう速度は0に固定
 			一定時間経過後、アニメーションの速度を上げる、アニメーションが終了したら元に戻って終了		*/
-bool DragonBite::Update(Transform& trans, VECTOR3& velocity, MeshRenderer& mesh, float& animSpeed, int& animNum, bool animEnd)
+bool DragonWingAttack::Update(Transform& trans, VECTOR3& velocity, MeshRenderer& mesh, float& animSpeed, int& animNum, bool animEnd)
 {
 	// 使わない
 	UNREFERENCED_PARAMETER(trans);
 
-	// 移動はさせない
+	// 移動させない
 	velocity = VECTOR3(0);
 
 	// 演出用
@@ -94,10 +88,8 @@ bool DragonBite::Update(Transform& trans, VECTOR3& velocity, MeshRenderer& mesh,
 	if (frame_ > CHANGE_FRAME)
 #endif
 	{
-		animSpeed = 0.75f; 
-#ifdef _SELF_DEBUG
+		animSpeed = 0.75f;
 		debug_speed_ = animSpeed;
-#endif
 	}
 
 	// アニメーション終了
@@ -118,12 +110,9 @@ bool DragonBite::Update(Transform& trans, VECTOR3& velocity, MeshRenderer& mesh,
  * @param	なし
  * @return	なし
  * @detail	攻撃元オブジェクトから呼ばれる		*/
-void DragonBite::GuiUpdate(void)
+void DragonWingAttack::GuiUpdate(void)
 {
 	ImGui::Text("frame : %d", frame_);
-#ifdef _SELF_DEBUG
 	ImGui::Text("speed : %.2f", debug_speed_);
 	ImGui::DragInt("changeFrame", &debug_changeFrame_);
-
-#endif
 }

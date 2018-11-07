@@ -10,7 +10,7 @@
 #include <FrameWork/Define/Define.h>
 #include <FrameWork/Object/Object.h>
 #include <FrameWork/Systems/Camera/CameraManager.h>
-#include "MonsterAttack/MonsterAttack.h"
+#include "../MonsterAttack.h"
 
 class Dragon : public Object, public GUI
 {
@@ -29,6 +29,7 @@ class Dragon : public Object, public GUI
 		SCREAM = 0,
 		BITE,
 		WING_ATTACK,
+		TAKE_OFF,
 
 		MAX
 	};

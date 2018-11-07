@@ -7,7 +7,7 @@
 #ifndef _DRAGON_SCREAM_H_
 #define _DRAGON_SCREAM_H_
 
-#include "MonsterAttack.h"
+#include "../../MonsterAttack.h"
 
 class DragonScream : public MonsterAttack
 {
