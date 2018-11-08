@@ -34,6 +34,7 @@ void Collision3DManager::Update(void)
 		for (auto col2 : obj_)
 		{
 			if (!col2->enable_) { continue; }
+			if (col1->object_ == col2->object_) { continue; }
 			if (col1->object_->GetTag() == Object::Tag::STATIC && col2->object_->GetTag() == Object::Tag::STATIC) { continue; }
 
 			if (col1 != col2)

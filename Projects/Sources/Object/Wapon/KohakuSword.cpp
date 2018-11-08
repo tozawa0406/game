@@ -36,7 +36,7 @@ void KohakuSword::Init(void)
 	collider_ = new Collider3D::OBB(this);
 	if (collider_)
 	{
-		collider_->SetOffset(VECTOR3(0, 0, 60));
+		collider_->SetOffsetPosition(VECTOR3(0, 0, 60));
 		collider_->SetSize(VECTOR3(2, 20, 105));
 		collider_->SetRendererColor(COLOR(1, 0, 0, 1));
 		collider_->SetEnable(false);

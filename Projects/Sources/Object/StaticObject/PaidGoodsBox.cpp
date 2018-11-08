@@ -48,7 +48,7 @@ void PaidGoodsBox::Init(void)
 	if (collider_)
 	{
 		collider_->SetSize(COLLIDER_SIZE);
-		collider_->SetOffset(COLLIDER_OFFSET);
+		collider_->SetOffsetPosition(COLLIDER_OFFSET);
 		collider_->Update();
 	}
 }

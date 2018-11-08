@@ -128,7 +128,6 @@ LRESULT CALLBACK Windows::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lP
 			break;
 		}
 		case VK_F1:
-		{
 			if (const auto& systems = Systems::Instance())
 			{
 				if (const auto& debug = systems->GetDebug())
@@ -136,7 +135,16 @@ LRESULT CALLBACK Windows::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lP
 					debug->On();
 				}
 			}
-		}
+			break;
+		case VK_F3:
+			if (const auto& systems = Systems::Instance())
+			{
+				if (const auto& debug = systems->GetDebug())
+				{
+					debug->SetDebugPause(!debug->GetDebugPause());
+				}
+			}
+			break;
 		default:
 			break;
 		}

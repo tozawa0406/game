@@ -19,7 +19,7 @@ static const     string BONE_BODY_NAME = "Character1_Hips";
 //! @def	右手のボーンの名前
 static const     string BONE_RIGHT_HAND_NAME = "Character1_RightHand";
 //! @def	当たり判定のオフセット位置
-static const     VECTOR3 COLLISION_OFFSET = VECTOR3(0, 7.5f, 0);
+static const     VECTOR3 COLLISION_OFFSET_POS = VECTOR3(0, 7.5f, 0);
 //! @def	当たり判定のサイズ
 static const     VECTOR3 COLLISION_SIZE = VECTOR3(3, 15, 3);
 
@@ -121,7 +121,7 @@ void PlayerMove::Init(void)
 
 	// 当たり判定
 	collider_ = new Collider3D::OBB(this);
-	collider_->SetOffset(COLLISION_OFFSET);
+	collider_->SetOffsetPosition(COLLISION_OFFSET_POS);
 	collider_->SetSize(COLLISION_SIZE);
 }
 

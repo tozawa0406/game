@@ -28,7 +28,8 @@ struct ColliderRenderer
 	const Transform& GetTransform(void) const { return transform; }
 	const MATRIX*	 GetParentMtx(void) const { return parentMtx; }
 	const MATRIX*	 GetTransMtx(void)  const { return transMtx;  }
-	const VECTOR3&	 GetOffset(void)	const { return offset; }
+	const VECTOR3&	 GetOffsetPosition(void) const { return offsetPosition; }
+	const VECTOR3&	 GetOffsetRotation(void) const { return offsetRotation; }
 	const VECTOR3&	 GetSize(void)		const { return size; }
 	const COLOR&	 GetColor(void)     const { return color; }
 	void			 SetColor(COLOR c)	      { color = c; }
@@ -53,7 +54,8 @@ struct ColliderRenderer
 private:
 	Transform	transform;
 	VECTOR3		size;
-	VECTOR3		offset;
+	VECTOR3		offsetPosition;
+	VECTOR3		offsetRotation;
 	const MATRIX* parentMtx;
 	const MATRIX* transMtx;
 	COLOR		color;

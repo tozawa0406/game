@@ -9,12 +9,12 @@ static constexpr int END_ATTACK   = 40;
 
 //! @def	頭のボーンの名前
 static const     string BONE_HEAD = "Head";
-static const     VECTOR3 COLLISION_OFFSET_HEAD = VECTOR3(5, 3, 0);
+static const     VECTOR3 COLLISION_OFFSET_POS_HEAD = VECTOR3(5, 3, 0);
 static const     VECTOR3 COLLISION_SIZE_HEAD = VECTOR3(6.1f, 6.1f, 6.1f);
 
 /* @fn		コンストラクタ
  * @brief	変数の初期化		*/
-DragonBite::DragonBite(void) : collision_(nullptr), debug_speed_(0), debug_changeFrame_(CHANGE_FRAME)
+DragonBite::DragonBite(void) : collider_(nullptr), debug_speed_(0), debug_changeFrame_(CHANGE_FRAME)
 {
 }
 
@@ -26,10 +26,11 @@ DragonBite::~DragonBite(void)
 
 /* @fn		Init
  * @brief	初期化処理
- * @param	(object)	このクラスでは使わない
+ * @param	(object)	当たり判定の親クラスに登録
  * @return	なし				*/
 void DragonBite::Init(Object* object)
 {
+	// 当たり判定の追加
 	if (const auto& systems = Systems::Instance())
 	{
 		if (const auto& renderer = systems->GetRenderer())
@@ -38,22 +39,22 @@ void DragonBite::Init(Object* object)
 			{
 				const auto& model = wrapper->GetModel(static_cast<int>(Model::Game::DRAGON));
 
-				collision_ = new Collider3D::OBB(object);
-				if (collision_)
+				collider_ = new Collider3D::OBB(object);
+				if (collider_)
 				{
 					for (auto& bone : model.bone)
 					{
 						if (bone.name == BONE_HEAD)
 						{
-							collision_->SetParentMtx(&model.transMtx, &bone.nowBone);
+							collider_->SetParentMtx(&model.transMtx, &bone.nowBone);
 							break;
 						}
 					}
 					const auto& s = object->GetTransform().scale;
-					collision_->SetOffset(COLLISION_OFFSET_HEAD * s);
-					collision_->SetSize(COLLISION_SIZE_HEAD * s);
-					collision_->SetRendererColor(COLOR(1, 0, 0, 1));
-					collision_->SetEnable(false);
+					collider_->SetOffsetPosition(COLLISION_OFFSET_POS_HEAD * s);
+					collider_->SetSize(COLLISION_SIZE_HEAD * s);
+					collider_->SetRendererColor(COLOR(1, 0, 0, 1));
+					collider_->SetEnable(false);
 				}
 			}
 		}
@@ -66,6 +67,7 @@ void DragonBite::Init(Object* object)
  * @return	なし				*/
 void DragonBite::Uninit(void)
 {
+	DeletePtr(collider_);
 }
 
 /* @fn		SetMove
@@ -112,7 +114,7 @@ bool DragonBite::Update(Transform& trans, VECTOR3& velocity, MeshRenderer& mesh,
 	// 移動はさせない
 	velocity = VECTOR3(0);
 
-	collision_->Update();
+	collider_->Update();
 
 	// 演出用
 	frame_++;
@@ -128,12 +130,12 @@ bool DragonBite::Update(Transform& trans, VECTOR3& velocity, MeshRenderer& mesh,
 		animSpeed	 = 0.75f; 
 		debug_speed_ = animSpeed;
 
-		collision_->SetEnable(true);
+		collider_->SetEnable(true);
 	}
 
 	if (frame_ > END_ATTACK)
 	{
-		collision_->SetEnable(false);
+		collider_->SetEnable(false);
 	}
 
 	// アニメーション終了

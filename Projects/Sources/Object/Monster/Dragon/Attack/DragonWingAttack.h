@@ -11,6 +11,14 @@
 
 class DragonWingAttack : public MonsterAttack
 {
+	//! @enum	翼
+	enum class Wing : uint8
+	{
+		CLAW_L = 0,
+		CLAW_R,
+
+		MAX
+	};
 public:
 	DragonWingAttack(void);
 	~DragonWingAttack(void);
@@ -23,6 +31,9 @@ public:
 	void GuiUpdate(void) override;
 
 private:
+	//! 翼の当たり判定
+	Collider3D::OBB* collider_[static_cast<int>(Wing::MAX)];
+
 	//! デッバグ機能で使用
 	float debug_speed_;
 	int   debug_changeFrame_;

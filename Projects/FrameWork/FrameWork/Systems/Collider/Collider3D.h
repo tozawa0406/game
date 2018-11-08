@@ -26,7 +26,8 @@ protected:
 	Transform			transform_;
 	const MATRIX*		parentMtx_;
 	const MATRIX*		transMtx_;
-	VECTOR3				offset_;
+	VECTOR3				offsetPosition_;
+	VECTOR3				offsetRotation_;
 	VECTOR3				direction_[3];
 	VECTOR3				size_;
 
@@ -67,6 +68,8 @@ public:
 	inline bool IsEnable(void) { return enable_; }
 
 	inline void SetParentMtx(const MATRIX* transMtx, const MATRIX* mtx) { transMtx_ = transMtx; parentMtx_ = mtx; }
+	inline void SetOffsetPosition(VECTOR3 offset) { offsetPosition_ = offset; }
+	inline void SetOffsetRotation(VECTOR3 offset) { offsetRotation_ = offset; }
 
 	Object* GetParent(void) { return object_; }
 
@@ -91,7 +94,6 @@ namespace Collider3D
 	public:
 		Sphere(Object* obj);
 		void Update(void) override;
-		void SetOffset(VECTOR3 offset) { offset_ = offset; }
 		void SetSize(float d) { size_ = VECTOR3(d, d, d); }
 	private:
 		Transform			transform2_;
@@ -110,7 +112,6 @@ namespace Collider3D
 
 		// set
 		void SetSize(VECTOR3 size) { size_ = size; }
-		void SetOffset(VECTOR3 offset) { offset_ = offset; }
 		void SetDirect(int i, VECTOR3 direct) { normaDirect_[i] = VecNorm(direct); }
 
 		// 指定軸番号の方向ベクトルを取得

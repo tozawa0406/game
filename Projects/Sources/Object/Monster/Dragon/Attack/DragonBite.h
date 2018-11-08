@@ -23,7 +23,7 @@ public:
 	void GuiUpdate(void) override;
 
 private:
-	Collider3D::OBB* collision_;
+	Collider3D::OBB* collider_;
 
 	//! デッバグ機能で使用
 	float debug_speed_;

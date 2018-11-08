@@ -11,10 +11,8 @@
 
 Collider3DBase::Collider3DBase(Object* obj, Type type) : systems_(Systems::Instance()), transform_(obj->GetTransform())
 													   , object_(obj), type_(type), enable_(true), parentMtx_(nullptr), transMtx_(nullptr)
+													   , offsetPosition_(VECTOR3(0)), offsetRotation_(VECTOR3(0)), size_(VECTOR3(1))
 {
-	offset_		= VECTOR3(0);
-	size_		= VECTOR3(1);
-
 	for (int i = 0; i < 3; ++i)
 	{
 		direction_[i] = VECTOR3(0);
@@ -41,7 +39,7 @@ Collider3D::Segment::Segment(Object* obj) : Collider3DBase(obj, Type::SEGMENT)
 void Collider3D::Segment::Update(void)
 {
 	transform_ = object_->GetTransform();
-	transform_.position += offset_;
+	transform_.position += offsetPosition_;
 
 	renderer_.enable = false;
 	if (!systems_->GetDebug()->GetDebug()) { return; }
@@ -59,7 +57,7 @@ void Collider3D::Sphere::Update(void)
 {
 	transform_ = object_->GetTransform();
 	transform_.position = object_->GetTransform().globalPosition;
-	transform_.position += offset_;
+	transform_.position += offsetPosition_;
 	transform2_ = transform_;
 
 	renderer_.enable = renderer2_.enable = IsEnable();
@@ -98,7 +96,8 @@ void Collider3D::OBB::Update(void)
 	const auto& scale = transform_.scale;
 	VECTOR3 s = VECTOR3(1 / scale.x, 1 / scale.y, 1 / scale.z);
 	m.Scaling(size_ * s * mScale);
-	m.Translation(offset_ * s * mScale);
+	m.Rotation(offsetRotation_ * s * mScale);
+	m.Translation(offsetPosition_ * s * mScale);
 
 	if (parentMtx_)
 	{

@@ -18,6 +18,8 @@ class Dragon : public Object, public GUI
 	{
 		BODY = 0,
 		HEAD,
+		NECK1,
+		NECK2,
 		TAIL,
 		WING_R,
 		WING_L,
