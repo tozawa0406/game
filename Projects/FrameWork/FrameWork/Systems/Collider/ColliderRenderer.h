@@ -27,7 +27,7 @@ struct ColliderRenderer
 
 	const Transform& GetTransform(void) const { return transform; }
 	const MATRIX*	 GetParentMtx(void) const { return parentMtx; }
-	int				 GetModelNum(void)  const { return modelNum;  }
+	const MATRIX*	 GetTransMtx(void)  const { return transMtx;  }
 	const VECTOR3&	 GetOffset(void)	const { return offset; }
 	const VECTOR3&	 GetSize(void)		const { return size; }
 	const COLOR&	 GetColor(void)     const { return color; }
@@ -55,7 +55,7 @@ private:
 	VECTOR3		size;
 	VECTOR3		offset;
 	const MATRIX* parentMtx;
-	int			modelNum;
+	const MATRIX* transMtx;
 	COLOR		color;
 
 	Wrapper::PRIMITIVE::TYPE type;

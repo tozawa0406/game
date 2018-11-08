@@ -10,7 +10,7 @@
 #include "../../Object/ObjectManager.h"
 
 Collider3DBase::Collider3DBase(Object* obj, Type type) : systems_(Systems::Instance()), transform_(obj->GetTransform())
-													   , object_(obj), type_(type), enable_(true), parentMtx_(nullptr), modelNum_(-1)
+													   , object_(obj), type_(type), enable_(true), parentMtx_(nullptr), transMtx_(nullptr)
 {
 	offset_		= VECTOR3(0);
 	size_		= VECTOR3(1);
@@ -62,6 +62,8 @@ void Collider3D::Sphere::Update(void)
 	transform_.position += offset_;
 	transform2_ = transform_;
 
+	renderer_.enable = renderer2_.enable = IsEnable();
+
 	if (!systems_->GetDebug()->GetDebug()) { return; }
 
 	renderer_.Update(this);
@@ -83,20 +85,30 @@ void Collider3D::OBB::Update(void)
 {
 	transform_ = object_->GetTransform();
 
+	renderer_.enable = IsEnable();
+
 	MATRIX m = MATRIX().Identity();
+
+	VECTOR3 mScale = VECTOR3(1);
+	if (transMtx_)
+	{
+		mScale = VECTOR3(1 / transMtx_->_11, 1 / transMtx_->_22, 1 / transMtx_->_33);
+	}
 
 	const auto& scale = transform_.scale;
 	VECTOR3 s = VECTOR3(1 / scale.x, 1 / scale.y, 1 / scale.z);
-	m.Scaling(size_ * s);
-	m.Translation(offset_ * s);
-	s = size_ * s;
+	m.Scaling(size_ * s * mScale);
+	m.Translation(offset_ * s * mScale);
 
 	if (parentMtx_)
 	{
-		//VECTOR3 parentScale = VECTOR3(1 / s.x, 1 / s.y, 1 / s.z);
-		//MATRIX temp = *parentMtx_;
-		//temp.Scaling(parentScale);
-		//m *= temp;
+		MATRIX temp = *parentMtx_;
+		if (transMtx_)
+		{
+			temp *= *transMtx_;
+		}
+		temp.Scaling(scale);
+		m *= temp;
 	}
 
 	m.Create(&transform_);
@@ -122,6 +134,4 @@ void Collider3D::OBB::Update(void)
 	renderer_.Update(this);
 
 	transform_.position = VECTOR3(m._41, m._42, m._43);
-
-//	transform_.position += offset_ * s;
 }

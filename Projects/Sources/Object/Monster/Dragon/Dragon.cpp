@@ -28,16 +28,17 @@ static constexpr uint IS_FLY = 0x0002;
 //! @def	体のボーンの名前
 static const     string BONE_BODY = "Spine2";
 static const     VECTOR3 COLLISION_OFFSET_BODY = VECTOR3(-4, 1.5f, 0);
-static const     VECTOR3 COLLISION_SIZE_BODY   = VECTOR3(18, 9, 15);
+static const     VECTOR3 COLLISION_SIZE_BODY = VECTOR3(18, 9, 15);
 //! @def	頭のボーンの名前
 static const     string BONE_HEAD = "Head";
 static const     VECTOR3 COLLISION_OFFSET_HEAD = VECTOR3(5, 3, 0);
-static const     VECTOR3 COLLISION_SIZE_HEAD   = VECTOR3(6, 6, 6);
+static const     VECTOR3 COLLISION_SIZE_HEAD = VECTOR3(6, 6, 6);
 
 //! @def	頭のボーンの名前
 static const     string BONE_WIND_L = "Head";
 static const     VECTOR3 COLLISION_OFFSET_WING_L = VECTOR3(0, -3, -4);
-static const     VECTOR3 COLLISION_SIZE_WING_L   = VECTOR3(7, 3, 3);
+static const     VECTOR3 COLLISION_SIZE_WING_L = VECTOR3(7, 3, 3);
+
 
 /* @fn		コンストラクタ
  * @brief	変数の初期化			*/
@@ -241,13 +242,12 @@ void Dragon::CreateCollision(void)
 					{
 						if (bone.name == BONE_BODY)
 						{
-							c1->SetParentMtx(mesh_.GetModelNum(), &bone.nowBone);
+							c1->SetParentMtx(&model.transMtx, &bone.nowBone);
 							break;
 						}
 					}
 					c1->SetOffset(COLLISION_OFFSET_BODY * s);
 					c1->SetSize(COLLISION_SIZE_BODY * s);
-					c1->Update();
 				}
 
 				auto& c2 = collision_[static_cast<int>(Collision::HEAD)];
@@ -258,13 +258,12 @@ void Dragon::CreateCollision(void)
 					{
 						if (bone.name == BONE_HEAD)
 						{
-							c2->SetParentMtx(mesh_.GetModelNum(), &bone.nowBone);
+							c2->SetParentMtx(&model.transMtx, &bone.nowBone);
 							break;
 						}
 					}
 					c2->SetOffset(COLLISION_OFFSET_HEAD * s);
 					c2->SetSize(COLLISION_SIZE_HEAD * s);
-					c2->Update();
 				}
 
 				auto& c3 = collision_[static_cast<int>(Collision::WING_L)];
@@ -275,13 +274,12 @@ void Dragon::CreateCollision(void)
 					{
 						if (bone.name == "WingClaw2_L")
 						{
-							c3->SetParentMtx(mesh_.GetModelNum(), &bone.nowBone);
+							c3->SetParentMtx(&model.transMtx, &bone.nowBone);
 							break;
 						}
 					}
 					c3->SetOffset(COLLISION_OFFSET_WING_L * s);
 					c3->SetSize(COLLISION_SIZE_WING_L * s);
-					c3->Update();
 				}
 
 			}
@@ -470,6 +468,7 @@ static VECTOR3 size = COLLISION_SIZE_WING_L;
  * @return	なし					*/
 void Dragon::GuiUpdate(void)
 {
+/*
 	auto& c = collision_[static_cast<int>(Collision::WING_L)];
 	if (c)
 	{
@@ -478,7 +477,7 @@ void Dragon::GuiUpdate(void)
 		ImGui::DragFloat3("size", size);
 		c->SetSize(size);
 	}
-
+*/
 	// デバッグ用操作の切り替え
 	if (ImGui::Button("ctrl"))
 	{

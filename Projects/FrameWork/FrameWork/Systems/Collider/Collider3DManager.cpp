@@ -23,6 +23,9 @@ void Collision3DManager::Update(void)
 	for (auto obj : obj_)
 	{
 		obj->list_.clear();
+		obj->colliderList_.clear();
+
+		obj->Update();
 	}
 
 	for (auto col1 : obj_)
@@ -40,6 +43,7 @@ void Collision3DManager::Update(void)
 				{
 					if (obj == col1->object_) 
 					{
+						col1->colliderList_.emplace_back(col2);
 						col1->list_.push_back(col2->object_);
 						isList = true; 
 					}
@@ -53,6 +57,7 @@ void Collision3DManager::Update(void)
 						if(this->HitSpheres(col1, col2))
 						{
 							col1->list_.push_back(col2->object_);
+							col1->colliderList_.emplace_back(col2);
 						}
 					}
 				}
@@ -63,6 +68,7 @@ void Collision3DManager::Update(void)
 						if(this->HitOBBs((*(Collider3D::OBB*)col1), (*(Collider3D::OBB*)col2)))
 						{
 							col1->list_.push_back(col2->object_);
+							col1->colliderList_.emplace_back(col2);
 						}
 					}
 				}

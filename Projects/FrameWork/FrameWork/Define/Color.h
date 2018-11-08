@@ -66,6 +66,14 @@ struct COLOR
 		return *this;
 	}
 
+	/* @fn		operator == 
+	 * @brief	”äŠrŠÖ”				*/
+	bool operator == (const COLOR& c)
+	{
+		return ((this->r == c.r && this->g == c.g) && (this->b == c.b && this->a == c.a)) ? true : false;
+	}
+
+
 	/* @fn		RBGA
 	 * @brief	0`255‚ÅF—v‘f‚ğw’è‚·‚é		*/
 	static COLOR RGBA(BYTE r, BYTE g, BYTE b, BYTE a)

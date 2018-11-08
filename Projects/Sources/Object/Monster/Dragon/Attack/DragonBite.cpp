@@ -1,12 +1,20 @@
 #include "DragonBite.h"
 #include "../Dragon.h"
+#include <FrameWork/Graphics/DirectX11/DirectX11Wrapper.h>
 
 //! @def	アニメーションの速度を変える(速くする)タイミング
 static constexpr int CHANGE_FRAME = 20;
+//! @def	噛みつきの終了(当たり判定の消失)
+static constexpr int END_ATTACK   = 40;
+
+//! @def	頭のボーンの名前
+static const     string BONE_HEAD = "Head";
+static const     VECTOR3 COLLISION_OFFSET_HEAD = VECTOR3(5, 3, 0);
+static const     VECTOR3 COLLISION_SIZE_HEAD = VECTOR3(6.1f, 6.1f, 6.1f);
 
 /* @fn		コンストラクタ
  * @brief	変数の初期化		*/
-DragonBite::DragonBite(void) : debug_speed_(0), debug_changeFrame_(CHANGE_FRAME)
+DragonBite::DragonBite(void) : collision_(nullptr), debug_speed_(0), debug_changeFrame_(CHANGE_FRAME)
 {
 }
 
@@ -22,7 +30,34 @@ DragonBite::~DragonBite(void)
  * @return	なし				*/
 void DragonBite::Init(Object* object)
 {
-	UNREFERENCED_PARAMETER(object);
+	if (const auto& systems = Systems::Instance())
+	{
+		if (const auto& renderer = systems->GetRenderer())
+		{
+			if (DirectX11Wrapper* wrapper = static_cast<DirectX11Wrapper*>(renderer->GetWrapper()))
+			{
+				const auto& model = wrapper->GetModel(static_cast<int>(Model::Game::DRAGON));
+
+				collision_ = new Collider3D::OBB(object);
+				if (collision_)
+				{
+					for (auto& bone : model.bone)
+					{
+						if (bone.name == BONE_HEAD)
+						{
+							collision_->SetParentMtx(&model.transMtx, &bone.nowBone);
+							break;
+						}
+					}
+					const auto& s = object->GetTransform().scale;
+					collision_->SetOffset(COLLISION_OFFSET_HEAD * s);
+					collision_->SetSize(COLLISION_SIZE_HEAD * s);
+					collision_->SetRendererColor(COLOR(1, 0, 0, 1));
+					collision_->SetEnable(false);
+				}
+			}
+		}
+	}
 }
 
 /* @fn		Uninit
@@ -77,6 +112,8 @@ bool DragonBite::Update(Transform& trans, VECTOR3& velocity, MeshRenderer& mesh,
 	// 移動はさせない
 	velocity = VECTOR3(0);
 
+	collision_->Update();
+
 	// 演出用
 	frame_++;
 
@@ -90,6 +127,13 @@ bool DragonBite::Update(Transform& trans, VECTOR3& velocity, MeshRenderer& mesh,
 	{
 		animSpeed	 = 0.75f; 
 		debug_speed_ = animSpeed;
+
+		collision_->SetEnable(true);
+	}
+
+	if (frame_ > END_ATTACK)
+	{
+		collision_->SetEnable(false);
 	}
 
 	// アニメーション終了
@@ -112,6 +156,8 @@ bool DragonBite::Update(Transform& trans, VECTOR3& velocity, MeshRenderer& mesh,
  * @detail	攻撃元オブジェクトから呼ばれる		*/
 void DragonBite::GuiUpdate(void)
 {
+	MonsterAttack::GuiUpdate();
+
 	ImGui::Text("frame : %d", frame_);
 	ImGui::Text("speed : %.2f", debug_speed_);
 	ImGui::DragInt("changeFrame", &debug_changeFrame_);

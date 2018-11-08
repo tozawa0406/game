@@ -38,7 +38,7 @@ void KohakuSword::Init(void)
 	{
 		collider_->SetOffset(VECTOR3(0, 0, 60));
 		collider_->SetSize(VECTOR3(2, 20, 105));
-		collider_->Update();
+		collider_->SetRendererColor(COLOR(1, 0, 0, 1));
 		collider_->SetEnable(false);
 	}
 }
@@ -59,8 +59,6 @@ void KohakuSword::Update(void)
 {
 	if (collider_)
 	{
-		collider_->Update();
-
 		debug_hit_ = false;
 		auto object = collider_->Hit();
 

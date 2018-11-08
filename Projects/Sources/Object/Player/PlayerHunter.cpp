@@ -56,6 +56,20 @@ void PlayerHunter::Update(void)
 {
 	PlayerMove::Update();
 
+	COLOR c = COLOR(1, 1, 1, 1);
+	const auto& hits = collider_->HitCollider();
+	for (auto& hit : hits)
+	{
+		if (const auto& o = hit->GetParent())
+		{
+			if (o->GetTag() == Object::Tag::ENEMY && hit->GetRendererColor() == COLOR(1, 0, 0, 1))
+			{
+				c = COLOR(1, 0, 0, 1);
+			}
+		}
+	}
+	mesh_.material.diffuse = c;
+
 #ifdef _SELF_DEBUG
 	// デバッグ用、敵の操作中はプレイヤーの操作はしない
 	if (cameraManager_ && cameraManager_->GetMainNum() != 0) { return; }
@@ -67,7 +81,6 @@ void PlayerHunter::Update(void)
 	Avoidance();
 
 	Attack();
-
 }
 
 /* @fn		Setup

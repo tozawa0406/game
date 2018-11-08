@@ -25,7 +25,7 @@ protected:
 	Systems*			systems_;
 	Transform			transform_;
 	const MATRIX*		parentMtx_;
-	int					modelNum_;
+	const MATRIX*		transMtx_;
 	VECTOR3				offset_;
 	VECTOR3				direction_[3];
 	VECTOR3				size_;
@@ -33,6 +33,7 @@ protected:
 	Object*				object_;
 	ColliderRenderer	renderer_;
 	std::vector<Object*> list_;
+	std::vector<Collider3DBase*> colliderList_;
 
 	enum Type
 	{
@@ -50,7 +51,10 @@ public:
 	Collider3DBase(Object* obj, Type type);
 	~Collider3DBase(void);
 
+	virtual void Update(void) = 0;
+
 	std::vector<Object*> Hit(void);
+	std::vector<Collider3DBase*> HitCollider(void) { return colliderList_; }
 
 	/* @fn		SetEnable
 	 * @brief	使用状況の設定
@@ -62,9 +66,12 @@ public:
 	 * @return	使用状況					*/
 	inline bool IsEnable(void) { return enable_; }
 
-	inline void SetParentMtx(int modelNum, const MATRIX* mtx) { modelNum_ = modelNum; parentMtx_ = mtx; }
+	inline void SetParentMtx(const MATRIX* transMtx, const MATRIX* mtx) { transMtx_ = transMtx; parentMtx_ = mtx; }
 
-	void SetRendererColor(COLOR color) { renderer_.SetColor(color); }
+	Object* GetParent(void) { return object_; }
+
+	inline COLOR GetRendererColor(void) { return renderer_.GetColor(); }
+	inline void SetRendererColor(COLOR color) { renderer_.SetColor(color); }
 
 	void HitStop(Object* hitObj, VECTOR3& pos, VECTOR2& velocity) { UNREFERENCED_PARAMETER(hitObj); UNREFERENCED_PARAMETER(pos); UNREFERENCED_PARAMETER(velocity); };
 };
@@ -75,7 +82,7 @@ namespace Collider3D
 	{
 	public:
 		Segment(Object* obj);
-		void Update(void);
+		void Update(void) override;
 		void SetDirection(VECTOR3 direction, float length) { direction_[0] = VecNorm(direction); size_ = direction_[0] * length; }
 	};
 
@@ -83,7 +90,7 @@ namespace Collider3D
 	{
 	public:
 		Sphere(Object* obj);
-		void Update(void);
+		void Update(void) override;
 		void SetOffset(VECTOR3 offset) { offset_ = offset; }
 		void SetSize(float d) { size_ = VECTOR3(d, d, d); }
 	private:
@@ -99,7 +106,7 @@ namespace Collider3D
 
 	public:
 		OBB(Object* obj);
-		void Update(void);
+		void Update(void) override;
 
 		// set
 		void SetSize(VECTOR3 size) { size_ = size; }

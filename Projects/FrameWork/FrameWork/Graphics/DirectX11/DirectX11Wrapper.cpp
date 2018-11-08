@@ -607,13 +607,11 @@ void DirectX11Wrapper::Draw(const ColliderRenderer* obj)
 
 	MATRIX mtx = mtx.Identity();
 
-	int modelMax = static_cast<int>(model_.size());
-	int modelNum = obj->GetModelNum();
-	VECTOR3 mScale = VECTOR3(0);
-	if (modelNum >= 0 && modelNum < modelMax)
+	const auto& transMtx = obj->GetTransMtx();
+	VECTOR3 mScale = VECTOR3(1);
+	if (transMtx)
 	{
-		MATRIX modelMtx = model_[modelNum].transMtx;
-		mScale = VECTOR3(1 / modelMtx._11, 1 / modelMtx._22, 1 / modelMtx._33);
+		mScale = VECTOR3(1 / transMtx->_11, 1 / transMtx->_22, 1 / transMtx->_33);
 	}
 	const auto& scale = obj->GetTransform().scale;
 	VECTOR3 s = VECTOR3(1 / scale.x, 1 / scale.y, 1 / scale.z);
@@ -624,9 +622,9 @@ void DirectX11Wrapper::Draw(const ColliderRenderer* obj)
 	if (parentMtx)
 	{
 		MATRIX temp = *parentMtx;
-		if (modelNum >= 0 && modelNum < modelMax)
+		if (transMtx)
 		{
-			temp *= model_[modelNum].transMtx;
+			temp *= *transMtx;
 		}
 		temp.Scaling(scale);
 		mtx *= temp;

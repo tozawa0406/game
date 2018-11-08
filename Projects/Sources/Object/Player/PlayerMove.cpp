@@ -155,8 +155,6 @@ void PlayerMove::Update(void)
 
 	OnGround();
 
-	collider_->Update();
-
 //	mesh_.Skinning();
 }
 
