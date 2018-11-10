@@ -36,9 +36,6 @@
     <ClInclude Include="FrameWork\Object\Object.h" />
     <ClInclude Include="FrameWork\Object\ObjectManager.h" />
     <ClInclude Include="FrameWork\Scene\BaseScene.h" />
-    <ClInclude Include="FrameWork\Scene\EachScene\PauseScene.h" />
-    <ClInclude Include="FrameWork\Scene\EachScene\ResultScene.h" />
-    <ClInclude Include="FrameWork\Scene\EachScene\TitleScene.h" />
     <ClInclude Include="FrameWork\Scene\SceneManager.h" />
     <ClInclude Include="FrameWork\Systems\BaseManager.h" />
     <ClInclude Include="FrameWork\Systems\Camera\AtObjCamera.h" />
@@ -114,9 +111,6 @@
     <ClCompile Include="FrameWork\Object\Object.cpp" />
     <ClCompile Include="FrameWork\Object\ObjectManager.cpp" />
     <ClCompile Include="FrameWork\Scene\BaseScene.cpp" />
-    <ClCompile Include="FrameWork\Scene\EachScene\PauseScene.cpp" />
-    <ClCompile Include="FrameWork\Scene\EachScene\ResultScene.cpp" />
-    <ClCompile Include="FrameWork\Scene\EachScene\TitleScene.cpp" />
     <ClCompile Include="FrameWork\Scene\SceneManager.cpp" />
     <ClCompile Include="FrameWork\Systems\Camera\AtObjCamera.cpp" />
     <ClCompile Include="FrameWork\Systems\Camera\Camera.cpp" />

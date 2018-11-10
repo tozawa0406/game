@@ -10,6 +10,7 @@
 #include "../../../Graphics/Wrapper.h"
 #include "../../../Scene/BaseScene.h"
 #include "../../Loading.h"
+#include "../../../../../Sources/Scene/EachScene.h"
 
 Model::Model(Systems* systems) : Interface(systems)
 {
@@ -39,29 +40,29 @@ int	Model::SetUpLoading(Loading* loading, int sceneNum)
 
 	int size = 0;
 
-	switch ((Scene::Num)sceneNum)
+	switch ((SceneList)sceneNum)
 	{
-	case Scene::Num::TITLE:
+	case SceneList::TITLE:
 		size = (int)Title::MAX - (int)Base::MAX;
 		break;
-	case Scene::Num::GAME:
+	case SceneList::GAME:
 		size = (int)Game::MAX - (int)Base::MAX;
 		break;
-	case Scene::Num::RESULT:
+	case SceneList::RESULT:
 		size = (int)Result::MAX - (int)Base::MAX;
 		break;
 	default: break;
 	}
 
-	switch ((Scene::Num)sceneNum)
+	switch ((SceneList)sceneNum)
 	{
-	case Scene::Num::TITLE:
+	case SceneList::TITLE:
 		size += (int)Animation::Title::MAX - (int)Animation::Base::MAX;
 		break;
-	case Scene::Num::GAME:
+	case SceneList::GAME:
 		size += (int)Animation::Game::MAX - (int)Animation::Base::MAX;
 		break;
-	case Scene::Num::RESULT:
+	case SceneList::RESULT:
 		size += (int)Animation::Result::MAX - (int)Animation::Base::MAX;
 		break;
 	default: break;
@@ -75,17 +76,17 @@ HRESULT Model::Load(int sceneNum)
 	sceneNum_ = sceneNum;
 	int size = 0;
 	const string* fileName = nullptr;
-	switch ((Scene::Num)sceneNum)
+	switch ((SceneList)sceneNum)
 	{
-	case Scene::Num::TITLE:
+	case SceneList::TITLE:
 		size = (int)Title::MAX;
 //		fileName = &titleFileName[0];
 		break;
-	case Scene::Num::GAME:
+	case SceneList::GAME:
 		size = (int)Game::MAX;
 		fileName = &gameFileName[0];
 		break;
-	case Scene::Num::RESULT:
+	case SceneList::RESULT:
 		size = (int)Result::MAX;
 //		fileName = &resultFileName[0];
 		break;
@@ -104,17 +105,17 @@ HRESULT Model::Load(int sceneNum)
 	// アニメーション
 	size = 0;
 	const ANIMATION_INFO* info = nullptr;
-	switch ((Scene::Num)sceneNum)
+	switch ((SceneList)sceneNum)
 	{
-	case Scene::Num::TITLE:
+	case SceneList::TITLE:
 		size = (int)Animation::Title::MAX;
 		//		fileName = &titleFileName[0];
 		break;
-	case Scene::Num::GAME:
+	case SceneList::GAME:
 		size = (int)Animation::Game::MAX;
 		info = &animationGameFileName[0];
 		break;
-	case Scene::Num::RESULT:
+	case SceneList::RESULT:
 		size = (int)Animation::Result::MAX;
 		//		fileName = &resultFileName[0];
 		break;
@@ -138,15 +139,15 @@ HRESULT Model::Load(int sceneNum)
 void Model::Release(bool uninit)
 {
 	int size = 0;
-	switch ((Scene::Num)sceneNum_)
+	switch ((SceneList)sceneNum_)
 	{
-	case Scene::Num::TITLE:
+	case SceneList::TITLE:
 		size = (int)Title::MAX;
 		break;
-	case Scene::Num::GAME:
+	case SceneList::GAME:
 		size = (int)Game::MAX;
 		break;
-	case Scene::Num::RESULT:
+	case SceneList::RESULT:
 		size = (int)Result::MAX;
 		break;
 	default: break;

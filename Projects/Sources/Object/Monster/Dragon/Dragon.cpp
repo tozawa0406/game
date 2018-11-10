@@ -7,7 +7,7 @@
 #include <FrameWork/Scene/SceneManager.h>
 #include <FrameWork/Systems/Input/Controller.h>
 #include <FrameWork/Graphics/DirectX11/DirectX11Wrapper.h>
-#include "../../../Scene/EachScene/GameScene.h"
+#include "../../../Scene/GameScene.h"
 
 #include "Attack/DragonScream.h"
 #include "Attack/DragonBite.h"

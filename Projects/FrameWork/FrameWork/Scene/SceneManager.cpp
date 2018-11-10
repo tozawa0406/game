@@ -8,41 +8,61 @@
 #include "../Windows/Windows.h"
 #include "../Systems/GameSystems.h"
 
-#include "EachScene/TitleScene.h"
-#include "../../../Sources/Scene/EachScene/GameScene.h"
-#include "EachScene/ResultScene.h"
-#include "EachScene/PauseScene.h"
-
 #include "../Systems/Input/KeyInput.h"
 #include "../Systems/Input/Controller.h"
 #include "../Systems/Camera/CameraManager.h"
 
 // コンストラクタ
-SceneManager::SceneManager(Systems* systems) : Interface(systems), sceneChange_(CHANGE_SCENE), displayMode_(Scene::Num::MAX)
-											 , scene_(nullptr), pause_(nullptr), fadeCnt_(SCENE_FADE_OUT - 1), isPause_(false), startLoad_(false)
+SceneManager::SceneManager(Systems* systems) : Interface(systems)
+	, sceneChange_(SceneList::NEXT)
+	, displayMode_(SceneList::MAX)
+	, scene_(nullptr)
+	, pause_(nullptr)
+	, eachScene_(nullptr)
+	, fadeCnt_(SCENE_FADE_OUT - 1)
+	, isPause_(false)
+	, startLoad_(false)
 {
-	camera_  = new CameraManager(this);
-
-#ifdef _DEBUG
-	displayMode_ = Scene::Num::TITLE;
-#endif
-	fade_.Init(systems_, 250, (int)Texture::Base::FILL_RECTANGLE);
-	fade_.position = { (float)Half(Graphics::WIDTH), (float)Half(Graphics::HEIGHT) };
-	fade_.size     = { (float)Graphics::WIDTH, (float)Graphics::HEIGHT };
-	fade_.color    = COLOR(0, 0, 0, 0);
-	fade_.enable = false;
-
-	loading_ = new Loading(systems_);
-	loading_->Init();
 }
 
 // デストラクタ
 SceneManager::~SceneManager(void)
 {
-	loading_->Uninit();
-	DeletePtr(loading_);
-	DeletePtr(pause_);
-	DeletePtr(scene_);
+}
+
+HRESULT SceneManager::Init(void)
+{
+	camera_ = new CameraManager(this);
+	assert(camera_);
+
+#ifdef _DEBUG
+	displayMode_ = SceneList::TITLE;
+#endif
+	fade_.Init(systems_, 250, (int)Texture::Base::FILL_RECTANGLE);
+	fade_.position = { (float)Half(Graphics::WIDTH), (float)Half(Graphics::HEIGHT) };
+	fade_.size = { (float)Graphics::WIDTH, (float)Graphics::HEIGHT };
+	fade_.color = COLOR(0, 0, 0, 0);
+	fade_.enable = false;
+
+	loading_ = new Loading(systems_);
+	assert(loading_);
+	if (loading_)
+	{
+		loading_->Init();
+	}
+
+	eachScene_ = new EachScene;
+	assert(eachScene_);
+
+	return S_OK;
+}
+
+void SceneManager::Uninit(void)
+{
+	DeletePtr(eachScene_);
+	UninitDeletePtr(loading_);
+	UninitDeletePtr(pause_);
+	UninitDeletePtr(scene_);
 	DeletePtr(camera_);
 }
 
@@ -86,19 +106,16 @@ void SceneManager::SceneUpdate(void)
 	{
 		if (pause_)
 		{
-			switch (pause_->Update())
+			int returnPause = static_cast<int>(pause_->Update());
+			if (int(returnPause) && eachScene_)
 			{
-			case 1:
-				isPause_ = false;
-				break;
-			case 2:
-				Change(CHANGE_GAME);
-				DeletePtr(pause_);
-				break;
-			case 3:
-				Change(CHANGE_TITLE);
-				DeletePtr(pause_);
-				break;
+				int change = eachScene_->ChangePause(returnPause);
+				if (change == 0) { isPause_ = false; }
+				else
+				{
+					Change(static_cast<SceneList>(change));
+					DeletePtr(pause_);
+				}
 			}
 		}
 	}
@@ -124,7 +141,7 @@ void SceneManager::Fade(void)
 		a = 255 - (255 / SCENE_FADE_IN) * (fadeCnt_ - SCENE_FADE_OUT);
 	}
 	//シーン切り替え時の暗転
-	if (sceneChange_ & CHANGE_CHECK)
+	if (static_cast<int>(sceneChange_))
 	{
 		COLOR c = { 0, 0, 0, a / 255.0f };
 		fade_.color = c;
@@ -134,10 +151,10 @@ void SceneManager::Fade(void)
 }
 
 // 外部呼出し遷移準備処理
-void SceneManager::Change(int scene)
+void SceneManager::Change(SceneList scene)
 {
 	//シーン遷移フラグをtrue
-	if (!sceneChange_)
+	if (sceneChange_ == SceneList::NOTCHANGE)
 	{
 		sceneChange_ = scene;
 	}
@@ -147,7 +164,7 @@ void SceneManager::Change(int scene)
 void SceneManager::ChangeActual(void)
 {
 	//外部呼出しされたら
-	if (sceneChange_)
+	if (static_cast<int>(sceneChange_))
 	{
 		//フェードの進行
 		fadeCnt_++;
@@ -158,27 +175,13 @@ void SceneManager::ChangeActual(void)
 			{
 				isPause_ = false;			//ポーズ状態を解除
 
-				if (sceneChange_ & CHANGE_SCENE)
+				if (eachScene_)
 				{
-					//シーン遷移
-					displayMode_ = (Scene::Num)((int)displayMode_ + 1);
-
-					if (displayMode_ > Scene::Num::RESULT)
-					{//リザルトを越えたらタイトルに戻る
-						displayMode_ = Scene::Num::TITLE;
-					}
-				}
-				else if (sceneChange_ & CHANGE_TITLE)
-				{
-					displayMode_ = Scene::Num::TITLE;
-				}
-				else if (sceneChange_ & CHANGE_GAME)
-				{
-					displayMode_ = Scene::Num::GAME;
+					eachScene_->ChangeScene(sceneChange_, displayMode_);
 				}
 
-				DeletePtr(scene_);
-				DeletePtr(pause_);
+				UninitDeletePtr(scene_);
+				UninitDeletePtr(pause_);
 				loading_->Start((int)displayMode_);
 				startLoad_ = true;
 			}
@@ -186,7 +189,11 @@ void SceneManager::ChangeActual(void)
 			{
 				loading_->End();
 				startLoad_ = false;
-				scene_ = this->CreateScene();
+				if (eachScene_)
+				{
+					scene_ = eachScene_->CreateScene(this, displayMode_);
+					pause_ = eachScene_->CreatePause(this, displayMode_);
+				}
 			}
 			if (startLoad_)
 			{
@@ -196,7 +203,7 @@ void SceneManager::ChangeActual(void)
 		else if (fadeCnt_ > SCENE_FADE_OUT + SCENE_FADE_IN)
 		{
 			//フェード終了
-			sceneChange_ = CHANGE_NORMAL;
+			sceneChange_ = SceneList::NOTCHANGE;
 			fadeCnt_ = 0;
 		}
 	}
@@ -211,19 +218,4 @@ void SceneManager::ForceSceneChange(void)
 		Change(); 
 	}
 #endif
-}
-
-BaseScene* SceneManager::CreateScene(void)
-{
-	switch (displayMode_)
-	{
-	case Scene::Num::TITLE:
-		return new TitleScene(this);
-	case Scene::Num::GAME:
-		pause_ = new Pause(this);
-		return new GameScene(this);
-	case Scene::Num::RESULT:
-		return new ResultScene(this);
-	}
-	return nullptr;
 }

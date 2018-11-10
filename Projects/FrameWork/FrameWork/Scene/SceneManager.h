@@ -10,6 +10,7 @@
 #include "../Define/Define.h"
 
 #include "BaseScene.h"
+#include "../../../Sources/Scene/EachScene.h"
 #include "../Systems/Renderer/Sprite/CanvasRenderer.h"
 #include "../Systems/Input/Controller.h"
 
@@ -28,24 +29,18 @@ class SceneManager : public Interface
 	static constexpr int SCENE_FADE_IN  = 30;				//フェードの時間(フレーム単位)
 	static constexpr int SCENE_FADE_OUT = 30;
 
-	static constexpr int CHANGE_NORMAL = 0x000000;
-
-	static constexpr int CHANGE_CHECK  = 0x111111;
-	static constexpr int CHANGE_TITLE  = 0x000010;
-
 public:
-	static constexpr int CHANGE_SCENE  = 0x000001;
-	static constexpr int CHANGE_GAME   = 0x000100;
 
 	SceneManager(Systems* systems);				// コンストラクタ
 	~SceneManager(void);						// デストラクタ
-	HRESULT Init(void)   override { return S_OK; }
+	HRESULT Init(void)   override;
+	void    Uninit(void) override;
 	void    Update(void) override;				// 更新処理
 	void    Draw(void)   override;				// 描画処理
-	void    Change(int scene = CHANGE_SCENE);	// 遷移準備処理
+	void    Change(SceneList scene = SceneList::NEXT);	// 遷移準備処理
 
 	// Getter
-	Scene::Num		GetSceneNum(void)      { return displayMode_;	}		// 現在シーンの番号
+	SceneList		GetSceneNum(void)      { return displayMode_;	}		// 現在シーンの番号
 	BaseScene*		GetScene(void)         { return scene_;			}		// 現在のシーンのポインタ
 	BaseScene*		GetPause(void)         { return pause_;			}		// ポーズシーンへのポインタ
 	CameraManager*	GetCameraManager(void) { return camera_;		}		// カメラマネージャーへのポインタ
@@ -54,16 +49,16 @@ public:
 
 private:
 	BaseScene* scene_;		// シーン
-	BaseScene* pause_;			// ポーズ
+	BaseScene* pause_;		// ポーズ
+	EachScene* eachScene_;	// シーンの情報を管理
 
 	void SceneUpdate(void);			// シーンの更新処理
 	void Fade(void);				// フェード処理
 	void ChangeActual(void);		// シーン遷移処理
 	void ForceSceneChange(void);	// 強制シーン遷移(デバッグ用)
-	BaseScene* CreateScene(void);	// シーンのnew処理
 
-	int			sceneChange_;		// シーン遷移
-	Scene::Num	displayMode_;		// 画面の状態
+	SceneList	sceneChange_;		// シーン遷移
+	SceneList	displayMode_;		// 画面の状態
 	int			fadeCnt_;			// フェード進行
 	bool		isPause_;			// ポーズの状態
 

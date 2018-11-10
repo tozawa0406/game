@@ -59,4 +59,5 @@ void PaidGoodsBox::Init(void)
  * @return	‚È‚µ						*/
 void PaidGoodsBox::Uninit(void)
 {
+	DeletePtr(collider_);
 }

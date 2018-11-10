@@ -1,6 +1,6 @@
 #include "PlayerMove.h"
 #include <FrameWork/Systems/Input/Controller.h>
-#include "../../Scene/EachScene/GameScene.h"
+#include "../../Scene/GameScene.h"
 #include <FrameWork/Scene/SceneManager.h>
 #include <FrameWork/Object/ObjectManager.h>
 #include <random>
@@ -131,6 +131,7 @@ void PlayerMove::Init(void)
  * @return	Ç»Çµ					*/
 void PlayerMove::Uninit(void)
 {
+	DeletePtr(collider_);
 	// ê∂ê¨ÇµÇΩTPSÉJÉÅÉâÇÃå„énññ
 	if (cameraManager_ && camera_)
 	{

@@ -49,6 +49,7 @@ void KohakuSword::Init(void)
  * @return	‚È‚µ						*/
 void KohakuSword::Uninit(void)
 {
+	DeletePtr(collider_);
 }
 
 /* @fn		Update

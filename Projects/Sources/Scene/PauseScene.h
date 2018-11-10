@@ -7,11 +7,7 @@
 #ifndef _PAUSE_SCENE_H_
 #define _PAUSE_SCENE_H_
 
-#include "../../Define/Define.h"
-#include "../../Windows/Windows.h"
-#include "../BaseScene.h"
-#include "../../Systems/DebugSetting/GUI.h"
-#include "../../Systems/GameSystems.h"
+#include <FrameWork/Scene/BaseScene.h>
 
 class Pause : public BaseScene, public GUI
 {
@@ -27,7 +23,10 @@ public:
 
 	Pause(SceneManager* manager);
 	~Pause(void);
-	int  Update(void) override;		//更新処理
+
+	void Init(void)   override;
+	void Uninit(void) override;
+	SceneList Update(void) override;		//更新処理
 
 private:
 	void EnableUI(bool enable);

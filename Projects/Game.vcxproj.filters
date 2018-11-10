@@ -12,9 +12,6 @@
     <Filter Include="Source\Scene">
       <UniqueIdentifier>{873cc807-033a-4495-a3aa-e761cccd77f0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Scene\EachScene">
-      <UniqueIdentifier>{ff978e3f-54d1-47f7-ae9d-1aebb46d1ca6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Object">
       <UniqueIdentifier>{42e8fc0f-778c-4c7a-b8f1-f890c767e261}</UniqueIdentifier>
     </Filter>
@@ -41,9 +38,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Sources\Scene\EachScene\GameScene.cpp">
-      <Filter>Source\Scene\EachScene</Filter>
-    </ClCompile>
     <ClCompile Include="Sources\Object\UI\Timer.cpp">
       <Filter>Source\Object\UI</Filter>
     </ClCompile>
@@ -74,11 +68,23 @@
     <ClCompile Include="Sources\Object\Monster\Dragon\Attack\DragonTakeOff.cpp">
       <Filter>Source\Object\Monster\Dragon\Attack</Filter>
     </ClCompile>
+    <ClCompile Include="Sources\Scene\EachScene.cpp">
+      <Filter>Source\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Scene\GameScene.cpp">
+      <Filter>Source\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Scene\PauseScene.cpp">
+      <Filter>Source\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Scene\ResultScene.cpp">
+      <Filter>Source\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Scene\TitleScene.cpp">
+      <Filter>Source\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Sources\Scene\EachScene\GameScene.h">
-      <Filter>Source\Scene\EachScene</Filter>
-    </ClInclude>
     <ClInclude Include="Sources\Object\UI\Timer.h">
       <Filter>Source\Object\UI</Filter>
     </ClInclude>
@@ -114,6 +120,21 @@
     </ClInclude>
     <ClInclude Include="Sources\Object\Monster\Dragon\Attack\DragonTakeOff.h">
       <Filter>Source\Object\Monster\Dragon\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Scene\EachScene.h">
+      <Filter>Source\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Scene\GameScene.h">
+      <Filter>Source\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Scene\PauseScene.h">
+      <Filter>Source\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Scene\ResultScene.h">
+      <Filter>Source\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Scene\TitleScene.h">
+      <Filter>Source\Scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

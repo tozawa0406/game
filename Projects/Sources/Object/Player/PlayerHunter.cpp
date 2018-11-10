@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 #include "PlayerHunter.h"
 #include <FrameWork/Systems/Input/Controller.h>
-#include "../../Scene/EachScene/GameScene.h"
+#include "../../Scene/GameScene.h"
 #include <FrameWork/Scene/SceneManager.h>
 #include <FrameWork/Object/ObjectManager.h>
 #include <random>

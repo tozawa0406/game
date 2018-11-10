@@ -7,10 +7,7 @@
 #ifndef _RESULT_SCENE_H_
 #define _RESULT_SCENE_H_
 
-#include "../../Define/Define.h"
-#include "../BaseScene.h"
-#include "../../Systems/GameSystems.h"
-#include "../../Systems/DebugSetting/GUI.h"
+#include <FrameWork/Scene/BaseScene.h>
 
 //-----------------------------------------------------------------------------
 //	クラス宣言
@@ -21,8 +18,10 @@ public:
 	ResultScene(SceneManager* manager);		// コンストラクタ
 	~ResultScene(void);						// デストラクタ
 
+	void Init(void)   override;
+	void Uninit(void) override;
 private:
-	int Update(void) override;						// 更新処理	
+	SceneList Update(void) override;						// 更新処理	
 };
 
 #endif // _RESULT_SCENE_H_

@@ -9,7 +9,7 @@
 #include "../../../Windows/Windows.h"
 #include "../../Camera/CameraManager.h"
 #include "../../Light.h"
-#include "../../../../../Sources/Scene/EachScene/GameScene.h"
+#include "../../../../../Sources/Scene/GameScene.h"
 
 #include "../../../Graphics/DirectX11/DirectX11Wrapper.h"
 #include "Default.h"
@@ -68,7 +68,7 @@ HRESULT ZTexture::BeginDraw(void)
 	VECTOR3 up = camera->GetUp();
 
 	const auto& sceneManager = manager_->GetSystems()->GetSceneManager();
-	if (sceneManager->GetSceneNum() == Scene::Num::GAME)
+	if (sceneManager->GetSceneNum() == SceneList::GAME)
 	{
 		const auto& scene = sceneManager->GetScene();
 		if (scene)

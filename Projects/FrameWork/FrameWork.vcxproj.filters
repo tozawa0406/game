@@ -24,9 +24,6 @@
     <Filter Include="FrameWork\Scene">
       <UniqueIdentifier>{873cc807-033a-4495-a3aa-e761cccd77f0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="FrameWork\Scene\EachScene">
-      <UniqueIdentifier>{ff978e3f-54d1-47f7-ae9d-1aebb46d1ca6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="FrameWork\Systems\Camera">
       <UniqueIdentifier>{ae9a0742-168c-4282-917a-553234c8a415}</UniqueIdentifier>
     </Filter>
@@ -106,15 +103,6 @@
     </ClInclude>
     <ClInclude Include="FrameWork\Scene\SceneManager.h">
       <Filter>FrameWork\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="FrameWork\Scene\EachScene\PauseScene.h">
-      <Filter>FrameWork\Scene\EachScene</Filter>
-    </ClInclude>
-    <ClInclude Include="FrameWork\Scene\EachScene\ResultScene.h">
-      <Filter>FrameWork\Scene\EachScene</Filter>
-    </ClInclude>
-    <ClInclude Include="FrameWork\Scene\EachScene\TitleScene.h">
-      <Filter>FrameWork\Scene\EachScene</Filter>
     </ClInclude>
     <ClInclude Include="FrameWork\Systems\Camera\AtObjCamera.h">
       <Filter>FrameWork\Systems\Camera</Filter>
@@ -333,15 +321,6 @@
     </ClCompile>
     <ClCompile Include="FrameWork\Scene\SceneManager.cpp">
       <Filter>FrameWork\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="FrameWork\Scene\EachScene\PauseScene.cpp">
-      <Filter>FrameWork\Scene\EachScene</Filter>
-    </ClCompile>
-    <ClCompile Include="FrameWork\Scene\EachScene\ResultScene.cpp">
-      <Filter>FrameWork\Scene\EachScene</Filter>
-    </ClCompile>
-    <ClCompile Include="FrameWork\Scene\EachScene\TitleScene.cpp">
-      <Filter>FrameWork\Scene\EachScene</Filter>
     </ClCompile>
     <ClCompile Include="FrameWork\Systems\Camera\AtObjCamera.cpp">
       <Filter>FrameWork\Systems\Camera</Filter>

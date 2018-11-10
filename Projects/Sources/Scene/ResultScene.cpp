@@ -5,8 +5,7 @@
 //																	2018/08/18
 //-----------------------------------------------------------------------------
 #include "ResultScene.h"
-#include "../SceneManager.h"
-#include "../../Windows/Windows.h"
+#include <FrameWork/Scene/SceneManager.h>
 #include "TitleScene.h"
 
 // コンストラクタ
@@ -19,13 +18,21 @@ ResultScene::~ResultScene(void)
 {
 }
 
+void ResultScene::Init(void)
+{
+}
+
+void ResultScene::Uninit(void)
+{
+}
+
 // 更新処理
-int ResultScene::Update(void)
+SceneList ResultScene::Update(void)
 {
 	if (GetCtrl(0)->Trigger(Input::GAMEPAD_CIRCLE, DIK_RETURN))
 	{
-		return SceneManager::CHANGE_SCENE;
+		return SceneList::NEXT;
 	}
 
-	return 0;
+	return SceneList::NOTCHANGE;
 }

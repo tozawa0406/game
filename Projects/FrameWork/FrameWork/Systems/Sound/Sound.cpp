@@ -69,13 +69,13 @@ int	Sound::SetUpLoading(Loading* loading, int sceneNum)
 {
 	loading_ = loading;
 
-	switch ((Scene::Num)sceneNum)
+	switch ((SceneList)sceneNum)
 	{
-	case Scene::Num::TITLE:
+	case SceneList::TITLE:
 		return (int)Title::MAX - (int)Base::MAX;
-	case Scene::Num::GAME:
+	case SceneList::GAME:
 		return (int)Game::MAX - (int)Base::MAX;
-	case Scene::Num::RESULT:
+	case SceneList::RESULT:
 		return (int)Result::MAX - (int)Base::MAX;
 	default: break;
 	}
@@ -87,17 +87,17 @@ HRESULT Sound::Load(int sceneNum)
 	sceneNum_ = sceneNum;
 	int size = 0;
 	const SOUNDPARAM* fileName = nullptr;
-	switch ((Scene::Num)sceneNum)
+	switch ((SceneList)sceneNum)
 	{
-	case Scene::Num::TITLE:
+	case SceneList::TITLE:
 		size = (int)Title::MAX;
 		fileName = &titleFileName[0];
 		break;
-	case Scene::Num::GAME:
+	case SceneList::GAME:
 		size = (int)Game::MAX;
 		fileName = &gameFileName[0];
 		break;
-	case Scene::Num::RESULT:
+	case SceneList::RESULT:
 		size = (int)Result::MAX;
 //		fileName = &resultFileName[0];
 		break;
@@ -222,15 +222,15 @@ HRESULT Sound::LoadSound(Sound::SOUNDPARAM param, int i)
 void Sound::Release(bool uninit)
 {
 	int size = 0;
-	switch ((Scene::Num)sceneNum_)
+	switch ((SceneList)sceneNum_)
 	{
-	case Scene::Num::TITLE:
+	case SceneList::TITLE:
 		size = (int)Title::MAX;
 		break;
-	case Scene::Num::GAME:
+	case SceneList::GAME:
 		size = (int)Game::MAX;
 		break;
-	case Scene::Num::RESULT:
+	case SceneList::RESULT:
 		size = (int)Result::MAX;
 		break;
 	default: break;
@@ -336,17 +336,17 @@ void Sound::Stop(void) const
 {
 	int size = 0;
 //	const SOUNDPARAM* fileName = nullptr;
-	switch ((Scene::Num)sceneNum_)
+	switch ((SceneList)sceneNum_)
 	{
-	case Scene::Num::TITLE:
+	case SceneList::TITLE:
 		size = (int)Title::MAX;
 //		fileName = &titleFileName[0];
 		break;
-	case Scene::Num::GAME:
+	case SceneList::GAME:
 		size = (int)Game::MAX;
 //		fileName = &gameFileName[0];
 		break;
-	case Scene::Num::RESULT:
+	case SceneList::RESULT:
 		size = (int)Result::MAX;
 		//		fileName = &resultFileName[0];
 		break;

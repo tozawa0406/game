@@ -5,8 +5,7 @@
 //																	2018/08/18
 //-----------------------------------------------------------------------------
 #include "TitleScene.h"
-#include "../SceneManager.h"
-#include "../../Windows/Windows.h"
+#include <FrameWork/Scene/SceneManager.h>
 
 // コンストラクタ
 TitleScene::TitleScene(SceneManager* manager) : BaseScene(manager), GUI(manager->GetSystems(), nullptr, "SceneTitle")
@@ -18,13 +17,21 @@ TitleScene::~TitleScene(void)
 {
 }
 
+void TitleScene::Init(void)
+{
+}
+
+void TitleScene::Uninit(void)
+{
+}
+
 // 更新処理
-int TitleScene::Update(void)
+SceneList TitleScene::Update(void)
 {
 	if (GetCtrl(0)->Trigger(Input::GAMEPAD_CIRCLE, DIK_RETURN))
 	{
-		return SceneManager::CHANGE_SCENE;
+		return SceneList::NEXT;
 	}
 
-	return 0;
+	return SceneList::NOTCHANGE;
 }

@@ -29,7 +29,11 @@
     <ClCompile Include="Sources\Object\StaticObject\PaidGoodsBox.cpp" />
     <ClCompile Include="Sources\Object\UI\Timer.cpp" />
     <ClCompile Include="Sources\Object\Wapon\KohakuSword.cpp" />
-    <ClCompile Include="Sources\Scene\EachScene\GameScene.cpp" />
+    <ClCompile Include="Sources\Scene\EachScene.cpp" />
+    <ClCompile Include="Sources\Scene\GameScene.cpp" />
+    <ClCompile Include="Sources\Scene\PauseScene.cpp" />
+    <ClCompile Include="Sources\Scene\ResultScene.cpp" />
+    <ClCompile Include="Sources\Scene\TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sources\Object\Monster\Dragon\Attack\DragonBite.h" />
@@ -44,7 +48,11 @@
     <ClInclude Include="Sources\Object\UI\Timer.h" />
     <ClInclude Include="Sources\Object\Wapon\KohakuSword.h" />
     <ClInclude Include="Sources\Object\Wapon\Wapon.h" />
-    <ClInclude Include="Sources\Scene\EachScene\GameScene.h" />
+    <ClInclude Include="Sources\Scene\EachScene.h" />
+    <ClInclude Include="Sources\Scene\GameScene.h" />
+    <ClInclude Include="Sources\Scene\PauseScene.h" />
+    <ClInclude Include="Sources\Scene\ResultScene.h" />
+    <ClInclude Include="Sources\Scene\TitleScene.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{0903C5E1-428A-40EC-917D-4EAC7CFB3525}</ProjectGuid>

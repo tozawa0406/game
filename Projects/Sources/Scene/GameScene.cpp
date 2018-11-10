@@ -7,40 +7,46 @@
 #include "GameScene.h"
 #include <FrameWork/Windows/Windows.h>
 
-#include <FrameWork/Object/ObjectManager.h>
-
 #include <FrameWork/Systems/Renderer/MeshField.h>
 #include <FrameWork/Systems/Light.h>
 #include <FrameWork/Systems/Score.h>
 
-#include "../../Object/Player/PlayerHunter.h"
-#include "../../Object/Monster/Dragon/Dragon.h"
-#include "../../Object/UI/Timer.h"
-#include "../../Object/StaticObject/PaidGoodsBox.h"
-#include "../../Object/Wapon/KohakuSword.h"
+#include "../Object/Player/PlayerHunter.h"
+#include "../Object/Monster/Dragon/Dragon.h"
+#include "../Object/UI/Timer.h"
+#include "../Object/StaticObject/PaidGoodsBox.h"
+#include "../Object/Wapon/KohakuSword.h"
 
 // コンストラクタ
 GameScene::GameScene(SceneManager* manager) : BaseScene(manager), GUI(manager->GetSystems(), nullptr, "SceneGame"), objectManager_(nullptr)
 {
+}
+
+// デストラクタ
+GameScene::~GameScene(void)
+{
+}
+
+void GameScene::Init(void)
+{
 	light_ = new Light(systems_);
-	sky_   = new SkyDome(systems_);
+	sky_ = new SkyDome(systems_);
 	meshField_ = new MeshField(systems_);
 	meshField_->Init(50, 200);
 
 	objectManager_ = new ObjectManager(this);
 
 	auto* player = objectManager_->Create<PlayerHunter>();
-	auto* wapon  = objectManager_->Create<KohakuSword>();
+	auto* wapon = objectManager_->Create<KohakuSword>();
 	player->SetWapon(wapon);
 	objectManager_->Create<Dragon>();
 	objectManager_->Create<Timer>();
 	objectManager_->Create<PaidGoodsBox>();
 
-//	systems_->GetSound()->Play((int)Sound::Game::BGM_GAME);
+	//	systems_->GetSound()->Play((int)Sound::Game::BGM_GAME);
 }
 
-// デストラクタ
-GameScene::~GameScene(void)
+void GameScene::Uninit(void)
 {
 	systems_->GetSound()->Stop((int)Sound::Game::BGM_GAME);
 	DeletePtr(meshField_);
@@ -50,7 +56,7 @@ GameScene::~GameScene(void)
 }
 
 // 更新処理
-int GameScene::Update(void)
+SceneList GameScene::Update(void)
 {
 	//フレームをカウント
 	frameCnt++;
@@ -68,5 +74,5 @@ int GameScene::Update(void)
 		manager_->SetPause(true);
 	}
 
-	return 0;
+	return SceneList::NOTCHANGE;
 }
