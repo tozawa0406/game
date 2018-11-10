@@ -14,20 +14,37 @@
 //-----------------------------------------------------------------------------
 class TitleScene : public BaseScene, public GUI
 {
-public:
-	//定数定義
-	static constexpr int FLASH_RANGE = 30;		// 点滅の間隔
+	//! @def	コントローラのタイプによる配列番号
+	enum class InputType : uint8
+	{
+		Keyboard = 0,
+		PS4,
+		X,
 
-	TitleScene(SceneManager* manager);	// コンストラクタ
-	~TitleScene(void);					// デストラクタ
+		MAX
+	};
+public:
+	TitleScene(SceneManager* manager);
+	~TitleScene(void);
 
 	void Init(void)   override;
 	void Uninit(void) override;
 
-private:
-	SceneList Update(void) override;					// 更新処理(返り値は選択番号)
+	void GuiUpdate(void) override;
 
-	CanvasRenderer press_;
+private:
+	SceneList	Update(void) override;
+
+	void		Flashing(Controller& ctrl);
+	int 		JudgeCtrlType(Controller& ctrl);
+	SceneList	EndScene(Controller& ctrl);
+
+	//! フレームのカウンタ
+	int				frameCnt_;
+	//! 「please press」
+	CanvasRenderer	press_;
+	//! 「Enter」「〇」「X」
+	CanvasRenderer	button_[static_cast<uint8>(InputType::MAX)];
 };
 
 #endif // _TITLE_SCENE_H_
