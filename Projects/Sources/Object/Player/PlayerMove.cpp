@@ -6,11 +6,10 @@
 #include <random>
 
 #include <FrameWork/Graphics/DirectX11/DirectX11Wrapper.h>
+#include "PlayerState\PlayerState.h"
 
 //! @def	移動速度
 static constexpr float MOVE_SPEED = 0.06f;
-//! @def	回避速度
-static constexpr float AVOIDANCE_SPEED = 2.75f;
 //! @def	大きさ
 static constexpr float SCALE = 0.1f;
 
@@ -32,7 +31,6 @@ static constexpr int    ANIMATION_WAIT_FRAME = 180;
 /* @fn		コンストラクタ
  * @brief	変数の初期化			*/
 PlayerMove::PlayerMove(void) : Object(Object::Tag::PLAYER), GUI(Systems::Instance(), this, "player")
-	, animCnt_(ANIMATION_DEFAULT)
 	, body_(nullptr)
 	, hand_(nullptr)
 	, velocity_(VECTOR3(0))
@@ -46,8 +44,9 @@ PlayerMove::PlayerMove(void) : Object(Object::Tag::PLAYER), GUI(Systems::Instanc
 	, wapon_(nullptr)
 	, collider_(nullptr)
 	, waitTime_(0)
-	, animation_(Animation::Wait)
 {
+	meshAnim_.animation = static_cast<int>(Animation::Wait);
+	meshAnim_.animSpeed = ANIMATION_DEFAULT;
 }
 
 /* @fn		デストラクタ
@@ -67,8 +66,8 @@ void PlayerMove::Init(void)
 	if (!systems) { return; }
 
 	// メッシュ
-	mesh_.Init(systems, static_cast<int>(Model::Game::UNITY_CHAN), &transform_);
-	mesh_.shader = Shader::ENUM::DEFAULT;
+	meshAnim_.mesh.Init(systems, static_cast<int>(Model::Game::UNITY_CHAN), &transform_);
+	meshAnim_.mesh.shader = Shader::ENUM::DEFAULT;
 
 	// スケールの設定
 	transform_.scale = VECTOR3(SCALE);
@@ -101,7 +100,7 @@ void PlayerMove::Init(void)
 		if (DirectX11Wrapper* wrapper = static_cast<DirectX11Wrapper*>(renderer->GetWrapper()))
 		{
 			// 武器
-			const auto& model = wrapper->GetModel(mesh_.GetModelNum());
+			const auto& model = wrapper->GetModel(meshAnim_.mesh.GetModelNum());
 
 			for (auto& bone : model.bone)
 			{
@@ -137,6 +136,8 @@ void PlayerMove::Uninit(void)
 	{
 		cameraManager_->DestroyObjCamera(camera_);
 	}
+
+	DeletePtr(state_);
 }
 
 /* @fn		Update
@@ -145,61 +146,18 @@ void PlayerMove::Uninit(void)
  * @return	なし					*/
 void PlayerMove::Update(void)
 {
-	BitSub(flag_, IS_END_ANIMATION);
-	if (mesh_.Animation(animCnt_))
-	{
-		BitAdd(flag_, IS_END_ANIMATION);
-	}
-	StandBy();
+	isEndAnim_ = meshAnim_.mesh.Animation(meshAnim_.animSpeed);
+
+#ifdef _SELF_DEBUG
+	// デバッグ用、敵の操作中にプレイヤーを操作しない
+	if (cameraManager_ && cameraManager_->GetMainNum() != 0) { return; }
+#endif
+
+	state_->Update();
 
 	Move();
 
 	OnGround();
-
-//	mesh_.Skinning();
-}
-
-/* @fn		StandBy
- * @brief	待機モーション
- * @sa		Update()
- * @param	なし
- * @return	なし					*/
-void PlayerMove::StandBy(void)
-{
-	// 元に戻る
-	if (((animation_ == Animation::WaitTime1) || (animation_ == Animation::WaitTime2)) || 
-		((animation_ == Animation::Setup)     || (animation_ == Animation::Roll)) && BitCheck(flag_, IS_END_ANIMATION))
-	{
-		// 納刀状態と抜刀状態でアニメーションの切り替え
-		animation_ = (BitCheck(flag_, IS_DRAWN)) ? Animation::SetupWait : Animation::Wait;
-		// 再生速度の設定
-		animCnt_ = ANIMATION_DEFAULT;
-
-		// アニメーションの変更
-		mesh_.ChangeAnimation(static_cast<int>(animation_), ANIMATION_CHANGE_FRAME30, true);
-	}
-
-	// 抜刀中は待機モーションなし
-	if (BitCheck(flag_, IS_DRAWN)) { return; }
-
-	// 納刀時の待機中
-	if (animation_ == Animation::Wait)
-	{
-		waitTime_++;
-		// 一定時間を超えたら待機モーションの再生
-		if (waitTime_ > ANIMATION_WAIT_FRAME)
-		{
-			// 2種類のうちどちらか
-			std::random_device dev;
-			animation_ = (Animation)(static_cast<int>(Animation::WaitTime1) + (dev() % 2));
-			mesh_.ChangeAnimation(static_cast<int>(animation_), ANIMATION_CHANGE_FRAME30);
-		}
-	}
-	else 
-	{
-		// 待機時間の初期化
-		waitTime_ = 0; 
-	}
 }
 
 /* @fn		Move
@@ -211,61 +169,8 @@ void PlayerMove::StandBy(void)
 			前ベクトルの生成、向きの変更、衝突判定		*/
 void PlayerMove::Move(void)
 {
-	auto ctrl = GetCtrl(0);
-	if (!ctrl) { return; }
-
-#ifdef _SELF_DEBUG
-	// デバッグ用、敵の操作中にプレイヤーを操作しない
-	if (cameraManager_ && cameraManager_->GetMainNum() != 0) { ctrl = nullptr; }
-#endif
-
-	if (ctrl)
-	{
-		// Input
-		inputDir_.x = (float)ctrl->PressRange(Input::AXIS_LX, DIK_A, DIK_D);
-		inputDir_.y = (float)ctrl->PressRange(Input::AXIS_LY, DIK_S, DIK_W);
-		// 正規化
-		inputDir_ = VecNorm(inputDir_);
-
-		inputDash_ = (ctrl->Press(Input::GAMEPAD_R1, DIK_LSHIFT)) ? 2.5f : 1.0f;;
-	}
-
-	// 納刀抜刀中は移動無し
-	if (!BitCheck(flag_, IS_AVOIDANCE | IS_SETUP | IS_ATTACK))
-	{
-		// 抜刀判定(歩きを遅くする)
-		if (BitCheck(flag_, IS_DRAWN)) { inputDash_ = 0.75f; }
-		inputDir_ *= inputDash_;
-
-		// アニメーション切り替え
-		if (fabs(inputDir_.x) + fabs(inputDir_.y) > 0)
-		{
-			animCnt_   = 0.55f;
-			animation_ = (inputDash_ <= 1) ? (BitCheck(flag_, IS_DRAWN)) ? Animation::SetupWalk : Animation::Walk : Animation::Run;
-			int cnt = (animation_ == Animation::Run) ? 15 : ANIMATION_CHANGE_FRAME30;
-			mesh_.ChangeAnimation((int)animation_, cnt);
-		}
-		else if ((animation_ == Animation::Walk || animation_ == Animation::Run) || animation_ == Animation::SetupWalk)
-		{
-			animation_ = (BitCheck(flag_, IS_DRAWN)) ? Animation::SetupWait : Animation::Wait;
-			int cnt = (animation_ == Animation::Run) ? 15 : ANIMATION_CHANGE_FRAME30;
-			mesh_.ChangeAnimation((int)animation_, cnt);
-		}
-		// 移動速度
-		if (camera_)
-		{
-			velocity_ += camera_->GetFrontXPlane() * inputDir_.y * MOVE_SPEED;
-			velocity_ -= camera_->GetRightXPlane() * inputDir_.x * MOVE_SPEED;
-		}
-	}
-
 	// キャラクターの前ベクトルの生成
 	CreateFrontVector();
-
-	if (BitCheck(flag_, IS_AVOIDANCE))
-	{
-		velocity_ += avoidanceDir_ * MOVE_SPEED * AVOIDANCE_SPEED;
-	}
 
 	// 移動向きによりキャラクターの向きを変える
 	if ((Abs(velocity_.x) + Abs(velocity_.z) > 0.02f))
@@ -376,8 +281,8 @@ void PlayerMove::GuiUpdate(void)
 	ImGui::Text("front : %.2f, %.2f, %.2f", front_.x, front_.y, front_.z);
 	ImGui::Text("veloc : %.2f, %.2f, %.2f", velocity_.x, velocity_.y, velocity_.z);
 
-	ImGui::Text("animation    : %d", mesh_.GetAnimation());
-	ImGui::Text("animationOld : %d", mesh_.GetAnimationOld());
+	ImGui::Text("animation    : %d", meshAnim_.mesh.GetAnimation());
+	ImGui::Text("animationOld : %d", meshAnim_.mesh.GetAnimationOld());
 
-	ImGui::Text("pattern      : %.2f", mesh_.GetPattern());
+	ImGui::Text("pattern      : %.2f", meshAnim_.mesh.GetPattern());
 }

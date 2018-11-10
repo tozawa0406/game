@@ -36,6 +36,18 @@
     <Filter Include="Source\Object\Monster\Dragon\Attack">
       <UniqueIdentifier>{91b861d5-ef34-4330-ae95-8cc0d31df0d0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Object\Player\PlayerState">
+      <UniqueIdentifier>{2a010084-4c1c-4d02-a47a-d2a9a4a119ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Object\Player\PlayerState\PlayerAction">
+      <UniqueIdentifier>{1ac60921-b042-4024-8e77-d0d82c9f5a9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Object\Player\PlayerState\PlayerAction\PaidAction">
+      <UniqueIdentifier>{cb76e780-b490-49e5-b103-3115364d5377}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Object\Player\PlayerState\PlayerAction\DrawnAction">
+      <UniqueIdentifier>{d30df3f8-6b43-41cf-bd40-de47f7f68fed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sources\Object\UI\Timer.cpp">
@@ -82,6 +94,27 @@
     </ClCompile>
     <ClCompile Include="Sources\Scene\TitleScene.cpp">
       <Filter>Source\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Object\Player\PlayerState\PaidState.cpp">
+      <Filter>Source\Object\Player\PlayerState</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Object\Player\PlayerState\DrawnState.cpp">
+      <Filter>Source\Object\Player\PlayerState</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Object\Player\PlayerState\PlayerAction\PaidAction\PaidMoveAction.cpp">
+      <Filter>Source\Object\Player\PlayerState\PlayerAction\PaidAction</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Object\Player\PlayerState\PlayerAction\DrawnAction\DrawnMoveAction.cpp">
+      <Filter>Source\Object\Player\PlayerState\PlayerAction\DrawnAction</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Object\Player\PlayerState\PlayerAction\PaidAction\PaidWaitAction.cpp">
+      <Filter>Source\Object\Player\PlayerState\PlayerAction\PaidAction</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Object\Player\PlayerState\PlayerAction\DrawnAction\DrawnWaitAction.cpp">
+      <Filter>Source\Object\Player\PlayerState\PlayerAction\DrawnAction</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Object\Player\PlayerState\PlayerAction\AvoidanceAction.cpp">
+      <Filter>Source\Object\Player\PlayerState\PlayerAction</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -135,6 +168,33 @@
     </ClInclude>
     <ClInclude Include="Sources\Scene\TitleScene.h">
       <Filter>Source\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\Player\PlayerState\PlayerState.h">
+      <Filter>Source\Object\Player\PlayerState</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\Player\PlayerState\PaidState.h">
+      <Filter>Source\Object\Player\PlayerState</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\Player\PlayerState\DrawnState.h">
+      <Filter>Source\Object\Player\PlayerState</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\Player\PlayerState\PlayerAction\PlayerAction.h">
+      <Filter>Source\Object\Player\PlayerState\PlayerAction</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\Player\PlayerState\PlayerAction\PaidAction\PaidMoveAction.h">
+      <Filter>Source\Object\Player\PlayerState\PlayerAction\PaidAction</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\Player\PlayerState\PlayerAction\DrawnAction\DrawnMoveAction.h">
+      <Filter>Source\Object\Player\PlayerState\PlayerAction\DrawnAction</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\Player\PlayerState\PlayerAction\PaidAction\PaidWaitAction.h">
+      <Filter>Source\Object\Player\PlayerState\PlayerAction\PaidAction</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\Player\PlayerState\PlayerAction\DrawnAction\DrawnWaitAction.h">
+      <Filter>Source\Object\Player\PlayerState\PlayerAction\DrawnAction</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\Player\PlayerState\PlayerAction\AvoidanceAction.h">
+      <Filter>Source\Object\Player\PlayerState\PlayerAction</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

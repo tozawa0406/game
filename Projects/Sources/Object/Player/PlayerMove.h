@@ -13,6 +13,14 @@
 
 #include "../Wapon/Wapon.h"
 
+struct MESH_ANIMATION
+{
+	MeshRenderer	mesh;				//! メッシュ
+	int				animation;			//! アニメーション
+	float			animSpeed;			//! アニメーション再生速度
+};
+
+class PlayerState;
 class PlayerMove : public Object, public GUI
 {
 protected:
@@ -33,6 +41,7 @@ protected:
 	//! @def	アニメーションの速度
 	static constexpr float ANIMATION_DEFAULT = 0.75f;
 
+public:
 	//! @enum	アニメーション
 	enum class Animation
 	{
@@ -45,13 +54,14 @@ protected:
 		Setup,
 		SetupWait,
 		SetupWalk,
+		KnockBack,
+		KnockOut,
 		Slash_1,
 		Slash_2,
 		Slash_3,
 		MAX
 	};
 
-public:
 	PlayerMove(void);
 	virtual ~PlayerMove(void);
 
@@ -66,18 +76,27 @@ public:
 	 * @param	(wapon)		武器			*/
 	inline void SetWapon(Wapon* wapon) { wapon_ = wapon; wapon->SetParent(transform_, body_, hand_); }
 
-protected:
+	inline MESH_ANIMATION&	GetMeshAnimation(void)	{ return meshAnim_;		}
+	inline Camera*			GetCamera(void)			{ return camera_;		}
+	inline const VECTOR3&	GetVelocity(void)		{ return velocity_;		}
+	inline bool				IsEndAnim(void)			{ return isEndAnim_;	}
+	inline Wapon*			GetWapon(void)			{ return wapon_;		}
+	inline const VECTOR3&	GetFront(void)			{ return front_; }
 
-	float			animCnt_;			//! アニメーション再生速度
+	inline void SetVelocity(const VECTOR3& velocity) { velocity_ = velocity; }
+
+protected:
+	PlayerState*	state_;
+
+	MESH_ANIMATION	meshAnim_;			//! メッシュとアニメーション情報
 	VECTOR3			velocity_;			//! 移動速度
+	bool			isEndAnim_;			//! アニメーションの終了判定
 	float			inputDash_;			//! ダッシュ入力
 	VECTOR2			inputDir_;			//! 入力方向
 	VECTOR3			avoidanceDir_;		//! 回避方向
 	VECTOR3			front_;				//! 前ベクトル
 	Wapon*			wapon_;				//! 武器
-	MeshRenderer	mesh_;				//! メッシュ
 	uint			flag_;				//! フラグの管理
-	Animation		animation_;			//! アニメーション
 	CameraManager*	cameraManager_;		//! カメラマネージャー
 	Camera*			camera_;			//! カメラ
 
@@ -85,7 +104,6 @@ protected:
 
 
 private:
-	void StandBy(void);
 	void Move(void);
 	void CreateFrontVector(void);
 	void OnGround(void);

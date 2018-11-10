@@ -11,8 +11,8 @@
 
 #include <FrameWork/Graphics/DirectX11/DirectX11Wrapper.h>
 
-//! @def	回避アニメーションの終了フレーム
-static constexpr int END_AVOIDANCE_ANIMATION = 30;
+#include "PlayerState/PaidState.h"
+#include "PlayerState/DrawnState.h"
 
 /* @fn		コンストラクタ
  * @brief	変数の初期化			*/
@@ -34,6 +34,9 @@ PlayerHunter::~PlayerHunter(void)
 void PlayerHunter::Init(void)
 {
 	PlayerMove::Init();
+
+	state_ = new PaidState;
+	if (state_) { state_->Init(this, GetCtrl(0)); }
 }
 
 /* @fn		Uninit
@@ -68,17 +71,14 @@ void PlayerHunter::Update(void)
 			}
 		}
 	}
-	mesh_.material.diffuse = c;
+	meshAnim_.mesh.material.diffuse = c;
 
 #ifdef _SELF_DEBUG
 	// デバッグ用、敵の操作中はプレイヤーの操作はしない
 	if (cameraManager_ && cameraManager_->GetMainNum() != 0) { return; }
 #endif
 
-
 	Setup();
-
-	Avoidance();
 
 	Attack();
 }
@@ -104,21 +104,21 @@ void PlayerHunter::Setup(void)
 	if (GetCtrl(0)->Trigger(ctrl, key))
 	{
 		// アニメーション
-		animation_ = Animation::Setup;
-		mesh_.ChangeAnimation((int)animation_,30);
+		meshAnim_.animation = static_cast<int>(Animation::Setup);
+		meshAnim_.mesh.ChangeAnimation(meshAnim_.animation,30);
 
 		// 納刀時は逆再生
-		if (isDraw) { animCnt_ = -0.75f; }
+		if (isDraw) { meshAnim_.animSpeed = -0.75f; }
 
 		// 納刀抜刀中フラグを立てる
 		BitAdd(flag_, IS_SETUP);
 	}
 
 	// アニメーション中
-	if (animation_ == Animation::Setup)
+	if (meshAnim_.animation == static_cast<int>(Animation::Setup))
 	{
 		// 納刀抜刀中であり、アニメーションが一定以下
-		if (BitCheck(flag_, IS_SETUP) && fabs(mesh_.GetPattern()) >= 30)
+		if (BitCheck(flag_, IS_SETUP) && fabs(meshAnim_.mesh.GetPattern()) >= 30)
 		{
 			// 武器の状態切り替え
 			if (wapon_)
@@ -128,65 +128,6 @@ void PlayerHunter::Setup(void)
 			// 納刀抜刀終了
 			BitSub(flag_, IS_SETUP);
 			isDraw ? BitSub(flag_, IS_DRAWN) : BitAdd(flag_, IS_DRAWN);
-		}
-	}
-}
-
-// 回避処理
-/* @fn		Avoidance
- * @brief	回避処理
- * @sa		Update()
- * @param	なし
- * @return	なし							*/
-void PlayerHunter::Avoidance(void)
-{
-	// 入力
-	if (GetCtrl(0)->Trigger(Input::GAMEPAD_CROSS, DIK_M))
-	{
-		if (wapon_)
-		{
-			wapon_->AttackEnd();
-		}
-		animCnt_     =	ANIMATION_DEFAULT;
-		BitAdd(flag_, IS_AVOIDANCE);
-		animation_   = Animation::Roll;
-		BitSub(flag_, IS_SETUP);
-		BitSub(flag_, IS_ATTACK);
-		mesh_.ChangeAnimation((int)animation_, 15);
-
-		// 入力方向に回避、入力がないときは前に回避
-		if (inputDir_ == 0)
-		{
-			avoidanceDir_ = -front_;
-		}
-		else
-		{
-			if (camera_)
-			{
-				avoidanceDir_ = VECTOR3(0);
-				avoidanceDir_ += camera_->GetFrontXPlane() * inputDir_.y;
-				avoidanceDir_ -= camera_->GetRightXPlane() * inputDir_.x;
-				avoidanceDir_ = VecNorm(avoidanceDir_);
-			}
-		}
-	}
-
-	if (animation_ == Animation::Roll)
-	{
-		if (BitCheck(flag_, IS_AVOIDANCE) && mesh_.GetPattern() >= END_AVOIDANCE_ANIMATION)
-		{				
-			if (BitCheck(flag_, IS_DRAWN))
-			{
-				animation_ = (inputDir_ != 0) ? Animation::SetupWalk : Animation::SetupWait;
-			}
-			else
-			{
-				animation_ = (inputDir_ != 0) ? (inputDash_ == 1) ? Animation::Walk : Animation::Run : Animation::Wait;
-			}
-
-			mesh_.ChangeAnimation((int)animation_, 15, false);
-			velocity_ *= 0.5f;
-			BitSub(flag_, IS_AVOIDANCE);
 		}
 	}
 }
@@ -212,10 +153,10 @@ void PlayerHunter::Attack(void)
 				wapon_->AttackStart();
 			}
 			// 最初の攻撃モーション
-			animCnt_ = 0.6f;
+			meshAnim_.animSpeed = 0.6f;
 			BitAdd(flag_, IS_ATTACK);
-			animation_ = Animation::Slash_1;
-			mesh_.ChangeAnimation((int)animation_, 15);
+			meshAnim_.animation = static_cast<int>(Animation::Slash_1);
+			meshAnim_.mesh.ChangeAnimation(meshAnim_.animation, 15);
 		}
 		else
 		{
@@ -228,8 +169,8 @@ void PlayerHunter::Attack(void)
 	if (BitCheck(flag_, IS_ATTACK))
 	{
 		// アニメーションの情報
-		int animMax = mesh_.GetMaxAnimation();
-		int pattern = static_cast<int>(mesh_.GetPattern());
+		int animMax = meshAnim_.mesh.GetMaxAnimation();
+		int pattern = static_cast<int>(meshAnim_.mesh.GetPattern());
 
 		// 終了前に
 		if (pattern > (Quarter(animMax) * 3))
@@ -244,8 +185,8 @@ void PlayerHunter::Attack(void)
 				// 次の攻撃を行う
 				BitSub(flag_, IS_NEXT_SLASH);
 				// アニメーションが最後まで行ったら最初に戻る
-				animation_ = (animation_ < Animation::Slash_3) ? static_cast<Animation>(static_cast<int>(animation_) + 1) : Animation::Slash_1;
-				mesh_.ChangeAnimation((int)animation_, 15);
+				meshAnim_.animation = (meshAnim_.animation < static_cast<int>(Animation::Slash_3)) ? static_cast<int>(meshAnim_.animation) + 1 : static_cast<int>(Animation::Slash_1);
+				meshAnim_.mesh.ChangeAnimation(meshAnim_.animation, 15);
 			}
 		}
 
@@ -258,8 +199,8 @@ void PlayerHunter::Attack(void)
 			}
 			// 抜刀待機状態に戻る
 			BitSub(flag_, IS_ATTACK);
-			animation_ = Animation::SetupWait;
-			mesh_.ChangeAnimation((int)animation_, 15, true);
+			meshAnim_.animation = static_cast<int>(Animation::SetupWait);
+			meshAnim_.mesh.ChangeAnimation(meshAnim_.animation, 15, true);
 		}
 	}
 }

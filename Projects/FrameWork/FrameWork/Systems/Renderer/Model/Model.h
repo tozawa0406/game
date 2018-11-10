@@ -107,6 +107,8 @@ public:
 			SETUP,
 			SETUP_WAIT,
 			SETUP_RUN,
+			KNOCK_BACK,
+			KNOCK_OUT,
 
 			SRASH_1,
 			SRASH_2,
@@ -159,6 +161,8 @@ private:
 		{ directoryName + "unitychan_animation/unitychan_Setup.bamx"				, (int)Game::UNITY_CHAN },
 		{ directoryName + "unitychan_animation/unitychan_SetupWait.bamx"			, (int)Game::UNITY_CHAN },
 		{ directoryName + "unitychan_animation/unitychan_SetupWalk.bamx"			, (int)Game::UNITY_CHAN },
+		{ directoryName + "unitychan_animation/unitychan_KNOCK_BACK.bamx"			, (int)Game::UNITY_CHAN },
+		{ directoryName + "unitychan_animation/unitychan_KNOCK_OUT.bamx"			, (int)Game::UNITY_CHAN },
 		{ directoryName + "unitychan_animation/unitychan_SLASH1.bamx"				, (int)Game::UNITY_CHAN },
 		{ directoryName + "unitychan_animation/unitychan_SLASH2.bamx"				, (int)Game::UNITY_CHAN },
 		{ directoryName + "unitychan_animation/unitychan_SLASH3.bamx"				, (int)Game::UNITY_CHAN },

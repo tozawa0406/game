@@ -23,7 +23,6 @@ public:
 
 private:
 	void Setup(void);
-	void Avoidance(void);
 	void Attack(void);
 
 };
