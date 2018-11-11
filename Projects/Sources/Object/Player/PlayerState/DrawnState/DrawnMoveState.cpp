@@ -1,34 +1,34 @@
-#include "PaidMoveAction.h"
+#include "DrawnMoveState.h"
 
-#include "PaidWaitAction.h"
-#include "../AvoidanceAction.h"
+#include "DrawnWaitState.h"
+#include "../AvoidanceState.h"
+#include "../SetupState.h"
 
 //! @def	移動速度
 static constexpr float MOVE_SPEED = 0.06f;
 //! @def	アニメーション変更速度
 static constexpr int   ANIMATION_CHANGE_FRAME30 = 30;
 
-PaidMoveAction::PaidMoveAction(void)
+DrawnMoveState::DrawnMoveState(void)
 {
 }
 
-PaidMoveAction::~PaidMoveAction(void)
+DrawnMoveState::~DrawnMoveState(void)
 {
 }
 
-void PaidMoveAction::Init(PlayerHunter* player, Controller* ctrl)
+void DrawnMoveState::Init(PlayerHunter* player, Controller* ctrl)
 {
-	PlayerAction::Init(player, ctrl);
+	PlayerState::Init(player, ctrl);
 
 	inputDir_  = VECTOR2(0);
-	inputDash_ = 0;
 }
 
-void PaidMoveAction::Uninit(void)
+void DrawnMoveState::Uninit(void)
 {
 }
 
-PlayerAction* PaidMoveAction::Update(void)
+PlayerState* DrawnMoveState::Update(void)
 {
 	if (!player_) { return nullptr; }
 	auto& meshAnim = player_->GetMeshAnimation();
@@ -40,24 +40,20 @@ PlayerAction* PaidMoveAction::Update(void)
 		inputDir_.y = (float)ctrl_->PressRange(Input::AXIS_LY, DIK_S, DIK_W);
 		// 正規化
 		inputDir_ = VecNorm(inputDir_);
-
-		inputDash_ = (ctrl_->Press(Input::GAMEPAD_R1, DIK_LSHIFT)) ? 2.5f : 1.0f;
 	}
 
-
-	inputDir_ *= inputDash_;
+	inputDir_ *= 0.75f;
 
 	// アニメーション切り替え
 	if (fabs(inputDir_.x) + fabs(inputDir_.y) > 0)
 	{
-		meshAnim.animSpeed   = 0.55f;
-		meshAnim.animation = static_cast<int>((inputDash_ <= 1) ? PlayerMove::Animation::Walk : PlayerMove::Animation::Run);
-		int cnt = (meshAnim.animation == static_cast<int>(PlayerMove::Animation::Run)) ? 15 : ANIMATION_CHANGE_FRAME30;
-		meshAnim.mesh.ChangeAnimation(meshAnim.animation, cnt);
+		meshAnim.animSpeed = 0.55f;
+		meshAnim.animation = static_cast<int>(PlayerMove::Animation::SetupWalk);
+		meshAnim.mesh.ChangeAnimation(meshAnim.animation, ANIMATION_CHANGE_FRAME30);
 	}
 	else
 	{
-		return new PaidWaitAction;
+		return new DrawnWaitState;;
 	}
 
 	// 移動速度
@@ -71,7 +67,12 @@ PlayerAction* PaidMoveAction::Update(void)
 
 	if (ctrl_->Trigger(Input::GAMEPAD_CROSS, DIK_M))
 	{
-		return new AvoidanceAction;
+		return new AvoidanceState;
+	}
+
+	if (ctrl_->Trigger(Input::GAMEPAD_SQUARE, DIK_H))
+	{
+		return new SetupState;
 	}
 
 	return nullptr;

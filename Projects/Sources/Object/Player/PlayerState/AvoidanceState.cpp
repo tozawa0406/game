@@ -1,8 +1,10 @@
-#include "AvoidanceAction.h"
+#include "AvoidanceState.h"
 #include <random>
 
-#include "PaidAction/PaidWaitAction.h"
-#include "PaidAction/PaidMoveAction.h"
+#include "PaidState/PaidWaitState.h"
+#include "PaidState/PaidMoveState.h"
+#include "DrawnState/DrawnWaitState.h"
+#include "DrawnState/DrawnMoveState.h"
 
 //! @def	移動速度
 static constexpr float MOVE_SPEED = 0.06f;
@@ -15,21 +17,24 @@ static constexpr float ANIMATION_DEFAULT = 0.75f;
 //! @def	回避アニメーションの終了フレーム
 static constexpr int END_AVOIDANCE_ANIMATION = 30;
 
-AvoidanceAction::AvoidanceAction(void) : dir_(VECTOR3(0))
+AvoidanceState::AvoidanceState(void) : dir_(VECTOR3(0)), isDraw_(false)
 {
 }
 
-AvoidanceAction::~AvoidanceAction(void)
+AvoidanceState::~AvoidanceState(void)
 {
 }
 
-void AvoidanceAction::Init(PlayerHunter* player, Controller* ctrl)
+void AvoidanceState::Init(PlayerHunter* player, Controller* ctrl)
 {
-	if (!player_) { return; }
+	if (!player) { return; }
 
-	PlayerAction::Init(player, ctrl);
+	PlayerState::Init(player, ctrl);
 
 	auto& meshAnim = player->GetMeshAnimation();
+
+	PlayerMove::Animation temp = static_cast<PlayerMove::Animation>(meshAnim.animation);
+	isDraw_ = (temp == PlayerMove::Animation::SetupWait || temp == PlayerMove::Animation::SetupWalk) ? true: false;
 
 	if (const auto& wapon = player->GetWapon())
 	{
@@ -66,11 +71,11 @@ void AvoidanceAction::Init(PlayerHunter* player, Controller* ctrl)
 	}
 }
 
-void AvoidanceAction::Uninit(void)
+void AvoidanceState::Uninit(void)
 {
 }
 
-PlayerAction* AvoidanceAction::Update(void)
+PlayerState* AvoidanceState::Update(void)
 {
 	if (!player_) { return nullptr; }
 	auto& meshAnim = player_->GetMeshAnimation();
@@ -91,16 +96,18 @@ PlayerAction* AvoidanceAction::Update(void)
 
 		if (inputDir != 0)
 		{
-			return new PaidMoveAction;
+			if (isDraw_) { return new DrawnMoveState; }
+			else		 { return new PaidMoveState;  }
 		}
 		else
 		{
 			// 納刀状態と抜刀状態でアニメーションの切り替え
-			meshAnim.animation = static_cast<int>(PlayerMove::Animation::Wait);
+			meshAnim.animation = static_cast<int>((isDraw_) ? PlayerMove::Animation::SetupWait : PlayerMove::Animation::Wait);
 			// アニメーションの変更
 			meshAnim.mesh.ChangeAnimation(meshAnim.animation, 15, false);
 
-			return new PaidWaitAction;
+			if (isDraw_) { return new DrawnWaitState; }
+			else		 { return new PaidWaitState;  }
 		}
 	}
 

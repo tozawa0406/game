@@ -11,8 +11,7 @@
 
 #include <FrameWork/Graphics/DirectX11/DirectX11Wrapper.h>
 
-#include "PlayerState/PaidState.h"
-#include "PlayerState/DrawnState.h"
+#include "PlayerState/PaidState/PaidWaitState.h"
 
 /* @fn		コンストラクタ
  * @brief	変数の初期化			*/
@@ -35,7 +34,7 @@ void PlayerHunter::Init(void)
 {
 	PlayerMove::Init();
 
-	state_ = new PaidState;
+	state_ = new PaidWaitState;
 	if (state_) { state_->Init(this, GetCtrl(0)); }
 }
 
@@ -78,9 +77,9 @@ void PlayerHunter::Update(void)
 	if (cameraManager_ && cameraManager_->GetMainNum() != 0) { return; }
 #endif
 
-	Setup();
+//	Setup();
 
-	Attack();
+//	Attack();
 }
 
 /* @fn		Setup

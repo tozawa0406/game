@@ -1,6 +1,6 @@
 /*
  * @file		PlayerState.h
- * @brief		プレイヤーの状態管理
+ * @brief		プレイヤーの行動
  * @author		戸澤翔太
  * @data		2018/11/10
  */
@@ -10,27 +10,19 @@
 #include <FrameWork/Systems/Renderer/Model/MeshRenderer.h>
 #include <FrameWork/Systems/Input/Controller.h>
 #include "../../Wapon/Wapon.h"
-#include "PlayerAction/PlayerAction.h"
+#include "../PlayerHunter.h"
 
-class PlayerHunter;
 class PlayerState
 {
 public:
-	PlayerState(void) : action_(nullptr), player_(nullptr), ctrl_(nullptr) {}
+	PlayerState(void) {}
 	virtual ~PlayerState(void) {};
 
-	void Uninit(void) { DeletePtr(action_); }
-
 	virtual void Init(PlayerHunter* player, Controller* ctrl) { player_ = player; ctrl_ = ctrl; }
-	virtual void Update(void) = 0;
-
-	virtual PlayerState* Setup(void) = 0;
-	virtual void Move(void)  = 0;
-	virtual void Attack(void) = 0;
-	virtual void Avoidance(void) = 0;
+	virtual void Uninit(void) = 0;
+	virtual PlayerState* Update(void) = 0;
 
 protected:
-	PlayerAction*	action_;
 	PlayerHunter*	player_;
 	Controller*		ctrl_;
 };

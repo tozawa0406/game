@@ -6,7 +6,7 @@
 #include <random>
 
 #include <FrameWork/Graphics/DirectX11/DirectX11Wrapper.h>
-#include "PlayerState\PlayerState.h"
+#include "PlayerState/PlayerState.h"
 
 //! @def	ˆÚ“®‘¬“x
 static constexpr float MOVE_SPEED = 0.06f;
@@ -153,7 +153,16 @@ void PlayerMove::Update(void)
 	if (cameraManager_ && cameraManager_->GetMainNum() != 0) { return; }
 #endif
 
-	state_->Update();
+	if (state_)
+	{
+		const auto& temp = state_->Update();
+		if (temp)
+		{
+			UninitDeletePtr(state_);
+			temp->Init(static_cast<PlayerHunter*>(this), GetCtrl(0));
+			state_ = temp;
+		}
+	}
 
 	Move();
 
