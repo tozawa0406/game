@@ -85,7 +85,7 @@ bool DragonTakeOff::Update(Transform& trans, VECTOR3& velocity, MeshRenderer& me
 	{
 		// Œ³‚É–ß‚·
 		animSpeed = 0.75f;
-		animNum = static_cast<int>(Dragon::Animation::WAIT);
+		animNum = static_cast<int>((fly_) ? Dragon::Animation::WAIT1 : Dragon::Animation::FLY_IDLE);
 		enable_ = false;
 		mesh.ChangeAnimation(animNum, 5, true);
 		return true;

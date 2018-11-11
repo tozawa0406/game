@@ -114,7 +114,8 @@ public:
 			SRASH_2,
 			SRASH_3,
 
-			D_WAIT,
+			D_WAIT1,
+			D_WAIT2,
 			D_WALK,
 			D_RUN,
 			D_SCREAM,
@@ -123,6 +124,7 @@ public:
 			D_BITE,
 			D_WING_ATTACK,
 			D_TAKEOFF,
+			D_FLY_IDLE,
 
 			MAX
 		};
@@ -166,7 +168,8 @@ private:
 		{ directoryName + "unitychan_animation/unitychan_SLASH1.bamx"				, (int)Game::UNITY_CHAN },
 		{ directoryName + "unitychan_animation/unitychan_SLASH2.bamx"				, (int)Game::UNITY_CHAN },
 		{ directoryName + "unitychan_animation/unitychan_SLASH3.bamx"				, (int)Game::UNITY_CHAN },
-		
+
+		{ directoryName + "terror_dragon_animation/terror_dragon_idle1.bamx"		, (int)Game::DRAGON		},
 		{ directoryName + "terror_dragon_animation/terror_dragon_idle2.bamx"		, (int)Game::DRAGON		},
 		{ directoryName + "terror_dragon_animation/terror_dragon_walk.bamx"			, (int)Game::DRAGON		},
 		{ directoryName + "terror_dragon_animation/terror_dragon_run.bamx"			, (int)Game::DRAGON		},
@@ -176,6 +179,7 @@ private:
 		{ directoryName + "terror_dragon_animation/terror_dragon_bite.bamx"			, (int)Game::DRAGON		},
 		{ directoryName + "terror_dragon_animation/terror_dragon_wing_attack.bamx"	, (int)Game::DRAGON		},
 		{ directoryName + "terror_dragon_animation/terror_dragon_takeoff.bamx"		, (int)Game::DRAGON		},
+		{ directoryName + "terror_dragon_animation/terror_dragon_fly_idle.bamx"		, (int)Game::DRAGON		},
 	};
 
 public:

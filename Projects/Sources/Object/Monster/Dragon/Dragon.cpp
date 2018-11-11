@@ -53,7 +53,7 @@ Dragon::Dragon(void) : Object(Object::Tag::ENEMY), GUI(Systems::Instance(), this
 	, velocity_(VECTOR3(0))
 	, front_(VECTOR3(0))
 	, right_(VECTOR3(0))
-	, animation_(Animation::WAIT)
+	, animation_(Animation::WAIT1)
 	, animSpeed_(0)
 	, flag_(0)
 	, debugMove_(false)
@@ -338,7 +338,7 @@ void Dragon::Move(void)
 	// 移動向きによりキャラクターの向きを変える
 	if ((Abs(velocity_.x) + Abs(velocity_.z) > 0.02f))
 	{
-		if (animation_ == Animation::WAIT || (animation_ == Animation::WALK || animation_ == Animation::RUN))
+		if (animation_ == Animation::WAIT1 || (animation_ == Animation::WALK || animation_ == Animation::RUN))
 		{
 			animSpeed_ = 0.5f;
 			animation_ = Animation::WALK;
@@ -372,7 +372,7 @@ void Dragon::Move(void)
 	{
 		if (animation_ == Animation::WALK || animation_ == Animation::RUN)
 		{
-			mesh_.ChangeAnimation(static_cast<int>(Animation::WAIT), 30);
+			mesh_.ChangeAnimation(static_cast<int>(Animation::WAIT1), 30);
 			animSpeed_ = 0.75f;
 		}
 	}

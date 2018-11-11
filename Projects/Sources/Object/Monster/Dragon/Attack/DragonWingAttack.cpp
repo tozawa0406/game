@@ -171,7 +171,7 @@ bool DragonWingAttack::Update(Transform& trans, VECTOR3& velocity, MeshRenderer&
 	{
 		// Œ³‚É–ß‚·
 		animSpeed = 0.75f;
-		animNum = static_cast<int>(Dragon::Animation::WAIT);
+		animNum = static_cast<int>(Dragon::Animation::WAIT1);
 		enable_ = false;
 		mesh.ChangeAnimation(animNum, 5, true);
 		return true;

@@ -38,7 +38,8 @@ class Dragon : public Object, public GUI
 public:
 	enum class Animation : uint8
 	{
-		WAIT = 0,
+		WAIT1 = 0,
+		WAIT2,
 		WALK,
 		RUN,
 		SCREAM,
@@ -47,6 +48,7 @@ public:
 		BITE,
 		WING_ATTACK,
 		TAKE_OFF,
+		FLY_IDLE,
 
 		MAX
 	};
@@ -85,4 +87,4 @@ private:
 	bool debugMove_;
 };
 
-#endif // _PAID_GOODS_BOX_H_
+#endif // _DRAGON_H_
