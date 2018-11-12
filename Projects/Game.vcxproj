@@ -29,6 +29,7 @@
     <ClCompile Include="Sources\Object\Player\PlayerState\DrawnState\AttackState.cpp" />
     <ClCompile Include="Sources\Object\Player\PlayerState\DrawnState\DrawnMoveState.cpp" />
     <ClCompile Include="Sources\Object\Player\PlayerState\DrawnState\DrawnWaitState.cpp" />
+    <ClCompile Include="Sources\Object\Player\PlayerState\KnockBackState.cpp" />
     <ClCompile Include="Sources\Object\Player\PlayerState\PaidState\PaidMoveState.cpp" />
     <ClCompile Include="Sources\Object\Player\PlayerState\PaidState\PaidWaitState.cpp" />
     <ClCompile Include="Sources\Object\Player\PlayerState\SetupState.cpp" />
@@ -53,6 +54,7 @@
     <ClInclude Include="Sources\Object\Player\PlayerState\DrawnState\AttackState.h" />
     <ClInclude Include="Sources\Object\Player\PlayerState\DrawnState\DrawnMoveState.h" />
     <ClInclude Include="Sources\Object\Player\PlayerState\DrawnState\DrawnWaitState.h" />
+    <ClInclude Include="Sources\Object\Player\PlayerState\KnockBackState.h" />
     <ClInclude Include="Sources\Object\Player\PlayerState\PaidState\PaidMoveState.h" />
     <ClInclude Include="Sources\Object\Player\PlayerState\PaidState\PaidWaitState.h" />
     <ClInclude Include="Sources\Object\Player\PlayerState\PlayerState.h" />

@@ -110,6 +110,9 @@
     <ClCompile Include="Sources\Object\Player\Player.cpp">
       <Filter>Source\Object\Player</Filter>
     </ClCompile>
+    <ClCompile Include="Sources\Object\Player\PlayerState\KnockBackState.cpp">
+      <Filter>Source\Object\Player\PlayerState</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sources\Object\UI\Timer.h">
@@ -183,6 +186,9 @@
     </ClInclude>
     <ClInclude Include="Sources\Object\Player\Player.h">
       <Filter>Source\Object\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\Player\PlayerState\KnockBackState.h">
+      <Filter>Source\Object\Player\PlayerState</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

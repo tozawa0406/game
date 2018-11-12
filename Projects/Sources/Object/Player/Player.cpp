@@ -9,6 +9,9 @@
 #include "PlayerState/PlayerState.h"
 #include "PlayerState/PaidState/PaidWaitState.h"
 
+
+#include "PlayerState/KnockBackState.h"
+
 //! @def	大きさ
 static constexpr float SCALE = 0.1f;
 
@@ -142,7 +145,21 @@ void Player::Update(void)
 {
 	isEndAnim_ = meshAnim_.mesh.Animation(meshAnim_.animSpeed);
 
-#ifdef _SELF_DEBUG
+#ifdef _SELF_DEBUG	
+	COLOR c = COLOR(1, 1, 1, 1);
+	const auto& hits = collider_->HitCollider();
+	for (auto& hit : hits)
+	{
+		if (hit->GetRendererColor() == COLOR(1, 0, 0, 1))
+		{
+			if (hit->GetParent()->GetTag() == Object::Tag::ENEMY)
+			{
+				c = COLOR(1, 0, 0, 1);
+			}
+		}
+	}
+	meshAnim_.mesh.material.diffuse = c;
+
 	// デバッグ用、敵の操作中にプレイヤーを操作しない
 	if (cameraManager_ && cameraManager_->GetMainNum() != 0) { return; }
 #endif
@@ -161,6 +178,16 @@ void Player::Update(void)
 	Move();
 
 	OnGround();
+
+	if (GetCtrl(0)->Trigger(Input::GAMEPAD_CIRCLE, DIK_O))
+	{
+		if (state_)
+		{
+			UninitDeletePtr(state_);
+			state_ = new KnockBackState;
+			state_->Init(this, GetCtrl(0));
+		}
+	}
 }
 
 /* @fn		Move

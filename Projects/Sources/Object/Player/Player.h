@@ -53,6 +53,7 @@ public:
 		Roll,
 		KnockBack,
 		KnockOut,
+		Standup,
 		Setup,
 		SetupWait,
 		SetupWalk,
@@ -86,6 +87,7 @@ public:
 
 	// ステートで値を設定するためのSetter
 	inline void SetVelocity(const VECTOR3& velocity) { velocity_ = velocity; }
+	inline void SetPosition(const VECTOR3& position) { transform_.position = position; }
 
 protected:
 	PlayerState*	state_;				//! プレイヤーのステート
