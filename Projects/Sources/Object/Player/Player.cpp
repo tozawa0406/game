@@ -1,4 +1,4 @@
-#include "PlayerMove.h"
+#include "Player.h"
 #include <FrameWork/Systems/Input/Controller.h>
 #include "../../Scene/GameScene.h"
 #include <FrameWork/Scene/SceneManager.h>
@@ -7,9 +7,8 @@
 
 #include <FrameWork/Graphics/DirectX11/DirectX11Wrapper.h>
 #include "PlayerState/PlayerState.h"
+#include "PlayerState/PaidState/PaidWaitState.h"
 
-//! @def	移動速度
-static constexpr float MOVE_SPEED = 0.06f;
 //! @def	大きさ
 static constexpr float SCALE = 0.1f;
 
@@ -22,28 +21,17 @@ static const     VECTOR3 COLLISION_OFFSET_POS = VECTOR3(0, 7.5f, 0);
 //! @def	当たり判定のサイズ
 static const     VECTOR3 COLLISION_SIZE = VECTOR3(3, 15, 3);
 
-//! @def	アニメーション変更速度
-static constexpr int   ANIMATION_CHANGE_FRAME30 = 30;
-
-//! @def	待機モーションの再生待ち時間
-static constexpr int    ANIMATION_WAIT_FRAME = 180;
-
 /* @fn		コンストラクタ
  * @brief	変数の初期化			*/
-PlayerMove::PlayerMove(void) : Object(Object::Tag::PLAYER), GUI(Systems::Instance(), this, "player")
+Player::Player(void) : Object(Object::Tag::PLAYER), GUI(Systems::Instance(), this, "player")
 	, body_(nullptr)
 	, hand_(nullptr)
 	, velocity_(VECTOR3(0))
-	, avoidanceDir_(VECTOR3(0))
-	, inputDir_(VECTOR2(0))
-	, inputDash_(0)
 	, front_(VECTOR3(0))
 	, cameraManager_(nullptr)
 	, camera_(nullptr)
-	, flag_(0)
 	, wapon_(nullptr)
 	, collider_(nullptr)
-	, waitTime_(0)
 {
 	meshAnim_.animation = static_cast<int>(Animation::Wait);
 	meshAnim_.animSpeed = ANIMATION_DEFAULT;
@@ -51,7 +39,7 @@ PlayerMove::PlayerMove(void) : Object(Object::Tag::PLAYER), GUI(Systems::Instanc
 
 /* @fn		デストラクタ
  * @brief	...						*/
-PlayerMove::~PlayerMove(void)
+Player::~Player(void)
 {
 }
 
@@ -60,7 +48,7 @@ PlayerMove::~PlayerMove(void)
  * @param	なし
  * @return	なし
  * @detail	メッシュや当たり判定などの初期化		*/
-void PlayerMove::Init(void)
+void Player::Init(void)
 {
 	const auto& systems = Systems::Instance();
 	if (!systems) { return; }
@@ -122,13 +110,19 @@ void PlayerMove::Init(void)
 	collider_ = new Collider3D::OBB(this);
 	collider_->SetOffsetPosition(COLLISION_OFFSET_POS);
 	collider_->SetSize(COLLISION_SIZE);
+
+	state_ = new PaidWaitState;
+	if (state_)
+	{
+		state_->Init(this, GetCtrl(0));
+	}
 }
 
 /* @fn		Uninit
  * @brief	後処理
  * @param	なし
  * @return	なし					*/
-void PlayerMove::Uninit(void)
+void Player::Uninit(void)
 {
 	DeletePtr(collider_);
 	// 生成したTPSカメラの後始末
@@ -144,7 +138,7 @@ void PlayerMove::Uninit(void)
  * @brief	更新処理
  * @param	なし
  * @return	なし					*/
-void PlayerMove::Update(void)
+void Player::Update(void)
 {
 	isEndAnim_ = meshAnim_.mesh.Animation(meshAnim_.animSpeed);
 
@@ -159,7 +153,7 @@ void PlayerMove::Update(void)
 		if (temp)
 		{
 			UninitDeletePtr(state_);
-			temp->Init(static_cast<PlayerHunter*>(this), GetCtrl(0));
+			temp->Init(this, GetCtrl(0));
 			state_ = temp;
 		}
 	}
@@ -176,7 +170,7 @@ void PlayerMove::Update(void)
  * @return	なし
  * @detail	入力検知、アニメーション切り替え、
 			前ベクトルの生成、向きの変更、衝突判定		*/
-void PlayerMove::Move(void)
+void Player::Move(void)
 {
 	// キャラクターの前ベクトルの生成
 	CreateFrontVector();
@@ -223,7 +217,7 @@ void PlayerMove::Move(void)
  * @sa		Move()
  * @param	なし
  * @return	なし					*/
-void PlayerMove::CreateFrontVector(void)
+void Player::CreateFrontVector(void)
 {
 	MATRIX frontObj;
 	frontObj.Identity().Translation(VECTOR3(0, 0, 1));
@@ -242,7 +236,7 @@ void PlayerMove::CreateFrontVector(void)
  * @sa		Update()
  * @param	なし
  * @return	なし					*/
-void PlayerMove::OnGround(void)
+void Player::OnGround(void)
 {
 	transform_.position.y = 0;
 	if (manager_)
@@ -262,30 +256,15 @@ void PlayerMove::OnGround(void)
  * @brief	デバッグ用描画更新
  * @param	なし
  * @return	なし					*/
-void PlayerMove::GuiUpdate(void)
+void Player::GuiUpdate(void)
 {
 	ImGui::Text("state : ");
+	if (state_)
+	{
+		ImGui::SameLine();
+		state_->GuiUpdate(); 
+	}
 
-	if (BitCheck(flag_, IS_DRAWN))
-	{
-		ImGui::SameLine();
-		ImGui::Text("drawn ");
-	}
-	if (BitCheck(flag_, IS_SETUP))
-	{
-		ImGui::SameLine();
-		ImGui::Text("setup ");
-	}
-	if (BitCheck(flag_, IS_AVOIDANCE))
-	{
-		ImGui::SameLine();
-		ImGui::Text("avoidance ");
-	}
-	if (BitCheck(flag_, IS_ATTACK))
-	{
-		ImGui::SameLine();
-		ImGui::Text("attack ");
-	}
 
 	ImGui::Text("front : %.2f, %.2f, %.2f", front_.x, front_.y, front_.z);
 	ImGui::Text("veloc : %.2f, %.2f, %.2f", velocity_.x, velocity_.y, velocity_.z);

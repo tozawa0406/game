@@ -15,12 +15,14 @@ public:
 	PaidWaitState(void);
 	~PaidWaitState(void);
 
-	void Init(PlayerHunter* player, Controller* ctrl) override;
+	void Init(Player* player, Controller* ctrl) override;
 	void Uninit(void) override;
 	PlayerState* Update(void) override;
 
+	void GuiUpdate(void) override;
+
 private:
-	int waitCnt_;
+	int waitCnt_;		//! ‘Ò‚¿ŽžŠÔ
 };
 
-#endif // _PAID_MOVE_STATE_H_
+#endif // _PAID_WAIT_STATE_H_

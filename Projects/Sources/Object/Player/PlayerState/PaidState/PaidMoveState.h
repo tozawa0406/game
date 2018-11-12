@@ -15,13 +15,11 @@ public:
 	PaidMoveState(void);
 	~PaidMoveState(void);
 
-	void Init(PlayerHunter* player, Controller* ctrl) override;
+	void Init(Player* player, Controller* ctrl) override;
 	void Uninit(void) override;
 	PlayerState* Update(void) override;
 
-private:
-	VECTOR2 inputDir_;
-	float   inputDash_;
+	void GuiUpdate(void)override;
 };
 
-#endif // _PAID_MOVE_ACTION_H_
+#endif // _PAID_MOVE_STATE_H_

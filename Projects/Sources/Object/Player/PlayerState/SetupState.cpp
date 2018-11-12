@@ -6,26 +6,24 @@
 #include "DrawnState/DrawnWaitState.h"
 #include "DrawnState/DrawnMoveState.h"
 
-//! @def	移動速度
-static constexpr float MOVE_SPEED = 0.06f;
-//! @def	回避速度
-static constexpr float AVOIDANCE_SPEED = 2.75f;
-//! @def	アニメーション変更速度
-static constexpr int   ANIMATION_CHANGE_FRAME30 = 30;
-//! @def	アニメーションの速度
-static constexpr float ANIMATION_DEFAULT = 0.75f;
-//! @def	回避アニメーションの終了フレーム
-static constexpr int END_AVOIDANCE_ANIMATION = 30;
-
+/* @fn		コンストラクタ
+ * @brief	変数の初期化			*/
 SetupState::SetupState(void) : isDraw_(false)
 {
 }
 
+/* @fn		デストラクタ
+ * @brief	...						*/
 SetupState::~SetupState(void)
 {
 }
 
-void SetupState::Init(PlayerHunter* player, Controller* ctrl)
+/* @fn		Init
+ * @brief	初期化
+ * @param	(player)	プレイヤーのポインタ
+ * @param	(ctrl)		コントローラへのポインタ
+ * @return	なし					*/
+void SetupState::Init(Player* player, Controller* ctrl)
 {
 	if (!player) { return; }
 
@@ -34,8 +32,7 @@ void SetupState::Init(PlayerHunter* player, Controller* ctrl)
 	auto& meshAnim = player->GetMeshAnimation();
 
 	// 納刀時は逆再生
-	PlayerMove::Animation temp = static_cast<PlayerMove::Animation>(meshAnim.animation);
-	if (temp == PlayerMove::Animation::SetupWait || temp == PlayerMove::Animation::SetupWalk) 
+	if (meshAnim.animation >= static_cast<int>(Player::Animation::SetupWait))
 	{
 		isDraw_ = true;
 		meshAnim.animSpeed = -0.75f; 
@@ -47,14 +44,22 @@ void SetupState::Init(PlayerHunter* player, Controller* ctrl)
 	}
 
 	// アニメーション
-	meshAnim.animation = static_cast<int>(PlayerMove::Animation::Setup);
+	meshAnim.animation = static_cast<int>(Player::Animation::Setup);
 	meshAnim.mesh.ChangeAnimation(meshAnim.animation, 30);
 }
 
+/* @fn		Uninit
+ * @brief	後処理
+ * @param	なし
+ * @return	なし					*/
 void SetupState::Uninit(void)
 {
 }
 
+/* @fn		Update
+ * @brief	更新処理
+ * @param	なし
+ * @return	次のステート			*/
 PlayerState* SetupState::Update(void)
 {
 	if (!player_) { return nullptr; }
@@ -67,17 +72,19 @@ PlayerState* SetupState::Update(void)
 		if (const auto& wapon = player_->GetWapon())
 		{
 			wapon->Setup(isDraw_);
+
+			// 移動キーを押している場合は移動ステートへアニメーションを切り替えながら移行
 			if (ctrl_->PressRange(Input::AXIS_LX, DIK_A, DIK_D) || ctrl_->PressRange(Input::AXIS_LY, DIK_S, DIK_W))
 			{
 				if (isDraw_)
 				{
-					meshAnim.animation = static_cast<int>(PlayerMove::Animation::Walk);
+					meshAnim.animation = static_cast<int>(Player::Animation::Walk);
 					meshAnim.mesh.ChangeAnimation(meshAnim.animation, 30);
 					return new PaidMoveState;
 				}
 				else
 				{
-					meshAnim.animation = static_cast<int>(PlayerMove::Animation::SetupWalk);
+					meshAnim.animation = static_cast<int>(Player::Animation::SetupWalk);
 					meshAnim.mesh.ChangeAnimation(meshAnim.animation, 30);
 					return new DrawnMoveState;
 				}
@@ -85,6 +92,7 @@ PlayerState* SetupState::Update(void)
 		}
 	}
 
+	// キー入力がない場合は待機モーションへ移行
 	if (player_->IsEndAnim())
 	{
 		if (isDraw_) { return new PaidWaitState;  }
@@ -92,4 +100,14 @@ PlayerState* SetupState::Update(void)
 	}
 
 	return nullptr;
+}
+
+/* @fn		GuiUpdate
+ * @brief	Guiの更新処理
+ * @param	なし
+ * @return	なし
+ * @detail	プレイヤーから呼び出される		*/
+void SetupState::GuiUpdate(void)
+{
+	ImGui::Text("Setup");
 }

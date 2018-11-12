@@ -3,54 +3,69 @@
 #include "DrawnWaitState.h"
 #include "../AvoidanceState.h"
 #include "../SetupState.h"
+#include "AttackState.h"
 
-//! @def	移動速度
-static constexpr float MOVE_SPEED = 0.06f;
-//! @def	アニメーション変更速度
-static constexpr int   ANIMATION_CHANGE_FRAME30 = 30;
+//! @def	アニメーションの速度
+static constexpr float ANIM_SPEED = 0.55f;
+//! @def	移動を遅くする
+static constexpr float MOVE_DELAY = 0.75f;
 
+/* @fn		コンストラクタ
+ * @brief	変数の初期化			*/
 DrawnMoveState::DrawnMoveState(void)
 {
 }
 
+/* @fn		デストラクタ
+ * @brief	...						*/
 DrawnMoveState::~DrawnMoveState(void)
 {
 }
 
-void DrawnMoveState::Init(PlayerHunter* player, Controller* ctrl)
+/* @fn		Init
+ * @brief	初期化処理
+ * @param	(player)	プレイヤーへのポインタ
+ * @param	(ctrl)		コントローラへのポインタ
+ * @return	なし					*/
+void DrawnMoveState::Init(Player* player, Controller* ctrl)
 {
 	PlayerState::Init(player, ctrl);
-
-	inputDir_  = VECTOR2(0);
 }
 
+/* @fn		Uninit
+ * @brief	後処理
+ * @param	なし
+ * @return	なし					*/
 void DrawnMoveState::Uninit(void)
 {
 }
 
+/* @fn		Update
+ * @brief	更新処理
+ * @param	なし
+ * @return	次のステート			*/
 PlayerState* DrawnMoveState::Update(void)
 {
-	if (!player_) { return nullptr; }
+	if (!player_ || !ctrl_) { return nullptr; }
 	auto& meshAnim = player_->GetMeshAnimation();
 
-	if (ctrl_)
-	{
-		// Input
-		inputDir_.x = (float)ctrl_->PressRange(Input::AXIS_LX, DIK_A, DIK_D);
-		inputDir_.y = (float)ctrl_->PressRange(Input::AXIS_LY, DIK_S, DIK_W);
-		// 正規化
-		inputDir_ = VecNorm(inputDir_);
-	}
+	VECTOR2 inputDir = VECTOR2(0);
+	// Input
+	inputDir.x = (float)ctrl_->PressRange(Input::AXIS_LX, DIK_A, DIK_D);
+	inputDir.y = (float)ctrl_->PressRange(Input::AXIS_LY, DIK_S, DIK_W);
+	// 正規化
+	inputDir = VecNorm(inputDir);
 
-	inputDir_ *= 0.75f;
+	inputDir *= MOVE_DELAY;
 
 	// アニメーション切り替え
-	if (fabs(inputDir_.x) + fabs(inputDir_.y) > 0)
+	if (fabs(inputDir.x) + fabs(inputDir.y) > 0)
 	{
-		meshAnim.animSpeed = 0.55f;
-		meshAnim.animation = static_cast<int>(PlayerMove::Animation::SetupWalk);
+		meshAnim.animSpeed = ANIM_SPEED;
+		meshAnim.animation = static_cast<int>(Player::Animation::SetupWalk);
 		meshAnim.mesh.ChangeAnimation(meshAnim.animation, ANIMATION_CHANGE_FRAME30);
 	}
+	// 入力がなければ待機処理
 	else
 	{
 		return new DrawnWaitState;;
@@ -60,20 +75,38 @@ PlayerState* DrawnMoveState::Update(void)
 	if (const auto& camera = player_->GetCamera())
 	{
 		VECTOR3 velocity = player_->GetVelocity();
-		velocity += camera->GetFrontXPlane() * inputDir_.y * MOVE_SPEED;
-		velocity -= camera->GetRightXPlane() * inputDir_.x * MOVE_SPEED;
+		velocity += camera->GetFrontXPlane() * inputDir.y * MOVE_SPEED;
+		velocity -= camera->GetRightXPlane() * inputDir.x * MOVE_SPEED;
 		player_->SetVelocity(velocity);
 	}
 
+	// 回避コマンドで回避ステート
 	if (ctrl_->Trigger(Input::GAMEPAD_CROSS, DIK_M))
 	{
 		return new AvoidanceState;
 	}
 
+	// 納刀コマンドで納刀ステート
 	if (ctrl_->Trigger(Input::GAMEPAD_SQUARE, DIK_H))
 	{
 		return new SetupState;
 	}
 
+	// 攻撃コマンドで攻撃ステート
+	if (ctrl_->Trigger(Input::GAMEPAD_TRIANGLE, DIK_U))
+	{
+		return new AttackState;
+	}
+
 	return nullptr;
+}
+
+/* @fn		GuiUpdate
+ * @brief	Guiの更新処理
+ * @param	なし
+ * @return	なし
+ * @detail	プレイヤーから呼び出される		*/
+void DrawnMoveState::GuiUpdate(void)
+{
+	ImGui::Text("DrawnMove");
 }

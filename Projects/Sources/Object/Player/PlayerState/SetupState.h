@@ -15,12 +15,14 @@ public:
 	SetupState(void);
 	~SetupState(void);
 
-	void Init(PlayerHunter* player, Controller* ctrl) override;
+	void Init(Player* player, Controller* ctrl) override;
 	void Uninit(void) override;
 	PlayerState* Update(void) override;
 
+	void GuiUpdate(void) override;
+
 private:
-	bool isDraw_;
+	bool isDraw_;	//! ”²“ƒtƒ‰ƒO
 };
 
 #endif // _SETUP_STATE_H_

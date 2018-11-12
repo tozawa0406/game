@@ -24,9 +24,9 @@
     <ClCompile Include="Sources\Object\Monster\Dragon\Attack\DragonTakeOff.cpp" />
     <ClCompile Include="Sources\Object\Monster\Dragon\Attack\DragonWingAttack.cpp" />
     <ClCompile Include="Sources\Object\Monster\Dragon\Dragon.cpp" />
-    <ClCompile Include="Sources\Object\Player\PlayerHunter.cpp" />
-    <ClCompile Include="Sources\Object\Player\PlayerMove.cpp" />
+    <ClCompile Include="Sources\Object\Player\Player.cpp" />
     <ClCompile Include="Sources\Object\Player\PlayerState\AvoidanceState.cpp" />
+    <ClCompile Include="Sources\Object\Player\PlayerState\DrawnState\AttackState.cpp" />
     <ClCompile Include="Sources\Object\Player\PlayerState\DrawnState\DrawnMoveState.cpp" />
     <ClCompile Include="Sources\Object\Player\PlayerState\DrawnState\DrawnWaitState.cpp" />
     <ClCompile Include="Sources\Object\Player\PlayerState\PaidState\PaidMoveState.cpp" />
@@ -48,9 +48,9 @@
     <ClInclude Include="Sources\Object\Monster\Dragon\Attack\DragonWingAttack.h" />
     <ClInclude Include="Sources\Object\Monster\Dragon\Dragon.h" />
     <ClInclude Include="Sources\Object\Monster\MonsterAttack.h" />
-    <ClInclude Include="Sources\Object\Player\PlayerHunter.h" />
-    <ClInclude Include="Sources\Object\Player\PlayerMove.h" />
+    <ClInclude Include="Sources\Object\Player\Player.h" />
     <ClInclude Include="Sources\Object\Player\PlayerState\AvoidanceState.h" />
+    <ClInclude Include="Sources\Object\Player\PlayerState\DrawnState\AttackState.h" />
     <ClInclude Include="Sources\Object\Player\PlayerState\DrawnState\DrawnMoveState.h" />
     <ClInclude Include="Sources\Object\Player\PlayerState\DrawnState\DrawnWaitState.h" />
     <ClInclude Include="Sources\Object\Player\PlayerState\PaidState\PaidMoveState.h" />

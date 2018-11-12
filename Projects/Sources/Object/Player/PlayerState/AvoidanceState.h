@@ -15,13 +15,15 @@ public:
 	AvoidanceState(void);
 	~AvoidanceState(void);
 
-	void Init(PlayerHunter* player, Controller* ctrl) override;
+	void Init(Player* player, Controller* ctrl) override;
 	void Uninit(void) override;
 	PlayerState* Update(void) override;
 
+	void GuiUpdate(void) override;
+
 private:
-	VECTOR3 dir_;
-	bool	isDraw_;
+	VECTOR3 dir_;		//! •ûŒü
+	bool	isDraw_;	//! ”[”²“ó‘Ô
 };
 
-#endif // _AVOIDANCE_ACTION_H_
+#endif // _AVOIDANCE_STATE_H_

@@ -11,7 +11,7 @@
 #include <FrameWork/Systems/Light.h>
 #include <FrameWork/Systems/Score.h>
 
-#include "../Object/Player/PlayerHunter.h"
+#include "../Object/Player/Player.h"
 #include "../Object/Monster/Dragon/Dragon.h"
 #include "../Object/UI/Timer.h"
 #include "../Object/StaticObject/PaidGoodsBox.h"
@@ -36,7 +36,7 @@ void GameScene::Init(void)
 
 	objectManager_ = new ObjectManager(this);
 
-	auto* player = objectManager_->Create<PlayerHunter>();
+	auto* player = objectManager_->Create<Player>();
 	auto* wapon = objectManager_->Create<KohakuSword>();
 	player->SetWapon(wapon);
 	objectManager_->Create<Dragon>();

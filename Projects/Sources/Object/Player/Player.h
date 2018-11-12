@@ -1,11 +1,11 @@
 /*
- * @file		PlayerMove.h
+ * @file		Player.h
  * @brief		プレイヤーの動き
  * @author		戸澤翔太
  * @data		2018/11/02
  */
-#ifndef _PLAYER_MOVE_H_
-#define _PLAYER_MOVE_H_
+#ifndef _PLAYER_H_
+#define _PLAYER_H_
 
 #include <FrameWork/Systems/Camera/CameraManager.h>
 #include <FrameWork/Define/Define.h>
@@ -21,7 +21,7 @@ struct MESH_ANIMATION
 };
 
 class PlayerState;
-class PlayerMove : public Object, public GUI
+class Player : public Object, public GUI
 {
 protected:
 	//! @def	抜刀フラグ
@@ -51,19 +51,19 @@ public:
 		Walk,
 		Run,
 		Roll,
+		KnockBack,
+		KnockOut,
 		Setup,
 		SetupWait,
 		SetupWalk,
-		KnockBack,
-		KnockOut,
 		Slash_1,
 		Slash_2,
 		Slash_3,
 		MAX
 	};
 
-	PlayerMove(void);
-	virtual ~PlayerMove(void);
+	Player(void);
+	virtual ~Player(void);
 
 	virtual void Init(void)   override;
 	virtual void Uninit(void) override;
@@ -76,6 +76,7 @@ public:
 	 * @param	(wapon)		武器			*/
 	inline void SetWapon(Wapon* wapon) { wapon_ = wapon; wapon->SetParent(transform_, body_, hand_); }
 
+	// ステート時に値を参照するためのGetter
 	inline MESH_ANIMATION&	GetMeshAnimation(void)	{ return meshAnim_;		}
 	inline Camera*			GetCamera(void)			{ return camera_;		}
 	inline const VECTOR3&	GetVelocity(void)		{ return velocity_;		}
@@ -83,20 +84,17 @@ public:
 	inline Wapon*			GetWapon(void)			{ return wapon_;		}
 	inline const VECTOR3&	GetFront(void)			{ return front_; }
 
+	// ステートで値を設定するためのSetter
 	inline void SetVelocity(const VECTOR3& velocity) { velocity_ = velocity; }
 
 protected:
-	PlayerState*	state_;
+	PlayerState*	state_;				//! プレイヤーのステート
 
 	MESH_ANIMATION	meshAnim_;			//! メッシュとアニメーション情報
 	VECTOR3			velocity_;			//! 移動速度
 	bool			isEndAnim_;			//! アニメーションの終了判定
-	float			inputDash_;			//! ダッシュ入力
-	VECTOR2			inputDir_;			//! 入力方向
-	VECTOR3			avoidanceDir_;		//! 回避方向
 	VECTOR3			front_;				//! 前ベクトル
 	Wapon*			wapon_;				//! 武器
-	uint			flag_;				//! フラグの管理
 	CameraManager*	cameraManager_;		//! カメラマネージャー
 	Camera*			camera_;			//! カメラ
 
@@ -110,7 +108,6 @@ private:
 
 	const MATRIX*	body_;				//! 体のボーン行列
 	const MATRIX*	hand_;				//! 右手のボーン行列
-	int				waitTime_;			//! 待機待ち時間
 };
 
-#endif // _PLAYER_MOVE_H_
+#endif // _PLAYER_H_

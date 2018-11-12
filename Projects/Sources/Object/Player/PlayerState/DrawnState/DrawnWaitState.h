@@ -15,10 +15,11 @@ public:
 	DrawnWaitState(void);
 	~DrawnWaitState(void);
 
-	void Init(PlayerHunter* player, Controller* ctrl) override;
+	void Init(Player* player, Controller* ctrl) override;
 	void Uninit(void) override;
 	PlayerState* Update(void) override;
 
+	void GuiUpdate(void) override;
 };
 
-#endif // _DRAWN_MOVE_ACTION_H_
+#endif // _DRAWN_WAIT_STATE_H_

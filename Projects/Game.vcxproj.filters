@@ -56,12 +56,6 @@
     <ClCompile Include="Sources\Object\Wapon\KohakuSword.cpp">
       <Filter>Source\Object\Wapon</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Object\Player\PlayerMove.cpp">
-      <Filter>Source\Object\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Sources\Object\Player\PlayerHunter.cpp">
-      <Filter>Source\Object\Player</Filter>
-    </ClCompile>
     <ClCompile Include="Sources\Object\Monster\Dragon\Dragon.cpp">
       <Filter>Source\Object\Monster\Dragon</Filter>
     </ClCompile>
@@ -110,6 +104,12 @@
     <ClCompile Include="Sources\Object\Player\PlayerState\SetupState.cpp">
       <Filter>Source\Object\Player\PlayerState</Filter>
     </ClCompile>
+    <ClCompile Include="Sources\Object\Player\PlayerState\DrawnState\AttackState.cpp">
+      <Filter>Source\Object\Player\PlayerState\DrawnState</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Object\Player\Player.cpp">
+      <Filter>Source\Object\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sources\Object\UI\Timer.h">
@@ -123,12 +123,6 @@
     </ClInclude>
     <ClInclude Include="Sources\Object\Wapon\KohakuSword.h">
       <Filter>Source\Object\Wapon</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\Object\Player\PlayerMove.h">
-      <Filter>Source\Object\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\Object\Player\PlayerHunter.h">
-      <Filter>Source\Object\Player</Filter>
     </ClInclude>
     <ClInclude Include="Sources\Object\Monster\MonsterAttack.h">
       <Filter>Source\Object\Monster</Filter>
@@ -183,6 +177,12 @@
     </ClInclude>
     <ClInclude Include="Sources\Object\Player\PlayerState\SetupState.h">
       <Filter>Source\Object\Player\PlayerState</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\Player\PlayerState\DrawnState\AttackState.h">
+      <Filter>Source\Object\Player\PlayerState\DrawnState</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\Player\Player.h">
+      <Filter>Source\Object\Player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

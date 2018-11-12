@@ -5,24 +5,27 @@
 #include "../AvoidanceState.h"
 #include "../SetupState.h"
 
-//! @def	移動速度
-static constexpr float MOVE_SPEED = 0.06f;
-//! @def	アニメーション変更速度
-static constexpr int   ANIMATION_CHANGE_FRAME30 = 30;
-//! @def	アニメーションの速度
-static constexpr float ANIMATION_DEFAULT = 0.75f;
 //! @def	待機モーションの再生待ち時間
 static constexpr int    ANIMATION_WAIT_FRAME = 180;
 
-PaidWaitState::PaidWaitState(void)
+/* @fn		コンストラクタ
+ * @brief	変数の初期化			*/
+PaidWaitState::PaidWaitState(void) : waitCnt_(0)
 {
 }
 
+/* @fn		デストラクタ
+ * @brief	...						*/
 PaidWaitState::~PaidWaitState(void)
 {
 }
 
-void PaidWaitState::Init(PlayerHunter* player, Controller* ctrl)
+/* @fn		Init
+ * @brief	初期化処理
+ * @param	(player)	プレイヤーへのポインタ
+ * @param	(ctrl)		コントローラへのポインタ
+ * @return	なし					*/
+void PaidWaitState::Init(Player* player, Controller* ctrl)
 {
 	if (!player) { return; }
 
@@ -33,18 +36,26 @@ void PaidWaitState::Init(PlayerHunter* player, Controller* ctrl)
 	auto& meshAnim = player->GetMeshAnimation();
 
 	// 納刀状態と抜刀状態でアニメーションの切り替え
-	meshAnim.animation = static_cast<int>(PlayerMove::Animation::Wait);
+	meshAnim.animation = static_cast<int>(Player::Animation::Wait);
 	// 再生速度の設定
 	meshAnim.animSpeed = ANIMATION_DEFAULT;
 
 	// アニメーションの変更
-	meshAnim.mesh.ChangeAnimation(meshAnim.animation, 30, true);
+	meshAnim.mesh.ChangeAnimation(meshAnim.animation, ANIMATION_CHANGE_FRAME30, true);
 }
 
+/* @fn		Uninit
+ * @brief	後処理
+ * @param	なし
+ * @return	なし					*/
 void PaidWaitState::Uninit(void)
 {
 }
 
+/* @fn		Update
+ * @brief	更新処理
+ * @param	なし
+ * @return	次のステート			*/
 PlayerState* PaidWaitState::Update(void)
 {
 	if (!player_) { return nullptr; }
@@ -54,7 +65,7 @@ PlayerState* PaidWaitState::Update(void)
 	if (player_->IsEndAnim())
 	{
 		// 納刀状態と抜刀状態でアニメーションの切り替え
-		meshAnim.animation = static_cast<int>(PlayerMove::Animation::Wait);
+		meshAnim.animation = static_cast<int>(Player::Animation::Wait);
 		// 再生速度の設定
 		meshAnim.animSpeed = ANIMATION_DEFAULT;
 
@@ -69,24 +80,37 @@ PlayerState* PaidWaitState::Update(void)
 		waitCnt_ = 0;
 		// 2種類のうちどちらか
 		std::random_device dev;
-		meshAnim.animation = static_cast<int>(PlayerMove::Animation::WaitTime1) + (dev() % 2);
+		meshAnim.animation = static_cast<int>(Player::Animation::WaitTime1) + (dev() % 2);
 		meshAnim.mesh.ChangeAnimation(meshAnim.animation, ANIMATION_CHANGE_FRAME30);
 	}
 
+	// キー入力があったら移動ステート
 	if (ctrl_->PressRange(Input::AXIS_LX, DIK_A, DIK_D) || ctrl_->PressRange(Input::AXIS_LY, DIK_S, DIK_W))
 	{
 		return new PaidMoveState;
 	}
 
+	// 回避コマンドで回避ステート
 	if (ctrl_->Trigger(Input::GAMEPAD_CROSS, DIK_M))
 	{
 		return new AvoidanceState;
 	}
 
+	// 抜刀コマンドで抜刀ステート
 	if (ctrl_->Trigger(Input::GAMEPAD_TRIANGLE, DIK_U))
 	{
 		return new SetupState;
 	}
 
 	return nullptr;
+}
+
+/* @fn		GuiUpdate
+ * @brief	Guiの更新処理
+ * @param	なし
+ * @return	なし
+ * @detail	プレイヤーから呼び出される		*/
+void PaidWaitState::GuiUpdate(void)
+{
+	ImGui::Text("PaidWait");
 }
