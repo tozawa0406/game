@@ -7,12 +7,11 @@
 #ifndef _DRAGON_H_
 #define _DRAGON_H_
 
-#include <FrameWork/Define/Define.h>
-#include <FrameWork/Object/Object.h>
 #include <FrameWork/Systems/Camera/CameraManager.h>
+#include "../../GameObject.h"
 #include "../MonsterAttack.h"
 
-class Dragon : public Object, public GUI
+class Dragon : public GameObject, public GUI
 {
 	enum class Collision : uint8
 	{
@@ -32,6 +31,7 @@ class Dragon : public Object, public GUI
 		BITE,
 		WING_ATTACK,
 		TAKE_OFF,
+		HIT,
 
 		MAX
 	};
@@ -62,19 +62,13 @@ public:
 
 	void GuiUpdate(void) override;
 
+	void Hit(void) override {}
+
 private:
 	void CreateCollision(void);
-	void Move(void);
-	void CreateFrontVector(void);
 	void DebugInput(void);
 
-	VECTOR3				velocity_;
-	VECTOR3				front_;
-	VECTOR3				right_;
-	Animation			animation_;
-	float				animSpeed_;
 	uint				flag_;
-	MeshRenderer		mesh_;
 	Collider3D::OBB*	collision_[static_cast<uint8>(Collision::MAX)];
 
 	MonsterAttack*		attack_[static_cast<int>(AttackPattern::MAX)];
@@ -82,7 +76,6 @@ private:
 
 	CameraManager*	cameraManager_;
 	Camera*			camera_;
-
 
 	bool debugMove_;
 };

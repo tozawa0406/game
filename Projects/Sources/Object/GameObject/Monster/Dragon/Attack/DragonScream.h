@@ -15,12 +15,10 @@ public:
 	DragonScream(void);
 	~DragonScream(void);
 
-	void Init(Object* object) override;
-	void Uninit(void)         override;
-	void SetMove(MeshRenderer& mesh, float& animSpeed, int& animNum) override;
-	bool Update(Transform& trans, VECTOR3& velocity, MeshRenderer& mesh, float& animSpeed, int& animNum, bool animEnd) override;
-
-private:
+	void Init(GameObject* monster) override;
+	void Uninit(void)  override;
+	void SetMove(void) override;
+	bool Update(void)  override;
 };
 
 #endif // _DRAGON_SCREAM_H_

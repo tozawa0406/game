@@ -11,16 +11,18 @@
 #include <FrameWork/Object/Object.h>
 #include <FrameWork/Systems/DebugSetting/GUI.h>
 
+#include "../GameObject.h"
+
 class MonsterAttack : public GUI
 {
 public:
 	MonsterAttack(void)	: GUI(Systems::Instance(), nullptr, "attack"), enable_(false), frame_(0), debug_nextFrame_(false)	{}
 	virtual ~MonsterAttack(void)	{}
 
-	virtual void Init(Object* object) = 0;
+	virtual void Init(GameObject* monster) { monster_ = monster; }
 	virtual void Uninit(void) = 0;
-	virtual void SetMove(MeshRenderer& mesh, float& animSpeed, int& animNum) { enable_ = true; frame_ = 0; UNREFERENCED_PARAMETER(mesh); UNREFERENCED_PARAMETER(animNum); UNREFERENCED_PARAMETER(animSpeed); }
-	virtual bool Update(Transform& trans, VECTOR3& velocity, MeshRenderer& mesh, float& animSpeed, int& animNum, bool animEnd) = 0;
+	virtual void SetMove(void) { enable_ = true; frame_ = 0; }
+	virtual bool Update(void) = 0;
 
 	virtual void GuiUpdate(void) override
 	{
@@ -55,6 +57,8 @@ protected:
 	int		frame_;
 	//! デバッグのフレーム送り
 	bool	debug_nextFrame_;
+	//! 攻撃を行う元のモンスターのポインタ
+	GameObject* monster_;
 };
 
 #endif // _MONSTAER_ATTACK_H_

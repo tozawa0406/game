@@ -28,8 +28,10 @@ DragonBite::~DragonBite(void)
  * @brief	初期化処理
  * @param	(object)	当たり判定の親クラスに登録
  * @return	なし				*/
-void DragonBite::Init(Object* object)
+void DragonBite::Init(GameObject* monster)
 {
+	MonsterAttack::Init(monster);
+
 	// 当たり判定の追加
 	if (const auto& systems = Systems::Instance())
 	{
@@ -39,7 +41,7 @@ void DragonBite::Init(Object* object)
 			{
 				const auto& model = wrapper->GetModel(static_cast<int>(Model::Game::DRAGON));
 
-				collider_ = new Collider3D::OBB(object);
+				collider_ = new Collider3D::OBB(monster);
 				if (collider_)
 				{
 					for (auto& bone : model.bone)
@@ -50,7 +52,7 @@ void DragonBite::Init(Object* object)
 							break;
 						}
 					}
-					const auto& s = object->GetTransform().scale;
+					const auto& s = monster->GetTransform().scale;
 					collider_->SetOffsetPosition(COLLISION_OFFSET_POS_HEAD * s);
 					collider_->SetSize(COLLISION_SIZE_HEAD * s);
 					collider_->SetRendererColor(COLOR(1, 0, 0, 1));
@@ -77,47 +79,45 @@ void DragonBite::Uninit(void)
  * @param	(animNum)		アニメーションの番号
  * @return	なし
  * @detail	この攻撃特有のアニメーション、速度を設定する		*/
-void DragonBite::SetMove(MeshRenderer& mesh, float& animSpeed, int& animNum)
+void DragonBite::SetMove(void)
 {
 	// 既に使用中なら重複防止
-	if (enable_) { return; }
+	if (enable_ || !monster_) { return; }
 
-	MonsterAttack::SetMove(mesh, animSpeed, animNum);
+	MonsterAttack::SetMove();
+
+	auto& meshAnim = monster_->GetMeshAnimation();
 
 	// 速度の設定
-	animSpeed	 = 0.4f;
-	debug_speed_ = animSpeed;
+	meshAnim.animSpeed	 = 0.4f;
+	debug_speed_ = meshAnim.animSpeed;
 
 	// アニメーションの設定
-	animNum   = static_cast<int>(Dragon::Animation::BITE);
+	meshAnim.animation   = static_cast<int>(Dragon::Animation::BITE);
 
 	// 実際の切り替え
-	mesh.ChangeAnimation(animNum, 15);
+	meshAnim.mesh.ChangeAnimation(meshAnim.animation, 15);
 }
 
 /* @fn		Update
  * @brief	更新処理
- * @param	(tarns)		姿勢の変更がある場合
- * @param	(velocity)	速度の変更がある場合()
- * @param	(mesh)		アニメーションを変更したいメッシュ
- * @param	(animSpeed)	アニメーション速度
- * @param	(animNum)	アニメーションの番号
- * @param	(animEnd)	アニメーションが終わったかどうか
+ * @param	なし
  * @return	攻撃が終了したらtrue
  * @detail	姿勢変更はなし、移動しないよう速度は0に固定
 			一定時間経過後、アニメーションの速度を上げる、アニメーションが終了したら元に戻って終了		*/
-bool DragonBite::Update(Transform& trans, VECTOR3& velocity, MeshRenderer& mesh, float& animSpeed, int& animNum, bool animEnd)
+bool DragonBite::Update(void)
 {
-	// 使わない
-	UNREFERENCED_PARAMETER(trans);
+	if (!monster_) { return true; }
 
 	// 移動はさせない
-	velocity = VECTOR3(0);
+	monster_->SetVelocity(VECTOR3(0));
 
 	collider_->Update();
 
 	// 演出用
 	frame_++;
+
+	auto& meshAnim = monster_->GetMeshAnimation();
 
 	// 一定の時間を超えたらアニメーション速度を変える
 #ifdef _SELF_DEBUG
@@ -127,8 +127,8 @@ bool DragonBite::Update(Transform& trans, VECTOR3& velocity, MeshRenderer& mesh,
 	if (frame_ > CHANGE_FRAME)
 #endif
 	{
-		animSpeed	 = 0.75f; 
-		debug_speed_ = animSpeed;
+		meshAnim.animSpeed	 = 0.75f;
+		debug_speed_ = meshAnim.animSpeed;
 
 		collider_->SetEnable(true);
 	}
@@ -139,13 +139,13 @@ bool DragonBite::Update(Transform& trans, VECTOR3& velocity, MeshRenderer& mesh,
 	}
 
 	// アニメーション終了
-	if (animEnd)
+	if (monster_->IsAnimEnd())
 	{
 		// 元に戻す
-		animSpeed = 0.75f;
-		animNum = static_cast<int>(Dragon::Animation::WAIT1);
+		meshAnim.animSpeed = 0.75f;
+		meshAnim.animation = static_cast<int>(Dragon::Animation::WAIT1);
 		enable_ = false;
-		mesh.ChangeAnimation(animNum, 5, true);
+		meshAnim.mesh.ChangeAnimation(meshAnim.animation, 5, true);
 		return true;
 	}
 	return false;

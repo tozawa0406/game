@@ -93,7 +93,7 @@ PlayerState* SetupState::Update(void)
 	}
 
 	// キー入力がない場合は待機モーションへ移行
-	if (player_->IsEndAnim())
+	if (player_->IsAnimEnd())
 	{
 		if (isDraw_) { return new PaidWaitState;  }
 		else		 { return new DrawnWaitState; }

@@ -62,7 +62,7 @@ PlayerState* PaidWaitState::Update(void)
 	auto& meshAnim = player_->GetMeshAnimation();
 
 	// 元に戻る
-	if (player_->IsEndAnim())
+	if (player_->IsAnimEnd())
 	{
 		// 納刀状態と抜刀状態でアニメーションの切り替え
 		meshAnim.animation = static_cast<int>(Player::Animation::Wait);

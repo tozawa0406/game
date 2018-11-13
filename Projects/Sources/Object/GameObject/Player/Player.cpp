@@ -1,6 +1,6 @@
 #include "Player.h"
 #include <FrameWork/Systems/Input/Controller.h>
-#include "../../Scene/GameScene.h"
+#include "../../../Scene/GameScene.h"
 #include <FrameWork/Scene/SceneManager.h>
 #include <FrameWork/Object/ObjectManager.h>
 #include <random>
@@ -8,7 +8,6 @@
 #include <FrameWork/Graphics/DirectX11/DirectX11Wrapper.h>
 #include "PlayerState/PlayerState.h"
 #include "PlayerState/PaidState/PaidWaitState.h"
-
 
 #include "PlayerState/KnockBackState.h"
 
@@ -26,11 +25,9 @@ static const     VECTOR3 COLLISION_SIZE = VECTOR3(3, 15, 3);
 
 /* @fn		コンストラクタ
  * @brief	変数の初期化			*/
-Player::Player(void) : Object(Object::Tag::PLAYER), GUI(Systems::Instance(), this, "player")
+Player::Player(void) : GameObject(Object::Tag::PLAYER), GUI(Systems::Instance(), this, "player")
 	, body_(nullptr)
 	, hand_(nullptr)
-	, velocity_(VECTOR3(0))
-	, front_(VECTOR3(0))
 	, cameraManager_(nullptr)
 	, camera_(nullptr)
 	, wapon_(nullptr)
@@ -186,95 +183,6 @@ void Player::Update(void)
 			UninitDeletePtr(state_);
 			state_ = new KnockBackState;
 			state_->Init(this, GetCtrl(0));
-		}
-	}
-}
-
-/* @fn		Move
- * @brief	移動処理
- * @sa		Update()
- * @param	なし
- * @return	なし
- * @detail	入力検知、アニメーション切り替え、
-			前ベクトルの生成、向きの変更、衝突判定		*/
-void Player::Move(void)
-{
-	// キャラクターの前ベクトルの生成
-	CreateFrontVector();
-
-	// 移動向きによりキャラクターの向きを変える
-	if ((Abs(velocity_.x) + Abs(velocity_.z) > 0.02f))
-	{
-		VECTOR3 velocityNorm		= VecNorm(velocity_);
-		VECTOR3 frontVelocityCross	= VecCross(front_, velocityNorm);
-		float	dot = VecDot(front_, velocityNorm);
-
-		// 前か後ろに進みたいとき
-		int sign = 1;
-		if (frontVelocityCross.y < 0) { sign = -1; }
-
-		int upY = (int)(((frontVelocityCross.y * 10) + (5 * sign)) * 0.1f);
-		// 内積が0以下の時(後ろに進むとき)
-		if (upY == 0 && dot == 1)
-		{
-			// 強制的に回す
-			frontVelocityCross.y = 1.0f * sign;
-		}
-
-		transform_.rotation.y += frontVelocityCross.y * 0.3f;
-	}
-	else { velocity_ = VECTOR3(0); }
-
-	transform_.position += velocity_;		// 移動
-
-	const auto& hits = collider_->Hit();
-	for (auto& hit : hits)
-	{
-		if (hit->GetTag() == Object::Tag::STATIC)
-		{
-			this->transform_.position -= velocity_;
-		}
-	}
-
-	velocity_ *= 0.8f;						// 慣性
-}
-
-/* @fn		CreateFrontVector
- * @brief	前ベクトルの生成
- * @sa		Move()
- * @param	なし
- * @return	なし					*/
-void Player::CreateFrontVector(void)
-{
-	MATRIX frontObj;
-	frontObj.Identity().Translation(VECTOR3(0, 0, 1));
-	MATRIX mtx;
-	mtx.Identity().Rotation(VECTOR3(0, transform_.rotation.y, 0));
-	mtx.Translation(transform_.position);
-	frontObj *= mtx;
-
-	VECTOR3 tempTarget = VECTOR3(frontObj._41, transform_.position.y, frontObj._43);
-	front_ = transform_.position - tempTarget;
-	front_ = VecNorm(front_);
-}
-
-/* @fn		OnGround
- * @brief	接地判定
- * @sa		Update()
- * @param	なし
- * @return	なし					*/
-void Player::OnGround(void)
-{
-	transform_.position.y = 0;
-	if (manager_)
-	{
-		if (const auto& scene = static_cast<GameScene*>(manager_->GetScene()))
-		{
-			if (const auto& meshfield = scene->GetMeshField())
-			{
-				float y = meshfield->Hit(transform_.position);
-				if (y > 0) { transform_.position.y += y; }
-			}
 		}
 	}
 }

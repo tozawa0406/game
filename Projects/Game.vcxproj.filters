@@ -24,26 +24,29 @@
     <Filter Include="Source\Object\Wapon">
       <UniqueIdentifier>{bb84b7f7-f518-4e7a-bb87-41c7d53582a9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Object\Player">
+    <Filter Include="Source\Object\GameObject">
+      <UniqueIdentifier>{e34f3388-dba0-444e-8532-c5e5e4fe059e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Object\GameObject\Player">
       <UniqueIdentifier>{55cecd86-0221-47f4-80d7-14665d63f901}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Object\Monster">
-      <UniqueIdentifier>{81645504-274e-40fe-b5fe-0b92e6887f3a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Object\Monster\Dragon">
-      <UniqueIdentifier>{b67f874c-555d-4d67-bd29-2c3b5e0344ec}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Object\Monster\Dragon\Attack">
-      <UniqueIdentifier>{91b861d5-ef34-4330-ae95-8cc0d31df0d0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Object\Player\PlayerState">
+    <Filter Include="Source\Object\GameObject\Player\PlayerState">
       <UniqueIdentifier>{2a010084-4c1c-4d02-a47a-d2a9a4a119ce}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Object\Player\PlayerState\PaidState">
+    <Filter Include="Source\Object\GameObject\Player\PlayerState\PaidState">
       <UniqueIdentifier>{26b1bd64-f50d-4430-977c-7650cb74ca68}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Object\Player\PlayerState\DrawnState">
+    <Filter Include="Source\Object\GameObject\Player\PlayerState\DrawnState">
       <UniqueIdentifier>{18304e6f-464c-4411-9311-e9ada4d91723}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Object\GameObject\Monster">
+      <UniqueIdentifier>{81645504-274e-40fe-b5fe-0b92e6887f3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Object\GameObject\Monster\Dragon">
+      <UniqueIdentifier>{b67f874c-555d-4d67-bd29-2c3b5e0344ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Object\GameObject\Monster\Dragon\Attack">
+      <UniqueIdentifier>{91b861d5-ef34-4330-ae95-8cc0d31df0d0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -55,21 +58,6 @@
     </ClCompile>
     <ClCompile Include="Sources\Object\Wapon\KohakuSword.cpp">
       <Filter>Source\Object\Wapon</Filter>
-    </ClCompile>
-    <ClCompile Include="Sources\Object\Monster\Dragon\Dragon.cpp">
-      <Filter>Source\Object\Monster\Dragon</Filter>
-    </ClCompile>
-    <ClCompile Include="Sources\Object\Monster\Dragon\Attack\DragonBite.cpp">
-      <Filter>Source\Object\Monster\Dragon\Attack</Filter>
-    </ClCompile>
-    <ClCompile Include="Sources\Object\Monster\Dragon\Attack\DragonScream.cpp">
-      <Filter>Source\Object\Monster\Dragon\Attack</Filter>
-    </ClCompile>
-    <ClCompile Include="Sources\Object\Monster\Dragon\Attack\DragonWingAttack.cpp">
-      <Filter>Source\Object\Monster\Dragon\Attack</Filter>
-    </ClCompile>
-    <ClCompile Include="Sources\Object\Monster\Dragon\Attack\DragonTakeOff.cpp">
-      <Filter>Source\Object\Monster\Dragon\Attack</Filter>
     </ClCompile>
     <ClCompile Include="Sources\Scene\EachScene.cpp">
       <Filter>Source\Scene</Filter>
@@ -86,32 +74,53 @@
     <ClCompile Include="Sources\Scene\TitleScene.cpp">
       <Filter>Source\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Object\Player\PlayerState\AvoidanceState.cpp">
-      <Filter>Source\Object\Player\PlayerState</Filter>
+    <ClCompile Include="Sources\Object\GameObject\GameObject.cpp">
+      <Filter>Source\Object\GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Object\Player\PlayerState\PaidState\PaidWaitState.cpp">
-      <Filter>Source\Object\Player\PlayerState\PaidState</Filter>
+    <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\PaidState\PaidMoveState.cpp">
+      <Filter>Source\Object\GameObject\Player\PlayerState\PaidState</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Object\Player\PlayerState\PaidState\PaidMoveState.cpp">
-      <Filter>Source\Object\Player\PlayerState\PaidState</Filter>
+    <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\PaidState\PaidWaitState.cpp">
+      <Filter>Source\Object\GameObject\Player\PlayerState\PaidState</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Object\Player\PlayerState\DrawnState\DrawnWaitState.cpp">
-      <Filter>Source\Object\Player\PlayerState\DrawnState</Filter>
+    <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\DrawnState\DrawnWaitState.cpp">
+      <Filter>Source\Object\GameObject\Player\PlayerState\DrawnState</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Object\Player\PlayerState\DrawnState\DrawnMoveState.cpp">
-      <Filter>Source\Object\Player\PlayerState\DrawnState</Filter>
+    <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\DrawnState\AttackState.cpp">
+      <Filter>Source\Object\GameObject\Player\PlayerState\DrawnState</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Object\Player\PlayerState\SetupState.cpp">
-      <Filter>Source\Object\Player\PlayerState</Filter>
+    <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\DrawnState\DrawnMoveState.cpp">
+      <Filter>Source\Object\GameObject\Player\PlayerState\DrawnState</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Object\Player\PlayerState\DrawnState\AttackState.cpp">
-      <Filter>Source\Object\Player\PlayerState\DrawnState</Filter>
+    <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\AvoidanceState.cpp">
+      <Filter>Source\Object\GameObject\Player\PlayerState</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Object\Player\Player.cpp">
-      <Filter>Source\Object\Player</Filter>
+    <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\KnockBackState.cpp">
+      <Filter>Source\Object\GameObject\Player\PlayerState</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Object\Player\PlayerState\KnockBackState.cpp">
-      <Filter>Source\Object\Player\PlayerState</Filter>
+    <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\SetupState.cpp">
+      <Filter>Source\Object\GameObject\Player\PlayerState</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Object\GameObject\Player\Player.cpp">
+      <Filter>Source\Object\GameObject\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Object\GameObject\Monster\Dragon\Dragon.cpp">
+      <Filter>Source\Object\GameObject\Monster\Dragon</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonBite.cpp">
+      <Filter>Source\Object\GameObject\Monster\Dragon\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonHit.cpp">
+      <Filter>Source\Object\GameObject\Monster\Dragon\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonScream.cpp">
+      <Filter>Source\Object\GameObject\Monster\Dragon\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonTakeOff.cpp">
+      <Filter>Source\Object\GameObject\Monster\Dragon\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonWingAttack.cpp">
+      <Filter>Source\Object\GameObject\Monster\Dragon\Attack</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -126,24 +135,6 @@
     </ClInclude>
     <ClInclude Include="Sources\Object\Wapon\KohakuSword.h">
       <Filter>Source\Object\Wapon</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\Object\Monster\MonsterAttack.h">
-      <Filter>Source\Object\Monster</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\Object\Monster\Dragon\Dragon.h">
-      <Filter>Source\Object\Monster\Dragon</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\Object\Monster\Dragon\Attack\DragonBite.h">
-      <Filter>Source\Object\Monster\Dragon\Attack</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\Object\Monster\Dragon\Attack\DragonScream.h">
-      <Filter>Source\Object\Monster\Dragon\Attack</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\Object\Monster\Dragon\Attack\DragonWingAttack.h">
-      <Filter>Source\Object\Monster\Dragon\Attack</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\Object\Monster\Dragon\Attack\DragonTakeOff.h">
-      <Filter>Source\Object\Monster\Dragon\Attack</Filter>
     </ClInclude>
     <ClInclude Include="Sources\Scene\EachScene.h">
       <Filter>Source\Scene</Filter>
@@ -160,35 +151,59 @@
     <ClInclude Include="Sources\Scene\TitleScene.h">
       <Filter>Source\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Object\Player\PlayerState\PlayerState.h">
-      <Filter>Source\Object\Player\PlayerState</Filter>
+    <ClInclude Include="Sources\Object\GameObject\GameObject.h">
+      <Filter>Source\Object\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Object\Player\PlayerState\AvoidanceState.h">
-      <Filter>Source\Object\Player\PlayerState</Filter>
+    <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\PaidState\PaidWaitState.h">
+      <Filter>Source\Object\GameObject\Player\PlayerState\PaidState</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Object\Player\PlayerState\PaidState\PaidWaitState.h">
-      <Filter>Source\Object\Player\PlayerState\PaidState</Filter>
+    <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\PaidState\PaidMoveState.h">
+      <Filter>Source\Object\GameObject\Player\PlayerState\PaidState</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Object\Player\PlayerState\PaidState\PaidMoveState.h">
-      <Filter>Source\Object\Player\PlayerState\PaidState</Filter>
+    <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\DrawnState\DrawnMoveState.h">
+      <Filter>Source\Object\GameObject\Player\PlayerState\DrawnState</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Object\Player\PlayerState\DrawnState\DrawnWaitState.h">
-      <Filter>Source\Object\Player\PlayerState\DrawnState</Filter>
+    <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\DrawnState\DrawnWaitState.h">
+      <Filter>Source\Object\GameObject\Player\PlayerState\DrawnState</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Object\Player\PlayerState\DrawnState\DrawnMoveState.h">
-      <Filter>Source\Object\Player\PlayerState\DrawnState</Filter>
+    <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\DrawnState\AttackState.h">
+      <Filter>Source\Object\GameObject\Player\PlayerState\DrawnState</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Object\Player\PlayerState\SetupState.h">
-      <Filter>Source\Object\Player\PlayerState</Filter>
+    <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\SetupState.h">
+      <Filter>Source\Object\GameObject\Player\PlayerState</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Object\Player\PlayerState\DrawnState\AttackState.h">
-      <Filter>Source\Object\Player\PlayerState\DrawnState</Filter>
+    <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\AvoidanceState.h">
+      <Filter>Source\Object\GameObject\Player\PlayerState</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Object\Player\Player.h">
-      <Filter>Source\Object\Player</Filter>
+    <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\KnockBackState.h">
+      <Filter>Source\Object\GameObject\Player\PlayerState</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Object\Player\PlayerState\KnockBackState.h">
-      <Filter>Source\Object\Player\PlayerState</Filter>
+    <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\PlayerState.h">
+      <Filter>Source\Object\GameObject\Player\PlayerState</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\GameObject\Player\Player.h">
+      <Filter>Source\Object\GameObject\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\GameObject\Monster\MonsterAttack.h">
+      <Filter>Source\Object\GameObject\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\GameObject\Monster\Dragon\Dragon.h">
+      <Filter>Source\Object\GameObject\Monster\Dragon</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonBite.h">
+      <Filter>Source\Object\GameObject\Monster\Dragon\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonHit.h">
+      <Filter>Source\Object\GameObject\Monster\Dragon\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonScream.h">
+      <Filter>Source\Object\GameObject\Monster\Dragon\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonTakeOff.h">
+      <Filter>Source\Object\GameObject\Monster\Dragon\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonWingAttack.h">
+      <Filter>Source\Object\GameObject\Monster\Dragon\Attack</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

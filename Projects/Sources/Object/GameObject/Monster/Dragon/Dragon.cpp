@@ -7,12 +7,13 @@
 #include <FrameWork/Scene/SceneManager.h>
 #include <FrameWork/Systems/Input/Controller.h>
 #include <FrameWork/Graphics/DirectX11/DirectX11Wrapper.h>
-#include "../../../Scene/GameScene.h"
+#include "../../../../Scene/GameScene.h"
 
 #include "Attack/DragonScream.h"
 #include "Attack/DragonBite.h"
 #include "Attack/DragonWingAttack.h"
 #include "Attack/DragonTakeOff.h"
+#include "Attack/DragonHit.h"
 
 //! @def	大きさ
 static constexpr float SCALE = 0.9f;
@@ -49,18 +50,16 @@ static const     VECTOR3 COLLISION_SIZE_WING_L = VECTOR3(7, 2, 2);
 
 /* @fn		コンストラクタ
  * @brief	変数の初期化			*/
-Dragon::Dragon(void) : Object(Object::Tag::ENEMY), GUI(Systems::Instance(), this, "dragon")
-	, velocity_(VECTOR3(0))
-	, front_(VECTOR3(0))
-	, right_(VECTOR3(0))
-	, animation_(Animation::WAIT1)
-	, animSpeed_(0)
+Dragon::Dragon(void) : GameObject(Object::Tag::ENEMY), GUI(Systems::Instance(), this, "dragon")
 	, flag_(0)
 	, debugMove_(false)
 	, currentAttack_(nullptr)
 	, cameraManager_(nullptr)
 	, camera_(nullptr)
 {
+	meshAnim_.animation = static_cast<int>(Animation::WAIT1);
+	meshAnim_.animSpeed = 0;
+
 	for (auto& c : collision_)
 	{
 		c = nullptr;
@@ -88,9 +87,9 @@ void Dragon::Init(void)
 	transform_.rotation.y   = PI;
 	transform_.scale		= VECTOR3(SCALE);
 
-	animSpeed_ = 0.75f;
+	meshAnim_.animSpeed = 0.75f;
 
-	mesh_.Init(Systems::Instance(), (int)Model::Game::DRAGON, &transform_);
+	meshAnim_.mesh.Init(Systems::Instance(), (int)Model::Game::DRAGON, &transform_);
 
 	CreateCollision();
 	
@@ -108,6 +107,10 @@ void Dragon::Init(void)
 
 	arrayNum = static_cast<int>(AttackPattern::TAKE_OFF);
 	attack_[arrayNum] = new DragonTakeOff;
+	if (attack_[arrayNum]) { attack_[arrayNum]->Init(this); }
+
+	arrayNum = static_cast<int>(AttackPattern::HIT);
+	attack_[arrayNum] = new DragonHit;
 	if (attack_[arrayNum]) { attack_[arrayNum]->Init(this); }
 
 #ifdef _SELF_DEBUG
@@ -170,34 +173,24 @@ void Dragon::Update(void)
 	DebugInput();
 #endif
 
-	bool change = mesh_.Animation(animSpeed_);
+	isEndAnim_ = meshAnim_.mesh.Animation(meshAnim_.animSpeed);
 
 	if (currentAttack_)
 	{
-		int temp = static_cast<int>(animation_);
-		if (currentAttack_->Update(transform_, velocity_, mesh_, animSpeed_, temp, change))
+		if (currentAttack_->Update())
 		{
 			currentAttack_ = nullptr;
 		}
-		animation_ = static_cast<Animation>(temp);
 	}
+
+	transform_;
+	velocity_;
 
 	Move();
 
-	if (!BitCheck(flag_, IS_FLY) && animation_ != Animation::TAKE_OFF)
+	if (!BitCheck(flag_, IS_FLY) && static_cast<Animation>(meshAnim_.animation) != Animation::TAKE_OFF)
 	{
-		transform_.position.y = 0;
-		if (manager_)
-		{
-			if (const auto& scene = static_cast<GameScene*>(manager_->GetScene()))
-			{
-				if (const auto& meshfield = scene->GetMeshField())
-				{
-					float y = meshfield->Hit(transform_.position);
-					if (y > 0) { transform_.position.y += y; }
-				}
-			}
-		}
+		OnGround();
 	}
 
 	COLOR color = COLOR(1, 1, 1, 1);
@@ -222,7 +215,7 @@ void Dragon::Update(void)
 			}
 		}
 	}
-	mesh_.material.diffuse = color;
+	meshAnim_.mesh.material.diffuse = color;
 }
 
 /* @fn		CreateCollsion
@@ -238,7 +231,7 @@ void Dragon::CreateCollision(void)
 		{
 			if (DirectX11Wrapper* wrapper = static_cast<DirectX11Wrapper*>(renderer->GetWrapper()))
 			{
-				const auto& model = wrapper->GetModel(mesh_.GetModelNum());
+				const auto& model = wrapper->GetModel(meshAnim_.mesh.GetModelNum());
 
 				auto  s = transform_.scale;
 				int num = static_cast<int>(Collision::BODY);
@@ -326,83 +319,6 @@ void Dragon::CreateCollision(void)
 	}
 }
 
-/* @fn		Move
- * @brief	移動処理
- * @sa		Update
- * @param	なし
- * @return	なし					*/
-void Dragon::Move(void)
-{
-	CreateFrontVector();
-
-	// 移動向きによりキャラクターの向きを変える
-	if ((Abs(velocity_.x) + Abs(velocity_.z) > 0.02f))
-	{
-		if (animation_ == Animation::WAIT1 || (animation_ == Animation::WALK || animation_ == Animation::RUN))
-		{
-			animSpeed_ = 0.5f;
-			animation_ = Animation::WALK;
-			if (BitCheck(flag_, IS_DASH))
-			{
-				animSpeed_ = 0.75f;
-				animation_ = Animation::RUN;
-			}
-			mesh_.ChangeAnimation(static_cast<int>(animation_), 30);
-		}
-
-		VECTOR3 velocityNorm = VecNorm(velocity_);
-		VECTOR3 frontVelocityCross = VecCross(front_, velocityNorm);
-		float	dot = VecDot(front_, velocityNorm);
-
-		// 前か後ろに進みたいとき
-		int sign = 1;
-		if (frontVelocityCross.y < 0) { sign = -1; }
-
-		int upY = (int)(((frontVelocityCross.y * 10) + (5 * sign)) * 0.1f);
-		// 内積が0以下の時(後ろに進むとき)
-		if (upY == 0 && dot == 1)
-		{
-			// 強制的に回す
-			frontVelocityCross.y = 1.0f * sign;
-		}
-
-		transform_.rotation.y += frontVelocityCross.y * 0.3f;
-	}
-	else 
-	{
-		if (animation_ == Animation::WALK || animation_ == Animation::RUN)
-		{
-			mesh_.ChangeAnimation(static_cast<int>(Animation::WAIT1), 30);
-			animSpeed_ = 0.75f;
-		}
-	}
-
-	transform_.position += velocity_;
-
-	velocity_ *= 0.8f;		// 慣性
-}
-
-/* @fn		CreateFrontVector
- * @brief	前ベクトルと右ベクトルの生成
- * @sa		Move
- * @param	なし
- * @return	なし					*/
-void Dragon::CreateFrontVector(void)
-{
-	MATRIX frontObj;
-	frontObj.Identity().Translation(VECTOR3(0, 0, 1));
-	MATRIX mtx;
-	mtx.Identity().Rotation(VECTOR3(0, transform_.rotation.y, 0));
-	mtx.Translation(transform_.position);
-	frontObj *= mtx;
-
-	VECTOR3 tempTarget = VECTOR3(frontObj._41, transform_.position.y, frontObj._43);
-	front_ = transform_.position - tempTarget;
-	front_ = VecNorm(front_);
-
-	right_ = VecNorm(VecCross(VECTOR3(0, 1, 0), front_));
-}
-
 /* @fn		DebugInput
  * @brief	デバッグ用操作
  * @sa		Update
@@ -436,6 +352,31 @@ void Dragon::DebugInput(void)
 	velocity_ += front * inputDir.y * inputDash * MOVE_SPEED;
 	velocity_ -= right * inputDir.x * inputDash * MOVE_SPEED;
 
+	Animation tempAnim = static_cast<Animation>(meshAnim_.animation);
+	if (inputDir != 0)
+	{
+		if (tempAnim == Animation::WAIT1 || (tempAnim == Animation::WALK || tempAnim == Animation::RUN))
+		{
+			meshAnim_.animSpeed = 0.5f;
+			meshAnim_.animation = static_cast<int>(Animation::WALK);
+			if (BitCheck(flag_, IS_DASH))
+			{
+				meshAnim_.animSpeed = 0.75f;
+				meshAnim_.animation = static_cast<int>(Animation::RUN);
+			}
+			meshAnim_.mesh.ChangeAnimation(meshAnim_.animation, 30);
+		}
+	}
+	else
+	{
+		if (tempAnim == Animation::WALK || tempAnim == Animation::RUN)
+		{
+			meshAnim_.mesh.ChangeAnimation(static_cast<int>(Animation::WAIT1), 30);
+			meshAnim_.animSpeed = 0.75f;
+		}
+	}
+
+
 	if (currentAttack_) { return; }
 
 	// 咆哮
@@ -444,9 +385,17 @@ void Dragon::DebugInput(void)
 		currentAttack_ = attack_[static_cast<int>(AttackPattern::SCREAM)];
 		if (currentAttack_) 
 		{
-			int temp = static_cast<int>(animation_);
-			currentAttack_->SetMove(mesh_, animSpeed_, temp);
-			animation_ = static_cast<Animation>(temp);
+			currentAttack_->SetMove();
+		}
+	}
+
+	// 被ダメ
+	if (ctrl->Trigger(Input::GAMEPAD_CIRCLE, DIK_O))
+	{
+		currentAttack_ = attack_[static_cast<int>(AttackPattern::HIT)];
+		if (currentAttack_)
+		{
+			currentAttack_->SetMove();
 		}
 	}
 
@@ -456,9 +405,7 @@ void Dragon::DebugInput(void)
 		currentAttack_ = attack_[static_cast<int>(AttackPattern::BITE)];
 		if (currentAttack_)
 		{
-			int temp = static_cast<int>(animation_);
-			currentAttack_->SetMove(mesh_, animSpeed_, temp);
-			animation_ = static_cast<Animation>(temp);
+			currentAttack_->SetMove();
 		}
 	}
 
@@ -468,9 +415,7 @@ void Dragon::DebugInput(void)
 		currentAttack_ = attack_[static_cast<int>(AttackPattern::WING_ATTACK)];
 		if (currentAttack_)
 		{
-			int temp = static_cast<int>(animation_);
-			currentAttack_->SetMove(mesh_, animSpeed_, temp);
-			animation_ = static_cast<Animation>(temp);
+			currentAttack_->SetMove();
 		}
 	}
 
@@ -482,10 +427,8 @@ void Dragon::DebugInput(void)
 		{
 			bool fly = BitCheck(flag_, IS_FLY);
 
-			int temp = static_cast<int>(animation_);
 			static_cast<DragonTakeOff*>(currentAttack_)->SetFly(fly);
-			currentAttack_->SetMove(mesh_, animSpeed_, temp);
-			animation_ = static_cast<Animation>(temp);
+			currentAttack_->SetMove();
 
 			if(fly)
 			{

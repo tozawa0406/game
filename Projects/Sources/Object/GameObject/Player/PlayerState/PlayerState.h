@@ -9,7 +9,7 @@
 
 #include <FrameWork/Systems/Renderer/Model/MeshRenderer.h>
 #include <FrameWork/Systems/Input/Controller.h>
-#include "../../Wapon/Wapon.h"
+#include "../../../Wapon/Wapon.h"
 #include "../Player.h"
 
 class PlayerState

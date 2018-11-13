@@ -19,20 +19,22 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Sources\Object\Monster\Dragon\Attack\DragonBite.cpp" />
-    <ClCompile Include="Sources\Object\Monster\Dragon\Attack\DragonScream.cpp" />
-    <ClCompile Include="Sources\Object\Monster\Dragon\Attack\DragonTakeOff.cpp" />
-    <ClCompile Include="Sources\Object\Monster\Dragon\Attack\DragonWingAttack.cpp" />
-    <ClCompile Include="Sources\Object\Monster\Dragon\Dragon.cpp" />
-    <ClCompile Include="Sources\Object\Player\Player.cpp" />
-    <ClCompile Include="Sources\Object\Player\PlayerState\AvoidanceState.cpp" />
-    <ClCompile Include="Sources\Object\Player\PlayerState\DrawnState\AttackState.cpp" />
-    <ClCompile Include="Sources\Object\Player\PlayerState\DrawnState\DrawnMoveState.cpp" />
-    <ClCompile Include="Sources\Object\Player\PlayerState\DrawnState\DrawnWaitState.cpp" />
-    <ClCompile Include="Sources\Object\Player\PlayerState\KnockBackState.cpp" />
-    <ClCompile Include="Sources\Object\Player\PlayerState\PaidState\PaidMoveState.cpp" />
-    <ClCompile Include="Sources\Object\Player\PlayerState\PaidState\PaidWaitState.cpp" />
-    <ClCompile Include="Sources\Object\Player\PlayerState\SetupState.cpp" />
+    <ClCompile Include="Sources\Object\GameObject\GameObject.cpp" />
+    <ClCompile Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonBite.cpp" />
+    <ClCompile Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonHit.cpp" />
+    <ClCompile Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonScream.cpp" />
+    <ClCompile Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonTakeOff.cpp" />
+    <ClCompile Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonWingAttack.cpp" />
+    <ClCompile Include="Sources\Object\GameObject\Monster\Dragon\Dragon.cpp" />
+    <ClCompile Include="Sources\Object\GameObject\Player\Player.cpp" />
+    <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\AvoidanceState.cpp" />
+    <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\DrawnState\AttackState.cpp" />
+    <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\DrawnState\DrawnMoveState.cpp" />
+    <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\DrawnState\DrawnWaitState.cpp" />
+    <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\KnockBackState.cpp" />
+    <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\PaidState\PaidMoveState.cpp" />
+    <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\PaidState\PaidWaitState.cpp" />
+    <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\SetupState.cpp" />
     <ClCompile Include="Sources\Object\StaticObject\PaidGoodsBox.cpp" />
     <ClCompile Include="Sources\Object\UI\Timer.cpp" />
     <ClCompile Include="Sources\Object\Wapon\KohakuSword.cpp" />
@@ -43,22 +45,24 @@
     <ClCompile Include="Sources\Scene\TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Sources\Object\Monster\Dragon\Attack\DragonBite.h" />
-    <ClInclude Include="Sources\Object\Monster\Dragon\Attack\DragonScream.h" />
-    <ClInclude Include="Sources\Object\Monster\Dragon\Attack\DragonTakeOff.h" />
-    <ClInclude Include="Sources\Object\Monster\Dragon\Attack\DragonWingAttack.h" />
-    <ClInclude Include="Sources\Object\Monster\Dragon\Dragon.h" />
-    <ClInclude Include="Sources\Object\Monster\MonsterAttack.h" />
-    <ClInclude Include="Sources\Object\Player\Player.h" />
-    <ClInclude Include="Sources\Object\Player\PlayerState\AvoidanceState.h" />
-    <ClInclude Include="Sources\Object\Player\PlayerState\DrawnState\AttackState.h" />
-    <ClInclude Include="Sources\Object\Player\PlayerState\DrawnState\DrawnMoveState.h" />
-    <ClInclude Include="Sources\Object\Player\PlayerState\DrawnState\DrawnWaitState.h" />
-    <ClInclude Include="Sources\Object\Player\PlayerState\KnockBackState.h" />
-    <ClInclude Include="Sources\Object\Player\PlayerState\PaidState\PaidMoveState.h" />
-    <ClInclude Include="Sources\Object\Player\PlayerState\PaidState\PaidWaitState.h" />
-    <ClInclude Include="Sources\Object\Player\PlayerState\PlayerState.h" />
-    <ClInclude Include="Sources\Object\Player\PlayerState\SetupState.h" />
+    <ClInclude Include="Sources\Object\GameObject\GameObject.h" />
+    <ClInclude Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonBite.h" />
+    <ClInclude Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonHit.h" />
+    <ClInclude Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonScream.h" />
+    <ClInclude Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonTakeOff.h" />
+    <ClInclude Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonWingAttack.h" />
+    <ClInclude Include="Sources\Object\GameObject\Monster\Dragon\Dragon.h" />
+    <ClInclude Include="Sources\Object\GameObject\Monster\MonsterAttack.h" />
+    <ClInclude Include="Sources\Object\GameObject\Player\Player.h" />
+    <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\AvoidanceState.h" />
+    <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\DrawnState\AttackState.h" />
+    <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\DrawnState\DrawnMoveState.h" />
+    <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\DrawnState\DrawnWaitState.h" />
+    <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\KnockBackState.h" />
+    <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\PaidState\PaidMoveState.h" />
+    <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\PaidState\PaidWaitState.h" />
+    <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\PlayerState.h" />
+    <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\SetupState.h" />
     <ClInclude Include="Sources\Object\StaticObject\PaidGoodsBox.h" />
     <ClInclude Include="Sources\Object\UI\Timer.h" />
     <ClInclude Include="Sources\Object\Wapon\KohakuSword.h" />

@@ -65,7 +65,7 @@ PlayerState* KnockBackState::Update(void)
 {
 	if (!player_) { return nullptr; }
 
-	if (player_->IsEndAnim())
+	if (player_->IsAnimEnd())
 	{
 		if (isDraw_)
 		{
