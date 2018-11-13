@@ -13,7 +13,7 @@
 class Wapon : public Object
 {
 public:
-	Wapon(void) : Object(Object::Tag::WAPON), collider_(nullptr), body_(nullptr), hand_(nullptr) {}
+	Wapon(void) : Object(Object::Tag::WAPON), collider_(nullptr), body_(nullptr), hand_(nullptr), hit_(false) {}
 	virtual ~Wapon(void) {}
 
 	void Setup(bool setup) { (!setup) ? DrawnSword() : PaidSword(); }
@@ -31,7 +31,7 @@ public:
 		this->PaidSword();
 	}
 
-	inline void AttackStart(void) { if (collider_) { collider_->SetEnable(true);  } }
+	inline void AttackStart(void) { if (collider_) { collider_->SetEnable(true); }hit_ = false; }
 	inline void AttackEnd(void)   { if (collider_) { collider_->SetEnable(false); } }
 
 protected:
@@ -47,6 +47,8 @@ protected:
 
 	const MATRIX* body_;
 	const MATRIX* hand_;
+
+	bool hit_;
 };
 
 #endif // _WAPON_H_

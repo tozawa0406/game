@@ -77,7 +77,7 @@ bool DragonTakeOff::Update(void)
 	frame_++;
 
 	// アニメーション終了
-	if (monster_->IsAnimEnd())
+	if (monster_->IsEndAnim())
 	{
 		auto& meshAnim = monster_->GetMeshAnimation();
 		// 元に戻す

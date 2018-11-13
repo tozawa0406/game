@@ -4,6 +4,9 @@
 /* @fn		コンストラクタ
  * @brief	変数の初期化			*/
 GameObject::GameObject(Object::Tag tag) : Object(tag)
+	, life_(0)
+	, ded_(false)
+	, isEndAnim_(false)
 	, velocity_(VECTOR3(0))
 	, front_(VECTOR3(0))
 	, right_(VECTOR3(0))

@@ -1,4 +1,5 @@
 #include "KohakuSword.h"
+#include "../GameObject/GameObject.h"
 
 //! @def	î[ìÅà íu
 static const VECTOR3 PAID_POSITION = VECTOR3(30, -10, 0);
@@ -71,6 +72,12 @@ void KohakuSword::Update(void)
 				debug_hit_ = true;
 
 				c = COLOR(0, 1, 0, 1);
+
+				if (!hit_)
+				{
+					static_cast<GameObject*>(o)->Hit(100);
+					hit_ = true;
+				}
 			}
 		}
 		mesh_.material.diffuse = c;

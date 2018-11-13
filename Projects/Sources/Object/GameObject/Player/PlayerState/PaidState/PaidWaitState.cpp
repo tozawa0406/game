@@ -62,7 +62,7 @@ PlayerState* PaidWaitState::Update(void)
 	auto& meshAnim = player_->GetMeshAnimation();
 
 	// 元に戻る
-	if (player_->IsAnimEnd())
+	if (player_->IsEndAnim())
 	{
 		// 納刀状態と抜刀状態でアニメーションの切り替え
 		meshAnim.animation = static_cast<int>(Player::Animation::Wait);
@@ -84,22 +84,27 @@ PlayerState* PaidWaitState::Update(void)
 		meshAnim.mesh.ChangeAnimation(meshAnim.animation, ANIMATION_CHANGE_FRAME30);
 	}
 
-	// キー入力があったら移動ステート
-	if (ctrl_->PressRange(Input::AXIS_LX, DIK_A, DIK_D) || ctrl_->PressRange(Input::AXIS_LY, DIK_S, DIK_W))
+#ifdef _SELF_DEBUG
+	if (!player_->IsDebugCtrl())
+#endif
 	{
-		return new PaidMoveState;
-	}
+		// キー入力があったら移動ステート
+		if (ctrl_->PressRange(Input::AXIS_LX, DIK_A, DIK_D) || ctrl_->PressRange(Input::AXIS_LY, DIK_S, DIK_W))
+		{
+			return new PaidMoveState;
+		}
 
-	// 回避コマンドで回避ステート
-	if (ctrl_->Trigger(Input::GAMEPAD_CROSS, DIK_M))
-	{
-		return new AvoidanceState;
-	}
+		// 回避コマンドで回避ステート
+		if (ctrl_->Trigger(Input::GAMEPAD_CROSS, DIK_M))
+		{
+			return new AvoidanceState;
+		}
 
-	// 抜刀コマンドで抜刀ステート
-	if (ctrl_->Trigger(Input::GAMEPAD_TRIANGLE, DIK_U))
-	{
-		return new SetupState;
+		// 抜刀コマンドで抜刀ステート
+		if (ctrl_->Trigger(Input::GAMEPAD_TRIANGLE, DIK_U))
+		{
+			return new SetupState;
+		}
 	}
 
 	return nullptr;

@@ -54,30 +54,35 @@ void DrawnWaitState::Uninit(void)
  * @return	次のステートへ			*/
 PlayerState* DrawnWaitState::Update(void)
 {
-	// 入力で移動ステートへ
-	if (ctrl_->PressRange(Input::AXIS_LX, DIK_A, DIK_D) || ctrl_->PressRange(Input::AXIS_LY, DIK_S, DIK_W))
-	{
-		return new DrawnMoveState;
-	}
 
-	// 回避コマンドで回避ステート
-	if (ctrl_->Trigger(Input::GAMEPAD_CROSS, DIK_M))
+#ifdef _SELF_DEBUG
+	if (!player_->IsDebugCtrl())
+#endif
 	{
-		return new AvoidanceState;
-	}
+		// 入力で移動ステートへ
+		if (ctrl_->PressRange(Input::AXIS_LX, DIK_A, DIK_D) || ctrl_->PressRange(Input::AXIS_LY, DIK_S, DIK_W))
+		{
+			return new DrawnMoveState;
+		}
 
-	// 納刀コマンドで納刀ステート
-	if (ctrl_->Trigger(Input::GAMEPAD_SQUARE, DIK_H))
-	{
-		return new SetupState;
-	}
+		// 回避コマンドで回避ステート
+		if (ctrl_->Trigger(Input::GAMEPAD_CROSS, DIK_M))
+		{
+			return new AvoidanceState;
+		}
 
-	// 攻撃コマンドで攻撃ステート
-	if (ctrl_->Trigger(Input::GAMEPAD_TRIANGLE, DIK_U))
-	{
-		return new AttackState;
-	}
+		// 納刀コマンドで納刀ステート
+		if (ctrl_->Trigger(Input::GAMEPAD_SQUARE, DIK_H))
+		{
+			return new SetupState;
+		}
 
+		// 攻撃コマンドで攻撃ステート
+		if (ctrl_->Trigger(Input::GAMEPAD_TRIANGLE, DIK_U))
+		{
+			return new AttackState;
+		}
+	}
 	return nullptr;
 }
 

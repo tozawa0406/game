@@ -35,6 +35,8 @@ Player::Player(void) : GameObject(Object::Tag::PLAYER), GUI(Systems::Instance(),
 {
 	meshAnim_.animation = static_cast<int>(Animation::Wait);
 	meshAnim_.animSpeed = ANIMATION_DEFAULT;
+
+	life_ = 150;
 }
 
 /* @fn		デストラクタ
@@ -156,9 +158,6 @@ void Player::Update(void)
 		}
 	}
 	meshAnim_.mesh.material.diffuse = c;
-
-	// デバッグ用、敵の操作中にプレイヤーを操作しない
-	if (cameraManager_ && cameraManager_->GetMainNum() != 0) { return; }
 #endif
 
 	if (state_)
@@ -187,19 +186,33 @@ void Player::Update(void)
 	}
 }
 
+void Player::Hit(int damage)
+{
+	if (collider_->IsEnable())
+	{
+		life_ -= damage;
+		UninitDeletePtr(state_);
+		state_ = new KnockBackState;
+		state_->Init(this, GetCtrl(0));
+
+		collider_->SetEnable(false);
+	}
+}
+
 /* @fn		GuiUpdate
  * @brief	デバッグ用描画更新
  * @param	なし
  * @return	なし					*/
 void Player::GuiUpdate(void)
 {
+	ImGui::Text("Life : %d", life_);
+
 	ImGui::Text("state : ");
 	if (state_)
 	{
 		ImGui::SameLine();
 		state_->GuiUpdate(); 
 	}
-
 
 	ImGui::Text("front : %.2f, %.2f, %.2f", front_.x, front_.y, front_.z);
 	ImGui::Text("veloc : %.2f, %.2f, %.2f", velocity_.x, velocity_.y, velocity_.z);

@@ -38,7 +38,7 @@ bool DragonScream::Update(void)
 
 	monster_->SetVelocity(VECTOR3(0));
 
-	if (monster_->IsAnimEnd())
+	if (monster_->IsEndAnim())
 	{
 		auto& meshAnim = monster_->GetMeshAnimation();
 

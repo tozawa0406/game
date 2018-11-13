@@ -65,8 +65,13 @@ PlayerState* KnockBackState::Update(void)
 {
 	if (!player_) { return nullptr; }
 
-	if (player_->IsAnimEnd())
+	if (player_->IsEndAnim())
 	{
+		if (auto collider = player_->GetCollider())
+		{
+			collider->SetEnable(true);
+		}
+
 		if (isDraw_)
 		{
 			return new DrawnWaitState;

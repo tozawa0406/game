@@ -49,7 +49,7 @@ public:
 
 	void GuiUpdate(void) override;
 
-	void Hit(void) override {}
+	void Hit(int damage) override;
 
 	/* @fn		SetWapon
 	 * @brief	武器の設定
@@ -62,6 +62,11 @@ public:
 
 	// ステートで値を設定するためのSetter
 	inline void SetPosition(const VECTOR3& position) { transform_.position = position; }
+
+	inline Collider3D::OBB* GetCollider(void) { return collider_; }
+
+	// デバッグ用、敵の操作中にプレイヤーを操作しない
+	inline bool IsDebugCtrl(void) { return (cameraManager_ && cameraManager_->GetMainNum() != 0) ? true : false; }
 
 protected:
 	PlayerState*	state_;				//! プレイヤーのステート

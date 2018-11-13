@@ -24,7 +24,7 @@ public:
 	GameObject(Object::Tag tag);
 	virtual ~GameObject(void);
 
-	virtual void Hit(void) = 0;
+	virtual void Hit(int damage) = 0;
 
 	/* @fn		GetMeshAnim
 	 * @brief	派生先のステートや行動で変更する際に使用
@@ -36,7 +36,7 @@ public:
 
 	inline const VECTOR3& GetFront(void) { return front_; }
 
-	inline bool IsAnimEnd(void) { return isEndAnim_; }
+	inline bool IsEndAnim(void) { return isEndAnim_; }
 
 private:
 	void CreateFrontVector(void);
@@ -45,7 +45,10 @@ protected:
 	void Move(void);
 	void OnGround(void);
 
+	int life_;
+
 	MESH_ANIMATION	meshAnim_;
+	bool			ded_;
 	bool			isEndAnim_;
 	VECTOR3			velocity_;
 	VECTOR3			front_;

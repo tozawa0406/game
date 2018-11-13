@@ -89,7 +89,7 @@ PlayerState* PaidMoveState::Update(void)
 	{
 		return new SetupState;
 	}
-
+	
 	return nullptr;
 }
 

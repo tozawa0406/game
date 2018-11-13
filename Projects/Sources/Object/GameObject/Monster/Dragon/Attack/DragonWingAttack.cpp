@@ -164,8 +164,20 @@ bool DragonWingAttack::Update(void)
 		for (auto& c : collider_) { c->SetEnable(false); }
 	}
 
+	for (auto& collider : collider_)
+	{
+		const auto& hits = collider->Hit();
+		for (auto& hit : hits)
+		{
+			if (hit->GetTag() == Object::Tag::PLAYER)
+			{
+				static_cast<GameObject*>(hit)->Hit(10);
+			}
+		}
+	}
+
 	// アニメーション終了
-	if (monster_->IsAnimEnd())
+	if (monster_->IsEndAnim())
 	{
 		// 元に戻す
 		meshAnim.animSpeed = 0.75f;

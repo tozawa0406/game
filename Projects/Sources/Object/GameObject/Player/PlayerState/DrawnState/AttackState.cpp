@@ -85,7 +85,7 @@ PlayerState* AttackState::Update(void)
 	}
 
 	// アニメーションの終了
-	if (player_->IsAnimEnd())
+	if (player_->IsEndAnim())
 	{
 		if (const auto& wapon = player_->GetWapon())
 		{

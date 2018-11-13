@@ -69,6 +69,8 @@ Dragon::Dragon(void) : GameObject(Object::Tag::ENEMY), GUI(Systems::Instance(), 
 	{
 		a = nullptr;
 	}
+
+	life_ = 1000;
 }
 
 /* @fn		デストラクタ
@@ -169,11 +171,16 @@ void Dragon::Uninit(void)
  * @return	なし					*/
 void Dragon::Update(void)
 {
+	meshAnim_.mesh.material.diffuse = COLOR(1, 1, 1, 1);
+	if (ded_) { return; }
+
 #ifdef _SELF_DEBUG
 	DebugInput();
 #endif
 
 	isEndAnim_ = meshAnim_.mesh.Animation(meshAnim_.animSpeed);
+
+	if (Ded()) { return; }
 
 	if (currentAttack_)
 	{
@@ -319,6 +326,41 @@ void Dragon::CreateCollision(void)
 	}
 }
 
+bool Dragon::Ded(void)
+{
+	if (life_ <= 0)
+	{
+		int maxAnim = meshAnim_.mesh.GetMaxAnimation();
+		int pattern = static_cast<int>(meshAnim_.mesh.GetPattern());
+		if (pattern >= maxAnim - 1)
+		{
+			ded_ = true;
+			return true;
+		}
+
+		meshAnim_.animSpeed = 0.5f;
+		meshAnim_.animation = static_cast<int>(Animation::DIE);
+		meshAnim_.mesh.ChangeAnimation(meshAnim_.animation, 30, true);
+
+		if(pattern >= 35)
+		{
+			meshAnim_.animSpeed = 0.5f;
+		}
+		else if(pattern >= 20)
+		{
+			meshAnim_.animSpeed = 0.25f;
+		}
+
+		for (auto& c : collision_)
+		{
+			DeletePtr(c);
+		}
+
+		return true;
+	}
+	return false;
+}
+
 /* @fn		DebugInput
  * @brief	デバッグ用操作
  * @sa		Update
@@ -452,6 +494,8 @@ static VECTOR3 size = COLLISION_SIZE_NECK2;
  * @return	なし					*/
 void Dragon::GuiUpdate(void)
 {
+	ImGui::Text("Life : %d", life_);
+
 	//auto& c = collision_[static_cast<int>(Collision::NECK2)];
 	//if (c)
 	//{

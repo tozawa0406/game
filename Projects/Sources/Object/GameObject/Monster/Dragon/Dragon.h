@@ -62,11 +62,12 @@ public:
 
 	void GuiUpdate(void) override;
 
-	void Hit(void) override {}
+	void Hit(int damage) override { life_ -= damage; }
 
 private:
 	void CreateCollision(void);
 	void DebugInput(void);
+	bool Ded(void);
 
 	uint				flag_;
 	Collider3D::OBB*	collision_[static_cast<uint8>(Collision::MAX)];
