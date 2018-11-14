@@ -10,6 +10,7 @@
 #include "PlayerState/PaidState/PaidWaitState.h"
 
 #include "PlayerState/KnockBackState.h"
+#include "PlayerState/DieState.h"
 
 //! @def	大きさ
 static constexpr float SCALE = 0.1f;
@@ -142,6 +143,8 @@ void Player::Uninit(void)
  * @return	なし					*/
 void Player::Update(void)
 {
+	if (IsDed()) { return; }
+
 	isEndAnim_ = meshAnim_.mesh.Animation(meshAnim_.animSpeed);
 
 #ifdef _SELF_DEBUG	
@@ -176,15 +179,45 @@ void Player::Update(void)
 	OnGround();
 }
 
+/* @fn		Hit
+ * @brief	ダメージ処理
+ * @param	(damage)	ダメージ
+ * @return	なし			*/
 void Player::Hit(int damage)
 {
 	if (collider_->IsEnable())
 	{
 		life_ -= damage;
 		UninitDeletePtr(state_);
-		state_ = new KnockBackState;
+		if (life_ > 0)
+		{
+			state_ = new KnockBackState;
+		}
+		else
+		{
+			state_ = new DieState;
+		}
 		state_->Init(this, GetCtrl(0));
 	}
+}
+
+/* @fn		IsDed
+ * @brief	死亡判定
+ * @sa		Update()
+ * @param	なし
+ * @return	死んでいたらtrue			*/
+bool Player::IsDed(void)
+{
+	if (static_cast<Animation>(meshAnim_.animation) == Animation::Die)
+	{
+		int maxAnim = meshAnim_.mesh.GetMaxAnimation();
+		int pattern = static_cast<int>(meshAnim_.mesh.GetPattern());
+		if (pattern >= maxAnim - 1)
+		{
+			return true;
+		}
+	}
+	return false;
 }
 
 /* @fn		GuiUpdate

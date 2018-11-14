@@ -23,6 +23,8 @@ public:
 
 private:
 	bool next_;		//! Ÿ‚ÌUŒ‚‚Ì“ü—Í
+	int frame_;
+	bool debug_nextFrame_;
 };
 
 #endif // _ATTACK_STATE_H_

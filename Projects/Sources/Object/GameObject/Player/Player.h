@@ -30,6 +30,7 @@ public:
 		Roll,
 		KnockBack,
 		KnockOut,
+		Die,
 		Standup,
 		Setup,
 		SetupWait,
@@ -68,7 +69,9 @@ public:
 	// デバッグ用、敵の操作中にプレイヤーを操作しない
 	inline bool IsDebugCtrl(void) { return (cameraManager_ && cameraManager_->GetMainNum() != 0) ? true : false; }
 
-protected:
+private:
+	bool IsDed(void);
+
 	PlayerState*	state_;				//! プレイヤーのステート
 
 	Wapon*			wapon_;				//! 武器
@@ -77,7 +80,6 @@ protected:
 
 	Collider3D::OBB* collider_;			//! 当たり判定
 
-private:
 	const MATRIX*	body_;				//! 体のボーン行列
 	const MATRIX*	hand_;				//! 右手のボーン行列
 };

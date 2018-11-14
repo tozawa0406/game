@@ -34,6 +34,8 @@ public:
 	inline void AttackStart(void) { if (collider_) { collider_->SetEnable(true); }hit_ = false; }
 	inline void AttackEnd(void)   { if (collider_) { collider_->SetEnable(false); } }
 
+	inline bool IsAttack(void) { return collider_->IsEnable(); }
+
 protected:
 	//! ”[“ˆ—
 	virtual void PaidSword(void) = 0;

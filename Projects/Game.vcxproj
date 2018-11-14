@@ -28,6 +28,7 @@
     <ClCompile Include="Sources\Object\GameObject\Monster\Dragon\Dragon.cpp" />
     <ClCompile Include="Sources\Object\GameObject\Player\Player.cpp" />
     <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\AvoidanceState.cpp" />
+    <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\DieState.cpp" />
     <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\DrawnState\AttackState.cpp" />
     <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\DrawnState\DrawnMoveState.cpp" />
     <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\DrawnState\DrawnWaitState.cpp" />
@@ -55,6 +56,7 @@
     <ClInclude Include="Sources\Object\GameObject\Monster\MonsterAttack.h" />
     <ClInclude Include="Sources\Object\GameObject\Player\Player.h" />
     <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\AvoidanceState.h" />
+    <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\DieState.h" />
     <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\DrawnState\AttackState.h" />
     <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\DrawnState\DrawnMoveState.h" />
     <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\DrawnState\DrawnWaitState.h" />
