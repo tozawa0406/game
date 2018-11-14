@@ -47,6 +47,11 @@ void KnockBackState::Init(Player* player, Controller* ctrl)
 	meshAnim.animSpeed = 1;
 	meshAnim.animation = static_cast<int>(Player::Animation::KnockBack);
 	meshAnim.mesh.ChangeAnimation(meshAnim.animation, ANIMATION_CHANGE_FRAME15);
+
+	if (auto collider = player_->GetCollider())
+	{
+		collider->SetEnable(false);
+	}
 }
 
 /* @fn		Uninit

@@ -62,18 +62,20 @@ public:
 
 	void GuiUpdate(void) override;
 
-	void Hit(int damage) override { life_ -= damage; }
+	void Hit(int damage) override;
 
 private:
 	void CreateCollision(void);
 	void DebugInput(void);
-	bool Ded(void);
+	bool TakenDamage(void);
 
 	uint				flag_;
 	Collider3D::OBB*	collision_[static_cast<uint8>(Collision::MAX)];
 
 	MonsterAttack*		attack_[static_cast<int>(AttackPattern::MAX)];
 	MonsterAttack*		currentAttack_;
+
+	int accumulation_;		//! 被ダメージ蓄積値
 
 	CameraManager*	cameraManager_;
 	Camera*			camera_;

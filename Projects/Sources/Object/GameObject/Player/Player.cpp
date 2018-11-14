@@ -174,16 +174,6 @@ void Player::Update(void)
 	Move();
 
 	OnGround();
-
-	if (GetCtrl(0)->Trigger(Input::GAMEPAD_CIRCLE, DIK_O))
-	{
-		if (state_)
-		{
-			UninitDeletePtr(state_);
-			state_ = new KnockBackState;
-			state_->Init(this, GetCtrl(0));
-		}
-	}
 }
 
 void Player::Hit(int damage)
@@ -194,8 +184,6 @@ void Player::Hit(int damage)
 		UninitDeletePtr(state_);
 		state_ = new KnockBackState;
 		state_->Init(this, GetCtrl(0));
-
-		collider_->SetEnable(false);
 	}
 }
 

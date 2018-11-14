@@ -19,6 +19,8 @@
 static constexpr float SCALE = 0.9f;
 //! @def	移動速度
 static constexpr float MOVE_SPEED = 0.03f;
+//! @def	ライフ
+static constexpr int MAX_LIFE = 1000;
 
 
 //! @def	走りフラグ
@@ -54,6 +56,7 @@ Dragon::Dragon(void) : GameObject(Object::Tag::ENEMY), GUI(Systems::Instance(), 
 	, flag_(0)
 	, debugMove_(false)
 	, currentAttack_(nullptr)
+	, accumulation_(0)
 	, cameraManager_(nullptr)
 	, camera_(nullptr)
 {
@@ -70,7 +73,7 @@ Dragon::Dragon(void) : GameObject(Object::Tag::ENEMY), GUI(Systems::Instance(), 
 		a = nullptr;
 	}
 
-	life_ = 1000;
+	life_ = MAX_LIFE;
 }
 
 /* @fn		デストラクタ
@@ -180,7 +183,7 @@ void Dragon::Update(void)
 
 	isEndAnim_ = meshAnim_.mesh.Animation(meshAnim_.animSpeed);
 
-	if (Ded()) { return; }
+	if (TakenDamage()) { return; }
 
 	if (currentAttack_)
 	{
@@ -326,8 +329,14 @@ void Dragon::CreateCollision(void)
 	}
 }
 
-bool Dragon::Ded(void)
+/* @fn		TakenDamage
+ * @brief	被ダメージ処理
+ * @sa		Update()
+ * @param	なし
+ * @return	なし					*/
+bool Dragon::TakenDamage(void)
 {
+	// 死亡処理
 	if (life_ <= 0)
 	{
 		int maxAnim = meshAnim_.mesh.GetMaxAnimation();
@@ -358,7 +367,29 @@ bool Dragon::Ded(void)
 
 		return true;
 	}
+
+	if (life_ > Quarter(MAX_LIFE) && accumulation_ >= MAX_LIFE * 0.3f)
+	{
+		accumulation_ = 0;		
+		currentAttack_ = attack_[static_cast<int>(AttackPattern::HIT)];
+		if (currentAttack_)
+		{
+			currentAttack_->SetMove();
+		}
+
+	}
+
 	return false;
+}
+
+/* @fn		Hit
+ * @brief	ダメージ処理
+ * @param	(damage)	ダメージ
+ * @return	なし					*/
+void Dragon::Hit(int damage)
+{
+	life_ -= damage; 
+	accumulation_ += damage;
 }
 
 /* @fn		DebugInput
@@ -495,6 +526,14 @@ static VECTOR3 size = COLLISION_SIZE_NECK2;
 void Dragon::GuiUpdate(void)
 {
 	ImGui::Text("Life : %d", life_);
+	if (life_ > Quarter(MAX_LIFE))
+	{
+		ImGui::Text("Accu : %d / %.2f", accumulation_, MAX_LIFE * 0.3f);
+	}
+	else
+	{
+		ImGui::Text("life < Quarter(MAX_LIFE)");
+	}
 
 	//auto& c = collision_[static_cast<int>(Collision::NECK2)];
 	//if (c)
