@@ -27,6 +27,8 @@ static const     VECTOR3 COLLISION_SIZE = VECTOR3(3, 15, 3);
 /* @fn		コンストラクタ
  * @brief	変数の初期化			*/
 Player::Player(void) : GameObject(Object::Tag::PLAYER), GUI(Systems::Instance(), this, "player")
+	, state_(nullptr)
+	, isDraw_(false)
 	, body_(nullptr)
 	, hand_(nullptr)
 	, cameraManager_(nullptr)

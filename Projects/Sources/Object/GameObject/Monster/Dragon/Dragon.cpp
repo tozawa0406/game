@@ -193,7 +193,16 @@ void Dragon::Update(void)
 	{
 		if (moveController_)
 		{
-			moveController_->Move(velocity_);
+			int act = (currentAttack_) ? -1 : 0;
+			moveController_->Action(act);
+			if (act >= 0)
+			{
+				currentAttack_ = attack_[act];
+				if (currentAttack_)
+				{
+					currentAttack_->SetMove();
+				}
+			}
 		}
 	}
 
@@ -205,6 +214,7 @@ void Dragon::Update(void)
 	{
 		if (currentAttack_->Update())
 		{
+			currentAttack_->EndMove();
 			currentAttack_ = nullptr;
 		}
 	}
@@ -308,6 +318,12 @@ bool Dragon::TakenDamage(void)
 	// €–Sˆ—
 	if (life_ <= 0)
 	{
+		if (currentAttack_)
+		{
+			currentAttack_->EndMove(); 
+			currentAttack_ = nullptr;
+		}
+
 		int maxAnim = meshAnim_.mesh.GetMaxAnimation();
 		int pattern = static_cast<int>(meshAnim_.mesh.GetPattern());
 		if (pattern >= maxAnim - 1)
@@ -340,6 +356,7 @@ bool Dragon::TakenDamage(void)
 	if (life_ > Quarter(MAX_LIFE) && accumulation_ >= MAX_LIFE * 0.3f)
 	{
 		accumulation_ = 0;		
+		if (currentAttack_) { currentAttack_->EndMove(); }
 		currentAttack_ = attack_[static_cast<int>(AttackPattern::HIT)];
 		if (currentAttack_)
 		{

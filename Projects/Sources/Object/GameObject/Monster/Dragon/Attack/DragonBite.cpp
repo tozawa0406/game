@@ -160,6 +160,15 @@ bool DragonBite::Update(void)
 	return false;
 }
 
+/* @fn		EndMove
+ * @brief	モーションの終了処理
+ * @param	なし
+ * @return	なし			*/
+void DragonBite::EndMove(void)
+{
+	collider_->SetEnable(false);
+}
+
 /* @fn		GuiUpdate
  * @brief	Guiの更新処理
  * @param	なし

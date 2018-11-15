@@ -23,6 +23,7 @@ public:
 	virtual void Uninit(void) = 0;
 	virtual void SetMove(void) { enable_ = true; frame_ = 0; }
 	virtual bool Update(void) = 0;
+	virtual void EndMove(void)   = 0;
 
 	virtual void GuiUpdate(void) override
 	{

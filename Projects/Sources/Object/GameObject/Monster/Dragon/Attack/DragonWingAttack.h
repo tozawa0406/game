@@ -27,6 +27,7 @@ public:
 	void Uninit(void)  override;
 	void SetMove(void) override;
 	bool Update(void)  override;
+	void EndMove(void) override;
 
 	void GuiUpdate(void) override;
 

@@ -1,5 +1,6 @@
 #include "DragonMoveController.h"
 #include "Dragon.h"
+#include <random>
 
 /* @fn		コンストラクタ
  * @brief	変数の初期化			*/
@@ -36,7 +37,7 @@ void DragonMoveController::Uninit(void)
  * @brief	初期化
  * @param	(velocity)	与える速度
  * @return	なし					*/
-void DragonMoveController::Move(VECTOR3& velocity)
+void DragonMoveController::Action(int& act)
 {
 	if (!parent_ || !target_) { return; }
 
@@ -56,15 +57,17 @@ void DragonMoveController::Move(VECTOR3& velocity)
 	//	BitAdd(flag_, IS_DASH);
 	//}
 
+	VECTOR3 velocity = parent_->GetVelocity();
 	velocity += VECTOR3(0, 0, 1) * dir_.z * inputDash * Dragon::MOVE_SPEED;
 	velocity += VECTOR3(1, 0, 0) * dir_.x * inputDash * Dragon::MOVE_SPEED;
-
+	parent_->SetVelocity(velocity);
 
 	auto& meshAnim = parent_->GetMeshAnimation();
 
 	Dragon::Animation tempAnim = static_cast<Dragon::Animation>(meshAnim.animation);
 	if (dir_ != 0)
 	{
+		act = -1;
 		if (tempAnim == Dragon::Animation::WAIT1 || (tempAnim == Dragon::Animation::WALK || tempAnim == Dragon::Animation::RUN))
 		{
 			meshAnim.animSpeed = 0.5f;
@@ -83,6 +86,11 @@ void DragonMoveController::Move(VECTOR3& velocity)
 		{
 			meshAnim.mesh.ChangeAnimation(static_cast<int>(Dragon::Animation::WAIT1), 30);
 			meshAnim.animSpeed = 0.75f;
+		}
+		if (act == 0)
+		{
+			std::random_device randDev;
+			act = (randDev() % 2) + 1;
 		}
 	}
 

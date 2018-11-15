@@ -19,6 +19,7 @@ public:
 	void Uninit(void)  override;
 	void SetMove(void) override;
 	bool Update(void)  override;
+	void EndMove(void) override;
 
 	inline void SetFly(bool fly) { fly_ = fly; }
 

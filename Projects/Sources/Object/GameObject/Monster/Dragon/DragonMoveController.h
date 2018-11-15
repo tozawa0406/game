@@ -28,7 +28,7 @@ public:
 	 * @param	(target)	標的のポインタ	*/
 	inline void SetTarget(GameObject* target) { target_ = target; }
 
-	void Move(VECTOR3& velocity);
+	void Action(int& act);
 
 
 private:

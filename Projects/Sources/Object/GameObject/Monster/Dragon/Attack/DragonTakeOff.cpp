@@ -90,6 +90,14 @@ bool DragonTakeOff::Update(void)
 	return false;
 }
 
+/* @fn		EndMove
+ * @brief	モーションの終了処理
+ * @param	なし
+ * @return	なし			*/
+void DragonTakeOff::EndMove(void)
+{
+}
+
 /* @fn		GuiUpdate
  * @brief	Guiの更新処理
  * @param	なし

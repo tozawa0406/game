@@ -50,3 +50,11 @@ bool DragonScream::Update(void)
 	}
 	return false;
 }
+
+/* @fn		EndMove
+ * @brief	ƒ‚[ƒVƒ‡ƒ“‚ÌI—¹ˆ—
+ * @param	‚È‚µ
+ * @return	‚È‚µ			*/
+void DragonScream::EndMove(void)
+{
+}

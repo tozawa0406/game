@@ -11,7 +11,7 @@ static constexpr int   END_AVOIDANCE_ANIMATION = 30;
 
 /* @fn		コンストラクタ
  * @brief	変数の初期化			*/
-KnockBackState::KnockBackState(void) : isDraw_(false)
+KnockBackState::KnockBackState(void)
 {
 }
 
@@ -35,9 +35,6 @@ void KnockBackState::Init(Player* player, Controller* ctrl)
 	PlayerState::Init(player, ctrl);
 
 	auto& meshAnim = player->GetMeshAnimation();
-
-	// 回避前の状態
-	isDraw_ = (meshAnim.animation >= static_cast<int>(Player::Animation::SetupWait)) ? true: false;
 
 	// 攻撃中断
 	if (const auto& wapon = player->GetWapon())
@@ -77,7 +74,7 @@ PlayerState* KnockBackState::Update(void)
 			collider->SetEnable(true);
 		}
 
-		if (isDraw_)
+		if (player_->IsDraw())
 		{
 			return new DrawnWaitState;
 		}
@@ -98,4 +95,5 @@ PlayerState* KnockBackState::Update(void)
 void KnockBackState::GuiUpdate(void)
 {
 	ImGui::Text("KnockBack");
+	ImGui::Text(string("IsDraw : " + Systems::Instance()->GetDebug()->BoolToString(player_->IsDraw())).c_str());
 }

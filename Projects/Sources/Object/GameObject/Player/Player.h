@@ -69,10 +69,14 @@ public:
 	// デバッグ用、敵の操作中にプレイヤーを操作しない
 	inline bool IsDebugCtrl(void) { return (cameraManager_ && cameraManager_->GetMainNum() != 0) ? true : false; }
 
+	inline void SetDraw(bool isDraw) { isDraw_ = isDraw;	}
+	inline bool IsDraw(void)		 { return isDraw_;		}
+
 private:
 	bool IsDed(void);
 
 	PlayerState*	state_;				//! プレイヤーのステート
+	bool			isDraw_;			//! 抜刀フラグ
 
 	Wapon*			wapon_;				//! 武器
 	CameraManager*	cameraManager_;		//! カメラマネージャー

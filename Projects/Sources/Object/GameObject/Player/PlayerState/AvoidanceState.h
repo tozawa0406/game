@@ -23,7 +23,6 @@ public:
 
 private:
 	VECTOR3 dir_;		//! •ûŒü
-	bool	isDraw_;	//! ”[”²“ó‘Ô
 };
 
 #endif // _AVOIDANCE_STATE_H_

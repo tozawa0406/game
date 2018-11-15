@@ -22,7 +22,6 @@ public:
 	void GuiUpdate(void) override;
 
 private:
-	bool	isDraw_;	//! ”[”²“ó‘Ô
 	int		cnt_;
 	VECTOR3	back_;
 };

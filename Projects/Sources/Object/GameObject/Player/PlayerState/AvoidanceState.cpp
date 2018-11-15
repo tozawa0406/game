@@ -13,7 +13,7 @@ static constexpr int   END_AVOIDANCE_ANIMATION = 30;
 
 /* @fn		コンストラクタ
  * @brief	変数の初期化			*/
-AvoidanceState::AvoidanceState(void) : dir_(VECTOR3(0)), isDraw_(false)
+AvoidanceState::AvoidanceState(void) : dir_(VECTOR3(0))
 {
 }
 
@@ -35,9 +35,6 @@ void AvoidanceState::Init(Player* player, Controller* ctrl)
 	PlayerState::Init(player, ctrl);
 
 	auto& meshAnim = player->GetMeshAnimation();
-
-	// 回避前の状態
-	isDraw_ = (meshAnim.animation >= static_cast<int>(Player::Animation::SetupWait)) ? true: false;
 
 	// 攻撃中断
 	if (const auto& wapon = player->GetWapon())
@@ -74,6 +71,11 @@ void AvoidanceState::Init(Player* player, Controller* ctrl)
 			}
 		}
 	}
+
+	if (auto collider = player->GetCollider())
+	{
+		collider->SetEnable(false);
+	}
 }
 
 /* @fn		Uninit
@@ -107,21 +109,25 @@ PlayerState* AvoidanceState::Update(void)
 		velocity *= 0.5f;
 		player_->SetVelocity(velocity);
 
+		if (auto collider = player_->GetCollider())
+		{
+			collider->SetEnable(true);
+		}
 		// 入力があれば移動ステート
 		if (inputDir != 0)
 		{
-			if (isDraw_) { return new DrawnMoveState; }
-			else		 { return new PaidMoveState;  }
+			if (player_->IsDraw())  { return new DrawnMoveState; }
+			else					{ return new PaidMoveState;  }
 		}
 		else
 		{
 			// 納刀状態と抜刀状態でアニメーションの切り替え
-			meshAnim.animation = static_cast<int>((isDraw_) ? Player::Animation::SetupWait : Player::Animation::Wait);
+			meshAnim.animation = static_cast<int>((player_->IsDraw()) ? Player::Animation::SetupWait : Player::Animation::Wait);
 			// アニメーションの変更
 			meshAnim.mesh.ChangeAnimation(meshAnim.animation, ANIMATION_CHANGE_FRAME15, false);
 
-			if (isDraw_) { return new DrawnWaitState; }
-			else		 { return new PaidWaitState;  }
+			if (player_->IsDraw())  { return new DrawnWaitState; }
+			else					{ return new PaidWaitState;  }
 		}
 	}
 

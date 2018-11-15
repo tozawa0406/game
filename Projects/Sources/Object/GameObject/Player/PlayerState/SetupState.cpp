@@ -32,7 +32,7 @@ void SetupState::Init(Player* player, Controller* ctrl)
 	auto& meshAnim = player->GetMeshAnimation();
 
 	// 納刀時は逆再生
-	if (meshAnim.animation >= static_cast<int>(Player::Animation::SetupWait))
+	if (player->IsDraw())
 	{
 		isDraw_ = true;
 		meshAnim.animSpeed = -0.75f; 
@@ -72,6 +72,7 @@ PlayerState* SetupState::Update(void)
 		if (const auto& wapon = player_->GetWapon())
 		{
 			wapon->Setup(isDraw_);
+			player_->SetDraw(!player_->IsDraw());
 
 			// 移動キーを押している場合は移動ステートへアニメーションを切り替えながら移行
 			if (ctrl_->PressRange(Input::AXIS_LX, DIK_A, DIK_D) || ctrl_->PressRange(Input::AXIS_LY, DIK_S, DIK_W))
