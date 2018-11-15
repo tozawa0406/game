@@ -55,6 +55,8 @@ public:
 	};
 	//! @def	ˆÚ“®‘¬“x
 	static constexpr float MOVE_SPEED = 0.03f;
+	//! @def	‘–‚èƒtƒ‰ƒO
+	static constexpr uint IS_DASH = 0x0001;
 
 	Dragon(void);
 	~Dragon(void);

@@ -42,13 +42,15 @@ HRESULT Loading::Init(void)
 	display_[2].color		= COLOR(c, c, c, 1);
 	display_[2].enable		= false;
 
-	display_[3].Init(systems_, 253, (int)Texture::Base::FILL_RECTANGLE);
+	display_[3].Init(systems_, 253, (int)Texture::Base::LOAD);
 	display_[3].position		= display_[0].position;
 	display_[3].position.y		-= 100;
 	display_[3].size			= VECTOR2(150, 150);
 	display_[3].rotationOffset	= VECTOR2(75, 75);
 	display_[3].color			= COLOR(1, 1, 1, 1);
 	display_[3].enable			= false;
+	display_[3].split			= VECTOR2(3, 1);
+	display_[3].pattern			= 0;
 
 	loadingPercent_ = new Score(systems_->GetSceneManager(), false, 3);
 	loadingPercent_->SetPriority(252);

@@ -7,6 +7,7 @@
 DragonMoveController::DragonMoveController(void) : GUI(Systems::Instance(), nullptr, "DragonController")
 	, parent_(nullptr)
 	, target_(nullptr)
+	, isDash_(false)
 {
 }
 
@@ -37,7 +38,7 @@ void DragonMoveController::Uninit(void)
  * @brief	初期化
  * @param	(velocity)	与える速度
  * @return	なし					*/
-void DragonMoveController::Action(int& act)
+void DragonMoveController::Action(int& act, uint& flag)
 {
 	if (!parent_ || !target_) { return; }
 
@@ -46,16 +47,33 @@ void DragonMoveController::Action(int& act)
 	// 方決定
 	dir_ = target_->GetTransform().position - parent_->GetTransform().position;
 	dir_.y = 0;
-	dir_ = (VecLengthSq(dir_) < range * range) ? 0 : VecNorm(dir_);
 
 	// 走り判定
 	float inputDash = 1;
-	//BitSub(flag_, IS_DASH);
-	//if (ctrl->Press(Input::GAMEPAD_R1, DIK_LSHIFT))
-	//{
-	//	inputDash = 10;
-	//	BitAdd(flag_, IS_DASH);
-	//}
+	BitSub(flag, Dragon::IS_DASH);
+
+	float lenghtSq = VecLengthSq(dir_);
+
+	if (lenghtSq > 50 * 50)
+	{
+		isDash_ = true;
+		inputDash = 10;
+		BitAdd(flag, Dragon::IS_DASH);
+	}
+	else
+	{
+		// 1回走ったなら中途半端に終わるな
+		if (isDash_)
+		{
+			inputDash = 10;
+			BitAdd(flag, Dragon::IS_DASH);
+
+			// 1ループしたら終了してよい
+			if (parent_->IsEndAnim()) { isDash_ = false; }
+		}
+	}
+
+	dir_ = (lenghtSq < range * range) ? 0 : VecNorm(dir_);
 
 	VECTOR3 velocity = parent_->GetVelocity();
 	velocity += VECTOR3(0, 0, 1) * dir_.z * inputDash * Dragon::MOVE_SPEED;
@@ -72,11 +90,11 @@ void DragonMoveController::Action(int& act)
 		{
 			meshAnim.animSpeed = 0.5f;
 			meshAnim.animation = static_cast<int>(Dragon::Animation::WALK);
-			//if (BitCheck(flag_, IS_DASH))
-			//{
-			//	meshAnim.animSpeed = 0.75f;
-			//	meshAnim.animation = static_cast<int>(Dragon::Animation::RUN);
-			//}
+			if (BitCheck(flag, Dragon::IS_DASH))
+			{
+				meshAnim.animSpeed = 0.75f;
+				meshAnim.animation = static_cast<int>(Dragon::Animation::RUN);
+			}
 			meshAnim.mesh.ChangeAnimation(meshAnim.animation, 30);
 		}
 	}

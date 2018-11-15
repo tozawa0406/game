@@ -21,8 +21,6 @@ static constexpr float SCALE = 0.9f;
 static constexpr int MAX_LIFE = 1000;
 
 
-//! @def	走りフラグ
-static constexpr uint IS_DASH = 0x0001;
 //! @def	飛行フラグ
 static constexpr uint IS_FLY = 0x0002;
 
@@ -194,7 +192,7 @@ void Dragon::Update(void)
 		if (moveController_)
 		{
 			int act = (currentAttack_) ? -1 : 0;
-			moveController_->Action(act);
+			moveController_->Action(act, flag_);
 			if (act >= 0)
 			{
 				currentAttack_ = attack_[act];

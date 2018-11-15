@@ -28,7 +28,7 @@ public:
 	 * @param	(target)	標的のポインタ	*/
 	inline void SetTarget(GameObject* target) { target_ = target; }
 
-	void Action(int& act);
+	void Action(int& act, uint& flag);
 
 
 private:
@@ -36,6 +36,7 @@ private:
 	GameObject*		target_;
 
 	VECTOR3 dir_;
+	bool	isDash_;
 };
 
 #endif // _DRAGON_MOVE_CONTROLLER_H_
