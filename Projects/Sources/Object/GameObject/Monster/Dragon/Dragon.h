@@ -10,6 +10,7 @@
 #include <FrameWork/Systems/Camera/CameraManager.h>
 #include "../../GameObject.h"
 #include "../MonsterAttack.h"
+#include "DragonMoveController.h"
 
 class Dragon : public GameObject, public GUI
 {
@@ -52,6 +53,8 @@ public:
 
 		MAX
 	};
+	//! @def	移動速度
+	static constexpr float MOVE_SPEED = 0.03f;
 
 	Dragon(void);
 	~Dragon(void);
@@ -66,14 +69,18 @@ public:
 
 private:
 	void CreateCollision(void);
-	void DebugInput(void);
+	bool DebugInput(void);
 	bool TakenDamage(void);
+
+	void SetCollision(int arrayNum, string boneName, const Transform& offset, const MODEL& model);
 
 	uint				flag_;
 	Collider3D::OBB*	collision_[static_cast<uint8>(Collision::MAX)];
 
 	MonsterAttack*		attack_[static_cast<int>(AttackPattern::MAX)];
 	MonsterAttack*		currentAttack_;
+
+	DragonMoveController* moveController_;
 
 	int accumulation_;		//! 被ダメージ蓄積値
 

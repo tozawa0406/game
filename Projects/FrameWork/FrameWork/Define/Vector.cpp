@@ -218,6 +218,11 @@ bool VECTOR3::operator == (const VECTOR3& v)
 	return (this->x == v.x && this->y == v.y && this->z == v.z) ? true : false;
 }
 
+bool VECTOR3::operator != (float f)
+{
+	return (this->x != f || this->y != f || this->z != f) ? true : false;
+}
+
 bool VECTOR3::operator != (const VECTOR3& v)
 {
 	return (this->x != v.x || this->y != v.y || this->z != v.z) ? true : false;

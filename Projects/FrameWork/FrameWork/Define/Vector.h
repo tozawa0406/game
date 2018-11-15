@@ -78,6 +78,7 @@ public:
 	VECTOR3 operator / (const VECTOR3& v) const;
 
 	bool operator == (const VECTOR3& v);
+	bool operator != (float f);
 	bool operator != (const VECTOR3& v);
 	bool operator != (std::nullptr_t t)const;
 

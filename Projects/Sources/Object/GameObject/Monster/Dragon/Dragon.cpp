@@ -17,8 +17,6 @@
 
 //! @def	大きさ
 static constexpr float SCALE = 0.9f;
-//! @def	移動速度
-static constexpr float MOVE_SPEED = 0.03f;
 //! @def	ライフ
 static constexpr int MAX_LIFE = 1000;
 
@@ -30,25 +28,19 @@ static constexpr uint IS_FLY = 0x0002;
 
 //! @def	体のボーンの名前
 static const     string BONE_BODY = "Spine2";
-static const     VECTOR3 COLLISION_OFFSET_POS_BODY = VECTOR3(-4, 1.5f, 0);
-static const     VECTOR3 COLLISION_SIZE_BODY = VECTOR3(18, 9, 15);
+static const	 Transform COLLISION_OFFSET_BODY = Transform(VECTOR3(-4, 1.5f, 0), VECTOR3(0), VECTOR3(18, 9, 15));
 //! @def	頭のボーンの名前
 static const     string BONE_HEAD = "Head";
-static const     VECTOR3 COLLISION_OFFSET_POS_HEAD = VECTOR3(5, 3, 0);
-static const     VECTOR3 COLLISION_SIZE_HEAD = VECTOR3(6, 6, 6);
+static const	 Transform COLLISION_OFFSET_HEAD = Transform(VECTOR3(5, 3, 0), VECTOR3(0), VECTOR3(6, 6, 6));
 //! @def	首1のボーン(体より)
 static const     string BONE_NECK1 = "Neck2";
-static const     VECTOR3 COLLISION_OFFSET_POS_NECK1 = VECTOR3(1, 2, 0);
-static const     VECTOR3 COLLISION_SIZE_NECK1 = VECTOR3(8, 8, 10);
+static const	 Transform COLLISION_OFFSET_NECK1 = Transform(VECTOR3(1, 2, 0), VECTOR3(0), VECTOR3(8, 8, 10));
 //! @def	首2のボーン(頭より)
 static const     string BONE_NECK2 = "Neck4";
-static const     VECTOR3 COLLISION_OFFSET_POS_NECK2 = VECTOR3(3, 1, 0);
-static const     VECTOR3 COLLISION_SIZE_NECK2 = VECTOR3(10, 5, 5);
-//! @def	頭のボーンの名前
-static const     string BONE_WIND_L = "WingClaw2_L";
-static const     VECTOR3 COLLISION_OFFSET_POS_WING_L = VECTOR3(0, -3, -4);
-static const     VECTOR3 COLLISION_OFFSET_ROT_WING_L = VECTOR3(0, -2, 0);
-static const     VECTOR3 COLLISION_SIZE_WING_L = VECTOR3(7, 2, 2);
+static const	 Transform COLLISION_OFFSET_NECK2 = Transform(VECTOR3(3, 1, 0), VECTOR3(0), VECTOR3(10, 5, 5));
+//! @def	翼爪のボーンの名前
+static const     string BONE_WING_L_CLAW = "WingClaw2_L";
+static const	 Transform COLLISION_OFFSET_WING_L_CLAW = Transform(VECTOR3(0, -3, -4), VECTOR3(0, -2, 0), VECTOR3(7, 2, 2));
 
 /* @fn		コンストラクタ
  * @brief	変数の初期化			*/
@@ -56,6 +48,7 @@ Dragon::Dragon(void) : GameObject(Object::Tag::ENEMY), GUI(Systems::Instance(), 
 	, flag_(0)
 	, debugMove_(false)
 	, currentAttack_(nullptr)
+	, moveController_(nullptr)
 	, accumulation_(0)
 	, cameraManager_(nullptr)
 	, camera_(nullptr)
@@ -118,6 +111,21 @@ void Dragon::Init(void)
 	attack_[arrayNum] = new DragonHit;
 	if (attack_[arrayNum]) { attack_[arrayNum]->Init(this); }
 
+	moveController_ = new DragonMoveController;
+	if (moveController_)
+	{
+		moveController_->Init(this);
+		auto objects = manager_->Get();
+		for (auto object : objects)
+		{
+			if (object->GetTag() == Object::Tag::PLAYER)
+			{
+				moveController_->SetTarget(static_cast<GameObject*>(object));
+				break;
+			}
+		}
+	}
+
 #ifdef _SELF_DEBUG
 	// デバッグ用、敵操作時のカメラ
 	// カメラマネージャーの取得
@@ -151,6 +159,8 @@ void Dragon::Init(void)
  * @return	なし					*/
 void Dragon::Uninit(void)
 {
+	UninitDeletePtr(moveController_);
+
 	for (auto& c : collision_)
 	{
 		DeletePtr(c);
@@ -178,8 +188,14 @@ void Dragon::Update(void)
 	if (ded_) { return; }
 
 #ifdef _SELF_DEBUG
-	DebugInput();
+	if (!DebugInput())
 #endif
+	{
+		if (moveController_)
+		{
+			moveController_->Move(velocity_);
+		}
+	}
 
 	isEndAnim_ = meshAnim_.mesh.Animation(meshAnim_.animSpeed);
 
@@ -243,90 +259,43 @@ void Dragon::CreateCollision(void)
 			{
 				const auto& model = wrapper->GetModel(meshAnim_.mesh.GetModelNum());
 
-				auto  s = transform_.scale;
-				int num = static_cast<int>(Collision::BODY);
-				collision_[num] = new Collider3D::OBB(this);
-				if (collision_[num])
-				{
-					for(auto& bone : model.bone)
-					{
-						if (bone.name == BONE_BODY)
-						{
-							collision_[num]->SetParentMtx(&model.transMtx, &bone.nowBone);
-							break;
-						}
-					}
-					collision_[num]->SetOffsetPosition(COLLISION_OFFSET_POS_BODY * s);
-					collision_[num]->SetSize(COLLISION_SIZE_BODY * s);
-				}
-
-				num = static_cast<int>(Collision::HEAD);
-				collision_[num] = new Collider3D::OBB(this);
-				if (collision_[num])
-				{
-					for (auto& bone : model.bone)
-					{
-						if (bone.name == BONE_HEAD)
-						{
-							collision_[num]->SetParentMtx(&model.transMtx, &bone.nowBone);
-							break;
-						}
-					}
-					collision_[num]->SetOffsetPosition(COLLISION_OFFSET_POS_HEAD * s);
-					collision_[num]->SetSize(COLLISION_SIZE_HEAD * s);
-				}
-
-				num = static_cast<int>(Collision::NECK1);
-				collision_[num] = new Collider3D::OBB(this);
-				if (collision_[num])
-				{
-					for (auto& bone : model.bone)
-					{
-						if (bone.name == BONE_NECK1)
-						{
-							collision_[num]->SetParentMtx(&model.transMtx, &bone.nowBone);
-							break;
-						}
-					}
-					collision_[num]->SetOffsetPosition(COLLISION_OFFSET_POS_NECK1 * s);
-					collision_[num]->SetSize(COLLISION_SIZE_NECK1 * s);
-				}
-
-				num = static_cast<int>(Collision::NECK2);
-				collision_[num] = new Collider3D::OBB(this);
-				if (collision_[num])
-				{
-					for (auto& bone : model.bone)
-					{
-						if (bone.name == BONE_NECK2)
-						{
-							collision_[num]->SetParentMtx(&model.transMtx, &bone.nowBone);
-							break;
-						}
-					}
-					collision_[num]->SetOffsetPosition(COLLISION_OFFSET_POS_NECK2 * s);
-					collision_[num]->SetSize(COLLISION_SIZE_NECK2 * s);
-				}
-
-				auto& c3 = collision_[static_cast<int>(Collision::WING_L)];
-				c3 = new Collider3D::OBB(this);
-				if (c3)
-				{
-					for (auto& bone : model.bone)
-					{
-						if (bone.name == "WingClaw2_L")
-						{
-							c3->SetParentMtx(&model.transMtx, &bone.nowBone);
-							break;
-						}
-					}
-					c3->SetOffsetPosition(COLLISION_OFFSET_POS_WING_L * s);
-					c3->SetOffsetRotation(COLLISION_OFFSET_ROT_WING_L);
-					c3->SetSize(COLLISION_SIZE_WING_L * s);
-				}
+				SetCollision(static_cast<int>(Collision::BODY) , BONE_BODY , COLLISION_OFFSET_BODY , model);
+				SetCollision(static_cast<int>(Collision::HEAD) , BONE_HEAD , COLLISION_OFFSET_HEAD , model);
+				SetCollision(static_cast<int>(Collision::NECK1), BONE_NECK1, COLLISION_OFFSET_NECK1, model);
+				SetCollision(static_cast<int>(Collision::NECK2), BONE_NECK2, COLLISION_OFFSET_NECK2, model);
+				SetCollision(static_cast<int>(Collision::WING_L), BONE_WING_L_CLAW, COLLISION_OFFSET_WING_L_CLAW, model);
 			}
 		}
 	}
+}
+
+/* @fn		SetCollision
+ * @brief	コリジョンの設定
+ * @param	(arrayNum)	生成するコリジョンの配列番号
+ * @param	(boneName)	ボーンの名前
+ * @param	(offset)	オフセット
+ * @param	(model)		モデルデータ
+ * @return	なし					*/
+void Dragon::SetCollision(int arrayNum, string boneName, const Transform& offset, const MODEL& model)
+{
+	collision_[arrayNum] = new Collider3D::OBB(this);
+	if (collision_[arrayNum])
+	{
+		for (auto& bone : model.bone)
+		{
+			if (bone.name == boneName)
+			{
+				collision_[arrayNum]->SetParentMtx(&model.transMtx, &bone.nowBone);
+				break;
+			}
+		}
+
+		auto s = transform_.scale;
+		collision_[arrayNum]->SetOffsetPosition(offset.position * s);
+		collision_[arrayNum]->SetOffsetRotation(offset.rotation * s);
+		collision_[arrayNum]->SetSize(offset.scale * s);
+	}
+
 }
 
 /* @fn		TakenDamage
@@ -394,15 +363,15 @@ void Dragon::Hit(int damage)
 
 /* @fn		DebugInput
  * @brief	デバッグ用操作
- * @sa		Update
+ * @sa		Update()
  * @param	なし
- * @return	なし					*/
-void Dragon::DebugInput(void)
+ * @return	実行したらtrue			*/
+bool Dragon::DebugInput(void)
 {
-	if (!debugMove_) { return; }
+	if (!debugMove_) { return false; }
 
 	const auto& ctrl = GetCtrl(0);
-	if (!ctrl) { return; }
+	if (!ctrl) { return false; }
 
 	VECTOR2 inputDir;
 	// Input
@@ -450,7 +419,7 @@ void Dragon::DebugInput(void)
 	}
 
 
-	if (currentAttack_) { return; }
+	if (currentAttack_) { return true; }
 
 	// 咆哮
 	if (ctrl->Trigger(Input::GAMEPAD_L2, DIK_T))
@@ -513,11 +482,10 @@ void Dragon::DebugInput(void)
 			}
 		}
 	}
+	return true;
 }
 
-static VECTOR3 oft  = COLLISION_OFFSET_POS_NECK2;
-static VECTOR3 ofr  = VECTOR3(0, 0, 0);
-static VECTOR3 size = COLLISION_SIZE_NECK2;
+static Transform trf = COLLISION_OFFSET_NECK2;
 
 /* @fn		GuiUpdate
  * @brief	Guiの更新処理

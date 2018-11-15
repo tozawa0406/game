@@ -31,10 +31,11 @@ public:
 				‚»‚êˆÈŠO‚ÅŽg‚¤‚È							*/
 	inline MESH_ANIMATION& GetMeshAnimation(void) { return meshAnim_; }
 
-	inline const VECTOR3&  GetVelocity(void)						{ return velocity_;		}
+	inline const VECTOR3&  GetVelocity(void)					{ return velocity_;		}
 	inline void			   SetVelocity(const VECTOR3& velocity)	{ velocity_ = velocity; }
 
 	inline const VECTOR3& GetFront(void) { return front_; }
+	inline const VECTOR3& GetRight(void) { return right_; }
 
 	inline bool IsEndAnim(void) { return isEndAnim_; }
 

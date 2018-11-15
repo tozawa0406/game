@@ -9,7 +9,7 @@ static const VECTOR3 PAID_ROTATION = VECTOR3(-1, 0, 1.57f);
 //! @def	抜刀位置
 static const VECTOR3 DRAWN_POSITION = VECTOR3(6, 0, 0);
 //! @def	抜刀回転
-static const VECTOR3 DRAWN_ROTATION = VECTOR3(-1.57f, 1.35f, 3.14f);
+static const VECTOR3 DRAWN_ROTATION = VECTOR3(-1.2f, 1.35f, 3.14f);
 
 /* @fn		コンストラクタ
  * @brief	変数の初期化				*/
@@ -104,7 +104,7 @@ void KohakuSword::DrawnSword(void)
 
 void KohakuSword::GuiUpdate(void)
 {
-	ImGui::DragFloat3("rot", transform_.rotation, 0.1f, 0, 6.14f);
+	ImGui::DragFloat3("rot", transform_.rotation, 0.01f, -6.14f, 6.14f);
 
 	auto g = transform_.globalPosition;
 	ImGui::Text("global : %.2f, %.2f, %.2f", g.x, g.y, g.z);
