@@ -38,6 +38,7 @@
     <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\PaidState\PaidWaitState.cpp" />
     <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\SetupState.cpp" />
     <ClCompile Include="Sources\Object\StaticObject\PaidGoodsBox.cpp" />
+    <ClCompile Include="Sources\Object\UI\PlayerLife.cpp" />
     <ClCompile Include="Sources\Object\UI\Timer.cpp" />
     <ClCompile Include="Sources\Object\Wapon\KohakuSword.cpp" />
     <ClCompile Include="Sources\Scene\EachScene.cpp" />
@@ -68,6 +69,7 @@
     <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\PlayerState.h" />
     <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\SetupState.h" />
     <ClInclude Include="Sources\Object\StaticObject\PaidGoodsBox.h" />
+    <ClInclude Include="Sources\Object\UI\PlayerLife.h" />
     <ClInclude Include="Sources\Object\UI\Timer.h" />
     <ClInclude Include="Sources\Object\Wapon\KohakuSword.h" />
     <ClInclude Include="Sources\Object\Wapon\Wapon.h" />

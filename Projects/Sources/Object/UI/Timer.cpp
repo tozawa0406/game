@@ -3,7 +3,7 @@
 // デバッグ用
 #ifdef _DEBUG
 // 時間の計測を秒単位に変更する
-//#define TIME_TO_SECOND
+#define TIME_TO_SECOND
 #endif
 
 //! @def	初期位置
@@ -11,7 +11,7 @@ static const	 VECTOR2 POSITION	= VECTOR2(Graphics::WIDTH * 0.1f, Graphics::HEIGH
 //! @def	描画順
 static constexpr uint8 LAYER		= 100;
 //! @def	全体のスケール
-static constexpr float SCALE		= 1;
+static constexpr float SCALE		= 0.8f;
 //! @def	全体の透明度
 static constexpr uint8 ALPHA		= 1;
 //! @def	時計の最大は60
@@ -41,17 +41,17 @@ static const	 VECTOR2 HAND_SPLIT = VECTOR2(6, 1);
 static const	 VECTOR2 HAND_SIZE	= VECTOR2(40, 65);
 
 //! @def	終了針の位置調整
-static constexpr float ADJUST_HANDEND_POSITION = 1.75f;
+static constexpr float ADJUST_HANDEND_POSITION = -1;
 //! @def	終了針のテクスチャ位置
 static constexpr uint8	 HANDEND_PATTERN	= 3;
 
 //! @def	現在針の位置調整
-static constexpr float	 ADJUST_HANDNOW_POSITION = 1.5f;
+static constexpr float	 ADJUST_HANDNOW_POSITION = -0.85f;
 //! @def	終了針のテクスチャ位置
 static constexpr uint8	 HANDNOW_PATTERN = 4;
 
 //! @def	時計中央留め具位置調整
-static constexpr float	 ADJUST_CLIP_POSITION = 1.25f;
+static constexpr float	 ADJUST_CLIP_POSITION = -11.5f;
 //! @def	時計中央留め具の大きさ
 static const	 VECTOR2 CLIP_SIZE = VECTOR2(50, 150);
 //! @def	時計中央留め具のテクスチャ位置

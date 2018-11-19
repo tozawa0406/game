@@ -12,6 +12,7 @@
 #include <FrameWork/Systems/Score.h>
 
 #include "../Object/GameObject/Player/Player.h"
+#include "../Object/UI/PlayerLife.h"
 #include "../Object/GameObject/Monster/Dragon/Dragon.h"
 #include "../Object/UI/Timer.h"
 #include "../Object/StaticObject/PaidGoodsBox.h"
@@ -41,6 +42,8 @@ void GameScene::Init(void)
 	player->SetWapon(wapon);
 	objectManager_->Create<Dragon>();
 	objectManager_->Create<Timer>();
+	auto* life = objectManager_->Create<PlayerLife>();
+	life->SetPlayer(player);
 	objectManager_->Create<PaidGoodsBox>();
 
 	//	systems_->GetSound()->Play((int)Sound::Game::BGM_GAME);

@@ -39,6 +39,8 @@ public:
 
 	inline bool IsEndAnim(void) { return isEndAnim_; }
 
+	inline int  GetLife(void) { return life_; }
+
 private:
 	void CreateFrontVector(void);
 
