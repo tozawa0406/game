@@ -52,23 +52,14 @@ public:
 	enum class Game
 	{
 		FIELD = (int)Base::MAX,
-		TREE,
 		EXPLOSION,
 		EFFECT,
-		SHADOW,
-		BULLET,
-		TARGET_MAKER,
 
-		ALEAT,
-		BULLET_UI,
-		MISSILE_UI,
+		HP_BAR,
+		ITEM_UI,
 
 		TIMER_UI,
 
-		COUNT,
-		GO,
-		READY,
-		ISSUE,
 		MENU,
 
 		MAX
@@ -89,52 +80,44 @@ public:
 private:
 	const string baseFileName[(int)Base::MAX]
 	{
-		{ directoryName + "white.jpg"		},
-		{ directoryName + "UI/number.png"	},
-		{ directoryName + "UI/ssUI.jpg"		},
-		{ directoryName + "UI/load.png"		},
+		{ directoryName + "white.jpg"					},
+		{ directoryName + "UI/number.png"				},
+		{ directoryName + "UI/ssUI.jpg"					},
+		{ directoryName + "UI/load.png"					},
 	};
 
 	const string titleFileName[(int)Title::MAX - (int)Base::MAX]
 	{
 		{ directoryName + "UI/please_press/please_press.png" },
-		{ directoryName + "UI/please_press/A.png" },
-		{ directoryName + "UI/please_press/B.png" },
-		{ directoryName + "UI/please_press/enter.png" },
-		{ directoryName + "UI/please_press/maru.png" },
+		{ directoryName + "UI/please_press/A.png"		},
+		{ directoryName + "UI/please_press/B.png"		},
+		{ directoryName + "UI/please_press/enter.png"	},
+		{ directoryName + "UI/please_press/maru.png"	},
 		  
-		{ directoryName + "UI/title_rogo.png" },
+		{ directoryName + "UI/title_rogo.png"			},
 	};
 
 	const string gameFileName[(int)Game::MAX - (int)Base::MAX]
 	{
-		{ directoryName + "field.jpg" },
-		{ directoryName + "billboard/tree.png" },
-		{ directoryName + "explosion/explosion.png" },
-		{ directoryName + "effect.jpg" },
-		{ directoryName + "shadow.png" },
-		{ directoryName + "billboard/bullet.png" },
-		{ directoryName + "billboard/target_marker.png" },
+		{ directoryName + "field.jpg"					},
+		{ directoryName + "explosion/explosion.png"		},
+		{ directoryName + "effect.jpg"					},
 
-		{ directoryName + "UI/aleat.png" },
-		{ directoryName + "UI/UI.png" },
-		{ directoryName + "UI/UI2.png" },
-		{ directoryName + "UI/timer.png" },
+		{ directoryName + "UI/game/hpbar.png"			},
+		{ directoryName + "UI/game/itemlist.png"		},
 
-		{ directoryName + "UI/startUI/321.png" },
-		{ directoryName + "UI/startUI/GO.png" },
-		{ directoryName + "UI/startUI/ready.png" },
-		{ directoryName + "UI/issue.png" },
-		{ directoryName + "UI/menuUI.png" },
+		{ directoryName + "UI/timer.png"				},
+
+		{ directoryName + "UI/menuUI.png"				},
 	};
 
 	const string resultFileName[(int)Result::MAX - (int)Base::MAX]
 	{
 		{ directoryName + "UI/please_press/please_press.png" },
-		{ directoryName + "UI/please_press/A.png" },
-		{ directoryName + "UI/please_press/B.png" },
-		{ directoryName + "UI/please_press/enter.png" },
-		{ directoryName + "UI/please_press/maru.png" },
+		{ directoryName + "UI/please_press/A.png"		},
+		{ directoryName + "UI/please_press/B.png"		},
+		{ directoryName + "UI/please_press/enter.png"	},
+		{ directoryName + "UI/please_press/maru.png"	},
 	};
 
 
