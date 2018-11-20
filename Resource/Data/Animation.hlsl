@@ -69,10 +69,10 @@ OUT_VS VS_Main(IN_VS In)
 	float3 N = normalize(mul(In.normal, mtx));
 	float3 lightDirect = normalize(float3(LightView._31, LightView._32, LightView._33));
 	float k = max(dot(N, -lightDirect), 0.0f);
-	Out.color = Color * (0.3 + k);
+	Out.color = Color * (0.7 + k);
 	Out.color.a = 1;
 
-	Out.color = Color;
+//	Out.color = Color;
 
 	Out.texcoord = In.texcoord;
 
