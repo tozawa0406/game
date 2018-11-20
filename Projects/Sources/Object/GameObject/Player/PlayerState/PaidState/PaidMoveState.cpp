@@ -4,6 +4,9 @@
 #include "../AvoidanceState.h"
 #include "../SetupState.h"
 
+//! @def	消費スタミナ
+static constexpr float DEC_STAMINA = 0.1f;
+
 /* @fn		コンストラクタ
  * @brief	変数の初期化			*/
 PaidMoveState::PaidMoveState(void)
@@ -51,7 +54,16 @@ PlayerState* PaidMoveState::Update(void)
 	// 正規化
 	inputDir = VecNorm(inputDir);
 
-	float inputDash = (ctrl_->Press(Input::GAMEPAD_R1, DIK_LSHIFT)) ? 2.5f : 1.0f;
+	float inputDash = 1.0f;
+	if (ctrl_->Press(Input::GAMEPAD_R1, DIK_LSHIFT))
+	{
+		float stamina = player_->GetStamina();
+		if (stamina > 0)
+		{
+			inputDash = 2.5f;
+			player_->SetStamina(stamina - (Player::ADD_STAMINA + DEC_STAMINA));
+		}
+	}
 
 	inputDir *= inputDash;
 
@@ -81,7 +93,10 @@ PlayerState* PaidMoveState::Update(void)
 	// 回避コマンドで回避ステートへ
 	if (ctrl_->Trigger(Input::GAMEPAD_CROSS, DIK_M))
 	{
-		return new AvoidanceState;
+		if (player_->GetStamina() > AvoidanceState::DEC_STAMINA)
+		{
+			return new AvoidanceState;
+		}
 	}
 
 	// 抜刀コマンドで抜刀ステートへ

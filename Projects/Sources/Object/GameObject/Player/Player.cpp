@@ -28,6 +28,7 @@ static const     VECTOR3 COLLISION_SIZE = VECTOR3(3, 15, 3);
  * @brief	•Ï”‚Ì‰Šú‰»			*/
 Player::Player(void) : GameObject(Object::Tag::PLAYER), GUI(Systems::Instance(), this, "player")
 	, state_(nullptr)
+	, stamina_(150)
 	, isDraw_(false)
 	, body_(nullptr)
 	, hand_(nullptr)
@@ -175,6 +176,8 @@ void Player::Update(void)
 			state_ = temp;
 		}
 	}
+
+	stamina_ = min(stamina_ + ADD_STAMINA, 150);
 
 	Move();
 

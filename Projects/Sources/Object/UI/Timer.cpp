@@ -3,7 +3,7 @@
 // デバッグ用
 #ifdef _DEBUG
 // 時間の計測を秒単位に変更する
-#define TIME_TO_SECOND
+//#define TIME_TO_SECOND
 #endif
 
 //! @def	初期位置
@@ -61,7 +61,10 @@ static constexpr uint8	 CLIP_PATTERN = 5;
 
 /* @fn		コンストラクタ
  * @brief	変数の初期化		*/
-Timer::Timer(void) : Object(Object::Tag::UI), frame_(0), time_(START_TIME), second_(0)
+Timer::Timer(void) : Object(Object::Tag::UI), GUI(Systems::Instance(), this, "Timer")
+	, frame_(0)
+	, time_(START_TIME)
+	, second_(0)
 {
 }
 
@@ -171,19 +174,47 @@ void Timer::Update(void)
 		{
 			second_ = 0;
 			time_--;
-			// 角度を変更
-			circleGauge_.angle = (float)time_ / TIME * MAX_PERCENT;
-
-			// 針を回す
-			handNow_.angle = max(0, (circleGauge_.angle * MOVE));
-			// 一定を超えたら一番上に描画
-			if (handNow_.angle < PI) { handNow_.SetPriority(LAYER + 3); }
-
-			// 残り少しで赤くする
-			if (circleGauge_.angle < RED_TIME)
-			{
-				circleGauge_.color = COLOR(1, 0, 0, 0.5f * ALPHA);
-			}
 		}
+	}
+
+	// 角度を変更
+	circleGauge_.angle	= (float)time_ / TIME * MAX_PERCENT;
+
+	// 針を回す
+	handNow_.angle		= max(0, (circleGauge_.angle * MOVE));
+	// 一定を超えたら一番上に描画
+	if (handNow_.angle < PI) { handNow_.SetPriority(LAYER + 3); }
+
+	// 残り少しで赤くする
+	if (circleGauge_.angle < RED_TIME)
+	{
+		circleGauge_.color = COLOR(1, 0, 0, 0.5f * ALPHA);
+	}
+
+}
+
+/* @fn		GuiUpdate
+ * @brief	Gui更新処理
+ * @param	なし
+ * return	なし				*/
+void Timer::GuiUpdate(void)
+{
+	ImGui::Text("remaining time : %d", time_);
+	ImGui::Text("second         : %d", second_);
+	ImGui::Text("frame          : %d", frame_);
+
+	if (ImGui::Button("1 min pas"))
+	{
+		time_ -= 1;
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("5 min pas"))
+	{
+		time_ -= 5;
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("10 min pas"))
+	{
+		time_ -= 10;
 	}
 }

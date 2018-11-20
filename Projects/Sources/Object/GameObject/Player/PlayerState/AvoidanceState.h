@@ -12,6 +12,9 @@
 class AvoidanceState : public PlayerState
 {
 public:
+	//! @def	使用時に消費するスタミナ
+	static constexpr int DEC_STAMINA = 30;
+
 	AvoidanceState(void);
 	~AvoidanceState(void);
 

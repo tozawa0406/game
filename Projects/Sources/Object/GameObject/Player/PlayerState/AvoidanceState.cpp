@@ -76,6 +76,8 @@ void AvoidanceState::Init(Player* player, Controller* ctrl)
 	{
 		collider->SetEnable(false);
 	}
+
+	player->SetStamina(player->GetStamina() - DEC_STAMINA);
 }
 
 /* @fn		Uninit
@@ -94,6 +96,8 @@ PlayerState* AvoidanceState::Update(void)
 {
 	if (!player_) { return nullptr; }
 	auto& meshAnim = player_->GetMeshAnimation();
+
+	player_->SetStamina(player_->GetStamina() - 0.1f);
 
 	//I—¹Žž
 	if (meshAnim.mesh.GetPattern() >= END_AVOIDANCE_ANIMATION)

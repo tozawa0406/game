@@ -10,7 +10,7 @@
 #include <FrameWork/Define/Define.h>
 #include <FrameWork/Object/Object.h>
 
-class Timer : public Object
+class Timer : public Object, public GUI
 {
 public:
 	Timer(void);
@@ -19,6 +19,8 @@ public:
 	void Init(void)   override;
 	void Uninit(void) override;
 	void Update(void) override;
+
+	void GuiUpdate(void) override;
 
 private:
 	int time_;			//! ‚ŞŠÔ

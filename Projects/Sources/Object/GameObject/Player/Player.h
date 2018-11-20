@@ -40,6 +40,8 @@ public:
 		Slash_3,
 		MAX
 	};
+	//! @def	スタミナ回復値
+	static constexpr float ADD_STAMINA = 0.2f;
 
 	Player(void);
 	virtual ~Player(void);
@@ -72,10 +74,14 @@ public:
 	inline void SetDraw(bool isDraw) { isDraw_ = isDraw;	}
 	inline bool IsDraw(void)		 { return isDraw_;		}
 
+	inline float GetStamina(void)			{ return stamina_;		}
+	inline void  SetStamina(float stamina)	{ stamina_ = stamina;	}
+
 private:
 	bool IsDed(void);
 
 	PlayerState*	state_;				//! プレイヤーのステート
+	float			stamina_;			//! スタミナ
 	bool			isDraw_;			//! 抜刀フラグ
 
 	Wapon*			wapon_;				//! 武器

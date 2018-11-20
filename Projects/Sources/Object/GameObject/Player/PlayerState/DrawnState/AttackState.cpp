@@ -130,7 +130,10 @@ PlayerState* AttackState::Update(void)
 	// 回避コマンドで回避ステート
 	if (ctrl_->Trigger(Input::GAMEPAD_CROSS, DIK_M))
 	{
-		return new AvoidanceState;
+		if (player_->GetStamina() > AvoidanceState::DEC_STAMINA)
+		{
+			return new AvoidanceState;
+		}
 	}
 
 	return nullptr;
