@@ -123,10 +123,14 @@ void LoadM::GetMesh(FILE* fp, MODEL& model)
 	fread(&tempMesh.material.emission, sizeof(COLOR), 1, fp);
 	fread(&tempMesh.material.power   , sizeof(float), 1, fp);
 
-	fread(&size, sizeof(size), 1, fp);
-	ZeroMemory(buf, sizeof(char) * 1028);
-	fread(buf, size, 1, fp);
-	tempMesh.material.textureName = buf;
+	int texMax = static_cast<int>(MaterialType::MAX);
+	for (int i = 0; i < texMax; ++i)
+	{
+		fread(&size, sizeof(size), 1, fp);
+		ZeroMemory(buf, sizeof(char) * 1028);
+		fread(buf, size, 1, fp);
+		tempMesh.material.textureName[i] = buf;
+	}
 
 	model.mesh.emplace_back(tempMesh);
 }

@@ -71,8 +71,11 @@ PlayerState* SetupState::Update(void)
 		// 武器の状態切り替え
 		if (const auto& wapon = player_->GetWapon())
 		{
-			wapon->Setup(isDraw_);
-			player_->SetDraw(!player_->IsDraw());
+			if (isDraw_ == player_->IsDraw())
+			{
+				wapon->Setup(isDraw_);
+				player_->SetDraw(!player_->IsDraw());
+			}
 
 			// 移動キーを押している場合は移動ステートへアニメーションを切り替えながら移行
 			if (ctrl_->PressRange(Input::AXIS_LX, DIK_A, DIK_D) || ctrl_->PressRange(Input::AXIS_LY, DIK_S, DIK_W))

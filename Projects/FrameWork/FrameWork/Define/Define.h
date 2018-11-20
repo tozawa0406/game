@@ -66,6 +66,7 @@ struct VERTEX
 {
 	VECTOR3 position;
 	VECTOR3 normal;
+	VECTOR3 tangent;
 	COLOR   color;
 	VECTOR2 texcoord;
 	VECTOR4 boneIndex;

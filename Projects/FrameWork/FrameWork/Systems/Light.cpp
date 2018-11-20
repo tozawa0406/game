@@ -10,8 +10,8 @@ Light::Light(Systems* systems) : systems_(systems)
 	c.specular = COLOR(1, 1, 1, 1);
 	c.power    = 0;
 
-	c.texture = 0;
-	c.textureName = "";
+	for (auto& t : c.texture) { t = 0; }
+	for (auto& t : c.textureName) { t = ""; }
 
 	light_.position  = VECTOR3(0, 100, -150);
 	light_.at		 = VECTOR3(0, -10, 0);
@@ -31,8 +31,8 @@ Light::Light(Systems* systems, VECTOR3 position, VECTOR3 at, COLOR color) : syst
 	c.specular = COLOR(1, 1, 1, 1);
 	c.power    = 0;
 
-	c.texture = 0;
-	c.textureName = "";
+	for (auto& t : c.texture) { t = 0; }
+	for (auto& t : c.textureName) { t = ""; }
 
 	light_.position  = position;
 	light_.at        = at;

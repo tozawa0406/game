@@ -21,10 +21,14 @@ SamplerState DiffuseSampler  : register(s0);
 Texture2D    ShadowTexture : register(t1);
 SamplerState ShadowSampler : register(s1);
 
+Texture2D    NormalTexture  : register(t2);
+SamplerState NormalSampler  : register(s2);
+
 struct IN_VS
 {
 	float4 position : POSITION0;
 	float4 normal   : NORMAL0;
+	float4 tangent	: TANGENT0;
 	float4 color    : COLOR0;
 	float2 texcoord : TEXCOORD0;
 	float4 boneIndex: TEXCOORD1;
@@ -36,6 +40,8 @@ struct OUT_VS
 	float4 position : SV_POSITION;
 	float2 texcoord : TEXCOORD0;
 	float4 ZCalcTex : TEXCOORD1;
+	float3 eye		: TEXCOORD2;
+	float3 light	: TEXCOORD3;
 	float4 color    : COLOR0;
 };
 
@@ -50,39 +56,67 @@ OUT_VS VS_Main(IN_VS In)
 					(mul(mul(In.position, transpose(BoneInv[In.boneIndex.w])), transpose(BoneAnim[In.boneIndex.w])) * In.weight.w);
 
 	Out.position += In.position * step(In.weight.x, 0.0001f);
+	float4 position = Out.position;
 
+	// 座標系の計算
 	Out.position = mul(Out.position, transpose(World));
 	Out.position = mul(Out.position, transpose(View));
 	Out.position = mul(Out.position, transpose(Proj));
 
-	//// ライトの目線によるワールドビュー射影変換をする
+	float3 N = normalize(In.normal.xyz);
+	float3 T = normalize(In.tangent.xyz);
+	float3 B = normalize(cross(N, T));
+
+	//視線ベクトルを計算
+	float3 eye = normalize(float3(0, 10, -10));
+
+	//視線ベクトルを頂点座標系に変換する
+	Out.eye.x = dot(eye, T);
+	Out.eye.y = dot(eye, B);
+	Out.eye.z = dot(eye, N);
+	Out.eye = normalize(Out.eye);
+
+	//頂点座標 -> ライトの位置ベクトル
+	float3 light = normalize(float3(LightView._31, LightView._32, LightView._33));
+
+	//ライトベクトルを頂点座標系に変換する
+	Out.light.x = dot(light, T);
+	Out.light.y = dot(light, B);
+	Out.light.z = dot(light, N);
+	Out.light = normalize(Out.light);
+
+	// ライトの目線によるワールドビュー射影変換をする
 	float4 calc;
 	calc = mul(In.position, transpose(World));
-	calc = mul(calc       , transpose(LightView));
-	calc = mul(calc       , transpose(LightProj));
+	calc = mul(calc, transpose(LightView));
+	calc = mul(calc, transpose(LightProj));
 	Out.ZCalcTex = calc;
 
-	// 法線とライトの方向から頂点の色を決定
-	// 濃くなりすぎないように調節しています
-	matrix mtx = transpose(World);
-	mtx._41_42_43 = 0;
-	float3 N = normalize(mul(In.normal, mtx));
-	float3 lightDirect = normalize(float3(LightView._31, LightView._32, LightView._33));
-	float k = max(dot(N, -lightDirect), 0.0f);
-	Out.color = Color * (0.7 + k);
-	Out.color.a = 1;
-
-//	Out.color = Color;
+	Out.color = Color;
 
 	Out.texcoord = In.texcoord;
-
-    return Out;
+	
+	return Out;
 }
 
 //ピクセルシェーダー
 float4 PS_Main(OUT_VS In) : SV_Target
 {
+	//法線マップを参照し、法線を取得する
+	//法線マップは 0.0f ～ 1.0f の範囲に保存してあるので -1.0f ～ 1.0f の範囲に変換する
+	float3 normal = 2.0f * NormalTexture.Sample(NormalSampler, In.texcoord).xyz - 1.0f;
+
+	//フォンシェーディングによるスペキュラーの色を計算する
+	//ハーフベクトルの計算
+	float3 H = normalize(In.light + In.eye);
+
+	//スペキュラーカラーを計算する
+	//	float S = pow(max(0.0f, dot(Normal, H)), m_Specular) * m_SpecularPower;
+	float S = 0;
+
+	//合成する
 	float4 Out = In.color * DiffuseTexture.Sample(DiffuseSampler, In.texcoord);
+	Out.xyz *= max(0.6f, dot(normal.xyz, In.light.xyz)) + S;
 
 	// ライト目線によるZ値の再算出
 	float inv = 1.0f / In.ZCalcTex.w;

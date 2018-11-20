@@ -232,6 +232,16 @@ bool Player::IsDed(void)
 void Player::GuiUpdate(void)
 {
 	ImGui::Text("Life : %d", life_);
+	ImGui::Text("Drawn : ");
+	ImGui::SameLine();
+	if (isDraw_)
+	{
+		ImGui::Text("true");
+	}
+	else
+	{
+		ImGui::Text("false");
+	}
 
 	ImGui::Text("state : ");
 	if (state_)

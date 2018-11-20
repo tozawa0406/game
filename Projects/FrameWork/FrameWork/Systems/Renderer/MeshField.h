@@ -49,8 +49,8 @@ private:
 	UINT vertexBuffer_;
 	UINT indexBuffer_;
 
-	std::vector<VERTEX3D> outputVertex_;
-	std::vector<WORD>     outputIndex_;
+	std::vector<VERTEX> outputVertex_;
+	std::vector<WORD>   outputIndex_;
 
 	VECTOR2 size_;
 	VECTOR2 split_;

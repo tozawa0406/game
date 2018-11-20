@@ -96,8 +96,11 @@ void DirectX11Wrapper::Init(void)
 		{
 			{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT   , 0,  0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 			{ "NORMAL"  , 0, DXGI_FORMAT_R32G32B32_FLOAT   , 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-			{ "COLOR"   , 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-			{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT      , 0, 40, D3D11_INPUT_PER_VERTEX_DATA, 0 }
+			{ "TANGENT" , 0, DXGI_FORMAT_R32G32B32_FLOAT   , 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+			{ "COLOR"   , 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 36, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+			{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT      , 0, 52, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+			{ "TEXCOORD", 1, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 60, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+			{ "TEXCOORD", 2, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 76, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 		};
 
 		shader_[1].vertexShader.emplace_back(this->CreateVertexShader(directoryHlsl, "VS_MeshMain", "vs_5_0", &layout[0], sizeof(layout) / sizeof(layout[0])));
@@ -487,6 +490,7 @@ void DirectX11Wrapper::Draw(MeshRenderer* obj, const Shader* shader)
 	pContext->PSSetShaderResources(1, 1, &shadowMap_.shaderResourceView);
 	// テクスチャサンプラステートのセット
 	pContext->PSSetSamplers(0, 1, &sampler);
+	pContext->PSSetSamplers(2, 1, &sampler);
 	pContext->PSSetSamplers(1, 1, &shadowMap_.sampler);
 
 	int modelNum = (int)obj->GetModelNum();
@@ -539,7 +543,11 @@ void DirectX11Wrapper::Draw(MeshRenderer* obj, const Shader* shader)
 		}
 
 		// テクスチャ設定
-		SetTexture(0, mesh.material.texture, modelNum);	
+		SetTexture(0, mesh.material.texture[0], modelNum);	
+		if (mesh.material.textureName[1].size() > 0)
+		{
+			SetTexture(2, mesh.material.texture[1], modelNum);
+		}
 		// シェーダーの設定
 		pContext->VSSetShader(vertex->shader, NULL, 0);
 		pContext->PSSetShader(pixel, NULL, 0);
@@ -859,8 +867,6 @@ HRESULT DirectX11Wrapper::LoadModel(string fileName, int modelNum)
 	int texNum = 0;
 	for (auto& mesh : tempModel.mesh)
 	{
-		string tempName = mesh.material.textureName;
-
 		mesh.computeShader = R_ERROR;
 		if (fbx)
 		{
@@ -886,32 +892,38 @@ HRESULT DirectX11Wrapper::LoadModel(string fileName, int modelNum)
 		mesh.indexBuffer = CreateIndexBuffer(&mesh.index[0], (UINT)mesh.index.size());
 		if (mesh.indexBuffer == R_ERROR) { return E_FAIL; }
 
-		if (mesh.material.textureName != "")
+		int texMax = static_cast<int>(MaterialType::MAX);
+		for (int j = 0;j < texMax;++j)
 		{
-			string directory = fileName;
-			// テクスチャのディレクトリはモデルと同じ
-			for (UINT i = (UINT)directory.size() - 1; directory[i] != '/' && i > 0; i--) { directory.pop_back(); }
-
-			string texName;
-			int size = (int)tempName.size() - 1;
-			for (int i = size; i >= 0; --i)
+			string tempName = mesh.material.textureName[j];
+			if (tempName != "")
 			{
-				if (tempName[i] == 92 || tempName[i] == '/') { break; }
-				texName.insert(texName.begin(), tempName[i]);
+				string directory = fileName;
+				// テクスチャのディレクトリはモデルと同じ
+				for (UINT i = (UINT)directory.size() - 1; directory[i] != '/' && i > 0; i--) { directory.pop_back(); }
+
+				string texName;
+				int size = (int)tempName.size() - 1;
+				for (int i = size; i >= 0; --i)
+				{
+					if (tempName[i] == 92 || tempName[i] == '/') { break; }
+					texName.insert(texName.begin(), tempName[i]);
+				}
+				mesh.material.textureName[j] = tempName.c_str();
+				directory += texName;
+
+				LoadTexture(directory, texNum, modelNum);	
+				mesh.material.texture[j] = texNum;
+				texNum++;
 			}
-			mesh.material.textureName = tempName.c_str();
-			directory += texName;
-
-			LoadTexture(directory, texNum, modelNum);
+			else
+			{
+				string temp = Systems::Instance()->GetTexture()->GetWhiteTextureFileName();
+				LoadTexture(temp, texNum, modelNum);
+				mesh.material.texture[j] = texNum;
+				texNum++;
+			}
 		}
-		else
-		{
-			string temp = Systems::Instance()->GetTexture()->GetWhiteTextureFileName();
-			LoadTexture(temp, texNum, modelNum);
-		}
-
-		mesh.material.texture = texNum;
-		texNum++;
 	}
 
 	if (texNum > 0)
@@ -1011,6 +1023,7 @@ ID3DBlob* DirectX11Wrapper::CompiledShader(string fileName, string method, strin
 	{
 		OutputDebugStringA((const char*)pErrors->GetBufferPointer());
 
+		__debugbreak();
 		return nullptr;
 	}
 	ReleasePtr(pErrors);
@@ -1048,6 +1061,7 @@ UINT DirectX11Wrapper::CreateVertexShader(string fileName, string method, string
 	hr = dev->CreateVertexShader(pCompiledShader->GetBufferPointer(), pCompiledShader->GetBufferSize(), NULL, &tempVertexShader.shader);
 	if (directX11_->GetWindow()->ErrorMessage(string(fileName + "バーテックスシェーダー作成失敗").c_str(), "エラー", hr))
 	{
+		__debugbreak();
 		ReleasePtr(pCompiledShader);
 		return R_ERROR;
 	}

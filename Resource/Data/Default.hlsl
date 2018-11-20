@@ -16,17 +16,20 @@ SamplerState DiffuseSampler : register(s0);
 
 struct IN_VS
 {
-	float4 position : POSITION;
-	float4 normal   : NORMAL;
-	float4 color    : COLOR;
-	float2 texcoord : TEXCOORD;
+	float4 position : POSITION0;
+	float4 normal   : NORMAL0;
+	float4 tangent	: TANGENT0;
+	float4 color    : COLOR0;
+	float2 texcoord : TEXCOORD0;
+	float4 boneIndex: TEXCOORD1;
+	float4 weight   : TEXCOORD2;
 };
 
 struct OUT_VS
 {
 	float4 position : SV_POSITION;
-	float4 color    : COLOR;
-	float2 texcoord : TEXCOORD;
+	float4 color    : COLOR0;
+	float2 texcoord : TEXCOORD0;
 };
 
 //バーテックスシェーダー
@@ -38,7 +41,7 @@ OUT_VS VS_MeshMain(IN_VS In)
 	Out.position = mul(Out.position, transpose(View));
 	Out.position = mul(Out.position, transpose(Proj));
 
-	Out.color    = In.color;
+	Out.color    = Diffuse;
 	Out.texcoord = In.texcoord;
 
     return Out;

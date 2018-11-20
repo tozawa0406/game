@@ -16,8 +16,9 @@ SamplerState Sampler  : register(s0);
 
 struct IN_VS
 {
-	float4 position : POSITION;
-	float4 normal   : NORMAL;
+	float4 position : POSITION0;
+	float4 normal   : NORMAL0;
+	float4 tangent	: TANGENT0;
 	float4 color    : COLOR0;
 	float2 texcoord : TEXCOORD0;
 	float4 boneIndex: TEXCOORD1;

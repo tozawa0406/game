@@ -85,7 +85,14 @@ void MeshField::CreateVertex(int num)
 				nomals.y *= -1;
 			}
 
-			VERTEX3D t = { vertexTemp, nomals, COLOR(1, 1, 1, 1), VECTOR2((float)(i % (int)(split_.x + 1)), (float)(int)(i / (split_.x + 1))) };
+			VERTEX t;
+			t.position	= vertexTemp;
+			t.normal	= nomals;
+			t.tangent	= VECTOR3(0, 0, 0);
+			t.color		= COLOR(1, 1, 1, 1);
+			t.boneIndex = VECTOR4(0, 0, 0, 0);
+			t.weight	= VECTOR4(0, 0, 0, 0);
+			t.texcoord  = VECTOR2((float)(i % (int)(split_.x + 1)), (float)(int)(i / (split_.x + 1)));
 
 			// •ªŠ„”‚ªŠï”‚Ì
 			if ((int)split_.x % 2 == 1)
@@ -185,11 +192,14 @@ HRESULT MeshField::InputData(void)
 	fread(&size, sizeof(size), 1, pFile);
 	for (int i = 0; i < (int)size; ++i)
 	{
-		VERTEX3D v;
+		VERTEX v;
 		fread(&v.position, sizeof(VECTOR3), 1, pFile);
-		fread(&v.normal, sizeof(VECTOR3), 1, pFile);
-		fread(&v.color, sizeof(VECTOR4), 1, pFile);
+		fread(&v.normal  , sizeof(VECTOR3), 1, pFile);
+		fread(&v.color   , sizeof(VECTOR4), 1, pFile);
 		fread(&v.texcoord, sizeof(VECTOR2), 1, pFile);
+		v.tangent	= VECTOR3(0, 0, 0);
+		v.boneIndex = VECTOR4(0, 0, 0, 0);
+		v.weight	= VECTOR4(0, 0, 0, 0);
 		outputVertex_.emplace_back(v);
 	}
 

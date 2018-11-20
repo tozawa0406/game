@@ -10,6 +10,14 @@
 #include "../../../Define/Define.h"
 #include "../../BaseManager.h"
 
+enum class MaterialType
+{
+	Diffuse = 0,
+	Normal,
+
+	MAX
+};
+
 struct MATERIAL
 {
 	COLOR		ambient;
@@ -17,8 +25,8 @@ struct MATERIAL
 	COLOR		specular;
 	COLOR		emission;
 	float		power;
-	UINT		texture;
-	string		textureName;
+	UINT		texture[static_cast<int>(MaterialType::MAX)];
+	string		textureName[static_cast<int>(MaterialType::MAX)];
 };
 
 struct BONE
@@ -146,12 +154,12 @@ public:
 private:
 	const string gameFileName[(int)Game::MAX]
 	{
-		{ directoryName + "cube/cube.bmx"						},
-		{ directoryName + "sky/sky.bmx"							},
-		{ directoryName + "unitychan/unitychan.bmx"				},
-		{ directoryName + "wapon/kohaku_sword/kohaku_sword.bmx" },
-		{ directoryName + "box/TreasureChest.bmx"				},
-		{ directoryName + "terror_dragon/terror_dragon.bmx"		},
+		{ directoryName + "cube/cube2.bmx"						},
+		{ directoryName + "sky/sky2.bmx"							},
+		{ directoryName + "unitychan/unitychan_notangent.bmx"				},
+		{ directoryName + "wapon/kohaku_sword/kohaku_sword_notangent.bmx" },
+		{ directoryName + "box/TreasureChest_notangent.bmx"				},
+		{ directoryName + "terror_dragon/terror_dragon2.bmx"		},
 	};
 
 	const ANIMATION_INFO animationGameFileName[(int)Animation::Game::MAX]
