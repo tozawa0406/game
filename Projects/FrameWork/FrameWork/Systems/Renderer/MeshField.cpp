@@ -253,7 +253,7 @@ float MeshField::Hit(VECTOR3 position)
 	playerLineRow[0] = (int)((split_.x + 1) * (line - 1) + (row - 1));
 	playerLineRow[1] = (int)((playerLineRow[0] + (split_.x + 1)));
 
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 2; ++i)
 	{
 		if (playerLineRow[i] < 0) { continue; }
 		VECTOR3 temp[4];
@@ -286,7 +286,7 @@ float MeshField::Hit(VECTOR3 position)
 
 bool MeshField::CalcHit(VECTOR3* v, float& y)
 {
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 3; ++i)
 	{
 		int t = (i + 2) % 3;
 

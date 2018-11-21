@@ -18,7 +18,7 @@ public:
 	Light(Systems* systems);
 	Light(Systems* systems, VECTOR3 position, VECTOR3 at = VECTOR3(0, 0, 0), COLOR color = COLOR(1, 1, 1, 1));
 
-	LightInfo& GetLight(void) { return light_; }
+	LightInfo& GetLightInfo(void) { return light_; }
 
 	void SetLight(void);
 

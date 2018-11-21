@@ -5,6 +5,7 @@ cbuffer scene : register(b0)
 	matrix Proj;
 	float4 Texcoord;
 	float4 Color;
+	float4 LightPosition;
 	matrix LightView;               // ライトビュー変換行列
 	matrix LightProj;               // 射影変換行列
 };
@@ -68,7 +69,7 @@ OUT_VS VS_Main(IN_VS In)
 	float3 B = normalize(cross(N, T));
 
 	//視線ベクトルを計算
-	float3 eye = normalize(float3(0, 10, -10));
+	float3 eye = normalize(LightPosition - position);
 
 	//視線ベクトルを頂点座標系に変換する
 	Out.eye.x = dot(eye, T);
@@ -77,7 +78,7 @@ OUT_VS VS_Main(IN_VS In)
 	Out.eye = normalize(Out.eye);
 
 	//頂点座標 -> ライトの位置ベクトル
-	float3 light = normalize(float3(LightView._31, LightView._32, LightView._33));
+	float3 light = normalize(position - LightPosition);
 
 	//ライトベクトルを頂点座標系に変換する
 	Out.light.x = dot(light, T);

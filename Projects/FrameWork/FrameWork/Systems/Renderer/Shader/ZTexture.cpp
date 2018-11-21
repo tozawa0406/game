@@ -77,7 +77,7 @@ HRESULT ZTexture::BeginDraw(void)
 
 			if (light)
 			{
-				view_ = dev->CreateViewMatrix(light->GetLight().position, light->GetLight().at, up);
+				view_ = dev->CreateViewMatrix(light->GetLightInfo().position, light->GetLightInfo().at, up);
 				proj_ = dev->CreateProjectionMatrix(Camera::FOV, (float)Graphics::WIDTH / Graphics::HEIGHT, 60, 265);
 			}
 		}

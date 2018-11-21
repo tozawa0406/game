@@ -13,6 +13,8 @@
 #include "ZTexture.h"
 
 #include "../../../Graphics/DirectX11/DirectX11Wrapper.h"
+#include "../../../../../Sources/Scene/GameScene.h"
+#include "../../Light.h"
 
 HRESULT DefaultShader::Init(void)
 {
@@ -77,6 +79,10 @@ HRESULT DefaultShader::SetParam(const MATRIX& mtx, const COLOR& color, VECTOR4 t
 		cbuf.texcoord = VECTOR4(0, 0, 1, 1);
 		VECTOR4 t = { color.r, color.g, 1, 1 };
 		cbuf.diffuse = t;
+
+		const auto& scene = static_cast<GameScene*>(systems->GetSceneManager()->GetScene());
+		const auto& lp = scene->GetLight()->GetLightInfo().position;
+		cbuf.lightPosition = VECTOR4(lp.x, lp.y, lp.z, 1);
 
 		const ZTexture* depth = (ZTexture*)manager_->GetShader(Shader::ENUM::ZTEXTURE);
 		cbuf.lightView = depth->GetLightView();

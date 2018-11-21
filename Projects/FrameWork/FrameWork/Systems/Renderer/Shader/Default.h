@@ -28,7 +28,7 @@ public:
 		VECTOR4 texcoord;
 		VECTOR4 diffuse;
 //		VECTOR4 eyePos;
-//		VECTOR4 lightPos;			// 光源の位置(モデル座標)
+		VECTOR4 lightPosition;			// 光源の位置(モデル座標)
 		MATRIX  lightView;
 		MATRIX  lightProj;
 	};
