@@ -1,5 +1,7 @@
 #include "KohakuSword.h"
 #include "../GameObject/GameObject.h"
+#include <FrameWork/Object/ObjectManager.h>
+#include "../Billboard/BloodSplash.h"
 
 //! @def	î[ìÅà íu
 static const VECTOR3 PAID_POSITION = VECTOR3(30, -10, 0);
@@ -76,6 +78,8 @@ void KohakuSword::Update(void)
 				if (!hit_)
 				{
 					static_cast<GameObject*>(o)->Hit(100);
+					VECTOR3 p = transform_.globalPosition + collider_->GetDirect(2) * collider_->GetLen(2);
+					manager_->Create<BloodSplash>(p);
 					hit_ = true;
 				}
 			}

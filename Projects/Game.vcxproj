@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Sources\Object\Billboard\BloodSplash.cpp" />
     <ClCompile Include="Sources\Object\GameObject\GameObject.cpp" />
     <ClCompile Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonBite.cpp" />
     <ClCompile Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonHit.cpp" />
@@ -48,6 +49,7 @@
     <ClCompile Include="Sources\Scene\TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Sources\Object\Billboard\BloodSplash.h" />
     <ClInclude Include="Sources\Object\GameObject\GameObject.h" />
     <ClInclude Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonBite.h" />
     <ClInclude Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonHit.h" />

@@ -59,7 +59,6 @@ HRESULT DefaultShader::Init(void)
 
 HRESULT DefaultShader::SetParam(const MATRIX& mtx, const COLOR& color, VECTOR4 texcoord) const
 {
-	UNREFERENCED_PARAMETER(texcoord);
 	Systems* systems = manager_->GetSystems();
 
 	const auto& dev = systems->GetRenderer()->GetWrapper();
@@ -76,7 +75,7 @@ HRESULT DefaultShader::SetParam(const MATRIX& mtx, const COLOR& color, VECTOR4 t
 		memcpy_s(&cbuf.view , sizeof(MATRIX), &systems->GetSceneManager()->GetCameraManager()->GetView(), sizeof(MATRIX));
 		memcpy_s(&cbuf.proj , sizeof(MATRIX), &systems->GetSceneManager()->GetCameraManager()->GetProj(), sizeof(MATRIX));
 
-		cbuf.texcoord = VECTOR4(0, 0, 1, 1);
+		cbuf.texcoord = texcoord;
 		VECTOR4 t = { color.r, color.g, 1, 1 };
 		cbuf.diffuse = t;
 

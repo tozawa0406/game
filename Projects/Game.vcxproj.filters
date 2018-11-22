@@ -48,6 +48,9 @@
     <Filter Include="Source\Object\GameObject\Monster\Dragon\Attack">
       <UniqueIdentifier>{91b861d5-ef34-4330-ae95-8cc0d31df0d0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Object\Billboard">
+      <UniqueIdentifier>{cbb48814-e9cf-4ddf-83d8-19966402b834}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sources\Object\UI\Timer.cpp">
@@ -130,6 +133,9 @@
     </ClCompile>
     <ClCompile Include="Sources\Object\UI\PlayerLife.cpp">
       <Filter>Source\Object\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Object\Billboard\BloodSplash.cpp">
+      <Filter>Source\Object\Billboard</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -222,6 +228,9 @@
     </ClInclude>
     <ClInclude Include="Sources\Object\UI\PlayerLife.h">
       <Filter>Source\Object\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\Billboard\BloodSplash.h">
+      <Filter>Source\Object\Billboard</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
