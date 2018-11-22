@@ -179,9 +179,10 @@ void Player::Update(void)
 
 	stamina_ = min(stamina_ + ADD_STAMINA, 150);
 
+	transform_.position.y = 0;
 	Move();
 
-	OnGround();
+	transform_.position += collider_->GetBack();
 }
 
 /* @fn		Hit
@@ -231,6 +232,8 @@ bool Player::IsDed(void)
  * @return	‚È‚µ					*/
 void Player::GuiUpdate(void)
 {
+	ImGui::Text("temp : %.2f, %.2f, %.2f", collider_->GetBack().x, collider_->GetBack().y, collider_->GetBack().z);
+
 	ImGui::Text("Life : %d", life_);
 	ImGui::Text("Drawn : ");
 	ImGui::SameLine();

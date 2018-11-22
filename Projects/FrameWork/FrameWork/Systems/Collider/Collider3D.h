@@ -30,6 +30,7 @@ protected:
 	VECTOR3				offsetRotation_;
 	VECTOR3				direction_[3];
 	VECTOR3				size_;
+	VECTOR3				back_;
 
 	Object*				object_;
 	ColliderRenderer	renderer_;
@@ -76,6 +77,8 @@ public:
 	inline COLOR GetRendererColor(void) { return renderer_.GetColor(); }
 	inline void SetRendererColor(COLOR color) { renderer_.SetColor(color); }
 
+	inline const VECTOR3& GetBack(void) { return back_; }
+	inline const Transform& GetTransform(void) const { return transform_; }
 	void HitStop(Object* hitObj, VECTOR3& pos, VECTOR2& velocity) { UNREFERENCED_PARAMETER(hitObj); UNREFERENCED_PARAMETER(pos); UNREFERENCED_PARAMETER(velocity); };
 };
 

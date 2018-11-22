@@ -29,7 +29,7 @@ public:
 	MeshField(Systems* systems);
 	~MeshField(void);
 
-	float Hit(VECTOR3 position);
+	VECTOR3 Hit(const VECTOR3& position, VECTOR3& velocity);
 
 	HRESULT Init(VECTOR2 split = { SPLIT, SPLIT }, VECTOR2 size = { SIZE, SIZE });			//èâä˙âªèàóù
 
@@ -42,7 +42,7 @@ private:
 	void    CreateVertex(int num);
 	void    CreateIndex(int num);
 
-	bool CalcHit(VECTOR3* v, float& y);
+	bool CalcHit(VERTEX* v, float& y, VECTOR3& velocity);
 
 	Systems* systems_;
 
@@ -57,6 +57,10 @@ private:
 
 	Transform	   transform_;
 	SpriteRenderer renderer_;
+
+	VECTOR3 ttttt;
+	VECTOR3 ttt;
+	VECTOR3 tttt;
 };
 
 #endif // _MESHFIELD_H_

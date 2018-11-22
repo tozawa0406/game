@@ -25,6 +25,7 @@ void Collision3DManager::Update(void)
 		obj->list_.clear();
 		obj->colliderList_.clear();
 
+		obj->back_ = VECTOR3(0, 0, 0);
 		obj->Update();
 	}
 
@@ -68,6 +69,11 @@ void Collision3DManager::Update(void)
 					{
 						if(this->HitOBBs((*(Collider3D::OBB*)col1), (*(Collider3D::OBB*)col2)))
 						{
+							if (col1->renderer_.color == COLOR::RGBA(35, 191, 0, 255) &&
+								col2->renderer_.color == COLOR::RGBA(35, 191, 0, 255))
+							{
+								Back((*(Collider3D::OBB*)col1), (*(Collider3D::OBB*)col2), col1->back_);
+							}
 							col1->list_.emplace_back(col2->object_);
 							col1->colliderList_.emplace_back(col2);
 						}
@@ -402,4 +408,60 @@ bool Collision3DManager::SeparationC(VECTOR3& NAe, VECTOR3& NBe, VECTOR3& Ae1, V
 		return false;
 	}
 	return true;
+}
+
+
+void Collision3DManager::Back(const Collider3D::OBB& obb1, const Collider3D::OBB& obb2, VECTOR3& length)
+{
+	float r = 0.0f;			// 近接距離
+	auto obb2Pos = obb2.GetTransform().globalPosition;
+
+	auto obb1Pos = obb1.GetTransform().globalPosition;
+
+	VECTOR2 min = VECTOR2(100000);
+	for (int i = 0; i < 6; ++i)
+	{
+		VECTOR3 obb2Nor = obb2.GetDirect(i % 3);
+		if (i > 2) { obb2Nor *= -1; }
+
+		VECTOR3 v = (obb2Pos + obb2Nor * obb2.GetLen(i % 3)) - obb1Pos;
+		for (int j = 0; j < 6; ++j)
+		{
+			auto n = obb1.GetDirect(j);
+			if (j > 2) { n *= -1; }
+			float dot = Abs(VecDot(v, n));
+
+			if (min.y > dot)
+			{
+				min.x = static_cast<float>(i);
+				min.y = dot;
+			}
+		}
+	}
+
+	int arrayNum = static_cast<int>(min.x);
+	VECTOR3 obb2Nor = obb2.GetDirect(arrayNum % 3);
+	if (arrayNum > 2) { obb2Nor *= -1; }
+
+	// 平面の法線に対するOBBの射影線の長さを算出
+	for (int j = 0; j < 3; ++j)
+	{
+		VECTOR3 direct = obb1.GetDirect(j); // OBBの1つの軸ベクトル
+		r += Abs(VecDot((direct * obb1.GetLen(j)), obb2Nor));
+	}
+
+	// 平面とOBBの距離を算出
+	obb2Pos += obb2Nor * obb2.GetLen(arrayNum % 3);
+	float   s = VecDot((obb1Pos - obb2Pos), obb2Nor);
+
+	// 戻し距離を算出
+	float l = 0;
+	if (s > 0) { l = r - Abs(s); }
+	else { l = r + Abs(s); }
+
+	// 衝突判定
+	if (Abs(s) - r < 0.0f)
+	{
+		length = obb2Nor * l;
+	}
 }

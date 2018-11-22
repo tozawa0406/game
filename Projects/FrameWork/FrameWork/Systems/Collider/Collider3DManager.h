@@ -386,6 +386,8 @@ private:
 	bool SeparationB(VECTOR3& Be, VECTOR3& NBe, VECTOR3& Ae1, VECTOR3& Ae2, VECTOR3& Ae3, VECTOR3& interval);
 	// •ª—£Ž²C
 	bool SeparationC(VECTOR3& NAe, VECTOR3& NBe, VECTOR3& Ae1, VECTOR3& Ae2, VECTOR3& Be1, VECTOR3& Be2, VECTOR3& interval);
+
+	void Back(const Collider3D::OBB& obb1, const Collider3D::OBB& obb2, VECTOR3& length);
 };
 
 #endif // _COLLISION_3D_MANAGRE_H_

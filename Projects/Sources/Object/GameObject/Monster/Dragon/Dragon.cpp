@@ -217,15 +217,7 @@ void Dragon::Update(void)
 		}
 	}
 
-	transform_;
-	velocity_;
-
 	Move();
-
-	if (!BitCheck(flag_, IS_FLY) && static_cast<Animation>(meshAnim_.animation) != Animation::TAKE_OFF)
-	{
-		OnGround();
-	}
 
 	COLOR color = COLOR(1, 1, 1, 1);
 	for (auto& c : collision_)

@@ -147,6 +147,10 @@ void MeshField::CreateIndex(int num)
 
 void MeshField::GuiUpdate(void)
 {
+	ImGui::Text("vel %.2f, %.2f, %.2f", ttt.x, ttt.y, ttt.z);
+	ImGui::Text("dot    %.2f", tttt.x);
+	ImGui::Text("%.2f, %.2f, %.2f", ttttt.x, ttttt.y, ttttt.z);
+
 	VECTOR2 splitOld = split_;
 	VECTOR2 sizeOld  = size_;
 
@@ -215,7 +219,7 @@ HRESULT MeshField::InputData(void)
 	return S_OK;
 }
 
-float MeshField::Hit(VECTOR3 position)
+VECTOR3 MeshField::Hit(const VECTOR3& position, VECTOR3& velocity)
 {
 	int max = (int)outputVertex_.size();
 	VECTOR2 oneSize = { size_.x / split_.x, size_.y / split_.y };
@@ -256,50 +260,73 @@ float MeshField::Hit(VECTOR3 position)
 	for (int i = 0; i < 2; ++i)
 	{
 		if (playerLineRow[i] < 0) { continue; }
-		VECTOR3 temp[4];
-		ZeroMemory(temp, sizeof(VECTOR3) * 4);
-		temp[3] = position;
+		VERTEX temp[4];
+		ZeroMemory(temp, sizeof(VERTEX) * 4);
+		temp[3].position = position;
 
 		float y = 0;
 		if (playerLineRow[i] >= max) { continue; }
 		if (outputVertex_[playerLineRow[i]].position.x == Half(size_.x)) { continue; }
 		if (playerLineRow[i] + split_.x + 1 < max)
 		{
-			temp[0] = outputVertex_[playerLineRow[i]].position;
-			temp[1] = outputVertex_[playerLineRow[i] + 1].position;
-			temp[2] = outputVertex_[playerLineRow[i] + (int)split_.x + 1].position;
+			temp[0] = outputVertex_[playerLineRow[i]];
+			temp[1] = outputVertex_[playerLineRow[i] + 1];
+			temp[2] = outputVertex_[playerLineRow[i] + (int)split_.x + 1];
 
-			if (CalcHit(temp, y)) { return y - position.y; }
+			if (CalcHit(temp, y, velocity)) { return VECTOR3(position.x, position.y + y, position.z); }
 		}
 		if (playerLineRow[i] - (split_.x + 2) > 0)
 		{
 			if (playerLineRow[i] + 1 >= max) { continue; }
-			temp[0] = outputVertex_[playerLineRow[i] + 1].position;
-			temp[1] = outputVertex_[playerLineRow[i]].position;
-			temp[2] = outputVertex_[playerLineRow[i] - ((int)split_.x + 0)].position;
+			temp[0] = outputVertex_[playerLineRow[i] + 1];
+			temp[1] = outputVertex_[playerLineRow[i]];
+			temp[2] = outputVertex_[playerLineRow[i] - ((int)split_.x + 0)];
 
-			if (CalcHit(temp, y)) { return y - position.y; }
+			if (CalcHit(temp, y, velocity)) { return VECTOR3(position.x, position.y + y, position.z); }
 		}
 	}
 	return 0;
 }
 
-bool MeshField::CalcHit(VECTOR3* v, float& y)
+bool MeshField::CalcHit(VERTEX* v, float& y, VECTOR3& velocity)
 {
 	for (int i = 0; i < 3; ++i)
 	{
 		int t = (i + 2) % 3;
 
-		VECTOR3 vertex = v[i] - v[t];
-		VECTOR3 vp     = v[3] - v[t];
+		VECTOR3 vertex = v[i].position - v[t].position;
+		VECTOR3 vp     = v[3].position - v[t].position;
 
 		float c = VecCross(VECTOR2(vertex.x, vertex.z), VECTOR2(vp.x, vp.z));
 		if (c > 0) { return false; }
 	}
 
-	VECTOR3 p0 = v[2];
-	VECTOR3 n = VecCross(v[0] - v[2], v[1] - v[0]);
-	if (n.y == 0) { return false; }
-	y = p0.y - (n.x * (v[3].x - p0.x) + n.z * (v[3].z - p0.z)) / n.y;
+	VECTOR3 p0 = v[2].position;
+	VECTOR3 n = VecCross(v[0].position - v[2].position, v[1].position - v[0].position);
+
+	VECTOR3 nn = VecNorm(n);
+	VECTOR3 velocityNorm = VecNorm(velocity);
+	float dot = VecDot(velocityNorm, nn);
+
+	VECTOR3 temp = VecNorm(velocityNorm - (nn * dot)) * VecLength(velocity);
+
+	if (temp.y != 0)
+	{
+		if (Abs(velocityNorm.x) < Abs(velocityNorm.z)) { temp.x += temp.y; }
+		else { temp.z += temp.y; }
+		temp.y = 0;
+	}
+
+	ttt = temp;
+	tttt.x = dot;
+	ttttt = VecNorm(velocity) + nn;
+
+	VECTOR3 vp = v[3].position - v[2].position;
+	if (vp.y < 0)
+	{
+		if (n.y == 0) { return false; }
+		y = p0.y - (n.x * (v[3].position.x - p0.x) + n.z * (v[3].position.z - p0.z)) / n.y;
+	}
+
 	return true;
 }

@@ -53,6 +53,8 @@ void GameObject::Move(void)
 	else if (Abs(velocity_.y) > 0.02f) {}
 	else { velocity_ = VECTOR3(0); }
 
+	OnGround();
+
 	transform_.position += velocity_;		// à⁄ìÆ
 
 	velocity_ *= 0.8f;						// äµê´
@@ -86,15 +88,15 @@ void GameObject::CreateFrontVector(void)
  * @return	Ç»Çµ					*/
 void GameObject::OnGround(void)
 {
-	transform_.position.y = 0;
 	if (manager_)
 	{
 		if (const auto& scene = static_cast<GameScene*>(manager_->GetScene()))
 		{
 			if (const auto& meshfield = scene->GetMeshField())
 			{
-				float y = meshfield->Hit(transform_.position);
-				if (y > 0) { transform_.position.y += y; }
+				transform_.position = meshfield->Hit(transform_.position, velocity_);
+				//float y = meshfield->Hit(transform_.position);
+				//if (y > 0) { transform_.position.y += y; }
 			}
 		}
 	}
