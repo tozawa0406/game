@@ -137,6 +137,9 @@
     <ClCompile Include="Sources\Object\Billboard\BloodSplash.cpp">
       <Filter>Source\Object\Billboard</Filter>
     </ClCompile>
+    <ClCompile Include="Sources\Object\UI\ItemList.cpp">
+      <Filter>Source\Object\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sources\Object\UI\Timer.h">
@@ -231,6 +234,9 @@
     </ClInclude>
     <ClInclude Include="Sources\Object\Billboard\BloodSplash.h">
       <Filter>Source\Object\Billboard</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\UI\ItemList.h">
+      <Filter>Source\Object\UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

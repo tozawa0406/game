@@ -25,6 +25,7 @@ void BloodSplash::Init(void)
 	renderer_.billbord	= true;
 	renderer_.shadow	= false;
 	renderer_.shader	= Shader::ENUM::BILLBOARD;
+	renderer_.sort		= false;
 }
 
 /* @fn		Uninit

@@ -13,6 +13,7 @@
 
 #include "../Object/GameObject/Player/Player.h"
 #include "../Object/UI/PlayerLife.h"
+#include "../Object/UI/ItemList.h"
 #include "../Object/GameObject/Monster/Dragon/Dragon.h"
 #include "../Object/UI/Timer.h"
 #include "../Object/StaticObject/PaidGoodsBox.h"
@@ -45,6 +46,8 @@ void GameScene::Init(void)
 	auto* life = objectManager_->Create<PlayerLife>();
 	life->SetPlayer(player);
 	objectManager_->Create<PaidGoodsBox>();
+	auto* item = objectManager_->Create<ItemList>();
+	item->SetPlayer(player);
 
 	//	systems_->GetSound()->Play((int)Sound::Game::BGM_GAME);
 }
