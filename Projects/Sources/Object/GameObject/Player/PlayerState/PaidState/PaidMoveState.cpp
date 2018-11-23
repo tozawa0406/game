@@ -9,7 +9,7 @@ static constexpr float DEC_STAMINA = 0.1f;
 
 /* @fn		コンストラクタ
  * @brief	変数の初期化			*/
-PaidMoveState::PaidMoveState(void)
+PaidMoveState::PaidMoveState(void) : dash_(false)
 {
 }
 
@@ -54,8 +54,10 @@ PlayerState* PaidMoveState::Update(void)
 	// 正規化
 	inputDir = VecNorm(inputDir);
 
+	if (ctrl_->Trigger(Input::GAMEPAD_L3, DIK_LSHIFT)) { dash_ = true; }
+
 	float inputDash = 1.0f;
-	if (ctrl_->Press(Input::GAMEPAD_R1, DIK_LSHIFT))
+	if (ctrl_->Press(Input::GAMEPAD_R1, DIK_LSHIFT) || dash_)
 	{
 		float stamina = player_->GetStamina();
 		if (stamina > 0)

@@ -12,7 +12,7 @@
 
 #include "../GameObject/Player/Player.h"
 
-class ItemList : public Object
+class ItemList : public Object, public GUI
 {
 	//! @def	裏に出るアイテム
 	enum class BackItem : uint8
@@ -43,13 +43,21 @@ public:
 	void Uninit(void) override;
 	void Update(void) override;
 
+	void GuiUpdate(void) override;
+
+	/* @fn		SetPlayer
+	 * @brief	プレイヤー(親)
+	 * @param	(player)	設定するプレイヤー			*/
 	inline void SetPlayer(Player* player) { player_ = player; }
 
 private:
+	void SetItemBack(void);
+	bool SetMove(Controller& ctrl, WORD lpad, int lkey, WORD rpad, int rkey);
+	void SetButtonUIEnable(bool l, bool maru, bool shikaku);
+
 	Player* player_;
 
 	CanvasRenderer back_;
-//	CanvasRenderer itemBack_;
 	CanvasRenderer itemName_;
 	CanvasRenderer backItemBack_[static_cast<int>(BackItem::MAX)];
 

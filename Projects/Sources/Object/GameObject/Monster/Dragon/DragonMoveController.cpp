@@ -54,7 +54,7 @@ void DragonMoveController::Action(int& act, uint& flag)
 
 	float lenghtSq = VecLengthSq(dir_);
 
-	if (lenghtSq > 50 * 50)
+	if (lenghtSq > 75 * 75)
 	{
 		isDash_ = true;
 		inputDash = 10;

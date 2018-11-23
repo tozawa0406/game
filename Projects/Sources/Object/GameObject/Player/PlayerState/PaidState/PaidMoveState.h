@@ -20,6 +20,9 @@ public:
 	PlayerState* Update(void) override;
 
 	void GuiUpdate(void)override;
+
+private:
+	bool dash_;
 };
 
 #endif // _PAID_MOVE_STATE_H_
