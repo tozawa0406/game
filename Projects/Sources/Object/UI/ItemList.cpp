@@ -129,9 +129,11 @@ void ItemList::Update(void)
 	if (ctrl->Press(Input::GAMEPAD_L1, DIK_Z))
 	{
 		back_.size = SIZE_BACK_SELECT;
-//		itemBack_.size = SIZE_ITEM_BACK_SELECT;
 
-		for (auto& ui : backItemBack_) { ui.enable = true; }
+		for (int i = 0; i < static_cast<int>(BackItem::EMPTY); ++i)
+		{
+			backItemBack_[i].enable = true;
+		}
 
 		ui_[static_cast<int>(ButtonUI::L)].enable		= false;
 		ui_[static_cast<int>(ButtonUI::MARU)].enable	= true;
@@ -162,7 +164,6 @@ void ItemList::Update(void)
 	else
 	{
 		back_.size = SIZE_BACK;
-//		itemBack_.size = SIZE_ITEM_BACK;
 
 		for (auto& ui : backItemBack_) { ui.enable = false; }
 		backItemBack_[static_cast<int>(BackItem::Center)].enable = true;
@@ -174,22 +175,15 @@ void ItemList::Update(void)
 
 	if (flag_)
 	{
-//		itemBack_.position.x += 8 * flag_;
 		for (auto& ui : backItemBack_) { ui.position.x += 4 * flag_; }
-		cnt_++;
+		cnt_++;	
 
 		VECTOR2 diff = VECTOR2(SIZE_ITEM_BACK.x - SIZE_ITEM_BACK.x * 0.8f, SIZE_ITEM_BACK.y - SIZE_ITEM_BACK.y * 0.8f);
 		diff *= 0.1f;
 		backItemBack_[static_cast<int>(BackItem::Center)].size -= diff;
 
-		if (flag_ > 0)
-		{
-			backItemBack_[static_cast<int>(BackItem::FrontLeft)].size += diff;
-		}
-		else
-		{
-			backItemBack_[static_cast<int>(BackItem::FrontRight)].size += diff;
-		}
+		int num = static_cast<int>((flag_ > 0) ? BackItem::FrontLeft : BackItem::FrontRight);
+		backItemBack_[num].size += diff;
 
 		if(cnt_ >= 10)
 		{
@@ -209,16 +203,15 @@ void ItemList::Update(void)
 				backItemBack_[0].position = backItemBack_[5].position;
 			}
 
-			backItemBack_[static_cast<int>(BackItem::Center)].SetPriority(PRIORITY + 5);
-			backItemBack_[static_cast<int>(BackItem::FrontLeft)].SetPriority(PRIORITY + 4);
-			backItemBack_[static_cast<int>(BackItem::FrontRight)].SetPriority(PRIORITY + 4);
-			backItemBack_[static_cast<int>(BackItem::BackLeft)].SetPriority(PRIORITY + 3);
-			backItemBack_[static_cast<int>(BackItem::BackRight)].SetPriority(PRIORITY + 3);
-			backItemBack_[static_cast<int>(BackItem::Center)].size = SIZE_ITEM_BACK;
+			for (int i = 0; i < static_cast<int>(BackItem::EMPTY); ++i)
+			{
+				int		adjust		= max(0, i - 2);
+				int		priority	= 3 + i - (2 * adjust);
+				auto&	ui			= backItemBack_[i];
 
-			backItemBack_[static_cast<int>(BackItem::FrontLeft)].size = VECTOR2(SIZE_ITEM_BACK.x * 0.8f, SIZE_ITEM_BACK.y * 0.8f);
-			backItemBack_[static_cast<int>(BackItem::FrontRight)].size = VECTOR2(SIZE_ITEM_BACK.x * 0.8f, SIZE_ITEM_BACK.y * 0.8f);
-
+				ui.SetPriority(static_cast<uint8>(PRIORITY + priority));
+				ui.size = (i == static_cast<int>(BackItem::Center)) ? SIZE_ITEM_BACK : VECTOR2(SIZE_ITEM_BACK.x * 0.8f, SIZE_ITEM_BACK.y * 0.8f);
+			}
 			backItemBack_[static_cast<int>(BackItem::EMPTY)].enable = false;
 
 			flag_ = 0;
