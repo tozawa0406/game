@@ -26,7 +26,7 @@ void DragonHit::SetMove(void)
 
 	auto& meshAnim = monster_->GetMeshAnimation();
 
-	meshAnim.animSpeed = 0.75f;
+	meshAnim.animSpeed = 0.5f;
 	meshAnim.animation   = static_cast<int>(Dragon::Animation::HIT);
 
 	meshAnim.mesh.ChangeAnimation(meshAnim.animation, 15);

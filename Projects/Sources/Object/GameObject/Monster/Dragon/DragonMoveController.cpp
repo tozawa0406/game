@@ -2,12 +2,18 @@
 #include "Dragon.h"
 #include <random>
 
+//! @def	走る範囲
+static constexpr int DASH_RANGE = 75;
+//! @def	攻撃のスパン
+static constexpr int ATTACK_RANGE = 60;
+
 /* @fn		コンストラクタ
  * @brief	変数の初期化			*/
 DragonMoveController::DragonMoveController(void) : GUI(Systems::Instance(), nullptr, "DragonController")
 	, parent_(nullptr)
 	, target_(nullptr)
 	, isDash_(false)
+	, cnt_(0)
 {
 }
 
@@ -41,8 +47,7 @@ void DragonMoveController::Uninit(void)
 void DragonMoveController::Action(int& act, uint& flag)
 {
 	if (!parent_ || !target_) { return; }
-
-	const int range = 20;
+	const int range = 19;
 
 	// 方決定
 	dir_ = target_->GetTransform().position - parent_->GetTransform().position;
@@ -54,7 +59,7 @@ void DragonMoveController::Action(int& act, uint& flag)
 
 	float lenghtSq = VecLengthSq(dir_);
 
-	if (lenghtSq > 75 * 75)
+	if (lenghtSq > DASH_RANGE * DASH_RANGE)
 	{
 		isDash_ = true;
 		inputDash = 10;
@@ -107,8 +112,14 @@ void DragonMoveController::Action(int& act, uint& flag)
 		}
 		if (act == 0)
 		{
-			std::random_device randDev;
-			act = (randDev() % 2) + 1;
+			cnt_++;
+			act = -1;
+			if (cnt_ > ATTACK_RANGE)
+			{
+				cnt_ = 0;
+				std::random_device randDev;
+				act = (randDev() % 2) + 1;
+			}
 		}
 	}
 

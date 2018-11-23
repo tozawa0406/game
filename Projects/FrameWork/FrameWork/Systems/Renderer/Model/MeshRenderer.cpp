@@ -52,10 +52,7 @@ void MeshRenderer::ChangeAnimation(int animNum, int frame, bool end)
 	if (animation_ != animNum)
 	{
 		end_ = end;
-		if (!end)
-		{
-			patternOld_ = pattern_;
-		}
+		patternOld_		= pattern_;
 		animationOld_	= animation_;
 		rate_			= 0;
 		addRate_		= 1.0f / frame;

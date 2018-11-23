@@ -33,6 +33,7 @@ class Dragon : public GameObject, public GUI
 		WING_ATTACK,
 		TAKE_OFF,
 		HIT,
+		RUSH,
 
 		MAX
 	};

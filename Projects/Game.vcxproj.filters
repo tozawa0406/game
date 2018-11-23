@@ -140,6 +140,9 @@
     <ClCompile Include="Sources\Object\UI\ItemList.cpp">
       <Filter>Source\Object\UI</Filter>
     </ClCompile>
+    <ClCompile Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonRush.cpp">
+      <Filter>Source\Object\GameObject\Monster\Dragon\Attack</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sources\Object\UI\Timer.h">
@@ -237,6 +240,9 @@
     </ClInclude>
     <ClInclude Include="Sources\Object\UI\ItemList.h">
       <Filter>Source\Object\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonRush.h">
+      <Filter>Source\Object\GameObject\Monster\Dragon\Attack</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

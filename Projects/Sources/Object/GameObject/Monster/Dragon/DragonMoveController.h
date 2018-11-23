@@ -37,6 +37,7 @@ private:
 
 	VECTOR3 dir_;
 	bool	isDash_;
+	int		cnt_;
 };
 
 #endif // _DRAGON_MOVE_CONTROLLER_H_

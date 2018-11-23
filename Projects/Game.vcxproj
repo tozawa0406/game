@@ -23,6 +23,7 @@
     <ClCompile Include="Sources\Object\GameObject\GameObject.cpp" />
     <ClCompile Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonBite.cpp" />
     <ClCompile Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonHit.cpp" />
+    <ClCompile Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonRush.cpp" />
     <ClCompile Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonScream.cpp" />
     <ClCompile Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonTakeOff.cpp" />
     <ClCompile Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonWingAttack.cpp" />
@@ -54,6 +55,7 @@
     <ClInclude Include="Sources\Object\GameObject\GameObject.h" />
     <ClInclude Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonBite.h" />
     <ClInclude Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonHit.h" />
+    <ClInclude Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonRush.h" />
     <ClInclude Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonScream.h" />
     <ClInclude Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonTakeOff.h" />
     <ClInclude Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonWingAttack.h" />

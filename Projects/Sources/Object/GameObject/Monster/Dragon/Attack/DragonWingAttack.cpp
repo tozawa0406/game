@@ -171,7 +171,7 @@ bool DragonWingAttack::Update(void)
 		{
 			if (hit->GetTag() == Object::Tag::PLAYER)
 			{
-				static_cast<GameObject*>(hit)->Hit(10);
+				static_cast<GameObject*>(hit)->Hit(40);
 			}
 		}
 	}

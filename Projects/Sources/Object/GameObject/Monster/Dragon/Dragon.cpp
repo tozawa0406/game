@@ -14,11 +14,12 @@
 #include "Attack/DragonWingAttack.h"
 #include "Attack/DragonTakeOff.h"
 #include "Attack/DragonHit.h"
+#include "Attack/DragonRush.h"
 
 //! @def	大きさ
 static constexpr float SCALE = 0.9f;
 //! @def	ライフ
-static constexpr int MAX_LIFE = 1000;
+static constexpr int MAX_LIFE = 2500;
 
 
 //! @def	飛行フラグ
@@ -107,6 +108,10 @@ void Dragon::Init(void)
 
 	arrayNum = static_cast<int>(AttackPattern::HIT);
 	attack_[arrayNum] = new DragonHit;
+	if (attack_[arrayNum]) { attack_[arrayNum]->Init(this); }
+
+	arrayNum = static_cast<int>(AttackPattern::RUSH);
+	attack_[arrayNum] = new DragonRush;
 	if (attack_[arrayNum]) { attack_[arrayNum]->Init(this); }
 
 	moveController_ = new DragonMoveController;
@@ -418,10 +423,13 @@ bool Dragon::DebugInput(void)
 	}
 	else
 	{
-		if (tempAnim == Animation::WALK || tempAnim == Animation::RUN)
+		if (!currentAttack_)
 		{
-			meshAnim_.mesh.ChangeAnimation(static_cast<int>(Animation::WAIT1), 30);
-			meshAnim_.animSpeed = 0.75f;
+			if (tempAnim == Animation::WALK || tempAnim == Animation::RUN)
+			{
+				meshAnim_.mesh.ChangeAnimation(static_cast<int>(Animation::WAIT1), 30);
+				meshAnim_.animSpeed = 0.75f;
+			}
 		}
 	}
 
@@ -433,6 +441,16 @@ bool Dragon::DebugInput(void)
 	{
 		currentAttack_ = attack_[static_cast<int>(AttackPattern::SCREAM)];
 		if (currentAttack_) 
+		{
+			currentAttack_->SetMove();
+		}
+	}
+
+	// 咆哮
+	if (ctrl->Trigger(Input::GAMEPAD_CROSS, DIK_K))
+	{
+		currentAttack_ = attack_[static_cast<int>(AttackPattern::RUSH)];
+		if (currentAttack_)
 		{
 			currentAttack_->SetMove();
 		}
