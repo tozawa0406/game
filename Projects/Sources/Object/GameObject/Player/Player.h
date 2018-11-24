@@ -28,6 +28,7 @@ public:
 		Walk,
 		Run,
 		Roll,
+		Dive,
 		KnockBack,
 		KnockOut,
 		Die,

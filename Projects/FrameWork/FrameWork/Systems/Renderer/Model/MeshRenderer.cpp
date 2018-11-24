@@ -61,6 +61,11 @@ void MeshRenderer::ChangeAnimation(int animNum, int frame, bool end)
 	}
 }
 
+void MeshRenderer::AnimEndPattern(void)
+{
+	pattern_ = static_cast<float>(animationMax_[animation_] - 1);
+}
+
 bool MeshRenderer::Animation(float add)
 {
 	isSkinning_ = false;

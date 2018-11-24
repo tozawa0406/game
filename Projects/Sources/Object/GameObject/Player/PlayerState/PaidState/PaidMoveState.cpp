@@ -2,6 +2,7 @@
 
 #include "PaidWaitState.h"
 #include "../AvoidanceState.h"
+#include "../EmergencyAvoidanceState.h"
 #include "../SetupState.h"
 
 //! @def	消費スタミナ
@@ -97,7 +98,14 @@ PlayerState* PaidMoveState::Update(void)
 	{
 		if (player_->GetStamina() > AvoidanceState::DEC_STAMINA)
 		{
-			return new AvoidanceState;
+			if (inputDash == 2.5f)
+			{
+				return new EmergencyAvoidanceState;
+			}
+			else
+			{
+				return new AvoidanceState;
+			}
 		}
 	}
 

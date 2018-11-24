@@ -9,7 +9,7 @@ static const	 VECTOR2 POSITION = VECTOR2(Windows::WIDTH - 250.0f, Windows::HEIGH
 //! @def	背景描画サイズ
 static const	 VECTOR2 SIZE_BACK = VECTOR2(300, 100);
 //! @def	選択時の背景描画サイズ
-static const	 VECTOR2 SIZE_BACK_SELECT = VECTOR2(350, 100);
+static const	 VECTOR2 SIZE_BACK_SELECT = VECTOR2(370, 100);
 //! @def	中央のアイテムの背景
 static const	 VECTOR2 SIZE_ITEM_BACK = VECTOR2(125, 100);
 //! @def	アイテム一覧の背景
@@ -17,7 +17,7 @@ static const	 VECTOR2 SIZE_ITEM_BACK_LIST = VECTOR2(SIZE_ITEM_BACK.x * 0.8f, SIZ
 //! @def	アイテムの名前
 static const	 VECTOR2 POSITION_ITEM_NAME = VECTOR2(POSITION.x, POSITION.y + 60);
 //! @def	LボタンUI位置
-static const	 VECTOR2 POSITION_L = VECTOR2(POSITION.x - 90, POSITION.y);
+static const	 VECTOR2 POSITION_L = VECTOR2(POSITION.x - 95, POSITION.y);
 //! @def	LボタンUIサイズ
 static const	 VECTOR2 SIZE_L = VECTOR2(100, 40);
 
@@ -87,7 +87,7 @@ void ItemList::Init(void)
 	ui_[button].pattern		= 5;
 
 	button = static_cast<int>(ButtonUI::MARU);
-	ui_[button].Init(systems, PRIORITY + 1, texNum);
+	ui_[button].Init(systems, PRIORITY + 5, texNum);
 	ui_[button].position	= VECTOR2(POSITION.x + (ITEM_RANGE * 3), POSITION.y + 30);
 	ui_[button].size		= VECTOR2(60, 50);
 	ui_[button].split		= VECTOR2(4, 6);
@@ -95,7 +95,7 @@ void ItemList::Init(void)
 	ui_[button].enable		= false;
 	
 	button = static_cast<int>(ButtonUI::SHIKAKU);
-	ui_[button].Init(systems, PRIORITY + 1, texNum);
+	ui_[button].Init(systems, PRIORITY + 5, texNum);
 	ui_[button].position	= VECTOR2(POSITION.x - (ITEM_RANGE * 3), POSITION.y + 30);
 	ui_[button].size		= VECTOR2(60, 50);
 	ui_[button].split		= VECTOR2(4, 6);
@@ -155,7 +155,10 @@ void ItemList::Update(void)
 			// アイテムの表示を消す
 			for (auto& ui : backItemBack_) { ui.enable = false; }
 			// 中央だけ描画
-			backItemBack_[static_cast<int>(BackItem::Center)].enable = true;
+			for (int i = static_cast<int>(BackItem::FrontRight); i <= static_cast<int>(BackItem::FrontLeft); ++i)
+			{
+				backItemBack_[i].enable = true;
+			}
 
 			// ボタンUIの表示変更
 			SetButtonUIEnable(true, false, false);

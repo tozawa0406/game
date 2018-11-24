@@ -90,7 +90,7 @@ PlayerState* DrawnMoveState::Update(void)
 	}
 
 	// 納刀コマンドで納刀ステート
-	if (ctrl_->Trigger(Input::GAMEPAD_SQUARE, DIK_H))
+	if (ctrl_->Trigger(Input::GAMEPAD_SQUARE, DIK_H) || ctrl_->Trigger(Input::GAMEPAD_R1, DIK_H))
 	{
 		return new SetupState;
 	}

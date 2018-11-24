@@ -22,6 +22,7 @@ struct MeshRenderer : public ObjectRenderer
 	void Skinning(void);
 	void ChangeModel(int modelNum);
 	void ChangeAnimation(int animNum, int frame, bool end = false);
+	void AnimEndPattern(void);
 
 	inline int GetMaxAnimation(void)	const { return animationMax_[animation_]; }
 
