@@ -30,9 +30,12 @@
     <ClCompile Include="Sources\Object\GameObject\Monster\Dragon\Dragon.cpp" />
     <ClCompile Include="Sources\Object\GameObject\Monster\Dragon\DragonMoveController.cpp" />
     <ClCompile Include="Sources\Object\GameObject\Player\Player.cpp" />
+    <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\AttackState\SetupAttackState.cpp" />
+    <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\AttackState\Slash1AttackState.cpp" />
+    <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\AttackState\Slash2AttackState.cpp" />
+    <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\AttackState\Slash3AttackState.cpp" />
     <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\AvoidanceState.cpp" />
     <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\DieState.cpp" />
-    <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\DrawnState\AttackState.cpp" />
     <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\DrawnState\DrawnMoveState.cpp" />
     <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\DrawnState\DrawnWaitState.cpp" />
     <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\EmergencyAvoidanceState.cpp" />
@@ -64,9 +67,12 @@
     <ClInclude Include="Sources\Object\GameObject\Monster\Dragon\DragonMoveController.h" />
     <ClInclude Include="Sources\Object\GameObject\Monster\MonsterAttack.h" />
     <ClInclude Include="Sources\Object\GameObject\Player\Player.h" />
+    <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\AttackState\SetupAttackState.h" />
+    <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\AttackState\Slash1AttackState.h" />
+    <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\AttackState\Slash2AttackState.h" />
+    <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\AttackState\Slash3AttackState.h" />
     <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\AvoidanceState.h" />
     <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\DieState.h" />
-    <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\DrawnState\AttackState.h" />
     <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\DrawnState\DrawnMoveState.h" />
     <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\DrawnState\DrawnWaitState.h" />
     <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\EmergencyAvoidanceState.h" />

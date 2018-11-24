@@ -4,7 +4,7 @@
 #include "DrawnMoveState.h"
 #include "../AvoidanceState.h"
 #include "../SetupState.h"
-#include "AttackState.h"
+#include "../AttackState/Slash1AttackState.h"
 
 /* @fn		コンストラクタ
  * @brief	変数の初期化			*/
@@ -83,7 +83,7 @@ PlayerState* DrawnWaitState::Update(void)
 		// 攻撃コマンドで攻撃ステート
 		if (ctrl_->Trigger(Input::GAMEPAD_TRIANGLE, DIK_U))
 		{
-			return new AttackState;
+			return new Slash1AttackState;
 		}
 	}
 	return nullptr;

@@ -3,7 +3,7 @@
 #include "PaidWaitState.h"
 #include "../AvoidanceState.h"
 #include "../EmergencyAvoidanceState.h"
-#include "../SetupState.h"
+#include "../AttackState/SetupAttackState.h"
 
 //! @def	消費スタミナ
 static constexpr float DEC_STAMINA = 0.1f;
@@ -112,7 +112,7 @@ PlayerState* PaidMoveState::Update(void)
 	// 抜刀コマンドで抜刀ステートへ
 	if (ctrl_->Trigger(Input::GAMEPAD_TRIANGLE, DIK_U))
 	{
-		return new SetupState;
+		return new SetupAttackState;
 	}
 	
 	return nullptr;

@@ -1,118 +1,116 @@
-#include "SetupAttackState.h"
+#include "Slash2AttackState.h"
 #include <random>
 
-#include "Slash2AttackState.h"
+#include "Slash3AttackState.h"
 #include "../DrawnState/DrawnWaitState.h"
 #include "../AvoidanceState.h"
 
-//! @def	当たり判定開始
-static constexpr float COLLISION_START = 30;
-//! @def	当たり判定終了
-static constexpr float COLLISION_END = 45;
+//! @def	アニメーション速度
+static constexpr float ANIM_SPEED = 0.6f;
+//! @def	2撃目のコリジョン開始
+static constexpr int COLLISION_START = 21;
+//! @def	2撃目のコリジョン終了
+static constexpr int COLLISION_END = 35;
 
 /* @fn		コンストラクタ
  * @brief	変数の初期化			*/
-SetupAttackState::SetupAttackState(void) : isDraw_(false), next_(false), debug_nextFrame_(0)
+Slash2AttackState::Slash2AttackState(void) : next_(false), debug_nextFrame_(false)
 {
 }
 
 /* @fn		デストラクタ
  * @brief	...						*/
-SetupAttackState::~SetupAttackState(void)
+Slash2AttackState::~Slash2AttackState(void)
 {
 }
 
 /* @fn		Init
- * @brief	初期化
- * @param	(player)	プレイヤーのポインタ
+ * @brief	初期化処理
+ * @param	(player)	プレイヤーへのポインタ
  * @param	(ctrl)		コントローラへのポインタ
  * @return	なし					*/
-void SetupAttackState::Init(Player* player, Controller* ctrl)
+void Slash2AttackState::Init(Player* player, Controller* ctrl)
 {
 	if (!player) { return; }
+
+	next_ = false;
 
 	PlayerState::Init(player, ctrl);
 
 	auto& meshAnim = player->GetMeshAnimation();
 
-	isDraw_ = false;
-
-	meshAnim.animSpeed = 0.75f;
-	meshAnim.animation = static_cast<int>(Player::Animation::SetupDrawn);
-	meshAnim.mesh.ChangeAnimation(meshAnim.animation, 30);
+	// 最初の攻撃モーション
+	meshAnim.animSpeed = ANIM_SPEED;
+	meshAnim.animation = static_cast<int>(Player::Animation::Slash_2);
+	meshAnim.mesh.ChangeAnimation(meshAnim.animation, ANIMATION_CHANGE_FRAME15);
 }
 
 /* @fn		Uninit
  * @brief	後処理
  * @param	なし
  * @return	なし					*/
-void SetupAttackState::Uninit(void)
+void Slash2AttackState::Uninit(void)
 {
 }
 
 /* @fn		Update
- * @brief	更新処理
+ * @breif	更新処理
  * @param	なし
  * @return	次のステート			*/
-PlayerState* SetupAttackState::Update(void)
+PlayerState* Slash2AttackState::Update(void)
 {
 	if (!player_) { return nullptr; }
+
+	Wapon* wapon = player_->GetWapon();
+	if (!wapon) { return nullptr; }
+
 	auto& meshAnim = player_->GetMeshAnimation();
 
-	float pattern = meshAnim.mesh.GetPattern();
-	// 納刀抜刀中であり、アニメーションが一定以下
-	if (pattern >= COLLISION_START)
-	{
-		// 武器の状態切り替え
-		if (const auto& wapon = player_->GetWapon())
-		{
-			if (isDraw_ == player_->IsDraw())
-			{
-				wapon->Setup(isDraw_);
-				player_->SetDraw(!player_->IsDraw());
-				wapon->AttackStart();
-			}
-		}
-	}
-
-	if (pattern > COLLISION_END)
-	{
-		if (const auto& wapon = player_->GetWapon())
-		{
-			wapon->AttackEnd();
-		}
-	}
-
 	// アニメーションの情報
-	int animMax = meshAnim.mesh.GetMaxAnimation();
+	int   animMax = meshAnim.mesh.GetMaxAnimation();
+	float pattern = meshAnim.mesh.GetPattern();
 
 	// 終了前に
-	if (pattern > (Quarter(animMax) * 3.0f))
+	if (pattern > (Quarter(animMax) * 3))
 	{
+		// 次の入力がある
 		if (next_)
 		{
 			// 次の攻撃を行う
 			next_ = false;
 			// アニメーションが最後まで行ったら最初に戻る
-			meshAnim.animation = static_cast<int>(Player::Animation::Slash_2);
+			meshAnim.animation = static_cast<int>(Player::Animation::Slash_3);
 			meshAnim.mesh.ChangeAnimation(meshAnim.animation, ANIMATION_CHANGE_FRAME15);
-
-			return new Slash2AttackState;
+			return new Slash3AttackState;
 		}
+	}
+
+	if (pattern > COLLISION_START)
+	{
+		if (!wapon->IsAttack())
+		{
+			// 武器の攻撃を開始
+			wapon->AttackStart();
+		}
+	}
+	if (pattern > COLLISION_END)
+	{
+		// 武器の攻撃を終了
+		wapon->AttackEnd();
+	}
+
+	// アニメーションの終了
+	if (player_->IsEndAnim())
+	{
+		// 抜刀待機状態に戻る
+		meshAnim.animation = static_cast<int>(Player::Animation::SetupWait);
+		meshAnim.mesh.ChangeAnimation(meshAnim.animation, ANIMATION_CHANGE_FRAME15, true);
+
+		return new DrawnWaitState;
 	}
 
 	// 攻撃コマンドで次の攻撃
 	if (ctrl_->Trigger(Input::GAMEPAD_TRIANGLE, DIK_U)) { next_ = true; }
-
-	// キー入力がない場合は待機モーションへ移行
-	if (player_->IsEndAnim())
-	{
-		// 抜刀待機状態に戻る
-		meshAnim.mesh.AnimEndPattern();
-		meshAnim.animation = static_cast<int>(Player::Animation::SetupWait);
-		meshAnim.mesh.ChangeAnimation(meshAnim.animation, ANIMATION_CHANGE_FRAME15, true);
-		return new DrawnWaitState;
-	}
 
 	// 回避コマンドで回避ステート
 	if (ctrl_->Trigger(Input::GAMEPAD_CROSS, DIK_M))
@@ -130,10 +128,10 @@ PlayerState* SetupAttackState::Update(void)
  * @brief	Guiの更新処理
  * @param	なし
  * @return	なし
- * @detail	プレイヤーから呼び出される		*/
-void SetupAttackState::GuiUpdate(void)
+ * @detail	プレイヤーから呼び出される			*/
+void Slash2AttackState::GuiUpdate(void)
 {
-	ImGui::Text("SetupAttack");
+	ImGui::Text("Slash2Attack");
 
 	if (const auto& systems = Systems::Instance())
 	{

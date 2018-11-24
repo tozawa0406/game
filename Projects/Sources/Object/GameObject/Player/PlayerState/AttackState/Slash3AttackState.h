@@ -1,19 +1,19 @@
 /*
- * @file		SetupAttackState.h
- * @brief		”[”²“ˆ—
+ * @file		Slash3AttackState.h
+ * @brief		UŒ‚ˆ—
  * @author		ŒËàVãÄ‘¾
  * @data		2018/11/24
  */
-#ifndef _SETUP_ATTACK_STATE_H_
-#define _SETUP_ATTACK_STATE_H_
+#ifndef _SLASH3_ATTACK_STATE_H_
+#define _SLASH3_ATTACK_STATE_H_
 
 #include "../PlayerState.h"
 
-class SetupAttackState : public PlayerState
+class Slash3AttackState : public PlayerState
 {
 public:
-	SetupAttackState(void);
-	~SetupAttackState(void);
+	Slash3AttackState(void);
+	~Slash3AttackState(void);
 
 	void Init(Player* player, Controller* ctrl) override;
 	void Uninit(void) override;
@@ -22,9 +22,8 @@ public:
 	void GuiUpdate(void) override;
 
 private:
-	bool isDraw_;
 	bool next_;		//! Ÿ‚ÌUŒ‚‚Ì“ü—Í
 	bool debug_nextFrame_;
 };
 
-#endif // _SETUP_ATTACK_STATE_H_
+#endif // _SLASH3_ATTACK_STATE_H_

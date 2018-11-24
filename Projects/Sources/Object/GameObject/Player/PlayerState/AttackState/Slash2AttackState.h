@@ -1,19 +1,19 @@
 /*
- * @file		AttackState.h
+ * @file		Slash2AttackState.h
  * @brief		UŒ‚ˆ—
  * @author		ŒËàVãÄ‘¾
- * @data		2018/11/12
+ * @data		2018/11/24
  */
-#ifndef _ATTACK_STATE_H_
-#define _ATTACK_STATE_H_
+#ifndef _SLASH2_ATTACK_STATE_H_
+#define _SLASH2_ATTACK_STATE_H_
 
 #include "../PlayerState.h"
 
-class AttackState : public PlayerState
+class Slash2AttackState : public PlayerState
 {
 public:
-	AttackState(void);
-	~AttackState(void);
+	Slash2AttackState(void);
+	~Slash2AttackState(void);
 
 	void Init(Player* player, Controller* ctrl) override;
 	void Uninit(void) override;
@@ -23,8 +23,7 @@ public:
 
 private:
 	bool next_;		//! Ÿ‚ÌUŒ‚‚Ì“ü—Í
-	int frame_;
 	bool debug_nextFrame_;
 };
 
-#endif // _ATTACK_STATE_H_
+#endif // _SLASH2_ATTACK_STATE_H_

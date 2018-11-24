@@ -3,7 +3,7 @@
 #include "DrawnWaitState.h"
 #include "../AvoidanceState.h"
 #include "../SetupState.h"
-#include "AttackState.h"
+#include "../AttackState/Slash1AttackState.h"
 
 //! @def	アニメーションの速度
 static constexpr float ANIM_SPEED = 0.55f;
@@ -98,7 +98,7 @@ PlayerState* DrawnMoveState::Update(void)
 	// 攻撃コマンドで攻撃ステート
 	if (ctrl_->Trigger(Input::GAMEPAD_TRIANGLE, DIK_U))
 	{
-		return new AttackState;
+		return new Slash1AttackState;
 	}
 
 	return nullptr;

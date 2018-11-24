@@ -1,35 +1,26 @@
-#include "AttackState.h"
+#include "Slash3AttackState.h"
 #include <random>
 
-#include "DrawnWaitState.h"
+#include "Slash1AttackState.h"
+#include "../DrawnState/DrawnWaitState.h"
 #include "../AvoidanceState.h"
 
 //! @def	アニメーション速度
 static constexpr float ANIM_SPEED = 0.6f;
-
-//! @def	1撃目のコリジョン開始
-static constexpr int COLLISION_SLASH1_START = 30;
-//! @def	2撃目のコリジョン開始
-static constexpr int COLLISION_SLASH2_START = 35;
 //! @def	3撃目のコリジョン開始
-static constexpr int COLLISION_SLASH3_START = 70;
-
-//! @def	1撃目のコリジョン終了
-static constexpr int COLLISION_SLASH1_END = 43;
-//! @def	2撃目のコリジョン終了
-static constexpr int COLLISION_SLASH2_END = 58;
+static constexpr int COLLISION_START = 40;
 //! @def	3撃目のコリジョン終了
-static constexpr int COLLISION_SLASH3_END = 110;
+static constexpr int COLLISION_END = 65;
 
 /* @fn		コンストラクタ
  * @brief	変数の初期化			*/
-AttackState::AttackState(void) : frame_(0), next_(false), debug_nextFrame_(false)
+Slash3AttackState::Slash3AttackState(void) : next_(false), debug_nextFrame_(false)
 {
 }
 
 /* @fn		デストラクタ
  * @brief	...						*/
-AttackState::~AttackState(void)
+Slash3AttackState::~Slash3AttackState(void)
 {
 }
 
@@ -38,7 +29,7 @@ AttackState::~AttackState(void)
  * @param	(player)	プレイヤーへのポインタ
  * @param	(ctrl)		コントローラへのポインタ
  * @return	なし					*/
-void AttackState::Init(Player* player, Controller* ctrl)
+void Slash3AttackState::Init(Player* player, Controller* ctrl)
 {
 	if (!player) { return; }
 
@@ -50,7 +41,7 @@ void AttackState::Init(Player* player, Controller* ctrl)
 
 	// 最初の攻撃モーション
 	meshAnim.animSpeed = ANIM_SPEED;
-	meshAnim.animation = static_cast<int>(Player::Animation::Slash_1);
+	meshAnim.animation = static_cast<int>(Player::Animation::Slash_3);
 	meshAnim.mesh.ChangeAnimation(meshAnim.animation, ANIMATION_CHANGE_FRAME15);
 }
 
@@ -58,7 +49,7 @@ void AttackState::Init(Player* player, Controller* ctrl)
  * @brief	後処理
  * @param	なし
  * @return	なし					*/
-void AttackState::Uninit(void)
+void Slash3AttackState::Uninit(void)
 {
 }
 
@@ -66,7 +57,7 @@ void AttackState::Uninit(void)
  * @breif	更新処理
  * @param	なし
  * @return	次のステート			*/
-PlayerState* AttackState::Update(void)
+PlayerState* Slash3AttackState::Update(void)
 {
 	if (!player_) { return nullptr; }
 
@@ -76,8 +67,8 @@ PlayerState* AttackState::Update(void)
 	auto& meshAnim = player_->GetMeshAnimation();
 
 	// アニメーションの情報
-	int animMax = meshAnim.mesh.GetMaxAnimation();
-	int pattern = static_cast<int>(meshAnim.mesh.GetPattern());
+	int   animMax = meshAnim.mesh.GetMaxAnimation();
+	float pattern = meshAnim.mesh.GetPattern();
 
 	// 終了前に
 	if (pattern > (Quarter(animMax) * 3))
@@ -86,21 +77,16 @@ PlayerState* AttackState::Update(void)
 		if (next_)
 		{
 			// 次の攻撃を行う
-			frame_ = 0;
 			next_ = false;
 			// アニメーションが最後まで行ったら最初に戻る
-			meshAnim.animation = (meshAnim.animation < static_cast<int>(Player::Animation::Slash_3)) ? static_cast<int>(meshAnim.animation) + 1 : static_cast<int>(Player::Animation::Slash_1);
+			meshAnim.animation = static_cast<int>(Player::Animation::Slash_1);
 			meshAnim.mesh.ChangeAnimation(meshAnim.animation, ANIMATION_CHANGE_FRAME15);
+
+			return new Slash1AttackState;
 		}
 	}
 
-	frame_++;
-	int start[] = { COLLISION_SLASH1_START, COLLISION_SLASH2_START, COLLISION_SLASH3_START };
-	int end[] = { COLLISION_SLASH1_END, COLLISION_SLASH2_END, COLLISION_SLASH3_END };
-
-	int num = ((sizeof(start) / sizeof(start[0])) - 1) - (static_cast<int>(Player::Animation::Slash_3) - meshAnim.animation);
-
-	if (frame_ > start[num])
+	if (pattern > COLLISION_START)
 	{
 		if (!wapon->IsAttack())
 		{
@@ -108,7 +94,7 @@ PlayerState* AttackState::Update(void)
 			wapon->AttackStart();
 		}
 	}
-	if (frame_ > end[num])
+	if (pattern > COLLISION_END)
 	{
 		// 武器の攻撃を終了
 		wapon->AttackEnd();
@@ -144,9 +130,9 @@ PlayerState* AttackState::Update(void)
  * @param	なし
  * @return	なし
  * @detail	プレイヤーから呼び出される			*/
-void AttackState::GuiUpdate(void)
+void Slash3AttackState::GuiUpdate(void)
 {
-	ImGui::Text("Attack");
+	ImGui::Text("Slash3Attack");
 
 	if (const auto& systems = Systems::Instance())
 	{
@@ -160,7 +146,7 @@ void AttackState::GuiUpdate(void)
 					debug->SetDebugPause(false);
 				}
 				ImGui::SameLine();
-				ImGui::Text("frame : %d", frame_);
+				ImGui::Text("pattern : %.2f", player_->GetMeshAnimation().mesh.GetPattern());
 			}
 			else
 			{
