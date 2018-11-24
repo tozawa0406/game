@@ -11,7 +11,7 @@ static constexpr float AVOIDANCE_SPEED = 2.75f;
 //! @def	回避アニメーション速度
 static constexpr float AVOIDANCE_ANIM_SPEED = 0.5f;
 //! @def	立ち上がるアニメーションの速度
-static constexpr float STANDUP_ANIM_SPEED = 3;
+static constexpr float STANDUP_ANIM_SPEED = 2;
 //! @def	移動するフレーム
 static constexpr int   MOVE_FRAME = 75;
 

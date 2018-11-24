@@ -250,7 +250,7 @@ VECTOR3 MeshField::Hit(const VECTOR3& position, VECTOR3& velocity)
 		}
 	}
 
-	if (row < 0 || line < 0) { return 0; }
+	if (row < 0 || line < 0) { return position; }
 
 	int playerLineRow[2] = { 0, 0 };
 
@@ -285,7 +285,7 @@ VECTOR3 MeshField::Hit(const VECTOR3& position, VECTOR3& velocity)
 			if (CalcHit(temp, y, velocity)) { return VECTOR3(position.x, position.y + y, position.z); }
 		}
 	}
-	return 0;
+	return position;
 }
 
 bool MeshField::CalcHit(VERTEX* v, float& y, VECTOR3& velocity)

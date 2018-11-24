@@ -222,6 +222,10 @@ void Dragon::Update(void)
 		}
 	}
 
+	if (!BitCheck(flag_, IS_FLY) && meshAnim_.animation != static_cast<int>(Animation::TAKE_OFF))
+	{
+		transform_.position.y = 0;
+	}
 	Move();
 
 	COLOR color = COLOR(1, 1, 1, 1);

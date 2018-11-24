@@ -118,6 +118,7 @@ public:
 			DIE,
 			STANDUP,
 			SETUP,
+			SETUP_DRAWN,
 			SETUP_WAIT,
 			SETUP_RUN,
 
@@ -177,6 +178,7 @@ private:
 		{ directoryName + "unitychan_animation/unitychan_Die.bamx"					, (int)Game::UNITY_CHAN },
 		{ directoryName + "unitychan_animation/unitychan_Standup.bamx"				, (int)Game::UNITY_CHAN },
 		{ directoryName + "unitychan_animation/unitychan_Setup.bamx"				, (int)Game::UNITY_CHAN },
+		{ directoryName + "unitychan_animation/unitychan_SetupDrawn.bamx"			, (int)Game::UNITY_CHAN },
 		{ directoryName + "unitychan_animation/unitychan_SetupWait.bamx"			, (int)Game::UNITY_CHAN },
 		{ directoryName + "unitychan_animation/unitychan_SetupWalk.bamx"			, (int)Game::UNITY_CHAN },
 		{ directoryName + "unitychan_animation/unitychan_Slash1.bamx"				, (int)Game::UNITY_CHAN },

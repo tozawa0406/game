@@ -8,7 +8,7 @@
 
 /* @fn		コンストラクタ
  * @brief	変数の初期化			*/
-SetupState::SetupState(void) : isDraw_(false)
+SetupState::SetupState(void) : isDraw_(false), isAttack_(false)
 {
 }
 
@@ -36,16 +36,25 @@ void SetupState::Init(Player* player, Controller* ctrl)
 	{
 		isDraw_ = true;
 		meshAnim.animSpeed = -0.75f;
+		// アニメーション
+		meshAnim.animation = static_cast<int>(Player::Animation::Setup);
+		meshAnim.mesh.ChangeAnimation(meshAnim.animation, 30);
 	}
 	else
 	{
 		isDraw_ = false;
 		meshAnim.animSpeed = 0.75f;
-	}
 
-	// アニメーション
-	meshAnim.animation = static_cast<int>(Player::Animation::Setup);
-	meshAnim.mesh.ChangeAnimation(meshAnim.animation, 30);
+		// アニメーション
+		meshAnim.animation = static_cast<int>(Player::Animation::Setup);
+		if (ctrl_->PressRange(Input::AXIS_LX, DIK_A, DIK_D) || ctrl_->PressRange(Input::AXIS_LY, DIK_S, DIK_W))
+		{
+			isAttack_ = true;
+			// アニメーション
+			meshAnim.animation = static_cast<int>(Player::Animation::SetupDrawn);
+		}
+		meshAnim.mesh.ChangeAnimation(meshAnim.animation, 30);
+	}
 }
 
 /* @fn		Uninit
@@ -77,20 +86,23 @@ PlayerState* SetupState::Update(void)
 				player_->SetDraw(!player_->IsDraw());
 			}
 
-			// 移動キーを押している場合は移動ステートへアニメーションを切り替えながら移行
-			if (ctrl_->PressRange(Input::AXIS_LX, DIK_A, DIK_D) || ctrl_->PressRange(Input::AXIS_LY, DIK_S, DIK_W))
+			if (!isAttack_)
 			{
-				if (isDraw_)
+				// 移動キーを押している場合は移動ステートへアニメーションを切り替えながら移行
+				if (ctrl_->PressRange(Input::AXIS_LX, DIK_A, DIK_D) || ctrl_->PressRange(Input::AXIS_LY, DIK_S, DIK_W))
 				{
-					meshAnim.animation = static_cast<int>(Player::Animation::Walk);
-					meshAnim.mesh.ChangeAnimation(meshAnim.animation, 30);
-					return new PaidMoveState;
-				}
-				else
-				{
-					meshAnim.animation = static_cast<int>(Player::Animation::SetupWalk);
-					meshAnim.mesh.ChangeAnimation(meshAnim.animation, 30);
-					return new DrawnMoveState;
+					if (isDraw_)
+					{
+						meshAnim.animation = static_cast<int>(Player::Animation::Walk);
+						meshAnim.mesh.ChangeAnimation(meshAnim.animation, 30);
+						return new PaidMoveState;
+					}
+					else
+					{
+						meshAnim.animation = static_cast<int>(Player::Animation::SetupWalk);
+						meshAnim.mesh.ChangeAnimation(meshAnim.animation, 30);
+						return new DrawnMoveState;
+					}
 				}
 			}
 		}

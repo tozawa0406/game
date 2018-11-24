@@ -51,6 +51,9 @@
     <Filter Include="Source\Object\Billboard">
       <UniqueIdentifier>{cbb48814-e9cf-4ddf-83d8-19966402b834}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Object\GameObject\Player\PlayerState\AttackState">
+      <UniqueIdentifier>{b960fede-5d59-4fe9-9b9a-cce5cae2bc94}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sources\Object\UI\Timer.cpp">

@@ -34,6 +34,7 @@ public:
 		Die,
 		Standup,
 		Setup,
+		SetupDrawn,
 		SetupWait,
 		SetupWalk,
 		Slash_1,
