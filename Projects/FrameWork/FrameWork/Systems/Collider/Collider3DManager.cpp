@@ -415,39 +415,67 @@ void Collision3DManager::Back(const Collider3D::OBB& obb1, const Collider3D::OBB
 {
 	float r = 0.0f;			// 近接距離
 	auto obb2Pos = obb2.GetTransform().globalPosition;
-
 	auto obb1Pos = obb1.GetTransform().globalPosition;
 
-	VECTOR2 min = VECTOR2(100000);
+	// obb2のどの面に当たっているかを調べる
+	int arrayNum = -1;
+	float dot = 0;
 	for (int i = 0; i < 6; ++i)
 	{
+		// 法線方向を取得
 		VECTOR3 obb2Nor = obb2.GetDirect(i % 3);
+		// 法線方向が3種類しかないので3回目以上で反転させる
 		if (i > 2) { obb2Nor *= -1; }
 
-		VECTOR3 v = (obb2Pos + obb2Nor * obb2.GetLen(i % 3)) - obb1Pos;
-		for (int j = 0; j < 6; ++j)
+		// obb1の一番長い辺を調べる
+		float obb1MaxLen = 0;
+		for (int j = 0; j < 3; ++j)
 		{
-			auto n = obb1.GetDirect(j);
-			if (j > 2) { n *= -1; }
-			float dot = Abs(VecDot(v, n));
-
-			if (min.y > dot)
+			float f = obb1.GetLen(j);
+			if (obb1MaxLen < f)
 			{
-				min.x = static_cast<float>(i);
-				min.y = dot;
+				obb1MaxLen = f;
+			}
+		}
+
+		// 進行速度
+		VECTOR3 obb1VelNorm = VecNorm(obb1.GetVelocity());
+		// obb1の進行方向に伸びる線分
+		// 始点
+		VECTOR3 segS = obb1Pos;
+		// 終点
+		VECTOR3 segE = obb1Pos + (obb1VelNorm * obb1MaxLen * 1.1f);
+		// obb2の面上の点(位置から方向に長さをかける)
+		VECTOR3 planeP = obb2Pos + (obb2Nor * obb2.GetLen(i % 3));
+
+		// 始点から平面へのベクトル
+		VECTOR3 v1 = VecNorm(segS - planeP);
+		// 終点から平面へのベクトル
+		VECTOR3 v2 = VecNorm(segE - planeP);
+
+		// obb1の線分とobb2の面の当たり判定
+		if (VecDot(v1, obb2Nor) * VecDot(v2, obb2Nor) <= 0)
+		{
+			float d = VecDot(obb1VelNorm, obb2Nor);
+			// 2頂点がぶつかるとどちらも反応してしまう
+			// そのため内積で進行方向に向いている面を出す
+			if (d < dot)
+			{
+				arrayNum = i;
+				dot = d;
 			}
 		}
 	}
+	if (arrayNum == -1) { return; }
 
-	int arrayNum = static_cast<int>(min.x);
 	VECTOR3 obb2Nor = obb2.GetDirect(arrayNum % 3);
 	if (arrayNum > 2) { obb2Nor *= -1; }
 
 	// 平面の法線に対するOBBの射影線の長さを算出
-	for (int j = 0; j < 3; ++j)
+	for (int i = 0; i < 3; ++i)
 	{
-		VECTOR3 direct = obb1.GetDirect(j); // OBBの1つの軸ベクトル
-		r += Abs(VecDot((direct * obb1.GetLen(j)), obb2Nor));
+		VECTOR3 direct = obb1.GetDirect(i); // OBBの1つの軸ベクトル
+		r += Abs(VecDot(VecNorm((direct * obb1.GetLen(i))), obb2Nor));
 	}
 
 	// 平面とOBBの距離を算出

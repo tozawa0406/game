@@ -108,6 +108,7 @@ namespace Collider3D
 	protected:
 		VECTOR3 normaDirect_[3];		// 方向ベクトル
 		float   length_[3];				// 各軸方向の長さ
+		VECTOR3 velocity_;
 
 	public:
 		OBB(Object* obj);
@@ -121,6 +122,7 @@ namespace Collider3D
 		VECTOR3 GetDirect(int i) const { return normaDirect_[i]; }
 		// 指定軸方向の長さを取得
 		float   GetLen(int i)	 const { return this->length_[i]; }
+		VECTOR3 GetVelocity(void) const { return velocity_; }
 	};
 }
 

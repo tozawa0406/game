@@ -9,6 +9,8 @@
 #include "../../Object/Object.h"
 #include "../../Object/ObjectManager.h"
 
+#include "../../../../Sources/Object/GameObject/GameObject.h"
+
 Collider3DBase::Collider3DBase(Object* obj, Type type) : systems_(Systems::Instance()), transform_(obj->GetTransform())
 													   , object_(obj), type_(type), enable_(true), parentMtx_(nullptr), transMtx_(nullptr)
 													   , offsetPosition_(VECTOR3(0)), offsetRotation_(VECTOR3(0)), size_(VECTOR3(1))
@@ -68,7 +70,7 @@ void Collider3D::Sphere::Update(void)
 	renderer2_.Update(this);
 }
 
-Collider3D::OBB::OBB(Object* obj) : Collider3DBase(obj, Type::OBB)
+Collider3D::OBB::OBB(Object* obj) : Collider3DBase(obj, Type::OBB), velocity_(VECTOR3(0))
 {
 	for (int i = 0; i < 3; ++i)
 	{
@@ -81,6 +83,12 @@ Collider3D::OBB::OBB(Object* obj) : Collider3DBase(obj, Type::OBB)
 
 void Collider3D::OBB::Update(void)
 {
+	if (object_->GetTag() == Object::Tag::PLAYER)
+	{
+		auto gameObject = static_cast<GameObject*>(object_);
+		velocity_ = gameObject->GetVelocity();
+	}
+
 	transform_ = object_->GetTransform();
 
 	renderer_.enable = IsEnable();
