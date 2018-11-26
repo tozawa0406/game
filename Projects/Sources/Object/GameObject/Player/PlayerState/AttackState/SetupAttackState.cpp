@@ -68,6 +68,12 @@ PlayerState* SetupAttackState::Update(void)
 	if (!player_) { return nullptr; }
 	auto& meshAnim = player_->GetMeshAnimation();
 
+	if (auto wapon = player_->GetWapon())
+	{
+		int inv = (dir_.z >= 0) ? 1 : -1;
+		wapon->SetRotation(0.8f * inv);
+	}
+
 	if (auto temp = AttackBaseState::Update())
 	{
 		return temp;

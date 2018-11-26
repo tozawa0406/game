@@ -5,7 +5,7 @@
 //! @def	走る範囲
 static constexpr int DASH_RANGE = 75;
 //! @def	攻撃のスパン
-static constexpr int ATTACK_RANGE = 60;
+static constexpr int ATTACK_RANGE = 90;
 
 /* @fn		コンストラクタ
  * @brief	変数の初期化			*/

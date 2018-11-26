@@ -14,7 +14,7 @@
 class BloodSplash : public Object
 {
 public:
-	BloodSplash(VECTOR3 position);
+	BloodSplash(VECTOR3 position, float rotation);
 	~BloodSplash(void);
 
 	void Init(void)   override;
@@ -22,6 +22,7 @@ public:
 	void Update(void) override;
 
 private:
+	int cnt_;
 	SpriteRenderer renderer_;
 };
 

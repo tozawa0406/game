@@ -391,6 +391,13 @@ void DirectX11Wrapper::Draw(const SpriteRenderer* obj, const Shader* shader)
 	const auto& pContext = directX11_->GetDeviceContext();
 	if (!pContext) { return; }
 
+	if (obj->GetShader() == Shader::ENUM::BILLBOARD)
+	{
+		// アルファブレンドのセット
+		float blendFactor[] = { 0.0f, 0.0f, 0.0f, 0.0f };
+		pContext->OMSetBlendState(blendState_[(int)ALFA_BREND::ADD], blendFactor, 0xffffff);
+	}
+
 	ID3D11Buffer*       constant = nullptr;
 	ID3D11VertexShader* vertex	 = nullptr;
 	ID3D11PixelShader*  pixel	 = nullptr;
@@ -450,6 +457,10 @@ void DirectX11Wrapper::Draw(const SpriteRenderer* obj, const Shader* shader)
 	pContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 	// 描画
 	pContext->DrawIndexed(obj->GetIndexNum(), 0, 0);
+
+	// アルファブレンドのセット
+	float blendFactor[] = { 0.0f, 0.0f, 0.0f, 0.0f };
+	pContext->OMSetBlendState(blendState_[(int)ALFA_BREND::DEF], blendFactor, 0xffffffff);
 }
 
 void DirectX11Wrapper::Draw(MeshRenderer* obj, const Shader* shader)

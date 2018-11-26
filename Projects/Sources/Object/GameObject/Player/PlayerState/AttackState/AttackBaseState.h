@@ -35,9 +35,9 @@ protected:
 	float move_;
 
 	bool next_;		//! Ÿ‚ÌUŒ‚‚Ì“ü—Í
+	VECTOR3 dir_;
 
 private:
-	VECTOR3 dir_;
 	bool debug_nextFrame_;
 };
 

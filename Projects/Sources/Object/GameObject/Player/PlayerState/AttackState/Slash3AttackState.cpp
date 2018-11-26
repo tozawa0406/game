@@ -67,6 +67,11 @@ PlayerState* Slash3AttackState::Update(void)
 	if (!player_) { return nullptr; }
 	auto& meshAnim = player_->GetMeshAnimation();
 
+	if (auto wapon = player_->GetWapon())
+	{
+		wapon->SetRotation(0);
+	}
+
 	if (auto temp = AttackBaseState::Update())
 	{
 		return temp;

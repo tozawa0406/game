@@ -2,10 +2,12 @@
 
 /* @fn		コンストラクタ
  * @brief	初期化				*/
-BloodSplash::BloodSplash(VECTOR3 position) : Object(Object::Tag::BILLBOARD)
+BloodSplash::BloodSplash(VECTOR3 position, float rotation) : Object(Object::Tag::BILLBOARD)
+	, cnt_(0)
 {
-	transform_.position = position;
-	transform_.scale = VECTOR3(10);
+	transform_.position		= position;
+	transform_.scale		= VECTOR3(2, 10, 1);
+	transform_.rotation.z	= rotation;
 }
 
 /* @fn		デストラクタ
@@ -20,12 +22,10 @@ BloodSplash::~BloodSplash(void)
  * @return	なし				*/
 void BloodSplash::Init(void)
 {
-	renderer_.split = VECTOR2(8, 2);
-	renderer_.Init(Systems::Instance(), static_cast<int>(Texture::Game::EXPLOSION), &transform_);
+	renderer_.Init(Systems::Instance(), static_cast<int>(Texture::Game::SLASH), &transform_);
 	renderer_.billbord	= true;
 	renderer_.shadow	= false;
 	renderer_.shader	= Shader::ENUM::BILLBOARD;
-	renderer_.sort		= false;
 }
 
 /* @fn		Uninit
@@ -42,7 +42,8 @@ void BloodSplash::Uninit(void)
  * @return	なし				*/
 void BloodSplash::Update(void)
 {
-	if (renderer_.Animation(0.5f))
+	cnt_++;
+	if (cnt_ > 30)
 	{
 		Destroy();
 	}

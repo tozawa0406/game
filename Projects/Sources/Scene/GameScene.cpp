@@ -34,7 +34,7 @@ void GameScene::Init(void)
 	light_ = new Light(systems_);
 	sky_ = new SkyDome(systems_);
 	meshField_ = new MeshField(systems_);
-	meshField_->Init(50, 200);
+	meshField_->Init(VECTOR2(50), VECTOR2(400));
 
 	objectManager_ = new ObjectManager(this);
 

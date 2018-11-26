@@ -228,30 +228,14 @@ void Dragon::Update(void)
 	}
 	Move();
 
-	COLOR color = COLOR(1, 1, 1, 1);
 	for (auto& c : collision_)
 	{
 		if (c)
 		{
 			c->Update();
 			transform_.position += c->GetBack();
-
-			auto hits = c->Hit();
-			for (auto& hit : hits)
-			{
-				const auto& t = hit->GetTag();
-				if (t == Object::Tag::WAPON)
-				{
-					color = COLOR(1, 0, 0, 1);
-				}
-				if (t == Object::Tag::PLAYER)
-				{
-					color = COLOR(0, 0, 0, 1);
-				}
-			}
 		}
 	}
-	meshAnim_.mesh.material.diffuse = color;
 }
 
 /* @fn		CreateCollsion

@@ -53,6 +53,7 @@ public:
 	{
 		FIELD = (int)Base::MAX,
 		EXPLOSION,
+		SLASH,
 		EFFECT,
 
 		HP_BAR,
@@ -101,6 +102,7 @@ private:
 	{
 		{ directoryName + "field.jpg"					},
 		{ directoryName + "explosion/explosion.png"		},
+		{ directoryName + "slash.jpg"					},
 		{ directoryName + "effect.jpg"					},
 
 		{ directoryName + "UI/game/hpbar.png"			},

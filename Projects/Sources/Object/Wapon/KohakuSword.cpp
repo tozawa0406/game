@@ -66,25 +66,21 @@ void KohakuSword::Update(void)
 		debug_hit_ = false;
 		auto object = collider_->Hit();
 
-		COLOR c = COLOR(1);
 		for (auto& o : object)
 		{
 			if (o->GetTag() == Object::Tag::ENEMY)
 			{
 				debug_hit_ = true;
 
-				c = COLOR(0, 1, 0, 1);
-
 				if (!hit_)
 				{
 					static_cast<GameObject*>(o)->Hit(100);
 					VECTOR3 p = transform_.globalPosition + collider_->GetDirect(2) * collider_->GetLen(2);
-					manager_->Create<BloodSplash>(p);
+					manager_->Create<BloodSplash>(p, effectRotation_);
 					hit_ = true;
 				}
 			}
 		}
-		mesh_.material.diffuse = c;
 	}
 }
 
@@ -108,6 +104,8 @@ void KohakuSword::DrawnSword(void)
 
 void KohakuSword::GuiUpdate(void)
 {
+	ImGui::Text("effect : %.2f", effectRotation_);
+
 	ImGui::DragFloat3("rot", transform_.rotation, 0.01f, -6.14f, 6.14f);
 
 	auto g = transform_.globalPosition;
