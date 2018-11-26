@@ -234,6 +234,7 @@ void Dragon::Update(void)
 		if (c)
 		{
 			c->Update();
+			transform_.position += c->GetBack();
 
 			auto hits = c->Hit();
 			for (auto& hit : hits)

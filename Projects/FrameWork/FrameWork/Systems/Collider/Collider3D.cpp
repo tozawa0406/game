@@ -83,7 +83,8 @@ Collider3D::OBB::OBB(Object* obj) : Collider3DBase(obj, Type::OBB), velocity_(VE
 
 void Collider3D::OBB::Update(void)
 {
-	if (object_->GetTag() == Object::Tag::PLAYER)
+	if (object_->GetTag() == Object::Tag::PLAYER ||
+		object_->GetTag() == Object::Tag::ENEMY)
 	{
 		auto gameObject = static_cast<GameObject*>(object_);
 		velocity_ = gameObject->GetVelocity();

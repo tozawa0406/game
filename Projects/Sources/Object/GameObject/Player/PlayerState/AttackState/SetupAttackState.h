@@ -7,9 +7,9 @@
 #ifndef _SETUP_ATTACK_STATE_H_
 #define _SETUP_ATTACK_STATE_H_
 
-#include "../PlayerState.h"
+#include "AttackBaseState.h"
 
-class SetupAttackState : public PlayerState
+class SetupAttackState : public AttackBaseState
 {
 public:
 	SetupAttackState(void);
@@ -23,8 +23,6 @@ public:
 
 private:
 	bool isDraw_;
-	bool next_;		//! Ÿ‚ÌUŒ‚‚Ì“ü—Í
-	bool debug_nextFrame_;
 };
 
 #endif // _SETUP_ATTACK_STATE_H_

@@ -12,6 +12,8 @@
 #include "PS4Input.h"
 #include "KeyInput.h"
 #include "BinInput.h"
+#include <BluetoothAPIs.h>
+#pragma comment (lib, "Bthprops")
 
 Input::Input(Systems* systems) : Interface(systems), nowNumber_((BYTE)-1), numCallBackController_(0)
 {
@@ -20,6 +22,38 @@ Input::Input(Systems* systems) : Interface(systems), nowNumber_((BYTE)-1), numCa
 // キーボードの初期化
 HRESULT Input::Init(void)
 {
+/*
+	{
+		//Device の検索
+		BLUETOOTH_DEVICE_SEARCH_PARAMS	searchparam;
+		memset(&searchparam, 0, sizeof(BLUETOOTH_DEVICE_SEARCH_PARAMS));
+		searchparam.dwSize = sizeof(BLUETOOTH_DEVICE_SEARCH_PARAMS);
+		searchparam.fReturnAuthenticated = TRUE;
+		searchparam.fReturnRemembered = TRUE;
+		searchparam.fReturnConnected = TRUE;
+		searchparam.fReturnUnknown = TRUE;
+		searchparam.fIssueInquiry = FALSE;
+		searchparam.cTimeoutMultiplier = 0;
+		searchparam.hRadio = NULL; // all
+
+		HBLUETOOTH_DEVICE_FIND	hfind = NULL;
+		BLUETOOTH_DEVICE_INFO	devinfo;
+		memset(&devinfo, 0, sizeof(BLUETOOTH_DEVICE_INFO));
+		devinfo.dwSize = sizeof(BLUETOOTH_DEVICE_INFO);
+		if (hfind = BluetoothFindFirstDevice(&searchparam, &devinfo)) {
+			do {
+				devinfo = devinfo;
+				// bluetoothの接続解除
+//				BluetoothRemoveDevice(&devinfo.Address);
+				// bluetoothの接続
+//				BluetoothSetServiceState(hradio, &devinfo, &HumanInterfaceDeviceServiceClass_UUID, BLUETOOTH_SERVICE_ENABLE);
+
+			} while (BluetoothFindNextDevice(hfind, &devinfo));
+			BluetoothFindDeviceClose(hfind);
+		}
+	}
+*/
+
 	keyboard_ = new KeyInput(this);
 
 	if (FAILED(keyboard_->Init())) { return E_FAIL; }

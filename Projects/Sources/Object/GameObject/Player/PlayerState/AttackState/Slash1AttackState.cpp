@@ -7,14 +7,20 @@
 
 //! @def	アニメーション速度
 static constexpr float ANIM_SPEED = 0.6f;
-//! @def	1撃目のコリジョン開始
+//! @def	コリジョン開始
 static constexpr int COLLISION_START = 18;
-//! @def	1撃目のコリジョン終了
+//! @def	コリジョン終了
 static constexpr int COLLISION_END = 26;
+//! @def	移動距離
+static constexpr float MOVE = 0.1f;
+//! @def	移動開始
+static constexpr int MOVE_START = 10;
+//! @def	移動終了
+static constexpr int MOVE_END = 15;
 
 /* @fn		コンストラクタ
  * @brief	変数の初期化			*/
-Slash1AttackState::Slash1AttackState(void) : next_(false), debug_nextFrame_(false)
+Slash1AttackState::Slash1AttackState(void)
 {
 }
 
@@ -32,17 +38,17 @@ Slash1AttackState::~Slash1AttackState(void)
 void Slash1AttackState::Init(Player* player, Controller* ctrl)
 {
 	if (!player) { return; }
+	
+	animSpeed_		= ANIM_SPEED;
+	animation_		= Player::Animation::Slash_1;
+	changeFrame_	= ANIMATION_CHANGE_FRAME30;
+	collisionStart_ = COLLISION_START;
+	collisionEnd_	= COLLISION_END;
+	moveStart_		= MOVE_START;
+	moveEnd_		= MOVE_END;
+	move_			= MOVE;
 
-	next_ = false;
-
-	PlayerState::Init(player, ctrl);
-
-	auto& meshAnim = player->GetMeshAnimation();
-
-	// 最初の攻撃モーション
-	meshAnim.animSpeed = ANIM_SPEED;
-	meshAnim.animation = static_cast<int>(Player::Animation::Slash_1);
-	meshAnim.mesh.ChangeAnimation(meshAnim.animation, ANIMATION_CHANGE_FRAME15);
+	AttackBaseState::Init(player, ctrl);
 }
 
 /* @fn		Uninit
@@ -60,20 +66,28 @@ void Slash1AttackState::Uninit(void)
 PlayerState* Slash1AttackState::Update(void)
 {
 	if (!player_) { return nullptr; }
-
-	Wapon* wapon = player_->GetWapon();
-	if (!wapon) { return nullptr; }
-
 	auto& meshAnim = player_->GetMeshAnimation();
 
-	// アニメーションの情報
-	int animMax   = meshAnim.mesh.GetMaxAnimation();
-	float pattern = meshAnim.mesh.GetPattern();
-
-	// 終了前に
-	if (pattern > (Quarter(animMax) * 3))
+	if (auto temp = AttackBaseState::Update())
 	{
-		// 次の入力がある
+		return temp;
+	}
+
+	float pattern = meshAnim.mesh.GetPattern();
+	// アニメーションの情報
+	int animMax = meshAnim.mesh.GetMaxAnimation();
+	// 終了前に
+	if (pattern > (Quarter(animMax) * 3.0f))
+	{	
+		// 回避コマンドで回避ステート
+		if (ctrl_->Trigger(Input::GAMEPAD_CROSS, DIK_M))
+		{
+			if (player_->GetStamina() > AvoidanceState::DEC_STAMINA)
+			{
+				return new AvoidanceState;
+			}
+		}
+
 		if (next_)
 		{
 			// 次の攻撃を行う
@@ -83,42 +97,6 @@ PlayerState* Slash1AttackState::Update(void)
 			meshAnim.mesh.ChangeAnimation(meshAnim.animation, ANIMATION_CHANGE_FRAME15);
 
 			return new Slash2AttackState;
-		}
-	}
-
-	if (pattern > COLLISION_START)
-	{
-		if (!wapon->IsAttack())
-		{
-			// 武器の攻撃を開始
-			wapon->AttackStart();
-		}
-	}
-	if (pattern > COLLISION_END)
-	{
-		// 武器の攻撃を終了
-		wapon->AttackEnd();
-	}
-
-	// アニメーションの終了
-	if (player_->IsEndAnim())
-	{
-		// 抜刀待機状態に戻る
-		meshAnim.animation = static_cast<int>(Player::Animation::SetupWait);
-		meshAnim.mesh.ChangeAnimation(meshAnim.animation, ANIMATION_CHANGE_FRAME15, true);
-
-		return new DrawnWaitState;
-	}
-
-	// 攻撃コマンドで次の攻撃
-	if (ctrl_->Trigger(Input::GAMEPAD_TRIANGLE, DIK_U)) { next_ = true; }
-
-	// 回避コマンドで回避ステート
-	if (ctrl_->Trigger(Input::GAMEPAD_CROSS, DIK_M))
-	{
-		if (player_->GetStamina() > AvoidanceState::DEC_STAMINA)
-		{
-			return new AvoidanceState;
 		}
 	}
 
@@ -134,28 +112,5 @@ void Slash1AttackState::GuiUpdate(void)
 {
 	ImGui::Text("Slash1Attack");
 
-	if (const auto& systems = Systems::Instance())
-	{
-		if (const auto& debug = systems->GetDebug())
-		{
-			if (debug->GetDebugPause())
-			{
-				if (ImGui::Button("Next Frame"))
-				{
-					debug_nextFrame_ = true;
-					debug->SetDebugPause(false);
-				}
-				ImGui::SameLine();
-				ImGui::Text("pattern : %.2f", player_->GetMeshAnimation().mesh.GetPattern());
-			}
-			else
-			{
-				if (debug_nextFrame_)
-				{
-					debug->SetDebugPause(true);
-				}
-				debug_nextFrame_ = false;
-			}
-		}
-	}
+	AttackBaseState::GuiUpdate();
 }

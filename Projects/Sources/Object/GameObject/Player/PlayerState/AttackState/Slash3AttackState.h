@@ -7,9 +7,9 @@
 #ifndef _SLASH3_ATTACK_STATE_H_
 #define _SLASH3_ATTACK_STATE_H_
 
-#include "../PlayerState.h"
+#include "AttackBaseState.h"
 
-class Slash3AttackState : public PlayerState
+class Slash3AttackState : public AttackBaseState
 {
 public:
 	Slash3AttackState(void);
@@ -20,10 +20,6 @@ public:
 	PlayerState* Update(void) override;
 
 	void GuiUpdate(void) override;
-
-private:
-	bool next_;		//! Ÿ‚ÌUŒ‚‚Ì“ü—Í
-	bool debug_nextFrame_;
 };
 
 #endif // _SLASH3_ATTACK_STATE_H_

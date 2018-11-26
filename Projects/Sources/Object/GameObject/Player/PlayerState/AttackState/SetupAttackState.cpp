@@ -6,13 +6,19 @@
 #include "../AvoidanceState.h"
 
 //! @def	当たり判定開始
-static constexpr float COLLISION_START = 30;
+static constexpr int COLLISION_START = 30;
 //! @def	当たり判定終了
-static constexpr float COLLISION_END = 45;
+static constexpr int COLLISION_END = 45;
+//! @def	移動距離
+static constexpr float MOVE = 0.1f;
+//! @def	移動開始
+static constexpr int MOVE_START = 20;
+//! @def	移動終了
+static constexpr int MOVE_END = 25;
 
 /* @fn		コンストラクタ
  * @brief	変数の初期化			*/
-SetupAttackState::SetupAttackState(void) : isDraw_(false), next_(false), debug_nextFrame_(0)
+SetupAttackState::SetupAttackState(void) : isDraw_(false)
 {
 }
 
@@ -31,15 +37,18 @@ void SetupAttackState::Init(Player* player, Controller* ctrl)
 {
 	if (!player) { return; }
 
-	PlayerState::Init(player, ctrl);
+	animSpeed_		= 0.6f;
+	animation_		= Player::Animation::SetupDrawn;
+	changeFrame_	= ANIMATION_CHANGE_FRAME30;
+	collisionStart_ = COLLISION_START;
+	collisionEnd_	= COLLISION_END;
+	moveStart_		= MOVE_START;
+	moveEnd_		= MOVE_END;
+	move_			= MOVE;
 
-	auto& meshAnim = player->GetMeshAnimation();
+	AttackBaseState::Init(player, ctrl);
 
 	isDraw_ = false;
-
-	meshAnim.animSpeed = 0.75f;
-	meshAnim.animation = static_cast<int>(Player::Animation::SetupDrawn);
-	meshAnim.mesh.ChangeAnimation(meshAnim.animation, 30);
 }
 
 /* @fn		Uninit
@@ -59,36 +68,26 @@ PlayerState* SetupAttackState::Update(void)
 	if (!player_) { return nullptr; }
 	auto& meshAnim = player_->GetMeshAnimation();
 
+	if (auto temp = AttackBaseState::Update())
+	{
+		return temp;
+	}
+
 	float pattern = meshAnim.mesh.GetPattern();
-	// 納刀抜刀中であり、アニメーションが一定以下
-	if (pattern >= COLLISION_START)
-	{
-		// 武器の状態切り替え
-		if (const auto& wapon = player_->GetWapon())
-		{
-			if (isDraw_ == player_->IsDraw())
-			{
-				wapon->Setup(isDraw_);
-				player_->SetDraw(!player_->IsDraw());
-				wapon->AttackStart();
-			}
-		}
-	}
-
-	if (pattern > COLLISION_END)
-	{
-		if (const auto& wapon = player_->GetWapon())
-		{
-			wapon->AttackEnd();
-		}
-	}
-
 	// アニメーションの情報
 	int animMax = meshAnim.mesh.GetMaxAnimation();
-
 	// 終了前に
 	if (pattern > (Quarter(animMax) * 3.0f))
 	{
+		// 回避コマンドで回避ステート
+		if (ctrl_->Trigger(Input::GAMEPAD_CROSS, DIK_M))
+		{
+			if (player_->GetStamina() > AvoidanceState::DEC_STAMINA)
+			{
+				return new AvoidanceState;
+			}
+		}
+
 		if (next_)
 		{
 			// 次の攻撃を行う
@@ -101,25 +100,16 @@ PlayerState* SetupAttackState::Update(void)
 		}
 	}
 
-	// 攻撃コマンドで次の攻撃
-	if (ctrl_->Trigger(Input::GAMEPAD_TRIANGLE, DIK_U)) { next_ = true; }
-
-	// キー入力がない場合は待機モーションへ移行
-	if (player_->IsEndAnim())
+	if (pattern > 30)
 	{
-		// 抜刀待機状態に戻る
-		meshAnim.mesh.AnimEndPattern();
-		meshAnim.animation = static_cast<int>(Player::Animation::SetupWait);
-		meshAnim.mesh.ChangeAnimation(meshAnim.animation, ANIMATION_CHANGE_FRAME15, true);
-		return new DrawnWaitState;
-	}
-
-	// 回避コマンドで回避ステート
-	if (ctrl_->Trigger(Input::GAMEPAD_CROSS, DIK_M))
-	{
-		if (player_->GetStamina() > AvoidanceState::DEC_STAMINA)
+		// 武器の状態切り替え
+		if (const auto& wapon = player_->GetWapon())
 		{
-			return new AvoidanceState;
+			if (isDraw_ == player_->IsDraw())
+			{
+				wapon->Setup(isDraw_);
+				player_->SetDraw(!player_->IsDraw());
+			}
 		}
 	}
 
@@ -135,28 +125,5 @@ void SetupAttackState::GuiUpdate(void)
 {
 	ImGui::Text("SetupAttack");
 
-	if (const auto& systems = Systems::Instance())
-	{
-		if (const auto& debug = systems->GetDebug())
-		{
-			if (debug->GetDebugPause())
-			{
-				if (ImGui::Button("Next Frame"))
-				{
-					debug_nextFrame_ = true;
-					debug->SetDebugPause(false);
-				}
-				ImGui::SameLine();
-				ImGui::Text("pattern : %.2f", player_->GetMeshAnimation().mesh.GetPattern());
-			}
-			else
-			{
-				if (debug_nextFrame_)
-				{
-					debug->SetDebugPause(true);
-				}
-				debug_nextFrame_ = false;
-			}
-		}
-	}
+	AttackBaseState::GuiUpdate();
 }

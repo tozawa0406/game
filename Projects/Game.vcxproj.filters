@@ -158,6 +158,9 @@
     <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\AttackState\SetupAttackState.cpp">
       <Filter>Source\Object\GameObject\Player\PlayerState\AttackState</Filter>
     </ClCompile>
+    <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\AttackState\AttackBaseState.cpp">
+      <Filter>Source\Object\GameObject\Player\PlayerState\AttackState</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sources\Object\UI\Timer.h">
@@ -269,6 +272,9 @@
       <Filter>Source\Object\GameObject\Player\PlayerState\AttackState</Filter>
     </ClInclude>
     <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\AttackState\SetupAttackState.h">
+      <Filter>Source\Object\GameObject\Player\PlayerState\AttackState</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\AttackState\AttackBaseState.h">
       <Filter>Source\Object\GameObject\Player\PlayerState\AttackState</Filter>
     </ClInclude>
   </ItemGroup>
