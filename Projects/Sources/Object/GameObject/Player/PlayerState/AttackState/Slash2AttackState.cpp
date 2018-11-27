@@ -5,8 +5,6 @@
 #include "../DrawnState/DrawnWaitState.h"
 #include "../AvoidanceState.h"
 
-//! @def	アニメーション速度
-static constexpr float ANIM_SPEED = 0.6f;
 //! @def	コリジョン開始
 static constexpr int COLLISION_START = 21;
 //! @def	コリジョン終了

@@ -37,7 +37,7 @@ void SetupAttackState::Init(Player* player, Controller* ctrl)
 {
 	if (!player) { return; }
 
-	animSpeed_		= 0.6f;
+	animSpeed_		= ANIM_SPEED;
 	animation_		= Player::Animation::SetupDrawn;
 	changeFrame_	= ANIMATION_CHANGE_FRAME30;
 	collisionStart_ = COLLISION_START;

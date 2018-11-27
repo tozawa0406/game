@@ -33,6 +33,7 @@ public:
 		KnockOut,
 		Die,
 		Standup,
+		WalkSetup,
 		Setup,
 		SetupDrawn,
 		SetupWait,

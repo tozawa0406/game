@@ -22,6 +22,8 @@ public:
 	virtual void GuiUpdate(void) override;
 
 protected:
+	static constexpr float ANIM_SPEED = 0.75f;
+
 	float animSpeed_;
 	Player::Animation animation_;
 	int changeFrame_;
