@@ -63,6 +63,9 @@
     <Filter Include="FrameWork\Systems\DebugSetting\ImGUI">
       <UniqueIdentifier>{4f4483c4-d303-4719-a264-9edc17dd98ce}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FrameWork\Systems\Collider\Collider3D">
+      <UniqueIdentifier>{18745037-80f7-4a32-978c-3f89ac70dfbc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FrameWork\Define\Color.h">
@@ -117,12 +120,6 @@
       <Filter>FrameWork\Systems\Collider</Filter>
     </ClInclude>
     <ClInclude Include="FrameWork\Systems\Collider\Collider2DManager.h">
-      <Filter>FrameWork\Systems\Collider</Filter>
-    </ClInclude>
-    <ClInclude Include="FrameWork\Systems\Collider\Collider3D.h">
-      <Filter>FrameWork\Systems\Collider</Filter>
-    </ClInclude>
-    <ClInclude Include="FrameWork\Systems\Collider\Collider3DManager.h">
       <Filter>FrameWork\Systems\Collider</Filter>
     </ClInclude>
     <ClInclude Include="FrameWork\Systems\Collider\ColliderRenderer.h">
@@ -293,6 +290,24 @@
     <ClInclude Include="FrameWork\Systems\Camera\MoveCamera.h">
       <Filter>FrameWork\Systems\Camera</Filter>
     </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Collider\Collider3D\Collider3DManager.h">
+      <Filter>FrameWork\Systems\Collider\Collider3D</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Collider\Collider3D\Collider3DBase.h">
+      <Filter>FrameWork\Systems\Collider\Collider3D</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Collider\Collider3D\Collider3DOBB.h">
+      <Filter>FrameWork\Systems\Collider\Collider3D</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Collider\Collider3D\Collider3DSphere.h">
+      <Filter>FrameWork\Systems\Collider\Collider3D</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Collider\Collider3D\Collider3DSegment.h">
+      <Filter>FrameWork\Systems\Collider\Collider3D</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Collider\Collider3D\Collider3DPlane.h">
+      <Filter>FrameWork\Systems\Collider\Collider3D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FrameWork\Define\Matrix.cpp">
@@ -335,12 +350,6 @@
       <Filter>FrameWork\Systems\Collider</Filter>
     </ClCompile>
     <ClCompile Include="FrameWork\Systems\Collider\Collider2DManager.cpp">
-      <Filter>FrameWork\Systems\Collider</Filter>
-    </ClCompile>
-    <ClCompile Include="FrameWork\Systems\Collider\Collider3D.cpp">
-      <Filter>FrameWork\Systems\Collider</Filter>
-    </ClCompile>
-    <ClCompile Include="FrameWork\Systems\Collider\Collider3DManager.cpp">
       <Filter>FrameWork\Systems\Collider</Filter>
     </ClCompile>
     <ClCompile Include="FrameWork\Systems\Collider\ColliderRenderer.cpp">
@@ -486,6 +495,24 @@
     </ClCompile>
     <ClCompile Include="FrameWork\Systems\Camera\MoveCamera.cpp">
       <Filter>FrameWork\Systems\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Collider\Collider3D\Collider3DManager.cpp">
+      <Filter>FrameWork\Systems\Collider\Collider3D</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Collider\Collider3D\Collider3DBase.cpp">
+      <Filter>FrameWork\Systems\Collider\Collider3D</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Collider\Collider3D\Collider3DOBB.cpp">
+      <Filter>FrameWork\Systems\Collider\Collider3D</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Collider\Collider3D\Collider3DSphere.cpp">
+      <Filter>FrameWork\Systems\Collider\Collider3D</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Collider\Collider3D\Collider3DSegment.cpp">
+      <Filter>FrameWork\Systems\Collider\Collider3D</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Collider\Collider3D\Collider3DPlane.cpp">
+      <Filter>FrameWork\Systems\Collider\Collider3D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

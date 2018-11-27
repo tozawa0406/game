@@ -19,7 +19,7 @@
 #include "Sound/Sound.h"
 
 #include "Collider/Collider2DManager.h"
-#include "Collider/Collider3DManager.h"
+#include "Collider/Collider3D/Collider3DManager.h"
 #include "Collider/ColliderRenderer.h"
 
 #include "Particle/ParticleManager.h"

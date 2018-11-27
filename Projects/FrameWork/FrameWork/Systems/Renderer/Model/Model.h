@@ -83,6 +83,7 @@ public:
 		SWORD,
 		BOX,
 		DRAGON,
+		WALL_ROCKS_14,
 		MAX
 	};
 	enum class Result : int
@@ -156,12 +157,13 @@ public:
 private:
 	const string gameFileName[(int)Game::MAX]
 	{
-		{ directoryName + "cube/cube2.bmx"						},
-		{ directoryName + "sky/sky2.bmx"							},
+		{ directoryName + "cube/cube2.bmx"									},
+		{ directoryName + "sky/sky2.bmx"									},
 		{ directoryName + "unitychan/unitychan_notangent.bmx"				},
-		{ directoryName + "wapon/kohaku_sword/kohaku_sword_notangent.bmx" },
-		{ directoryName + "box/TreasureChest_notangent.bmx"				},
-		{ directoryName + "terror_dragon/terror_dragon2.bmx"		},
+		{ directoryName + "wapon/kohaku_sword/kohaku_sword_notangent.bmx"	},
+		{ directoryName + "box/TreasureChest_notangent.bmx"					},
+		{ directoryName + "terror_dragon/terror_dragon2.bmx"				},
+		{ directoryName + "wallRocks/Rock14/Rock14_LP.bmx"					}
 	};
 
 	const ANIMATION_INFO animationGameFileName[(int)Animation::Game::MAX]

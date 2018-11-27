@@ -16,8 +16,10 @@
 #include "../Object/UI/ItemList.h"
 #include "../Object/GameObject/Monster/Dragon/Dragon.h"
 #include "../Object/UI/Timer.h"
-#include "../Object/StaticObject/PaidGoodsBox.h"
 #include "../Object/Wapon/KohakuSword.h"
+
+#include "../Object/StaticObject/PaidGoodsBox.h"
+#include "../Object/StaticObject/WallA.h"
 
 // コンストラクタ
 GameScene::GameScene(SceneManager* manager) : BaseScene(manager), GUI(manager->GetSystems(), nullptr, "SceneGame"), objectManager_(nullptr)
@@ -38,6 +40,12 @@ void GameScene::Init(void)
 
 	objectManager_ = new ObjectManager(this);
 
+	objectManager_->Create<PaidGoodsBox>();
+	objectManager_->Create<WallA>(VECTOR3( 100, 3,    0), VECTOR3(0,  1.57f, 0));
+	objectManager_->Create<WallA>(VECTOR3(   0, 3, -100), VECTOR3(0,      0, 0));
+	objectManager_->Create<WallA>(VECTOR3(-100, 3,    0), VECTOR3(0, -1.57f, 0));
+	objectManager_->Create<WallA>(VECTOR3(   0, 3,  100), VECTOR3(0,  3.14f, 0));
+
 	auto* player = objectManager_->Create<Player>();
 	auto* wapon = objectManager_->Create<KohakuSword>();
 	player->SetWapon(wapon);
@@ -45,7 +53,6 @@ void GameScene::Init(void)
 	objectManager_->Create<Timer>();
 	auto* life = objectManager_->Create<PlayerLife>();
 	life->SetPlayer(player);
-	objectManager_->Create<PaidGoodsBox>();
 	auto* item = objectManager_->Create<ItemList>();
 	item->SetPlayer(player);
 

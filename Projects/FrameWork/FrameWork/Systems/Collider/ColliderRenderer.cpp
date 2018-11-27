@@ -9,7 +9,6 @@
 #include "../GameSystems.h"
 #include "../Renderer/Sprite/SpriteRenderer.h"
 #include "Collider2D.h"
-#include "Collider3D.h"
 
 //ƒ|ƒŠƒSƒ“•`‰æˆ—
 void ColliderRendererManager::Draw(void)
@@ -33,7 +32,7 @@ void ColliderRendererManager::Draw(void)
 
 
 
-ColliderRenderer::ColliderRenderer(void) : enable(false), vertexBuffer(0), vnum(0)
+ColliderRenderer::ColliderRenderer(void) : enable(false), vertexBuffer(0), vnum(0), systems(nullptr)
 										 , type(Wrapper::PRIMITIVE::TYPE::POINT), offsetPosition(VECTOR3(0)), offsetRotation(VECTOR3(0)), size(VECTOR3(0))
 										 , parentMtx(nullptr), transMtx(nullptr), color(COLOR::RGBA(35, 191, 0, 255))
 {
@@ -45,10 +44,23 @@ ColliderRenderer::ColliderRenderer(void) : enable(false), vertexBuffer(0), vnum(
 ColliderRenderer::~ColliderRenderer(void)
 {
 #ifdef _SELF_DEBUG
-	const auto& dev = systems->GetRenderer()->GetWrapper();
-	dev->ReleaseBuffer(vertexBuffer, Wrapper::FVF::VERTEX_3D);
-
-	systems->GetColliderRendererManager()->Remove(this);
+	if (systems)
+	{
+		if (const auto& renderer = systems->GetRenderer())
+		{
+			if (const auto& dev = renderer->GetWrapper())
+			{
+				if (vertexBuffer)
+				{
+					dev->ReleaseBuffer(vertexBuffer, Wrapper::FVF::VERTEX_3D);
+				}
+			}
+		}
+		if (const auto& manager = systems->GetColliderRendererManager())
+		{
+			manager->Remove(this);
+		}
+	}
 #endif
 }
 

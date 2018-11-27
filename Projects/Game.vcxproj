@@ -45,6 +45,7 @@
     <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\PaidState\PaidWaitState.cpp" />
     <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\SetupState.cpp" />
     <ClCompile Include="Sources\Object\StaticObject\PaidGoodsBox.cpp" />
+    <ClCompile Include="Sources\Object\StaticObject\WallA.cpp" />
     <ClCompile Include="Sources\Object\UI\ItemList.cpp" />
     <ClCompile Include="Sources\Object\UI\PlayerLife.cpp" />
     <ClCompile Include="Sources\Object\UI\Timer.cpp" />
@@ -84,6 +85,7 @@
     <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\PlayerState.h" />
     <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\SetupState.h" />
     <ClInclude Include="Sources\Object\StaticObject\PaidGoodsBox.h" />
+    <ClInclude Include="Sources\Object\StaticObject\WallA.h" />
     <ClInclude Include="Sources\Object\UI\ItemList.h" />
     <ClInclude Include="Sources\Object\UI\PlayerLife.h" />
     <ClInclude Include="Sources\Object\UI\Timer.h" />
