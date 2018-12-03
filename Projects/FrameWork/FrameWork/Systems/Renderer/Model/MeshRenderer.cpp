@@ -149,8 +149,17 @@ void MeshRenderer::Skinning(void)
 			anim = (anim % model.bone[j].animMtx[animation_].size());
 			if (animationOld_ < 0)
 			{
-				memcpy_s(&cbuf1.boneAnim[j], sizeof(MATRIX), &model.bone[j].animMtx[animation_][anim], sizeof(MATRIX));
-				memcpy_s(&model.bone[j].nowBone, sizeof(MATRIX), &model.bone[j].animMtx[animation_][anim], sizeof(MATRIX));
+				float patternRate = pattern_ - (int)pattern_;
+				MATRIX mtx1, mtx2;
+				memcpy_s(&mtx1, sizeof(MATRIX), &model.bone[j].animMtx[animation_][anim], sizeof(MATRIX));
+
+				int next = anim + 1;
+				next = (next >= animationMax_[animation_]) ? 0 : next;
+				memcpy_s(&mtx2, sizeof(MATRIX), &model.bone[j].animMtx[animation_][next], sizeof(MATRIX));
+
+				MATRIX m = (mtx2 * patternRate) + (mtx1 * (1 - patternRate));
+				memcpy_s(&cbuf1.boneAnim[j], sizeof(MATRIX), &m, sizeof(MATRIX));
+				memcpy_s(&model.bone[j].nowBone, sizeof(MATRIX), &m, sizeof(MATRIX));
 			}
 			else
 			{

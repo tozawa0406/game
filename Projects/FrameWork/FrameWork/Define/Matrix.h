@@ -35,7 +35,7 @@ struct MATRIX
 {
 	union
 	{
-		struct 
+		struct
 		{
 			float _11, _12, _13, _14;
 			float _21, _22, _23, _24;
@@ -59,6 +59,7 @@ struct MATRIX
 
 	MATRIX operator + (const MATRIX& mtx);
 	MATRIX operator * (const float f);
+	MATRIX operator * (const MATRIX& mtx);
 	MATRIX& operator *= (const MATRIX& mtx);
 	bool operator == (float n) const;
 	bool operator != (float n) const;

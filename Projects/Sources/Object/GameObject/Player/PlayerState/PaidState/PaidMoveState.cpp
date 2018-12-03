@@ -73,7 +73,7 @@ PlayerState* PaidMoveState::Update(void)
 	// アニメーション切り替え
 	if (fabs(inputDir.x) + fabs(inputDir.y) > 0)
 	{
-		meshAnim.animSpeed   = 0.55f;
+		meshAnim.animSpeed = 0.55f;
 		meshAnim.animation = static_cast<int>((inputDash <= 1) ? Player::Animation::Walk : Player::Animation::Run);
 		int cnt = (meshAnim.animation == static_cast<int>(Player::Animation::Run)) ? 15 : ANIMATION_CHANGE_FRAME30;
 		meshAnim.mesh.ChangeAnimation(meshAnim.animation, cnt);

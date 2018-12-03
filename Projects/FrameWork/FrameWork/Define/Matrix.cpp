@@ -60,6 +60,20 @@ MATRIX MATRIX::operator * (const float f)
 	return t;
 }
 
+MATRIX MATRIX::operator * (const MATRIX& mtx)
+{
+	MATRIX r;
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			r.m[i][j] = m[i][0] * mtx.m[0][j] + m[i][1] * mtx.m[1][j] + m[i][2] * mtx.m[2][j] + m[i][3] * mtx.m[3][j];
+		}
+	}
+
+	return r;
+}
+
 MATRIX& MATRIX::operator*=(const MATRIX& mtx)
 {
 	MATRIX r;
