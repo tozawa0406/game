@@ -64,6 +64,8 @@ PlayerState* SetupState::Update(void)
 {
 	if (!player_) { return nullptr; }
 	auto& meshAnim = player_->GetMeshAnimation();
+	int max = meshAnim.mesh.GetMaxAnimation();
+	int pattern = static_cast<int>(meshAnim.mesh.GetPattern());
 
 	// 納刀抜刀中であり、アニメーションが一定以下
 	if (fabs(meshAnim.mesh.GetPattern()) >= 30)
@@ -83,13 +85,13 @@ PlayerState* SetupState::Update(void)
 				if (isDraw_)
 				{
 					meshAnim.animation = static_cast<int>(Player::Animation::Walk);
-					meshAnim.mesh.ChangeAnimation(meshAnim.animation, 30);
+					meshAnim.mesh.ChangeAnimation(meshAnim.animation, 30, true);
 					return new PaidMoveState;
 				}
 				else
 				{
 					meshAnim.animation = static_cast<int>(Player::Animation::SetupWalk);
-					meshAnim.mesh.ChangeAnimation(meshAnim.animation, 30);
+					meshAnim.mesh.ChangeAnimation(meshAnim.animation, 30, true);
 					return new DrawnMoveState;
 				}
 			}
@@ -97,10 +99,13 @@ PlayerState* SetupState::Update(void)
 	}
 
 	// キー入力がない場合は待機モーションへ移行
-	if (player_->IsEndAnim())
+	if (isDraw_)
 	{
-		if (isDraw_) { return new PaidWaitState;  }
-		else		 { return new DrawnWaitState; }
+		if (player_->IsEndAnim()) { return new PaidWaitState; }
+	}
+	else
+	{
+		if (pattern >= max - 1) { return new DrawnWaitState; }
 	}
 
 	return nullptr;

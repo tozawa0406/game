@@ -792,6 +792,7 @@ HRESULT DirectX11Wrapper::LoadTexture(string fileName, int texNum, int modelNum)
 		// テクスチャサイズの取得
 		D3D11_TEXTURE2D_DESC desc;
 		static_cast<ID3D11Texture2D*>(descOriginal)->GetDesc(&desc);
+		ReleasePtr(descOriginal);
 
 		temp.size.x = (float)desc.Width;
 		temp.size.y = (float)desc.Height;
@@ -818,6 +819,7 @@ HRESULT DirectX11Wrapper::LoadTexture(string fileName, int texNum, int modelNum)
 		// テクスチャサイズの取得
 		D3D11_TEXTURE2D_DESC desc;
 		static_cast<ID3D11Texture2D*>(descOriginal)->GetDesc(&desc);
+		ReleasePtr(descOriginal);
 
 		temp.size.x = (float)desc.Width;
 		temp.size.y = (float)desc.Height;
