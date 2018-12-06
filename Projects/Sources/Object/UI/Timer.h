@@ -23,9 +23,9 @@ public:
 	void GuiUpdate(void) override;
 
 private:
-	int time_;			//! 刻む時間
-	uint8 frame_;		//! フレームカウンタ
-	uint8 second_;		//! 秒
+	int		time_;			//! 刻む時間
+	uint8	frame_;			//! フレームカウンタ
+	uint8	second_;		//! 秒
 
 	//! 背景
 	CanvasRenderer back_;

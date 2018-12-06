@@ -13,13 +13,13 @@
 class Wapon : public Object
 {
 public:
-	Wapon(void) : Object(Object::Tag::WAPON), collider_(nullptr), body_(nullptr), hand_(nullptr), hit_(false), effectRotation_(0) {}
+	Wapon(void) : Object(Object::Tag::WAPON), collider_(nullptr), body_(nullptr), hand_(nullptr), isHit_(false), effectRotation_(0) {}
 	virtual ~Wapon(void) {}
 
+	/* @brief	抜刀納刀処理			*/
 	void Setup(bool setup) { (!setup) ? DrawnSword() : PaidSword(); }
 
-	/* @fn		SetParent
-	 * @brief	装備
+	/* @brief	装備処理
 	 * @param	(transform)	親のTransform
 	 * @param	(body)		体の行列
 	 * @param	(hand)		手の行列		*/
@@ -31,11 +31,16 @@ public:
 		this->PaidSword();
 	}
 
+	/* @brief	回転の設定処理
+	 * @param	回転						*/
 	inline void SetRotation(float rotation) { effectRotation_ = rotation; }
 
-	inline void AttackStart(void) { if (collider_) { collider_->SetEnable(true); }hit_ = false; }
+	/* @brief	攻撃開始処理				*/
+	inline void AttackStart(void) { if (collider_) { collider_->SetEnable(true); } isHit_ = false; }
+	/* @brief	攻撃終了処理				*/
 	inline void AttackEnd(void)   { if (collider_) { collider_->SetEnable(false); } }
 
+	/* @brief	攻撃中か					*/
 	inline bool IsAttack(void) { return collider_->IsEnable(); }
 
 protected:
@@ -49,12 +54,16 @@ protected:
 	//! 当たり判定
 	Collider3D::OBB* collider_;
 
+	//! 体のボーンのポインタ(納刀時)
 	const MATRIX* body_;
+	//! 手のボーンのポインタ(抜刀時)
 	const MATRIX* hand_;
 
+	//! 斬ったエフェクトの回転
 	float effectRotation_;
 
-	bool hit_;
+	//! 当たった？
+	bool isHit_;
 };
 
 #endif // _WAPON_H_

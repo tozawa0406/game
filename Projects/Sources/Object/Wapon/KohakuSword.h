@@ -1,6 +1,6 @@
 /*
  * @file		KohakuSword.h
- * @brief		支給品箱
+ * @brief		剣
  * @author		戸澤翔太
  * @data		2018/10/30
  */
@@ -25,7 +25,7 @@ private:
 	void PaidSword(void)  override;
 	void DrawnSword(void) override;
 
-	bool debug_hit_;
+	bool debug_hit_;		//! デバッグ用
 };
 
 #endif // _KOHAKU_SWORD_H_

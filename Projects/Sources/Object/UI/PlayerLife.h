@@ -25,10 +25,14 @@ public:
 	inline void SetPlayer(Player* player) { player_ = player; }
 
 private:
+	//! プレイヤーのポインタ
 	Player* player_;
 
+	//! 背景
 	CanvasRenderer back_;
+	//! ライフバー
 	CanvasRenderer life_;
+	//! スタミナバー
 	CanvasRenderer stamina_;
 };
 

@@ -14,7 +14,7 @@
 
 class ItemList : public Object, public GUI
 {
-	//! @def	裏に出るアイテム
+	//! @def	アイテム
 	enum class BackItem : uint8
 	{
 		BackRight = 0,
@@ -45,8 +45,7 @@ public:
 
 	void GuiUpdate(void) override;
 
-	/* @fn		SetPlayer
-	 * @brief	プレイヤー(親)
+	/* @brief	プレイヤー(親)の設定処理
 	 * @param	(player)	設定するプレイヤー			*/
 	inline void SetPlayer(Player* player) { player_ = player; }
 
@@ -55,16 +54,21 @@ private:
 	bool SetMove(Controller& ctrl, WORD lpad, int lkey, WORD rpad, int rkey);
 	void SetButtonUIEnable(bool l, bool maru, bool shikaku);
 
+	//! プレイヤーのポインタ
 	Player* player_;
 
+	//! 背景
 	CanvasRenderer back_;
+	//! アイテムの名前背景
 	CanvasRenderer itemName_;
+	//! アイテムアイコンの背景
 	CanvasRenderer backItemBack_[static_cast<int>(BackItem::MAX)];
 
+	//! UI
 	CanvasRenderer ui_[static_cast<int>(ButtonUI::MAX)];
 
-	int flag_;
-	int cnt_;
+	int		flag_;		//! 左右フラグ
+	uint8	cnt_;		//! カウンタ
 };
 
 #endif // _ITEM_LIST_H_

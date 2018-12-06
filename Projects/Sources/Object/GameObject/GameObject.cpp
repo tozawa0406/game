@@ -1,8 +1,7 @@
 #include "GameObject.h"
 #include "../../Scene/GameScene.h"
 
-/* @fn		コンストラクタ
- * @brief	変数の初期化			*/
+/* @brief	コンストラクタ			*/
 GameObject::GameObject(Object::Tag tag) : Object(tag)
 	, life_(0)
 	, ded_(false)
@@ -13,14 +12,12 @@ GameObject::GameObject(Object::Tag tag) : Object(tag)
 {
 }
 
-/* @fn		デストラクタ
- * @brief	...						*/
+/* @brief	デストラクタ			*/
 GameObject::~GameObject(void)
 {
 }
 
-/* @fn		Move
- * @brief	移動時の回転処理
+/* @brief	移動時の回転処理
  * @sa		Update()
  * @param	なし
  * @return	なし					*/
@@ -60,8 +57,7 @@ void GameObject::Move(void)
 	velocity_ *= 0.8f;						// 慣性
 }
 
-/* @fn		CreateFrontVector
- * @brief	前ベクトルの生成
+/* @brief	前ベクトルの生成
  * @sa		Move()
  * @param	なし
  * @return	なし					*/
@@ -81,8 +77,7 @@ void GameObject::CreateFrontVector(void)
 	right_ = VecNorm(VecCross(VECTOR3(0, 1, 0), front_));
 }
 
-/* @fn		OnGround
- * @brief	接地判定
+/* @brief	接地判定
  * @sa		Update()
  * @param	なし
  * @return	なし					*/
@@ -95,8 +90,6 @@ void GameObject::OnGround(void)
 			if (const auto& meshfield = scene->GetMeshField())
 			{
 				transform_.position = meshfield->Hit(transform_.position, velocity_);
-				//float y = meshfield->Hit(transform_.position);
-				//if (y > 0) { transform_.position.y += y; }
 			}
 		}
 	}

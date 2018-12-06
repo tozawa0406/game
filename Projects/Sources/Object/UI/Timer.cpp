@@ -59,8 +59,7 @@ static constexpr uint8	 CLIP_PATTERN = 5;
 
 
 
-/* @fn		コンストラクタ
- * @brief	変数の初期化		*/
+/* @brief	コンストラクタ			*/
 Timer::Timer(void) : Object(Object::Tag::UI), GUI(Systems::Instance(), this, "Timer")
 	, frame_(0)
 	, time_(START_TIME)
@@ -68,14 +67,12 @@ Timer::Timer(void) : Object(Object::Tag::UI), GUI(Systems::Instance(), this, "Ti
 {
 }
 
-/* @fn		デストラクタ
- * @brief	...					*/
+/* @brief	デストラクタ			*/
 Timer::~Timer(void)
 {
 }
 
-/* @fn		Init
- * @brief	初期化処理
+/* @brief	初期化処理
  * @param	なし
  * @return	なし				*/
 void Timer::Init(void)
@@ -146,16 +143,14 @@ void Timer::Init(void)
 	clip_.pattern				= CLIP_PATTERN;
 }
 
-/* @fn		Uninit
- * @brief	後処理
+/* @brief	後処理
  * @param	なし
  * @return	なし				*/
 void Timer::Uninit(void)
 {
 }
 
-/* @fn		Update
- * @brief	更新処理
+/* @brief	更新処理
  * @param	なし
  * @return	なし
  * @detail	時間の計測、描画の更新		*/
@@ -193,8 +188,7 @@ void Timer::Update(void)
 
 }
 
-/* @fn		GuiUpdate
- * @brief	Gui更新処理
+/* @brief	Gui更新処理
  * @param	なし
  * return	なし				*/
 void Timer::GuiUpdate(void)

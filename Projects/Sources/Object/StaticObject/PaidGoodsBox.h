@@ -19,8 +19,7 @@ public:
 	void Init(void) override;
 	void Uninit(void) override;
 
-	/* @fn		Update
-	 * @brief	更新処理(動かないためなし)		*/
+	/* @brief	更新処理(動かないためなし)		*/
 	void Update(void) override {}
 
 private:

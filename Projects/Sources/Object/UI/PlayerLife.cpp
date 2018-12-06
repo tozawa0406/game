@@ -22,23 +22,20 @@ static const	 float ONE_LIFE  = SIZE_BAR.x / 150;
 //! @def	バーのサイズと位置の比率
 static const     float ONE_RANGE = 355.0f / 150.0f;
 
-/* @fn		コンストラクタ
- * @brief	変数の初期化		*/
+/* @brief	コンストラクタ			*/
 PlayerLife::PlayerLife(void) : Object(Object::Tag::UI)
 	, player_(nullptr)
 {
 }
 
-/* @fn		デストラクタ
- * @brief	...					*/
+/* @brief	デストラクタ			*/
 PlayerLife::~PlayerLife(void)
 {
 }
 
-/* @fn		Init
- * @brief	初期化処理
+/* @brief	初期化処理
  * @param	なし
- * @return	なし				*/
+ * @return	なし					*/
 void PlayerLife::Init(void)
 {
 	const auto& systems = Systems::Instance();
@@ -65,18 +62,16 @@ void PlayerLife::Init(void)
 	stamina_.pattern	= 2;
 }
 
-/* @fn		Uninit
- * @brief	後処理
+/* @brief	後処理
  * @param	なし
- * @return	なし				*/
+ * @return	なし					*/
 void PlayerLife::Uninit(void)
 {
 }
 
-/* @fn		Update
- * @brief	更新処理
+/* @brief	更新処理
  * @param	なし
- * @return	なし				*/
+ * @return	なし					*/
 void PlayerLife::Update(void)
 {
 	if (!player_) { return; }

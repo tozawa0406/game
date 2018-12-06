@@ -13,23 +13,20 @@ static const VECTOR3 DRAWN_POSITION = VECTOR3(6, 0, 0);
 //! @def	抜刀回転
 static const VECTOR3 DRAWN_ROTATION = VECTOR3(-1.2f, 1.35f, 3.14f);
 
-/* @fn		コンストラクタ
- * @brief	変数の初期化				*/
+/* @brief	コンストラクタ			*/
 KohakuSword::KohakuSword(void) : GUI(Systems::Instance(), this, "Sword")
+	, debug_hit_(false)
 {
 }
 
-/* @fn		デストラクタ
- * @brief	...							*/
+/* @brief	デストラクタ			*/
 KohakuSword::~KohakuSword(void)
 {
 }
 
-/* @fn		Init
- * @brief	初期化処理
+/* @brief	初期化処理
  * @param	なし
- * @return	なし
- * @detail	姿勢、メッシュ、当たり判定の初期化	　*/
+ * @return	なし	　				*/
 void KohakuSword::Init(void)
 {
 	// メッシュ
@@ -46,19 +43,17 @@ void KohakuSword::Init(void)
 	}
 }
 
-/* @fn		Uninit
- * @brief	後処理
+/* @brief	後処理
  * @param	なし
- * @return	なし						*/
+ * @return	なし					*/
 void KohakuSword::Uninit(void)
 {
 	DeletePtr(collider_);
 }
 
-/* @fn		Update
- * @brief	更新処理
+/* @brief	更新処理
  * @param	なし
- * @return	なし						*/
+ * @return	なし					*/
 void KohakuSword::Update(void)
 {
 	if (collider_)
@@ -72,36 +67,45 @@ void KohakuSword::Update(void)
 			{
 				debug_hit_ = true;
 
-				if (!hit_)
+				if (!isHit_)
 				{
 					static_cast<GameObject*>(o)->Hit(100);
 					VECTOR3 p = transform_.globalPosition + collider_->GetDirect(2) * collider_->GetLen(2);
 					manager_->Create<BloodSplash>(p, effectRotation_);
-					hit_ = true;
+					isHit_ = true;
 				}
 			}
 		}
 	}
 }
 
+/* @brief	納刀処理
+ * @param	なし
+ * @return	なし					*/
 void KohakuSword::PaidSword(void)
 {
+	// 姿勢の調整
 	transform_.position = PAID_POSITION;
 	transform_.rotation = PAID_ROTATION;
 
 	transform_.parentMtx = body_;
 }
 
+/* @brief	抜刀処理
+ * @param	なし
+ * @return	なし					*/
 void KohakuSword::DrawnSword(void)
 {
-	// 右手が握る位置に合わせる
+	// 姿勢の調整
 	transform_.position = DRAWN_POSITION;
-	// 剣の向きを整える
 	transform_.rotation = DRAWN_ROTATION;
 
 	transform_.parentMtx = hand_;
 }
 
+/* @brief	Guiの更新処理
+ * @param	なし
+ * @return	なし					*/
 void KohakuSword::GuiUpdate(void)
 {
 	ImGui::Text("effect : %.2f", effectRotation_);

@@ -12,6 +12,7 @@
 
 class WallA : public Object
 {
+	static constexpr int MESH_NUM = 2;
 public:
 	WallA(const VECTOR3& position, const VECTOR3& rotation);
 	~WallA(void);
@@ -19,17 +20,16 @@ public:
 	void Init(void) override;
 	void Uninit(void) override;
 
-	/* @fn		Update
-	 * @brief	更新処理(動かないためなし)		*/
+	/* @brief	更新処理(動かないためなし)		*/
 	void Update(void) override {}
 
 private:
-	Collider3D::Plane* collider_;
+	Collider3D::Plane* collider_;	//! 当たり判定
 
 	//! メッシュ
-	MeshRenderer mesh_[2];
-
-	Transform transformMesh_[2];
+	MeshRenderer	mesh_[MESH_NUM];
+	//! メッシュの姿勢
+	Transform		transformMesh_[MESH_NUM];
 };
 
 #endif // _WALL_A_H_

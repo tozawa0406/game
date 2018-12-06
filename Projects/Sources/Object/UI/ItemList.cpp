@@ -30,8 +30,7 @@ static constexpr int MOVE_LIST = ITEM_RANGE / CHANGE_FRAME;
 //! @def	アイテム移動時の大きさ変更
 static const	 VECTOR2 ITEM_SIZE_DIFF = VECTOR2(SIZE_ITEM_BACK.x - SIZE_ITEM_BACK_LIST.x, SIZE_ITEM_BACK.y - SIZE_ITEM_BACK_LIST.y) * 0.1f;
 
-/* @fn		コンストラクタ
- * @brief	変数の初期化		*/
+/* @brief	コンストラクタ			*/
 ItemList::ItemList(void) : Object(Object::Tag::UI), GUI(Systems::Instance(), this, "ItemList")
 	, player_(nullptr)
 	, flag_(0)
@@ -39,16 +38,14 @@ ItemList::ItemList(void) : Object(Object::Tag::UI), GUI(Systems::Instance(), thi
 {
 }
 
-/* @fn		デストラクタ
- * @brief	...					*/
+/* @brief	デストラクタ			*/
 ItemList::~ItemList(void)
 {
 }
 
-/* @fn		Init
- * @brief	初期化処理
+/* @brief	初期化処理
  * @param	なし
- * @return	なし				*/
+ * @return	なし					*/
 void ItemList::Init(void)
 {
 	const auto& systems = Systems::Instance();
@@ -103,18 +100,16 @@ void ItemList::Init(void)
 	ui_[button].enable		= false;
 }
 
-/* @fn		Uninit
- * @brief	後処理
+/* @brief	後処理
  * @param	なし
- * @return	なし				*/
+ * @return	なし					*/
 void ItemList::Uninit(void)
 {
 }
 
-/* @fn		Update
- * @brief	更新処理
+/* @brief	更新処理
  * @param	なし
- * @return	なし				*/
+ * @return	なし					*/
 void ItemList::Update(void)
 {
 	if (!player_) { return; }
@@ -232,11 +227,10 @@ void ItemList::Update(void)
 	}
 }
 
-/* @fn		SetItemBack
- * @brief	アイテムの背景の設定
+/* @brief	アイテムの背景の設定
  * @sa		Update()
  * @param	なし
- * @return	なし				*/
+ * @return	なし					*/
 void ItemList::SetItemBack(void)
 {
 	for (int i = 0; i < static_cast<int>(BackItem::EMPTY); ++i)
@@ -254,14 +248,13 @@ void ItemList::SetItemBack(void)
 	backItemBack_[static_cast<int>(BackItem::EMPTY)].enable = false;
 }
 
-/* @fn		SetMove
- * @brief	アイテム移動の開始
+/* @brief	アイテム移動の開始
  * @sa		Update()
  * @param	(lpad)	左移動のゲームパッド
  * @param	(lkey)	左移動のキー
  * @param	(rpad)	右移動のゲームパッド
  * @param	(rkey)	右移動のキー
- * @return	移動開始したらtrue	*/
+ * @return	移動開始したらtrue		*/
 bool ItemList::SetMove(Controller& ctrl, WORD lpad, int lkey, WORD rpad, int rkey)
 {
 	// キー入力
@@ -284,13 +277,12 @@ bool ItemList::SetMove(Controller& ctrl, WORD lpad, int lkey, WORD rpad, int rke
 	return false;
 }
 
-/* @fn		SetButtonUIEnable
- * @brief	ボタンUIのEnable変更
+/* @brief	ボタンUIのEnable変更
  * @sa		Update()
  * @param	(l)			LUI
  * @param	(maru)		〇UI
  * @param	(shikaku)	□UI
- * @param	なし				*/
+ * @param	なし					*/
 void ItemList::SetButtonUIEnable(bool l, bool maru, bool shikaku)
 {
 	ui_[static_cast<int>(ButtonUI::L)].enable		= l;
@@ -298,10 +290,9 @@ void ItemList::SetButtonUIEnable(bool l, bool maru, bool shikaku)
 	ui_[static_cast<int>(ButtonUI::SHIKAKU)].enable = shikaku;
 }
 
-/* @fn		GuiUpdate
- * @brief	Guiの更新処理
+/* @brief	Guiの更新処理
  * @param	なし
- * @return	なし				*/
+ * @return	なし					*/
 void ItemList::GuiUpdate(void)
 {
 	const auto& debug = Systems::Instance()->GetDebug();

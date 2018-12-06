@@ -22,8 +22,10 @@ public:
 	void Update(void) override;
 
 private:
-	int cnt_;
-	SpriteRenderer renderer_;
+	//! 出現してからのフレーム数
+	uint8			cnt_;
+	//! レンダラ
+	SpriteRenderer	renderer_;
 };
 
 

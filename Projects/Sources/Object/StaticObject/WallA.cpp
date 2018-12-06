@@ -7,53 +7,53 @@ static const VECTOR3 ROTATION = VECTOR3(0, 3.14f, 0);
 //! @def	初期スケール
 static const VECTOR3 SCALE = VECTOR3(10, 5, 1);
 
-//! @def	色
-static const COLOR MESH_COLOR = COLOR(1, 1, 1, 1);
+//! @def	メッシュの調整位置
+static constexpr int ADJUST_MESH_POSITION = 5;
 
-/* @fn		コンストラクタ
- * @brief	変数の初期化				*/
+//! @def	当たり判定のオフセット位置
+static const VECTOR3 COLLIDER_OFFSET = VECTOR3(0, 0, 10);
+//! @def	当たり判定の法線
+static const VECTOR3 COLLIDER_NORMAL = VECTOR3(0, 0, 1);
+
+/* @brief	コンストラクタ			*/
 WallA::WallA(const VECTOR3& position, const VECTOR3& rotation) : Object(Object::Tag::STATIC)
 	, collider_(nullptr)
 {
 	transform_ = Transform(position, rotation, SCALE);
+	for (auto& t : transformMesh_) { t = Transform(VECTOR3(0), VECTOR3(0), VECTOR3(1)); }
 }
 
-/* @fn		デストラクタ
- * @brief	...							*/
+/* @brief	デストラクタ			*/
 WallA::~WallA(void)
 {
 }
 
-/* @fn		Init
- * @brief	初期化処理
+/* @brief	初期化処理
  * @param	なし
- * @return	なし
- * @detail	姿勢、メッシュ、当たり判定の初期化	　*/
+ * @return	なし					*/
 void WallA::Init(void)
 {
-	transformMesh_[0].parent = &transform_;
-	transformMesh_[1].parent = &transform_;
+	transformMesh_[0].position.x = -ADJUST_MESH_POSITION;
+	transformMesh_[1].position.x =  ADJUST_MESH_POSITION;
 
-	transformMesh_[0].position.x = -5;
-	transformMesh_[1].position.x =  5;
-
-	for (int i = 0; i < 2; ++i)
+	for (int i = 0; i < MESH_NUM; ++i)
 	{
+		transformMesh_[i].parent = &transform_;
+		// 影が変になるので今のところは描画なしで
 //		mesh_[i].Init(Systems::Instance(), (int)Model::Game::WALL_ROCKS_14, &transformMesh_[i]);
 	}
 
 	collider_ = new Collider3D::Plane(this);
 	if (collider_)
 	{
-		collider_->SetOffsetPosition(VECTOR3(0, 0, 10));
-		collider_->SetNormal(VECTOR3(0, 0, 1));
+		collider_->SetOffsetPosition(COLLIDER_OFFSET);
+		collider_->SetNormal(COLLIDER_NORMAL);
 	}
 }
 
-/* @fn		Uninit
- * @brief	後処理
+/* @brief	後処理
  * @param	なし
- * @return	なし						*/
+ * @return	なし					*/
 void WallA::Uninit(void)
 {
 	DeletePtr(collider_);
