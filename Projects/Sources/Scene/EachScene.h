@@ -1,21 +1,22 @@
-//-----------------------------------------------------------------------------
-//
-//	ゲーム[GameScene.h]
-//	Auther : 戸澤翔太
-//																	2018/08/18
-//-----------------------------------------------------------------------------
+/*
+ * @file		EachScene.h
+ * @brief		シーン情報管理クラス
+ * @author		戸澤翔太
+ * @data		2018/08/18
+ */
 #ifndef _EACH_SCENE_H_
 #define _EACH_SCENE_H_
 
 #include <FrameWork/Define/Define.h>
 
-enum class SceneList : uint8		// シーン数
+//! @enum	シーン遷移フラグ
+enum class SceneList : uint8
 {
-	NEXT		= 255,
-	NOTCHANGE	= 0,
-	TITLE		= 1,		// タイトル
-	GAME,			// ゲーム
-	RESULT,			// リザルト
+	NEXT		= 255,	// 次のシーン
+	NOTCHANGE	= 0,	// 遷移なし
+	TITLE,				// タイトル
+	GAME,				// ゲーム
+	RESULT,				// リザルト
 	MAX
 };
 

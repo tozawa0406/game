@@ -6,20 +6,17 @@
 #include "PauseScene.h"
 #include "ResultScene.h"
 
-/* @fn		コンストラクタ
- * @brief	変数の初期化			*/
+/* @brief	コンストラクタ			*/
 EachScene::EachScene(void)
 {
 }
 
-/* @fn		デストラクタ
- * @brief	...						*/
+/* @brief	デストラクタ			*/
 EachScene::~EachScene(void)
 {
 }
 
-/* @fn		ChangeScene
- * @brief	シーン管理の変数の値を変更する
+/* @brief	シーン管理の変数の値を変更する
  * @param	(sceneChange)	シーン遷移フラグ
  * @param	(sceneNum)		シーン管理番号
  * @return	なし					*/
@@ -42,8 +39,7 @@ void EachScene::ChangeScene(SceneList sceneChange, SceneList& sceneNum)
 	}
 }
 
-/* @fn		ChangePause
- * @brief	ポーズ終了時のコマンド
+/* @brief	ポーズ終了時のコマンド
  * @param	(returnPause)		ポーズの返り値
  * @return	他のシーンに移る場合は0以外				*/
 int EachScene::ChangePause(int returnPause)
@@ -61,8 +57,7 @@ int EachScene::ChangePause(int returnPause)
 	return -1;
 }
 
-/* @fn		CreateScene
- * @brief	シーンのnew処理
+/* @brief	シーンのnew処理
  * @param	(sceneNum)		シーン管理番号
  * @return	シーン番号に応じたシーンのnew処理		*/
 BaseScene* EachScene::CreateScene(SceneManager* manager, SceneList sceneNum)

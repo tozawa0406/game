@@ -1,9 +1,9 @@
-//-----------------------------------------------------------------------------
-//
-//	ゲーム[GameScene.h]
-//	Auther : 戸澤翔太
-//																	2018/08/18
-//-----------------------------------------------------------------------------
+/*
+ * @file		GameScene.h
+ * @brief		ゲームシーン
+ * @author		戸澤翔太
+ * @data		2018/08/18
+ */
 #ifndef _GAME_SCENE_H_
 #define _GAME_SCENE_H_
 
@@ -23,34 +23,31 @@
 class Light;
 class GameScene : public BaseScene, public GUI
 {
-	// マクロ定義
-	static constexpr int CREATE_ENEMY_RANGE = 30;
-	static constexpr int GET_POINT = 100;
-
 public:
-	static constexpr int BILLBOARD_NUM = 100;
-
-	GameScene(SceneManager* manager);		// コンストラクタ
-	~GameScene(void);						// デストラクタ
+	GameScene(SceneManager* manager);
+	~GameScene(void);
 
 	void Init(void)   override;
 	void Uninit(void) override;
 
+	/* @brief	フィールド取得関数
+	 * @return	フィールドのポインタ		*/
 	MeshField*		GetMeshField(void)		{ return meshField_; }
+	/* @brief	ライト取得処理
+	 * @return	ライトのポインタ			*/
 	Light*			GetLight(void)			{ return light_;     }
 
 private:
-	SceneList Update(void) override;		// 更新処理
+	SceneList Update(void) override;
 
-	int  frameCnt = 0;		//フレームのカウンタ
-
-	int  ResbornCnt;
-
+	//! オブジェクトのマネージャー
 	ObjectManager*	objectManager_;
 
+	//! 天球
 	SkyDome*		sky_;
+	//! フィールド
 	MeshField*		meshField_;
-
+	//! ライト
 	Light*			light_;
 };
 

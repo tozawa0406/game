@@ -1,26 +1,29 @@
-//-----------------------------------------------------------------------------
-//
-//	ポーズ[PauseScene.cpp]
-//	Auther : 戸澤翔太
-//																	2018/08/18
-//-----------------------------------------------------------------------------
 #include "PauseScene.h"
 #include <FrameWork/Scene/SceneManager.h>
 
-// コンストラクタ
- Pause::Pause(SceneManager* manager) : BaseScene(manager),  GUI(manager->GetSystems(), nullptr, "ScenePause")
+// 定数定義
+static constexpr int TITLE_CONTROLLER		= 20000;
+static constexpr int PAUSE_SELECT_UP		= 0;
+static constexpr int PADDING_TIME			= 30;
+
+/* @brief	コンストラクタ			*/
+Pause::Pause(SceneManager* manager) : BaseScene(manager),  GUI(manager->GetSystems(), nullptr, "ScenePause")
 	 , selectNum_(0)
 	 , paddingTimeCnt_(0)
 {
+	 for (auto& p : pos_) { p = VECTOR2(0, 0); }
 }
 
- // デストラクタ
- Pause::~Pause(void)
- {
- }
+/* @brief	デストラクタ			*/
+Pause::~Pause(void)
+{
+}
 
- void Pause::Init(void)
- {
+/* @brief	初期化処理
+ * @param	なし
+ * @return	なし					*/
+void Pause::Init(void)
+{
 	 // 暗転
 	 back_.position = VECTOR2((float)Half(Graphics::WIDTH), (float)Half(Graphics::HEIGHT));
 	 back_.size = VECTOR2((float)Graphics::WIDTH, (float)Graphics::HEIGHT);
@@ -54,14 +57,19 @@
 		 }
 	 }
 	 EnableUI(false);
- }
+}
 
- void Pause::Uninit(void)
- {
- }
+/* @brief	後処理
+ * @param	なし
+ * @return	なし					*/
+void Pause::Uninit(void)
+{
+}
 
- // 更新処理
- SceneList Pause::Update(void)
+/* @brief	更新処理
+ * @param	なし
+ * @return	シーン遷移フラグ		*/
+SceneList Pause::Update(void)
 {
 	EnableUI(true);
 
@@ -94,7 +102,7 @@
 	//上下キー入力
 	if (GetCtrl(0)->Trigger(Input::AXIS_LY, DIK_S, true) < 0 || GetCtrl(0)->Trigger(Input::GAMEPAD_DOWN))
 	{
-		if (selectNum_ < PAUSE_SELECT_DOWN)
+		if (selectNum_ < SELECT_NUM - 1)
 		{
 //			systems_->GetSound()->Play((int)Sound::Base::SE_SELECT);
 			selectNum_++;
@@ -128,7 +136,7 @@
 
 	int not = 0;
 	// 非選択オブジェクトの選定
-	for (int i = 0; i < 3; ++i)
+	for (int i = 0; i < SELECT_NUM; ++i)
 	{
 		if (i != selectNum_)
 		{
@@ -140,15 +148,17 @@
 	return SceneList::NOTCHANGE;
 }
 
-// UIの使用を一気に変更
+/* @brief	UIの使用状態を一括変更処理
+ * @param	(enable)	使用状態
+ * @return	なし					*/
 void Pause::EnableUI(bool enable)
 {
 	back_.enable = enable;
-	for (int i = 0; i < 3; ++i)
+	for (int i = 0; i < SELECT_NUM; ++i)
 	{
 		menu_[i].enable = enable; 
 		menuBack_[i].enable = enable;
-		if (i < 2)
+		if (i < SELECT_NUM - 1)
 		{
 			notSelect_[i].enable = enable;
 		}

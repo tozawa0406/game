@@ -1,9 +1,3 @@
-//-----------------------------------------------------------------------------
-//
-//	ゲーム[GameScene.cpp]
-//	Auther : 戸澤翔太
-//																	2018/08/18
-//-----------------------------------------------------------------------------
 #include "GameScene.h"
 #include <FrameWork/Windows/Windows.h>
 
@@ -21,25 +15,35 @@
 #include "../Object/StaticObject/PaidGoodsBox.h"
 #include "../Object/StaticObject/WallA.h"
 
-// コンストラクタ
-GameScene::GameScene(SceneManager* manager) : BaseScene(manager), GUI(manager->GetSystems(), nullptr, "SceneGame"), objectManager_(nullptr)
+/* @brief	コンストラクタ			*/
+GameScene::GameScene(SceneManager* manager) : BaseScene(manager), GUI(manager->GetSystems(), nullptr, "SceneGame")
+	, objectManager_(nullptr)
+	, sky_(nullptr)
+	, meshField_(nullptr)
+	, light_(nullptr)
 {
 }
 
-// デストラクタ
+/* @brief	デストラクタ			*/
 GameScene::~GameScene(void)
 {
 }
 
+/* @brief	初期化処理
+ * @param	なし
+ * @return	なし					*/
 void GameScene::Init(void)
 {
-	light_ = new Light(systems_);
-	sky_ = new SkyDome(systems_);
-	meshField_ = new MeshField(systems_);
-	meshField_->Init(VECTOR2(50), VECTOR2(400));
+	light_		= new Light(systems_);
+	sky_		= new SkyDome(systems_);
+	meshField_	= new MeshField(systems_);
+	if (meshField_)
+	{
+		meshField_->Init(VECTOR2(50), VECTOR2(400));
+	}
 
 	objectManager_ = new ObjectManager(this);
-
+	assert(objectManager_);
 	objectManager_->Create<PaidGoodsBox>();
 	objectManager_->Create<WallA>(VECTOR3( 100, 3,    0), VECTOR3(0,  1.57f, 0));
 	objectManager_->Create<WallA>(VECTOR3(   0, 3, -100), VECTOR3(0,      0, 0));
@@ -47,7 +51,7 @@ void GameScene::Init(void)
 	objectManager_->Create<WallA>(VECTOR3(   0, 3,  100), VECTOR3(0,  3.14f, 0));
 
 	auto* player = objectManager_->Create<Player>();
-	auto* wapon = objectManager_->Create<KohakuSword>();
+	auto* wapon  = objectManager_->Create<KohakuSword>();
 	player->SetWapon(wapon);
 	objectManager_->Create<Dragon>();
 	objectManager_->Create<Timer>();
@@ -59,27 +63,26 @@ void GameScene::Init(void)
 	//	systems_->GetSound()->Play((int)Sound::Game::BGM_GAME);
 }
 
+/* @brief	後処理
+ * @param	なし
+ * @return	なし					*/
 void GameScene::Uninit(void)
 {
 	systems_->GetSound()->Stop((int)Sound::Game::BGM_GAME);
+
+	UninitDeletePtr(objectManager_);
 	DeletePtr(meshField_);
 	DeletePtr(sky_);
-	UninitDeletePtr(objectManager_);
 	DeletePtr(light_);
 }
 
-// 更新処理
+/* @brief	更新処理
+ * @param	なし
+ * @return	シーン遷移番号			*/
 SceneList GameScene::Update(void)
 {
-	//フレームをカウント
-	frameCnt++;
-
-	if (sky_)
-	{
-		sky_->Update();
-	}
-	//オブジェクト更新
-	objectManager_->Update();
+	if (sky_) { sky_->Update(); }
+	if (objectManager_) { objectManager_->Update(); }
 
 	if (systems_->GetInput()->GetCtrl(0)->Trigger(Input::GAMEPAD_START, DIK_P)) 
 	{

@@ -1,9 +1,3 @@
-//-----------------------------------------------------------------------------
-//
-//	タイトル[TitleScene.cpp]
-//	Auther : 戸澤翔太
-//																	2018/08/18
-//-----------------------------------------------------------------------------
 #include "TitleScene.h"
 #include <FrameWork/Scene/SceneManager.h>
 #include <FrameWork/Windows/Windows.h>
@@ -24,23 +18,20 @@ static constexpr int ADJUST_KEY_SIZE_X = 4;
 //! @def	点滅間隔
 static constexpr float FLASHING_RANGE = 60;
 
-/* @fn		コンストラクタ
- * @brief	変数の初期化		*/
+/* @brief	コンストラクタ			*/
 TitleScene::TitleScene(SceneManager* manager) : BaseScene(manager), GUI(manager->GetSystems(), nullptr, "SceneTitle")
 	, frameCnt_(0)
 {
 }
 
-/* @fn		デストラクタ
- * @brief	...					*/
+/* @brief	デストラクタ			*/
 TitleScene::~TitleScene(void)
 {
 }
 
-/* @fn		Init
- * @brief	初期化
+/* @brief	初期化処理
  * @param	なし
- * @return	なし				*/
+ * @return	なし					*/
 void TitleScene::Init(void)
 {
 	// 「please press」
@@ -68,16 +59,14 @@ void TitleScene::Init(void)
 	button_[num].texNum = static_cast<int>(Texture::Title::B);
 }
 
-/* @fn		Uninit
- * @brief	後処理
+/* @brief	後処理
  * @param	なし
  * @return	なし				*/
 void TitleScene::Uninit(void)
 {
 }
 
-/* @fn		Update
- * @brief	更新処理
+/* @brief	更新処理
  * @param	なし
  * @return	シーン番号			*/
 SceneList TitleScene::Update(void)
@@ -93,8 +82,7 @@ SceneList TitleScene::Update(void)
 	return EndScene(*ctrl);
 }
 
-/* @fn		Flashing
- * @brief	点滅処理
+/* @brief	点滅処理
  * @sa		Update()
  * @param	(ctrl)	コントローラ
  * @return	なし				*/
@@ -110,8 +98,7 @@ void TitleScene::Flashing(Controller& ctrl)
 	button_[JudgeCtrlType(ctrl)].color.a = a;
 }
 
-/* @fn		JudgeCtrlType
- * @brief	コントローラのタイプ判定
+/* @brief	コントローラのタイプ判定
  * @sa		Flashing()
  * @param	(ctrl)	コントローラ
  * @return	コントローラのタイプによる配列番号	*/
@@ -136,8 +123,7 @@ int TitleScene::JudgeCtrlType(Controller& ctrl)
 	return num;
 }
 
-/* @fn		EndScene
- * @brief	遷移処理
+/* @brief	遷移処理
  * @sa		Update()
  * @param	(ctrl)	コントローラ
  * @return	シーン番号			*/
@@ -152,8 +138,7 @@ SceneList TitleScene::EndScene(Controller& ctrl)
 	return SceneList::NOTCHANGE;
 }
 
-/* @fn		GuiUpdate
- * @brief	Guiの更新処理
+/* @brief	Guiの更新処理
  * @param	なし
  * @return	なし				*/
 void TitleScene::GuiUpdate(void)
