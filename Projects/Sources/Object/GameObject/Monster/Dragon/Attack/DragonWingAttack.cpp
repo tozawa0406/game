@@ -18,23 +18,21 @@ static const     VECTOR3 COLLISION_OFFSET_POS_CLAW_R = VECTOR3(0, 3, 4);
 static const     VECTOR3 COLLISION_OFFSET_ROT_CLAW_R = VECTOR3(0, -2, 0);
 static const     VECTOR3 COLLISION_SIZE_CLAW_R = VECTOR3(7.1f, 2.1f, 2.1f);
 
-/* @fn		コンストラクタ
- * @brief	変数の初期化		*/
-DragonWingAttack::DragonWingAttack(void) : debug_speed_(0), debug_changeFrame_(CHANGE_FRAME)
+/* @brief	コンストラクタ			*/
+DragonWingAttack::DragonWingAttack(void) : debug_speed_(0)
+	, debug_changeFrame_(CHANGE_FRAME)
 {
 	for (auto& c : collider_) { c = nullptr; }
 }
 
-/* @fn		デストラクタ
- * @brief	...					*/
+/* @brief	デストラクタ			*/
 DragonWingAttack::~DragonWingAttack(void)
 {
 }
 
-/* @fn		Init
- * @brief	初期化処理
+/* @brief	初期化処理
  * @param	(object)	当たり判定の親クラスに登録
- * @return	なし				*/
+ * @return	なし					*/
 void DragonWingAttack::Init(GameObject* monster)
 {
 	MonsterAttack::Init(monster);
@@ -93,17 +91,15 @@ void DragonWingAttack::Init(GameObject* monster)
 
 }
 
-/* @fn		Uninit
- * @brief	後処理
+/* @brief	後処理
  * @param	なし
- * @return	なし				*/
+ * @return	なし					*/
 void DragonWingAttack::Uninit(void)
 {
 	for (auto& c : collider_) { DeletePtr(c); }
 }
 
-/* @fn		SetMove
- * @brief	実行する準備
+/* @brief	実行する準備
  * @param	なし
  * @return	なし
  * @detail	この攻撃特有のアニメーション、速度を設定する		*/
@@ -127,8 +123,7 @@ void DragonWingAttack::SetMove(void)
 	meshAnim.mesh.ChangeAnimation(meshAnim.animation, 15);
 }
 
-/* @fn		Update
- * @brief	更新処理
+/* @brief	更新処理
  * @param	なし
  * @return	攻撃が終了したらtrue
  * @detail	姿勢変更はなし、移動しないよう速度は0に固定
@@ -189,8 +184,7 @@ bool DragonWingAttack::Update(void)
 	return false;
 }
 
-/* @fn		EndMove
- * @brief	モーションの終了処理
+/* @brief	モーションの終了処理
  * @param	なし
  * @return	なし			*/
 void DragonWingAttack::EndMove(void)
@@ -201,8 +195,7 @@ void DragonWingAttack::EndMove(void)
 	}
 }
 
-/* @fn		GuiUpdate
- * @brief	Guiの更新処理
+/* @brief	Guiの更新処理
  * @param	なし
  * @return	なし
  * @detail	攻撃元オブジェクトから呼ばれる		*/

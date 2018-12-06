@@ -26,7 +26,7 @@ public:
 	void GuiUpdate(void) override;
 
 private:
-	bool fly_;
+	bool fly_;		//! ”ò‚ñ‚Å‚¢‚éƒtƒ‰ƒO
 
 	float debug_velocity_;
 };

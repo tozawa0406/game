@@ -845,7 +845,7 @@ void DirectX11Wrapper::ReleaseTexture(int texNum, int modelNum)
 
 	if (modelNum >= 0)
 	{
-		for (int i = tex.size() - 1; i >= 0; --i)
+		for (int i = (int)tex.size() - 1; i >= 0; --i)
 		{
 			ReleasePtr(tex[i].data);
 

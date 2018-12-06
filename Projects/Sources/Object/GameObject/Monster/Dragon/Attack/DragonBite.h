@@ -24,6 +24,7 @@ public:
 	void GuiUpdate(void) override;
 
 private:
+	//! 当たり判定
 	Collider3D::OBB* collider_;
 
 	//! デッバグ機能で使用

@@ -23,8 +23,7 @@ public:
 
 	void GuiUpdate(void) override;
 
-	/* @fn		SetTarget
-	 * @brief	標的の設定
+	/* @brief	標的の設定
 	 * @param	(target)	標的のポインタ	*/
 	inline void SetTarget(GameObject* target) { target_ = target; }
 
@@ -32,12 +31,12 @@ public:
 
 
 private:
-	Dragon*			parent_;
-	GameObject*		target_;
+	Dragon*			parent_;	//! 親のポインタ
+	GameObject*		target_;	//! 標的のポインタ
 
-	VECTOR3 dir_;
-	bool	isDash_;
-	int		cnt_;
+	VECTOR3 dir_;		//! 方向
+	bool	isDash_;	//! ダッシュフラグ
+	int		cnt_;		//! カウンタ
 };
 
 #endif // _DRAGON_MOVE_CONTROLLER_H_

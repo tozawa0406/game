@@ -24,7 +24,7 @@ public:
 	void GuiUpdate(void) override;
 
 private:
-	int cnt_;
+	int cnt_;		//! ƒJƒEƒ“ƒ^
 };
 
 #endif // _DRAGON_RUSH_H_

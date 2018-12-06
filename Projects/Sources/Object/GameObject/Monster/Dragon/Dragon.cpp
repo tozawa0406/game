@@ -21,7 +21,6 @@ static constexpr float SCALE = 0.9f;
 //! @def	ライフ
 static constexpr int MAX_LIFE = 2500;
 
-
 //! @def	飛行フラグ
 static constexpr uint IS_FLY = 0x0002;
 
@@ -41,8 +40,7 @@ static const	 Transform COLLISION_OFFSET_NECK2 = Transform(VECTOR3(3, 1, 0), VEC
 static const     string BONE_WING_L_CLAW = "WingClaw2_L";
 static const	 Transform COLLISION_OFFSET_WING_L_CLAW = Transform(VECTOR3(0, -3, -4), VECTOR3(0, -2, 0), VECTOR3(7, 2, 2));
 
-/* @fn		コンストラクタ
- * @brief	変数の初期化			*/
+/* @brief	コンストラクタ			*/
 Dragon::Dragon(void) : GameObject(Object::Tag::ENEMY), GUI(Systems::Instance(), this, "dragon")
 	, flag_(0)
 	, debugMove_(false)
@@ -68,14 +66,12 @@ Dragon::Dragon(void) : GameObject(Object::Tag::ENEMY), GUI(Systems::Instance(), 
 	life_ = MAX_LIFE;
 }
 
-/* @fn		デストラクタ
- * @brief	...						*/
+/* @brief	デストラクタ			*/
 Dragon::~Dragon(void)
 {
 }
 
-/* @fn		Init
- * @brief	初期化処理
+/* @brief	初期化処理
  * @param	なし
  * @return	なし					*/
 void Dragon::Init(void)
@@ -156,8 +152,7 @@ void Dragon::Init(void)
 
 }
 
-/* @fn		Uninit
- * @brief	後処理
+/* @brief	後処理
  * @param	なし
  * @return	なし					*/
 void Dragon::Uninit(void)
@@ -181,8 +176,7 @@ void Dragon::Uninit(void)
 	}
 }
 
-/* @fn		Update
- * @brief	更新処理
+/* @brief	更新処理
  * @param	なし
  * @return	なし					*/
 void Dragon::Update(void)
@@ -238,8 +232,7 @@ void Dragon::Update(void)
 	}
 }
 
-/* @fn		CreateCollsion
- * @brief	当たり判定生成処理
+/* @brief	当たり判定生成処理
  * @sa		Init
  * @param	なし
  * @return	なし					*/
@@ -263,8 +256,7 @@ void Dragon::CreateCollision(void)
 	}
 }
 
-/* @fn		SetCollision
- * @brief	コリジョンの設定
+/* @brief	コリジョンの設定
  * @param	(arrayNum)	生成するコリジョンの配列番号
  * @param	(boneName)	ボーンの名前
  * @param	(offset)	オフセット
@@ -292,8 +284,7 @@ void Dragon::SetCollision(int arrayNum, string boneName, const Transform& offset
 
 }
 
-/* @fn		TakenDamage
- * @brief	被ダメージ処理
+/* @brief	被ダメージ処理
  * @sa		Update()
  * @param	なし
  * @return	なし					*/
@@ -352,8 +343,7 @@ bool Dragon::TakenDamage(void)
 	return false;
 }
 
-/* @fn		Hit
- * @brief	ダメージ処理
+/* @brief	ダメージ処理
  * @param	(damage)	ダメージ
  * @return	なし					*/
 void Dragon::Hit(int damage)
@@ -362,8 +352,7 @@ void Dragon::Hit(int damage)
 	accumulation_ += damage;
 }
 
-/* @fn		DebugInput
- * @brief	デバッグ用操作
+/* @brief	デバッグ用操作
  * @sa		Update()
  * @param	なし
  * @return	実行したらtrue			*/
@@ -499,10 +488,7 @@ bool Dragon::DebugInput(void)
 	return true;
 }
 
-static Transform trf = COLLISION_OFFSET_NECK2;
-
-/* @fn		GuiUpdate
- * @brief	Guiの更新処理
+/* @brief	Guiの更新処理
  * @param	なし
  * @return	なし					*/
 void Dragon::GuiUpdate(void)
@@ -516,17 +502,6 @@ void Dragon::GuiUpdate(void)
 	{
 		ImGui::Text("life < Quarter(MAX_LIFE)");
 	}
-
-	//auto& c = collision_[static_cast<int>(Collision::NECK2)];
-	//if (c)
-	//{
-	//	ImGui::DragFloat3("pos", oft);
-	//	c->SetOffsetPosition(oft);
-	//	ImGui::DragFloat3("rot", ofr);
-	//	c->SetOffsetRotation(ofr);
-	//	ImGui::DragFloat3("size", size);
-	//	c->SetSize(size);
-	//}
 
 	// デバッグ用操作の切り替え
 	if (ImGui::Button("ctrl"))

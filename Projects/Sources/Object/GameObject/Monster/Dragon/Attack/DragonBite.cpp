@@ -12,22 +12,21 @@ static const     string BONE_HEAD = "Head";
 static const     VECTOR3 COLLISION_OFFSET_POS_HEAD = VECTOR3(5, 3, 0);
 static const     VECTOR3 COLLISION_SIZE_HEAD = VECTOR3(6.1f, 6.1f, 6.1f);
 
-/* @fn		コンストラクタ
- * @brief	変数の初期化		*/
-DragonBite::DragonBite(void) : collider_(nullptr), debug_speed_(0), debug_changeFrame_(CHANGE_FRAME)
+/* @brief	コンストラクタ			*/
+DragonBite::DragonBite(void) : collider_(nullptr)
+	, debug_speed_(0)
+	, debug_changeFrame_(CHANGE_FRAME)
 {
 }
 
-/* @fn		デストラクタ
- * @brief	...					*/
+/* @brief	デストラクタ			*/
 DragonBite::~DragonBite(void)
 {
 }
 
-/* @fn		Init
- * @brief	初期化処理
+/* @brief	初期化処理
  * @param	(object)	当たり判定の親クラスに登録
- * @return	なし				*/
+ * @return	なし					*/
 void DragonBite::Init(GameObject* monster)
 {
 	MonsterAttack::Init(monster);
@@ -63,20 +62,16 @@ void DragonBite::Init(GameObject* monster)
 	}
 }
 
-/* @fn		Uninit
- * @brief	後処理
+/* @brief	後処理
  * @param	なし
- * @return	なし				*/
+ * @return	なし					*/
 void DragonBite::Uninit(void)
 {
 	DeletePtr(collider_);
 }
 
-/* @fn		SetMove
- * @brief	実行する準備
- * @param	(mesh)			アニメーションを変更したいメッシュ
- * @param	(animSpeed)		アニメーション速度
- * @param	(animNum)		アニメーションの番号
+/* @brief	実行する準備
+ * @param	なし
  * @return	なし
  * @detail	この攻撃特有のアニメーション、速度を設定する		*/
 void DragonBite::SetMove(void)
@@ -99,8 +94,7 @@ void DragonBite::SetMove(void)
 	meshAnim.mesh.ChangeAnimation(meshAnim.animation, 15);
 }
 
-/* @fn		Update
- * @brief	更新処理
+/* @brief	更新処理
  * @param	なし
  * @return	攻撃が終了したらtrue
  * @detail	姿勢変更はなし、移動しないよう速度は0に固定
@@ -160,17 +154,15 @@ bool DragonBite::Update(void)
 	return false;
 }
 
-/* @fn		EndMove
- * @brief	モーションの終了処理
+/* @brief	モーションの終了処理
  * @param	なし
- * @return	なし			*/
+ * @return	なし					*/
 void DragonBite::EndMove(void)
 {
 	collider_->SetEnable(false);
 }
 
-/* @fn		GuiUpdate
- * @brief	Guiの更新処理
+/* @brief	Guiの更新処理
  * @param	なし
  * @return	なし
  * @detail	攻撃元オブジェクトから呼ばれる		*/

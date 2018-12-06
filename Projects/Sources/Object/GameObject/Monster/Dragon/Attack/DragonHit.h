@@ -20,8 +20,6 @@ public:
 	void SetMove(void) override;
 	bool Update(void)  override;
 	void EndMove(void) override;
-
-private:
 };
 
 #endif // _DRAGON_HIT_H_
