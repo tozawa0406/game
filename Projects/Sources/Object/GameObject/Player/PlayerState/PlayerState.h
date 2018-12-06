@@ -35,8 +35,8 @@ public:
 	virtual void GuiUpdate(void) = 0;
 
 protected:
-	Player*			player_;
-	Controller*		ctrl_;
+	Player*			player_;		//! プレイヤーのポインタ
+	Controller*		ctrl_;			//! コントローラのポインタ
 };
 
 #endif // _PLAYER_STATE_H_

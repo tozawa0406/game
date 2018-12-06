@@ -8,20 +8,17 @@
 //! @def	待機モーションの再生待ち時間
 static constexpr int    ANIMATION_WAIT_FRAME = 180;
 
-/* @fn		コンストラクタ
- * @brief	変数の初期化			*/
+/* @brief	コンストラクタ			*/
 PaidWaitState::PaidWaitState(void) : waitCnt_(0)
 {
 }
 
-/* @fn		デストラクタ
- * @brief	...						*/
+/* @brief	デストラクタ			*/
 PaidWaitState::~PaidWaitState(void)
 {
 }
 
-/* @fn		Init
- * @brief	初期化処理
+/* @brief	初期化処理
  * @param	(player)	プレイヤーへのポインタ
  * @param	(ctrl)		コントローラへのポインタ
  * @return	なし					*/
@@ -44,16 +41,14 @@ void PaidWaitState::Init(Player* player, Controller* ctrl)
 	meshAnim.mesh.ChangeAnimation(meshAnim.animation, ANIMATION_CHANGE_FRAME30, true);
 }
 
-/* @fn		Uninit
- * @brief	後処理
+/* @brief	後処理
  * @param	なし
  * @return	なし					*/
 void PaidWaitState::Uninit(void)
 {
 }
 
-/* @fn		Update
- * @brief	更新処理
+/* @brief	更新処理
  * @param	なし
  * @return	次のステート			*/
 PlayerState* PaidWaitState::Update(void)
@@ -113,8 +108,7 @@ PlayerState* PaidWaitState::Update(void)
 	return nullptr;
 }
 
-/* @fn		GuiUpdate
- * @brief	Guiの更新処理
+/* @brief	Guiの更新処理
  * @param	なし
  * @return	なし
  * @detail	プレイヤーから呼び出される		*/

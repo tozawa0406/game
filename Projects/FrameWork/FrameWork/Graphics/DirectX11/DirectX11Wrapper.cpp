@@ -332,6 +332,8 @@ void DirectX11Wrapper::SetTexture(int stage, int texNum, int modelNum)
 
 	if(texNum < 0)
 	{
+		ID3D11ShaderResourceView* temp = nullptr;
+		pContext->PSSetShaderResources(stage, 1, &temp);
 	}
 	else
 	{
@@ -832,24 +834,60 @@ HRESULT DirectX11Wrapper::LoadTexture(string fileName, int texNum, int modelNum)
 
 void DirectX11Wrapper::ReleaseTexture(int texNum, int modelNum)
 {
-	ReleasePtr(texture_[modelNum + 1][texNum].data);
+	SetTexture(0, -1);
+	SetTexture(1, -1);
+	SetTexture(2, -1);
+	SetTexture(3, -1);
+	SetTexture(4, -1);
 
+	if (static_cast<UINT>(modelNum + 1) >= texture_.size()) { return; }
 	auto& tex = texture_[modelNum + 1];
-	auto& thi = texture_[modelNum + 1][texNum];
 
-	for (auto itr = tex.begin(); itr != tex.end();)
+	if (modelNum >= 0)
 	{
-		if (&(*itr) == &thi)
+		for (int i = tex.size() - 1; i >= 0; --i)
 		{
-			itr = tex.erase(itr);		//配列削除
-			break;
+			ReleasePtr(tex[i].data);
+
+			auto& thi = tex[i];
+			for (auto itr = tex.begin(); itr != tex.end();)
+			{
+				if (&(*itr) == &thi)
+				{
+					itr = tex.erase(itr);		//配列削除
+					break;
+				}
+				else { itr++; }
+			}
+			tex.shrink_to_fit();
 		}
-		else
+		for (auto itr = texture_.begin(); itr != texture_.end();)
 		{
-			itr++;
+			if (&(*itr) == &tex)
+			{
+				itr = texture_.erase(itr);		//配列削除
+				break;
+			}
+			else { itr++; }
 		}
+		tex.shrink_to_fit();
 	}
-	tex.shrink_to_fit();
+	else
+	{
+		ReleasePtr(tex[texNum].data);
+
+		auto& thi = tex[texNum];
+		for (auto itr = tex.begin(); itr != tex.end();)
+		{
+			if (&(*itr) == &thi)
+			{
+				itr = tex.erase(itr);		//配列削除
+				break;
+			}
+			else { itr++; }
+		}
+		tex.shrink_to_fit();
+	}
 }
 
 HRESULT DirectX11Wrapper::LoadModel(string fileName, int modelNum)
@@ -989,6 +1027,8 @@ void DirectX11Wrapper::ReleaseModel(int modelNum)
 		ReleaseBuffer(mesh.vertexBuffer, Wrapper::FVF::VERTEX_3D);
 		ReleaseBuffer(mesh.indexBuffer, Wrapper::FVF::INDEX);
 	}
+	ReleaseTexture(0, modelNum);
+
 	auto& thi = model_[modelNum];
 
 	for (auto itr = model_.begin(); itr != model_.end();)

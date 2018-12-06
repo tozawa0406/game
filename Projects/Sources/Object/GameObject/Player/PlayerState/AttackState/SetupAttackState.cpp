@@ -16,20 +16,17 @@ static constexpr int MOVE_START = 20;
 //! @def	移動終了
 static constexpr int MOVE_END = 25;
 
-/* @fn		コンストラクタ
- * @brief	変数の初期化			*/
+/* @brief	コンストラクタ			*/
 SetupAttackState::SetupAttackState(void) : isDraw_(false)
 {
 }
 
-/* @fn		デストラクタ
- * @brief	...						*/
+/* @brief	デストラクタ			*/
 SetupAttackState::~SetupAttackState(void)
 {
 }
 
-/* @fn		Init
- * @brief	初期化
+/* @brief	初期化
  * @param	(player)	プレイヤーのポインタ
  * @param	(ctrl)		コントローラへのポインタ
  * @return	なし					*/
@@ -51,16 +48,14 @@ void SetupAttackState::Init(Player* player, Controller* ctrl)
 	isDraw_ = false;
 }
 
-/* @fn		Uninit
- * @brief	後処理
+/* @brief	後処理
  * @param	なし
  * @return	なし					*/
 void SetupAttackState::Uninit(void)
 {
 }
 
-/* @fn		Update
- * @brief	更新処理
+/* @brief	更新処理
  * @param	なし
  * @return	次のステート			*/
 PlayerState* SetupAttackState::Update(void)
@@ -122,11 +117,10 @@ PlayerState* SetupAttackState::Update(void)
 	return nullptr;
 }
 
-/* @fn		GuiUpdate
- * @brief	Guiの更新処理
+/* @brief	Guiの更新処理
  * @param	なし
  * @return	なし
- * @detail	プレイヤーから呼び出される		*/
+ * @detail	プレイヤーから呼ばれる	*/
 void SetupAttackState::GuiUpdate(void)
 {
 	ImGui::Text("SetupAttack");

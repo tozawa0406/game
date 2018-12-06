@@ -9,28 +9,23 @@ static constexpr float AVOIDANCE_SPEED = 2.75f;
 //! @def	回避アニメーションの終了フレーム
 static constexpr int   END_AVOIDANCE_ANIMATION = 30;
 
-/* @fn		コンストラクタ
- * @brief	変数の初期化			*/
+/* @brief	コンストラクタ			*/
 KnockBackState::KnockBackState(void)
 {
 }
 
-/* @fn		デストラクタ
- * @brief	...						*/
+/* @brief	デストラクタ			*/
 KnockBackState::~KnockBackState(void)
 {
 }
 
-/* @fn		Init
- * @brief	初期化処理
+/* @brief	初期化処理
  * @param	(player)	プレイヤーへのポインタ
  * @param	(ctrl)		コントローラへのポインタ
  * @return	なし					*/
 void KnockBackState::Init(Player* player, Controller* ctrl)
 {
 	if (!player) { return; }
-
-	cnt_ = 0;
 
 	PlayerState::Init(player, ctrl);
 
@@ -51,16 +46,14 @@ void KnockBackState::Init(Player* player, Controller* ctrl)
 	}
 }
 
-/* @fn		Uninit
- * @brief	後処理
+/* @brief	後処理
  * @param	なし
  * @return	なし					*/
 void KnockBackState::Uninit(void)
 {
 }
 
-/* @fn		Update
- * @brief	更新処理
+/* @brief	更新処理
  * @param	なし
  * @return	次のステート			*/
 PlayerState* KnockBackState::Update(void)
@@ -87,8 +80,7 @@ PlayerState* KnockBackState::Update(void)
 	return nullptr;
 }
 
-/* @fn		GuiUpdate
- * @brief	Guiの更新処理
+/* @brief	Guiの更新処理
  * @param	なし
  * @return	なし
  * @detail	プレイヤーから呼び出される		*/

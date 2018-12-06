@@ -6,20 +6,17 @@
 #include "../SetupState.h"
 #include "../AttackState/Slash1AttackState.h"
 
-/* @fn		コンストラクタ
- * @brief	変数の初期化			*/
+/* @brief	コンストラクタ			*/
 DrawnWaitState::DrawnWaitState(void)
 {
 }
 
-/* @fn		デストラクタ
- * @brief	...						*/
+/* @brief	デストラクタ			*/
 DrawnWaitState::~DrawnWaitState(void)
 {
 }
 
-/* @fn		Init
- * @brief	初期化処理
+/* @brief	初期化処理
  * @param	(player)	プレイヤーへのポインタ
  * @param	(ctrl)		コントローラへのポインタ
  * @return	なし					*/
@@ -40,21 +37,18 @@ void DrawnWaitState::Init(Player* player, Controller* ctrl)
 	meshAnim.mesh.ChangeAnimation(meshAnim.animation, ANIMATION_CHANGE_FRAME30, true);
 }
 
-/* @fn		Uninit
- * @brief	後処理
+/* @brief	後処理
  * @param	なし
  * @return	なし					*/
 void DrawnWaitState::Uninit(void)
 {
 }
 
-/* @fn		Update
- * @brief	更新処理
+/* @brief	更新処理
  * @param	なし
  * @return	次のステートへ			*/
 PlayerState* DrawnWaitState::Update(void)
 {
-
 #ifdef _SELF_DEBUG
 	if (!player_->IsDebugCtrl())
 #endif
@@ -89,11 +83,10 @@ PlayerState* DrawnWaitState::Update(void)
 	return nullptr;
 }
 
-/* @fn		GuiUpdate
- * @brief	Guiの更新処理
+/* @brief	Guiの更新処理
  * @param	なし
  * @return	なし
- * @detail	プレイヤーから呼び出される		*/
+ * @detail	プレイヤーから呼ばれる	*/
 void DrawnWaitState::GuiUpdate(void)
 {
 	ImGui::Text("DrawnWait");

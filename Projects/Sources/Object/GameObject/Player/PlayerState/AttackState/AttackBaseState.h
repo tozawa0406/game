@@ -24,23 +24,23 @@ public:
 protected:
 	static constexpr float ANIM_SPEED = 0.75f;
 
-	float animSpeed_;
-	Player::Animation animation_;
-	int changeFrame_;
+	Player::Animation	animation_;		//! アニメーション
+	float				animSpeed_;		//! アニメーション速度
+	int					changeFrame_;	//! 
 
-	int collisionStart_;
-	int collisionEnd_;
+	int		collisionStart_;	//! 当たり判定の開始
+	int		collisionEnd_;		//! 当たり判定の終了
 
-	int moveStart_;
-	int moveEnd_;
+	int		moveStart_;		//! 動き始め
+	int		moveEnd_;		//! 動き終わり
 
-	float move_;
+	float	move_;		//! 1フレームで動く距離
 
-	bool next_;		//! 次の攻撃の入力
-	VECTOR3 dir_;
+	bool	next_;		//! 次の攻撃の入力
+	VECTOR3 dir_;		//! 方向
 
 private:
-	bool debug_nextFrame_;
+	bool debug_nextFrame_;	//!デバッグ中の次のフレーム
 };
 
 #endif // _ATTACK_BASE_STATE_H_

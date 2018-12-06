@@ -26,7 +26,7 @@ public:
 
 private:
 	VECTOR3 dir_;		//! •ûŒü
-	int		cnt_;
+	int		cnt_;		//! ƒJƒEƒ“ƒ^
 };
 
 #endif // _EMERGENCY_AVOIDANCE_STATE_H_

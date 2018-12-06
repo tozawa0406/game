@@ -14,9 +14,10 @@ static constexpr int MOVE_START = 10;
 //! @def	移動終了
 static constexpr int MOVE_END = 15;
 
-/* @fn		コンストラクタ
- * @brief	変数の初期化			*/
-AttackBaseState::AttackBaseState(void) : dir_(VECTOR3(0)), next_(false), debug_nextFrame_(false)
+/* @brief	コンストラクタ			*/
+AttackBaseState::AttackBaseState(void) : dir_(VECTOR3(0))
+	, next_(false)
+	, debug_nextFrame_(false)
 	, animSpeed_(0)
 	, animation_(Player::Animation::Wait)
 	, changeFrame_(0)
@@ -28,14 +29,12 @@ AttackBaseState::AttackBaseState(void) : dir_(VECTOR3(0)), next_(false), debug_n
 {
 }
 
-/* @fn		デストラクタ
- * @brief	...						*/
+/* @brief	デストラクタ			*/
 AttackBaseState::~AttackBaseState(void)
 {
 }
 
-/* @fn		Init
- * @brief	初期化処理
+/* @brief	初期化処理
  * @param	(player)	プレイヤーへのポインタ
  * @param	(ctrl)		コントローラへのポインタ
  * @return	なし					*/
@@ -82,16 +81,14 @@ void AttackBaseState::Init(Player* player, Controller* ctrl)
 	}
 }
 
-/* @fn		Uninit
- * @brief	後処理
+/* @brief	後処理
  * @param	なし
  * @return	なし					*/
 void AttackBaseState::Uninit(void)
 {
 }
 
-/* @fn		Update
- * @breif	更新処理
+/* @breif	更新処理
  * @param	なし
  * @return	次のステート			*/
 PlayerState* AttackBaseState::Update(void)
@@ -147,11 +144,10 @@ PlayerState* AttackBaseState::Update(void)
 	return nullptr;
 }
 
-/* @fn		GuiUpdate
- * @brief	Guiの更新処理
+/* @brief	Guiの更新処理
  * @param	なし
  * @return	なし
- * @detail	プレイヤーから呼び出される			*/
+ * @detail	プレイヤーから呼ばれる	*/
 void AttackBaseState::GuiUpdate(void)
 {
 	if (const auto& systems = Systems::Instance())

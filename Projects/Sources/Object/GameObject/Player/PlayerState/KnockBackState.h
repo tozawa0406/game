@@ -20,10 +20,6 @@ public:
 	PlayerState* Update(void) override;
 
 	void GuiUpdate(void) override;
-
-private:
-	int		cnt_;
-	VECTOR3	back_;
 };
 
 #endif // _KNOCK_BACK_STATE_H_

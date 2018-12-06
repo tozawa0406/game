@@ -24,8 +24,7 @@ static const     VECTOR3 COLLISION_OFFSET_POS = VECTOR3(0, 7.5f, 0);
 //! @def	当たり判定のサイズ
 static const     VECTOR3 COLLISION_SIZE = VECTOR3(3, 15, 3);
 
-/* @fn		コンストラクタ
- * @brief	変数の初期化			*/
+/* @brief	コンストラクタ			*/
 Player::Player(void) : GameObject(Object::Tag::PLAYER), GUI(Systems::Instance(), this, "player")
 	, state_(nullptr)
 	, stamina_(150)
@@ -43,17 +42,14 @@ Player::Player(void) : GameObject(Object::Tag::PLAYER), GUI(Systems::Instance(),
 	life_ = 150;
 }
 
-/* @fn		デストラクタ
- * @brief	...						*/
+/* @brief	デストラクタ			*/
 Player::~Player(void)
 {
 }
 
-/* @fn		Init
- * @brief	初期化処理
+/* @brief	初期化処理
  * @param	なし
- * @return	なし
- * @detail	メッシュや当たり判定などの初期化		*/
+ * @return	なし					*/
 void Player::Init(void)
 {
 	const auto& systems = Systems::Instance();
@@ -107,15 +103,16 @@ void Player::Init(void)
 					body_ = &bone.nowBone;
 				}
 			}
-
-
 		}
 	}
 
 	// 当たり判定
 	collider_ = new Collider3D::OBB(this);
-	collider_->SetOffsetPosition(COLLISION_OFFSET_POS);
-	collider_->SetSize(COLLISION_SIZE);
+	if (collider_)
+	{
+		collider_->SetOffsetPosition(COLLISION_OFFSET_POS);
+		collider_->SetSize(COLLISION_SIZE);
+	}
 
 	state_ = new PaidWaitState;
 	if (state_)
@@ -124,8 +121,7 @@ void Player::Init(void)
 	}
 }
 
-/* @fn		Uninit
- * @brief	後処理
+/* @brief	後処理
  * @param	なし
  * @return	なし					*/
 void Player::Uninit(void)
@@ -136,12 +132,10 @@ void Player::Uninit(void)
 	{
 		cameraManager_->DestroyObjCamera(camera_);
 	}
-
 	DeletePtr(state_);
 }
 
-/* @fn		Update
- * @brief	更新処理
+/* @brief	更新処理
  * @param	なし
  * @return	なし					*/
 void Player::Update(void)
@@ -163,7 +157,7 @@ void Player::Update(void)
 			}
 		}
 	}
-	meshAnim_.mesh.material.diffuse = c;
+//	meshAnim_.mesh.material.diffuse = c;
 #endif
 
 	if (state_)
@@ -185,8 +179,7 @@ void Player::Update(void)
 	transform_.position += collider_->GetBack();
 }
 
-/* @fn		Hit
- * @brief	ダメージ処理
+/* @brief	ダメージ処理
  * @param	(damage)	ダメージ
  * @return	なし			*/
 void Player::Hit(int damage)
@@ -207,8 +200,7 @@ void Player::Hit(int damage)
 	}
 }
 
-/* @fn		IsDed
- * @brief	死亡判定
+/* @brief	死亡判定
  * @sa		Update()
  * @param	なし
  * @return	死んでいたらtrue			*/
@@ -226,8 +218,7 @@ bool Player::IsDed(void)
 	return false;
 }
 
-/* @fn		GuiUpdate
- * @brief	デバッグ用描画更新
+/* @brief	デバッグ用描画更新
  * @param	なし
  * @return	なし					*/
 void Player::GuiUpdate(void)

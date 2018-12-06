@@ -20,8 +20,6 @@ public:
 	PlayerState* Update(void) override;
 
 	void GuiUpdate(void) override;
-
-private:
 };
 
 #endif // _DIE_STATE_H_

@@ -6,20 +6,17 @@
 #include "DrawnState/DrawnWaitState.h"
 #include "DrawnState/DrawnMoveState.h"
 
-/* @fn		コンストラクタ
- * @brief	変数の初期化			*/
+/* @brief	コンストラクタ			*/
 SetupState::SetupState(void) : isDraw_(false)
 {
 }
 
-/* @fn		デストラクタ
- * @brief	...						*/
+/* @brief	デストラクタ			*/
 SetupState::~SetupState(void)
 {
 }
 
-/* @fn		Init
- * @brief	初期化
+/* @brief	初期化処理
  * @param	(player)	プレイヤーのポインタ
  * @param	(ctrl)		コントローラへのポインタ
  * @return	なし					*/
@@ -48,16 +45,14 @@ void SetupState::Init(Player* player, Controller* ctrl)
 	meshAnim.mesh.ChangeAnimation(meshAnim.animation, 30);
 }
 
-/* @fn		Uninit
- * @brief	後処理
+/* @brief	後処理
  * @param	なし
  * @return	なし					*/
 void SetupState::Uninit(void)
 {
 }
 
-/* @fn		Update
- * @brief	更新処理
+/* @brief	更新処理
  * @param	なし
  * @return	次のステート			*/
 PlayerState* SetupState::Update(void)
@@ -111,11 +106,10 @@ PlayerState* SetupState::Update(void)
 	return nullptr;
 }
 
-/* @fn		GuiUpdate
- * @brief	Guiの更新処理
+/* @brief	Guiの更新処理
  * @param	なし
  * @return	なし
- * @detail	プレイヤーから呼び出される		*/
+ * @detail	プレイヤーから呼ばれる	*/
 void SetupState::GuiUpdate(void)
 {
 	ImGui::Text("Setup");

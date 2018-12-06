@@ -22,7 +22,7 @@ public:
 	void GuiUpdate(void) override;
 
 private:
-	bool isDraw_;
+	bool isDraw_;		//! ”[“”²“ó‘Ô
 };
 
 #endif // _SETUP_ATTACK_STATE_H_

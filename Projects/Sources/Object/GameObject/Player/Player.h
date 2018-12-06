@@ -57,27 +57,32 @@ public:
 
 	void Hit(int damage) override;
 
-	/* @fn		SetWapon
-	 * @brief	武器の設定
+	/* @brief	武器の設定
 	 * @param	(wapon)		武器			*/
 	inline void SetWapon(Wapon* wapon) { wapon_ = wapon; wapon->SetParent(transform_, body_, hand_); }
 
-	// ステート時に値を参照するためのGetter
-	inline Camera*			GetCamera(void)			{ return camera_;		}
-	inline Wapon*			GetWapon(void)			{ return wapon_;		}
+	/* @brief	カメラ取得処理				*/
+	inline Camera*	GetCamera(void)	{ return camera_;		}
+	/* @brief	武器の取得処理				*/
+	inline Wapon*	GetWapon(void)	{ return wapon_;		}
 
-	// ステートで値を設定するためのSetter
+	/* @brief	ステートで設定				*/
 	inline void SetPosition(const VECTOR3& position) { transform_.position = position; }
 
+	/* @brief	当たり判定の取得処理		*/
 	inline Collider3D::OBB* GetCollider(void) { return collider_; }
 
-	// デバッグ用、敵の操作中にプレイヤーを操作しない
+	/* @brief	デバッグ用：敵の操作中にプレイヤーを操作しない	*/
 	inline bool IsDebugCtrl(void) { return (cameraManager_ && cameraManager_->GetMainNum() != 0) ? true : false; }
 
+	/* @brief	納刀抜刀の変更				*/
 	inline void SetDraw(bool isDraw) { isDraw_ = isDraw;	}
+	/* @brief	納刀抜刀の取得				*/
 	inline bool IsDraw(void)		 { return isDraw_;		}
 
+	/* @brief	スタミナの取得				*/
 	inline float GetStamina(void)			{ return stamina_;		}
+	/* @brief	スタミナの設定				*/
 	inline void  SetStamina(float stamina)	{ stamina_ = stamina;	}
 
 private:

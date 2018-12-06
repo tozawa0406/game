@@ -16,20 +16,17 @@ static constexpr int MOVE_START = 10;
 //! @def	移動終了
 static constexpr int MOVE_END = 15;
 
-/* @fn		コンストラクタ
- * @brief	変数の初期化			*/
+/* @brief	コンストラクタ			*/
 Slash1AttackState::Slash1AttackState(void)
 {
 }
 
-/* @fn		デストラクタ
- * @brief	...						*/
+/* @brief	デストラクタ			*/
 Slash1AttackState::~Slash1AttackState(void)
 {
 }
 
-/* @fn		Init
- * @brief	初期化処理
+/* @brief	初期化処理
  * @param	(player)	プレイヤーへのポインタ
  * @param	(ctrl)		コントローラへのポインタ
  * @return	なし					*/
@@ -49,16 +46,14 @@ void Slash1AttackState::Init(Player* player, Controller* ctrl)
 	AttackBaseState::Init(player, ctrl);
 }
 
-/* @fn		Uninit
- * @brief	後処理
+/* @brief	後処理
  * @param	なし
  * @return	なし					*/
 void Slash1AttackState::Uninit(void)
 {
 }
 
-/* @fn		Update
- * @breif	更新処理
+/* @breif	更新処理
  * @param	なし
  * @return	次のステート			*/
 PlayerState* Slash1AttackState::Update(void)
@@ -107,11 +102,10 @@ PlayerState* Slash1AttackState::Update(void)
 	return nullptr;
 }
 
-/* @fn		GuiUpdate
- * @brief	Guiの更新処理
+/* @brief	Guiの更新処理
  * @param	なし
  * @return	なし
- * @detail	プレイヤーから呼び出される			*/
+ * @detail	プレイヤーから呼ばれる	*/
 void Slash1AttackState::GuiUpdate(void)
 {
 	ImGui::Text("Slash1Attack");

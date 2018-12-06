@@ -8,20 +8,17 @@
 //! @def	消費スタミナ
 static constexpr float DEC_STAMINA = 0.1f;
 
-/* @fn		コンストラクタ
- * @brief	変数の初期化			*/
-PaidMoveState::PaidMoveState(void) : dash_(false)
+/* @brief	コンストラクタ			*/
+PaidMoveState::PaidMoveState(void)
 {
 }
 
-/* @fn		デストラクタ
- * @brief	...						*/
+/* @brief	デストラクタ			*/
 PaidMoveState::~PaidMoveState(void)
 {
 }
 
-/* @fn		Init
- * @brief	初期化処理
+/* @brief	初期化処理
  * @param	(player)	プレイヤーへのポインタ
  * @param	(ctrl)		コントローラへのポインタ
  * @return	なし					*/
@@ -30,16 +27,14 @@ void PaidMoveState::Init(Player* player, Controller* ctrl)
 	PlayerState::Init(player, ctrl);
 }
 
-/* @fn		Uninit
- * @brief	後処理
+/* @brief	後処理
  * @param	なし
  * @return	なし					*/
 void PaidMoveState::Uninit(void)
 {
 }
 
-/* @fn		Update
- * @brief	更新処理
+/* @brief	更新処理
  * @param	なし
  * @return	次のステート			*/
 PlayerState* PaidMoveState::Update(void)
@@ -55,10 +50,10 @@ PlayerState* PaidMoveState::Update(void)
 	// 正規化
 	inputDir = VecNorm(inputDir);
 
-	if (ctrl_->Trigger(Input::GAMEPAD_L3, DIK_LSHIFT)) { dash_ = true; }
+	bool dash = (ctrl_->Trigger(Input::GAMEPAD_L3, DIK_LSHIFT)) ? true : false;
 
 	float inputDash = 1.0f;
-	if (ctrl_->Press(Input::GAMEPAD_R1, DIK_LSHIFT) || dash_)
+	if (ctrl_->Press(Input::GAMEPAD_R1, DIK_LSHIFT) || dash)
 	{
 		float stamina = player_->GetStamina();
 		if (stamina > 0)
@@ -118,11 +113,10 @@ PlayerState* PaidMoveState::Update(void)
 	return nullptr;
 }
 
-/* @fn		GuiUpdate
- * @brief	Guiの更新処理
+/* @brief	Guiの更新処理
  * @param	なし
  * @return	なし
- * @detail	プレイヤーから呼び出される			*/
+ * @detail	プレイヤーから呼ばれる	*/
 void PaidMoveState::GuiUpdate(void)
 {
 	ImGui::Text("PaidMove");
