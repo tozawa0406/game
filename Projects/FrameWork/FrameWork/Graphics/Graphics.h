@@ -9,6 +9,7 @@
 
 #include "../Define/Define.h"
 #include "Wrapper.h"
+#include "RenderTarget.h"
 
 //-----------------------------------------------------------------------------
 //	クラス定義
@@ -33,8 +34,9 @@ public:
 	static constexpr int WIDTH  = 1280;
 	static constexpr int HEIGHT = 720;
 
-	Windows* GetWindow(void)  { return window_;  }		// ウィンドウクラスの受け渡し
-	Wrapper* GetWrapper(void) { return wrapper_; }		// ラッパークラスの受け渡し
+	inline Windows*			GetWindow(void)			{ return window_;  }		// ウィンドウクラスの受け渡し
+	inline Wrapper*			GetWrapper(void)		{ return wrapper_; }		// ラッパークラスの受け渡し
+	inline RenderTarget*	GetRenderTarget(void)	{ return renderTarget_; }
 
 protected:
 	Graphics(Windows* window) { window_ = window; }		// コンストラクタ
@@ -44,10 +46,9 @@ protected:
 	virtual HRESULT DrawBegin(void)	= 0;	// 描画開始
 	virtual void	DrawEnd(void)	= 0;	// 描画終了
 
-	virtual void    ClearRenderer(void) {}	// 画面のクリア
-
-	Windows* window_;		// ウィンドウクラスへのポインタ
-	Wrapper* wrapper_;		// ラッパークラス
+	Windows*		window_;		// ウィンドウクラスへのポインタ
+	Wrapper*		wrapper_;		// ラッパークラス
+	RenderTarget*	renderTarget_;	// レンダーターゲットクラス
 };
 
 #endif // _GRAPHICS_H

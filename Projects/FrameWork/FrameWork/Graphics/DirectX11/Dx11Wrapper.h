@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 //
-//	DirectX11の処理[DirectX11Wrapper.h]
+//	DirectX11の処理[Dx11Wrapper.h]
 //	Auther : 戸澤翔太
 //
 //-----------------------------------------------------------------------------
@@ -17,7 +17,7 @@
 //-----------------------------------------------------------------------------
 //	クラス定義
 //-----------------------------------------------------------------------------
-class DirectX11Wrapper : public Wrapper
+class Dx11Wrapper : public Wrapper
 {
 	friend DirectX11;
 public:
@@ -69,21 +69,7 @@ public:
 	// ライトの設定
 	void SetLight(LightInfo& light) override { UNREFERENCED_PARAMETER(light); }
 
-	// シャドウマップの生成
-	HRESULT CreateShadowMap(void) override;
-	// シャドウマップに描画開始
-	void    BeginDrawShadow(void)  override;
-	// シャドウマップに描画終了
-	void    EndDrawShadow(void)    override;
-	// シャドウマップの解放
-	void	ReleaseShadowMap(void) override;
-
-	// スクリーンショットの描画
-	void DrawScreenshot(CanvasRenderer& sprite)  override;
-	// スクリーンショットの生成
-	void CreateScreenshot(string& filename) override;
-	// スクリーンショットテクスチャの解放
-	void ReleaseScreenshot(void)  override;
+	void DrawQuad(VECTOR2 position, VECTOR2 size) override;
 
 private:
 	ID3DBlob*	CompiledShader(string fileName, string method, string version);
@@ -121,23 +107,6 @@ private:
 		ID3D11UnorderedAccessView*	unorderedAcces;
 
 	};
-	struct ShadowMap
-	{
-		ID3D11SamplerState*			sampler;
-
-		D3D11_VIEWPORT				viewPort;
-		ID3D11RenderTargetView*     renderTargetView;
-		ID3D11ShaderResourceView*   shaderResourceView;
-
-		D3D11_VIEWPORT				defViewPort;
-		ID3D11RenderTargetView*		defRenderTargetView;
-		ID3D11DepthStencilView*     defDepthStencilView;
-	};
-	struct ScreenShot
-	{
-		ID3D11Texture2D* pBuffer;
-		ID3D11ShaderResourceView* texture;
-	};
 
 	struct ShaderData
 	{
@@ -147,8 +116,8 @@ private:
 		std::vector<UINT> constantBuffer;
 	};
 
-	DirectX11Wrapper(DirectX11* directX);
-	~DirectX11Wrapper(void) {};
+	Dx11Wrapper(DirectX11* directX);
+	~Dx11Wrapper(void) {};
 
 	void Init(void)   override;
 	void Uninit(void) override;
@@ -172,9 +141,6 @@ private:
 	std::vector<ID3D11GeometryShader*>	geometryShader_;
 	std::vector<ComputeShader>			computeShader_;
 	std::vector<ID3D11Buffer*>			constantBuffer_;		// アプリ←→シェーダー架け橋　ワールドから射影までの変換行列を渡すためのコンスタントバッファー
-
-	ShadowMap  shadowMap_;
-	ScreenShot screenShot_;
 
 	ShaderData shader_[2];
 

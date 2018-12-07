@@ -12,7 +12,7 @@
 #include "../../Camera/CameraManager.h"
 #include "ZTexture.h"
 
-#include "../../../Graphics/DirectX11/DirectX11Wrapper.h"
+#include "../../../Graphics/DirectX11/Dx11Wrapper.h"
 #include "Default.h"
 
 HRESULT SkinningShadowShader::Init(void)
@@ -45,7 +45,7 @@ HRESULT SkinningShadowShader::Init(void)
 		// ifを抜けるとReleaseでインプットレイアウトがエラー吐く
 		if (FAILED(Shader::Init())) { return E_FAIL; }
 
-		const auto& dx11 = (DirectX11Wrapper*)dev_;
+		const auto& dx11 = (Dx11Wrapper*)dev_;
 		constantBuffer_.emplace_back(dx11->CreateConstantBuffer(sizeof(CONSTANT)));
 	}
 	else
@@ -68,7 +68,7 @@ HRESULT SkinningShadowShader::SetParam(const MATRIX& mtx, const COLOR& color, VE
 	}
 	else if (Windows::GRAPHICS_TYPE == Graphics::Type::DirectX11)
 	{
-		const auto& dx11 = ((DirectX11Wrapper*)dev);
+		const auto& dx11 = ((Dx11Wrapper*)dev);
 
 		CONSTANT cbuf;
 		memcpy_s(&cbuf.world, sizeof(MATRIX), &mtx, sizeof(MATRIX));

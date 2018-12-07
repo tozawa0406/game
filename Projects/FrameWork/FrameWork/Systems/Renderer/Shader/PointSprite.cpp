@@ -11,7 +11,7 @@
 #include "../../Camera/CameraManager.h"
 
 #include "../../../Windows/Windows.h"
-#include "../../../Graphics/DirectX11/DirectX11Wrapper.h"
+#include "../../../Graphics/DirectX11/Dx11Wrapper.h"
 
 HRESULT PointSpriteShader::Init(void)
 {
@@ -38,7 +38,7 @@ HRESULT PointSpriteShader::Init(void)
 		// ifを抜けるとReleaseでインプットレイアウトがエラー吐く
 		if (FAILED(Shader::Init())) { return E_FAIL; }
 
-		const auto& dx11 = (DirectX11Wrapper*)dev_;
+		const auto& dx11 = (Dx11Wrapper*)dev_;
 		constantBuffer_.emplace_back(dx11->CreateConstantBuffer(sizeof(CONSTANT)));
 		dx11->CreateGeometryShader(fileName_, "GS_Main", "gs_5_0");
 	}
@@ -60,7 +60,7 @@ HRESULT PointSpriteShader::SetParam(const MATRIX& mtx, const COLOR& color, VECTO
 	}
 	else if (Windows::GRAPHICS_TYPE == Graphics::Type::DirectX11)
 	{
-		const auto& dev11 = ((DirectX11Wrapper*)dev);
+		const auto& dev11 = ((Dx11Wrapper*)dev);
 
 		CONSTANT cbuf;
 		cbuf.world = mtx;

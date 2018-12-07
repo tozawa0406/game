@@ -1,6 +1,6 @@
 #include "DragonWingAttack.h"
 #include "../Dragon.h"
-#include <FrameWork/Graphics/DirectX11/DirectX11Wrapper.h>
+#include <FrameWork/Graphics/DirectX11/Dx11Wrapper.h>
 
 //! @def	アニメーションの速度を変える(速くする)タイミング
 static constexpr int CHANGE_FRAME = 18;
@@ -42,7 +42,7 @@ void DragonWingAttack::Init(GameObject* monster)
 	{
 		if (const auto& renderer = systems->GetRenderer())
 		{
-			if (DirectX11Wrapper* wrapper = static_cast<DirectX11Wrapper*>(renderer->GetWrapper()))
+			if (Dx11Wrapper* wrapper = static_cast<Dx11Wrapper*>(renderer->GetWrapper()))
 			{
 				const auto& model = wrapper->GetModel(static_cast<int>(Model::Game::DRAGON));
 

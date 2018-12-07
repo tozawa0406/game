@@ -10,7 +10,7 @@
 #include "ZTexture.h"
 
 #include "../../../Windows/Windows.h"
-#include "../../../Graphics/DirectX11/DirectX11Wrapper.h"
+#include "../../../Graphics/DirectX11/Dx11Wrapper.h"
 
 DepthShadow::DepthShadow(ShaderManager* manager) : Shader(manager, shaderDirectoryName + FILENAME)
 {
@@ -48,7 +48,7 @@ HRESULT DepthShadow::Init(void)
 		// ifを抜けるとReleaseでインプットレイアウトがエラー吐く
 		if (FAILED(Shader::Init())) { return E_FAIL; }
 
-		const auto& dx11 = (DirectX11Wrapper*)dev_;
+		const auto& dx11 = (Dx11Wrapper*)dev_;
 		constantBuffer_.emplace_back(dx11->CreateConstantBuffer(sizeof(CONSTANT)));
 	}
 	else
@@ -69,7 +69,7 @@ HRESULT DepthShadow::SetParam(const MATRIX& mtxWorld, const COLOR& color, VECTOR
 	}
 	else if (Windows::GRAPHICS_TYPE == Graphics::Type::DirectX11)
 	{
-		const auto& dev11 = ((DirectX11Wrapper*)dev);
+		const auto& dev11 = ((Dx11Wrapper*)dev);
 
 		CONSTANT cbuf;
 		cbuf.world = mtxWorld;

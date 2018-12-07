@@ -4,12 +4,16 @@
 //	Auther : 戸澤翔太
 //																	2018/08/18
 //-----------------------------------------------------------------------------
-#include "DirectX11Wrapper.h"
+#include "Dx11Wrapper.h"
+#include "Dx11RenderTarget.h"
 #include "../../Windows/Windows.h"
 
 // コンストラクタ
-DirectX11::DirectX11(Windows* window) : Graphics(window), pSwapChain_(nullptr), pDevice_(nullptr),
-									  pDeviceContext_(nullptr), pRenderTargetView_(nullptr)
+DirectX11::DirectX11(Windows* window) : Graphics(window)
+	, pSwapChain_(nullptr)
+	, pDevice_(nullptr)
+	, pDeviceContext_(nullptr)
+	, pRenderTargetView_(nullptr)
 {
 }
 
@@ -26,11 +30,20 @@ HRESULT DirectX11::Init(void)
 HRESULT DirectX11::InitAll(void)
 {
 	// デバイスの設定
-	SetDevice();
+	if (!SetDevice())	{ return E_FAIL; }
 
 	// ラッパーの生成
-	wrapper_ = new DirectX11Wrapper(this);
-	wrapper_->Init();
+	wrapper_ = new Dx11Wrapper(this);
+	if (wrapper_)
+	{
+		wrapper_->Init();
+	}
+
+	renderTarget_ = new Dx11RenderTarget(this);
+	if (renderTarget_)
+	{
+		renderTarget_->Init();
+	}
 
 	return S_OK;
 }
@@ -47,21 +60,21 @@ bool DirectX11::SetDevice(void)
 
 	//使用可能なMSAAを取得
 	DXGI_SAMPLE_DESC MSAA;
-	MSAA.Count   = 0;
+	MSAA.Count   = 1;
 	MSAA.Quality = 0;
-	for (int i = 0; i <= D3D11_MAX_MULTISAMPLE_SAMPLE_COUNT; ++i) 
-	{
-		UINT quality;
-		hr = pDevice_->CheckMultisampleQualityLevels(DXGI_FORMAT_D24_UNORM_S8_UINT, i, &quality);
-		if(SUCCEEDED(hr))
-		{
-			if (0 < quality) 
-			{
-				MSAA.Count = i;
-				MSAA.Quality = quality - 1;
-			}
-		}
-	}
+	//for (int i = 0; i <= D3D11_MAX_MULTISAMPLE_SAMPLE_COUNT; ++i) 
+	//{
+	//	UINT quality;
+	//	hr = pDevice_->CheckMultisampleQualityLevels(DXGI_FORMAT_D24_UNORM_S8_UINT, i, &quality);
+	//	if(SUCCEEDED(hr))
+	//	{
+	//		if (0 < quality) 
+	//		{
+	//			MSAA.Count = i;
+	//			MSAA.Quality = quality - 1;
+	//		}
+	//	}
+	//}
 
 	//インターフェース取得
 	IDXGIDevice1* pDXGI = nullptr;
@@ -140,14 +153,13 @@ bool DirectX11::SetDevice(void)
 	pDeviceContext_->OMSetRenderTargets(1, &pRenderTargetView_, pDepthStencilView_);
 
 	//ビューポートの設定
-	D3D11_VIEWPORT vp;
-	vp.Width  = Graphics::WIDTH;
-	vp.Height = Graphics::HEIGHT;
-	vp.MinDepth = 0.0f;
-	vp.MaxDepth = 1.0f;
-	vp.TopLeftX = 0;
-	vp.TopLeftY = 0;
-	pDeviceContext_->RSSetViewports(1, &vp);
+	viewport_.Width  = Graphics::WIDTH;
+	viewport_.Height = Graphics::HEIGHT;
+	viewport_.MinDepth = 0.0f;
+	viewport_.MaxDepth = 1.0f;
+	viewport_.TopLeftX = 0;
+	viewport_.TopLeftY = 0;
+	pDeviceContext_->RSSetViewports(1, &viewport_);
 
 	return true;
 }
@@ -155,10 +167,12 @@ bool DirectX11::SetDevice(void)
 // 後処理
 void DirectX11::Uninit(void)
 {
+	// レンダーターゲットの消去
+	UninitDeletePtr(renderTarget_);
 	// ラッパーの消去
-	wrapper_->Uninit();
-	DeletePtr(wrapper_);
+	UninitDeletePtr(wrapper_);
 
+	ReleasePtr(pDepthStencilView_);
 	ReleasePtr(pRenderTargetView_);
 	ReleasePtr(pSwapChain_);
 	ReleasePtr(pDeviceContext_);
@@ -168,7 +182,9 @@ void DirectX11::Uninit(void)
 // 描画開始
 HRESULT DirectX11::DrawBegin(void)
 {
-	ClearRenderer();
+	if (!renderTarget_) { return E_FAIL; }
+
+	renderTarget_->ClearRendererTarget(RenderTarget::List::DEFAULT, COLOR::RGBA(32, 100, 92, 255));
 
 	return S_OK;
 }
@@ -176,11 +192,9 @@ HRESULT DirectX11::DrawBegin(void)
 // 描画終了
 void DirectX11::DrawEnd(void)
 {
-	pSwapChain_->Present(1, 0);
-}
-
-void DirectX11::ClearRenderer(void)
-{
-	pDeviceContext_->ClearRenderTargetView(pRenderTargetView_, (float*)COLOR::RGBA(32, 100, 92, 255));
-	pDeviceContext_->ClearDepthStencilView(pDepthStencilView_, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+	HRESULT h = pSwapChain_->Present(1, 0);
+	if (h == DXGI_ERROR_DRIVER_INTERNAL_ERROR)
+	{
+		__debugbreak();
+	}
 }

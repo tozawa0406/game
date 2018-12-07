@@ -9,7 +9,7 @@
 #include "../../GameSystems.h"
 #include "../../../Windows/Windows.h"
 
-#include "../../../Graphics/DirectX11/DirectX11Wrapper.h"
+#include "../../../Graphics/DirectX11/Dx11Wrapper.h"
 
 HRESULT Shader::Init(void)
 {

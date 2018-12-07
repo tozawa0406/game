@@ -119,6 +119,8 @@ public:
 	virtual void	Draw(const Particle*	     obj, const Shader* shader) = 0;
 	virtual void    Draw(const ColliderRenderer* obj) = 0;
 
+	virtual void DrawQuad(VECTOR2 position, VECTOR2 size) = 0;
+
 	// テクスチャのロード
 	virtual HRESULT LoadTexture(string fileName, int texNum, int modelNum = -1) = 0;
 	// テクスチャの解放
@@ -154,22 +156,6 @@ public:
 
 	// ライトの設定
 	virtual void SetLight(LightInfo& light) = 0;
-
-	// シャドウマップの生成
-	virtual HRESULT CreateShadowMap(void)  { return S_OK; }
-	// シャドウマップに描画開始
-	virtual void    BeginDrawShadow(void)  {}
-	// シャドウマップに描画終了
-	virtual void	EndDrawShadow(void)    {}
-	// シャドウマップの解放
-	virtual void	ReleaseShadowMap(void) {}
-
-	// スクリーンショットの描画
-	virtual void DrawScreenshot(CanvasRenderer& sprite) = 0;
-	// スクリーンショットの生成
-	virtual void CreateScreenshot(string& filename) = 0;
-	// スクリーンショットテクスチャの解放
-	virtual void ReleaseScreenshot(void) = 0;
 };
 
 #endif // _WRAPPER_H

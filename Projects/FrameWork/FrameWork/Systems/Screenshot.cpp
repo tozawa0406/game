@@ -3,39 +3,55 @@
 #include "GameSystems.h"
 #include "Input/Controller.h"
 
-Screenshot::Screenshot(Systems* systems) : Interface(systems), screenUICnt_(0), enable_(false)
+//! @def	charのバッファサイズ
+static constexpr int BUF_SIZE = 15;
+
+/* @brief	コンストラクタ
+ * @param	(systems)	システムへのポインタ		*/
+Screenshot::Screenshot(Systems* systems) : Interface(systems)
+	, screenUICnt_(0)
+	, renderTarget_(nullptr)
+	, wrapper_(nullptr)
 {
 }
 
+/* @brief	デストラクタ			*/
 Screenshot::~Screenshot(void)
 {
-	systems_->GetRenderer()->GetWrapper()->ReleaseScreenshot();
 }
 
+/* @brief	初期化処理
+ * @param	なし
+ * @return	成功失敗				*/
 HRESULT Screenshot::Init(void)
 {
-	// スクリーンショット用UI生成
-	sprite_[0].Init(systems_, 254, (int)Texture::Base::SSUI);
-	float s = Graphics::HEIGHT * 0.1f;
-	sprite_[0].position = VECTOR2(s * 3, s);
-	sprite_[0].size = VECTOR2(s * 6, s);
-	sprite_[0].enable = false;
-
-	s *= 0.75f;
-	float x = s * 1.77778f;
-	sprite_[1].Init(systems_, 255, (int)Texture::Base::UNOWN);
-	sprite_[1].position = VECTOR2(Half(x) + 10, s * 1.3f);
-	sprite_[1].size = VECTOR2(x, s);
-	sprite_[1].enable = false;
+	if (systems_)
+	{
+		if (const auto& graphics = systems_->GetRenderer())
+		{
+			renderTarget_	= graphics->GetRenderTarget();
+			wrapper_		= graphics->GetWrapper();
+		}
+	}
 
 	return S_OK;
 }
 
+/* @brief	更新処理
+ * @param	なし
+ * @return	なし					*/
 void Screenshot::Update(void)
 {
-	UIUpdate();
+	// UI描画のカウント
+	if (screenUICnt_ > 0)
+	{
+		screenUICnt_--;
+	}
 }
 
+/* @brief	描画処理
+ * @param	なし
+ * @return	なし					*/
 void Screenshot::Draw(void)
 {
 	// SHAREボタン
@@ -44,13 +60,36 @@ void Screenshot::Draw(void)
 		// 描画中にやりたくはないが、ここでやらないと
 		// 連続で撮影した際にScreenShotのUIまでテクスチャに書き込まれてしまう
 		CreateTexture();
+
+		// UI描画時間
+		screenUICnt_ = 60 * 2;
 	}
 
-	if (!enable_) { return; }
-	systems_->GetRenderer()->GetWrapper()->DrawScreenshot(sprite_[0]);
-	systems_->GetRenderer()->GetWrapper()->DrawScreenshot(sprite_[1]);
+	// 時間内であれば描画
+	if (screenUICnt_ > 0)
+	{
+		// UIの描画
+		float s = Graphics::HEIGHT * 0.1f;
+		if (wrapper_)
+		{
+			wrapper_->SetTexture(0, static_cast<int>(Texture::Base::SSUI));
+			wrapper_->DrawQuad(VECTOR2(s * 3, s), VECTOR2(s * 6, s));
+		}
+
+		// スクリーンショットの描画
+		if (renderTarget_)
+		{
+			s *= 0.75f;
+			float x = s * 1.77778f;
+			renderTarget_->Draw(RenderTarget::List::SCREEN_SHOT, VECTOR2(Half(x) + 10, s * 1.3f), VECTOR2(x, s));
+		}
+	}
 }
 
+/* @brief	スクリーンショットの作成
+ * @sa		Draw()
+ * @param	なし
+ * @return	なし					*/
 void Screenshot::CreateTexture(void)
 {
 	// 現在時間の取得
@@ -66,24 +105,8 @@ void Screenshot::CreateTexture(void)
 	filename += add;
 
 	// スクリーンショットの作成
-	systems_->GetRenderer()->GetWrapper()->CreateScreenshot(filename);
-	// UI描画時間
-	screenUICnt_ = 60 * 2;
-}
-
-void Screenshot::UIUpdate(void)
-{
-	// 常時非表示に設定(描画時のみ下で変更)
-	enable_ = false;
-
-	// UI描画
-	if (screenUICnt_ > 0)
+	if (renderTarget_)
 	{
-		// UIを描画する
-		enable_ = true;
-
-		screenUICnt_--;
-		// 一定時間でテクスチャの解放
-		if (screenUICnt_ == 0) { systems_->GetRenderer()->GetWrapper()->ReleaseScreenshot(); }
+		renderTarget_->CreateScreenshot(filename);
 	}
 }

@@ -6,7 +6,7 @@
 #include <FrameWork/Object/ObjectManager.h>
 #include <FrameWork/Scene/SceneManager.h>
 #include <FrameWork/Systems/Input/Controller.h>
-#include <FrameWork/Graphics/DirectX11/DirectX11Wrapper.h>
+#include <FrameWork/Graphics/DirectX11/Dx11Wrapper.h>
 #include "../../../../Scene/GameScene.h"
 
 #include "Attack/DragonScream.h"
@@ -242,7 +242,7 @@ void Dragon::CreateCollision(void)
 	{
 		if (const auto& renderer = systems->GetRenderer())
 		{
-			if (DirectX11Wrapper* wrapper = static_cast<DirectX11Wrapper*>(renderer->GetWrapper()))
+			if (Dx11Wrapper* wrapper = static_cast<Dx11Wrapper*>(renderer->GetWrapper()))
 			{
 				const auto& model = wrapper->GetModel(meshAnim_.mesh.GetModelNum());
 

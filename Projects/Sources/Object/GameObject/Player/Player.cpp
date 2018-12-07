@@ -5,7 +5,7 @@
 #include <FrameWork/Object/ObjectManager.h>
 #include <random>
 
-#include <FrameWork/Graphics/DirectX11/DirectX11Wrapper.h>
+#include <FrameWork/Graphics/DirectX11/Dx11Wrapper.h>
 #include "PlayerState/PlayerState.h"
 #include "PlayerState/PaidState/PaidWaitState.h"
 
@@ -87,7 +87,7 @@ void Player::Init(void)
 
 	if (const auto& renderer = systems->GetRenderer())
 	{
-		if (DirectX11Wrapper* wrapper = static_cast<DirectX11Wrapper*>(renderer->GetWrapper()))
+		if (Dx11Wrapper* wrapper = static_cast<Dx11Wrapper*>(renderer->GetWrapper()))
 		{
 			// •Ší
 			const auto& model = wrapper->GetModel(meshAnim_.mesh.GetModelNum());

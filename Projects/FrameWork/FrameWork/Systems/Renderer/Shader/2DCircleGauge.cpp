@@ -6,7 +6,7 @@
 #include "ShaderManager.h"
 #include "../../GameSystems.h"
 #include "../../../Windows/Windows.h"
-#include "../../../Graphics/DirectX11/DirectX11Wrapper.h"
+#include "../../../Graphics/DirectX11/Dx11Wrapper.h"
 
 HRESULT CircleGaugeShader::Init(void)
 {
@@ -31,7 +31,7 @@ HRESULT CircleGaugeShader::Init(void)
 
 		if (FAILED(Shader::Init())) { return E_FAIL; }
 
-		const auto& dx11 = (DirectX11Wrapper*)dev_;
+		const auto& dx11 = (Dx11Wrapper*)dev_;
 		constantBuffer_.emplace_back(dx11->CreateConstantBuffer(sizeof(CONSTANT)));
 	}
 	else
@@ -51,7 +51,7 @@ HRESULT CircleGaugeShader::SetParam(const MATRIX& mtx, const COLOR& color, VECTO
 	const auto& dev = systems->GetRenderer()->GetWrapper();
 	if (Windows::GRAPHICS_TYPE == Graphics::Type::DirectX11)
 	{
-		const auto& dev11 = ((DirectX11Wrapper*)dev);
+		const auto& dev11 = ((Dx11Wrapper*)dev);
 
 		CONSTANT cbuf;
 		cbuf.screen.x = (float)Graphics::WIDTH;

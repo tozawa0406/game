@@ -1,13 +1,19 @@
+/*
+ * @file		Screenshot.h
+ * @brief		スクリーンショットの管理
+ * @author		戸澤翔太
+ * @data		2018/12/05
+ */
 #ifndef _SCREENSHOT_H_
 #define _SCREENSHOT_H_
 
 #include "../Define/Define.h"
 #include "BaseManager.h"
-#include "Renderer/Sprite/CanvasRenderer.h"
+#include "../Graphics/RenderTarget.h"
+#include "../Graphics/Wrapper.h"
 
 class Screenshot : public Interface
 {
-	static constexpr int BUF_SIZE = 15;
 public:
 	Screenshot(Systems* systems);
 	~Screenshot(void) override;
@@ -18,12 +24,10 @@ public:
 
 private:
 	void CreateTexture(void);
-	void UIUpdate(void);
 
-	// スクリーンショットUI用
-	CanvasRenderer sprite_[2];
-	int screenUICnt_;				// UI描画の時間
-	bool enable_;
+	int				screenUICnt_;		//! UI描画の時間
+	RenderTarget*	renderTarget_;		//! レンダーターゲットへのポインタ
+	Wrapper*		wrapper_;			//! 描画用のラッパーへのポインタ
 };
 
 #endif // _SCREENSHOT_H_

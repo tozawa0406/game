@@ -1,10 +1,11 @@
 //-----------------------------------------------------------------------------
 //
-//	DirectX11の処理[DirectX11Wrapper.cpp]
+//	DirectX11の処理[Dx11Wrapper.cpp]
 //	Auther : 戸澤翔太
 //
 //-----------------------------------------------------------------------------
-#include "DirectX11Wrapper.h"
+#include "Dx11Wrapper.h"
+#include "Dx11RenderTarget.h"
 #include "../../Windows/Windows.h"
 
 #include "../../Systems/Renderer/Sprite/CanvasRenderer.h"
@@ -40,6 +41,8 @@ struct SHADER_UI
 	VECTOR4 rotationPattern;
 	COLOR color;
 
+	SHADER_UI(void) : position(0), sizeSplit(1), scale(1), rotationPattern(0), color(1){}
+
 	// シェーダーに渡す値のコピー
 	SHADER_UI(const CanvasRenderer& c)
 	{
@@ -64,11 +67,11 @@ struct SHADER_UI
 };
 
 // コンストラクタ
-DirectX11Wrapper::DirectX11Wrapper(DirectX11* directX) : directX11_(directX), depthState_(nullptr)
+Dx11Wrapper::Dx11Wrapper(DirectX11* directX) : directX11_(directX), depthState_(nullptr)
 {
 }
 
-void DirectX11Wrapper::Init(void)
+void Dx11Wrapper::Init(void)
 {
 	const auto& pDevice = directX11_->GetDevice();
 	string directoryHlsl = "";
@@ -115,25 +118,31 @@ void DirectX11Wrapper::Init(void)
 	ZeroMemory(&BlendDesc, sizeof(BlendDesc));
 	BlendDesc.AlphaToCoverageEnable			 = FALSE;
 	BlendDesc.IndependentBlendEnable		 = FALSE;
-	BlendDesc.RenderTarget[0].BlendEnable	 = TRUE;
-	BlendDesc.RenderTarget[0].SrcBlend       = D3D11_BLEND_SRC_ALPHA;
-	BlendDesc.RenderTarget[0].DestBlend      = D3D11_BLEND_INV_SRC_ALPHA;
-	BlendDesc.RenderTarget[0].BlendOp        = D3D11_BLEND_OP_ADD;
-	BlendDesc.RenderTarget[0].SrcBlendAlpha  = D3D11_BLEND_ONE;
-	BlendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
-	BlendDesc.RenderTarget[0].BlendOpAlpha   = D3D11_BLEND_OP_ADD;
-	BlendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+	for(int i = 0;i < 8;++i)
+	{
+		BlendDesc.RenderTarget[i].BlendEnable	 = TRUE;
+		BlendDesc.RenderTarget[i].SrcBlend       = D3D11_BLEND_SRC_ALPHA;
+		BlendDesc.RenderTarget[i].DestBlend      = D3D11_BLEND_INV_SRC_ALPHA;
+		BlendDesc.RenderTarget[i].BlendOp        = D3D11_BLEND_OP_ADD;
+		BlendDesc.RenderTarget[i].SrcBlendAlpha  = D3D11_BLEND_ONE;
+		BlendDesc.RenderTarget[i].DestBlendAlpha = D3D11_BLEND_ZERO;
+		BlendDesc.RenderTarget[i].BlendOpAlpha   = D3D11_BLEND_OP_ADD;
+		BlendDesc.RenderTarget[i].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+	}
 	pDevice->CreateBlendState(&BlendDesc, &blendState_[(int)ALFA_BREND::DEF]);
 
 	ZeroMemory(&BlendDesc, sizeof(BlendDesc));
-	BlendDesc.RenderTarget[0].BlendEnable	 = TRUE;
-	BlendDesc.RenderTarget[0].SrcBlend       = D3D11_BLEND_SRC_ALPHA;
-	BlendDesc.RenderTarget[0].DestBlend      = D3D11_BLEND_ONE;
-	BlendDesc.RenderTarget[0].BlendOp        = D3D11_BLEND_OP_ADD;
-	BlendDesc.RenderTarget[0].SrcBlendAlpha  = D3D11_BLEND_ONE;
-	BlendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
-	BlendDesc.RenderTarget[0].BlendOpAlpha   = D3D11_BLEND_OP_ADD;
-	BlendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+	for (int i = 0; i < 8; ++i)
+	{
+		BlendDesc.RenderTarget[i].BlendEnable	 = TRUE;
+		BlendDesc.RenderTarget[i].SrcBlend       = D3D11_BLEND_SRC_ALPHA;
+		BlendDesc.RenderTarget[i].DestBlend      = D3D11_BLEND_ONE;
+		BlendDesc.RenderTarget[i].BlendOp        = D3D11_BLEND_OP_ADD;
+		BlendDesc.RenderTarget[i].SrcBlendAlpha  = D3D11_BLEND_ONE;
+		BlendDesc.RenderTarget[i].DestBlendAlpha = D3D11_BLEND_ZERO;
+		BlendDesc.RenderTarget[i].BlendOpAlpha   = D3D11_BLEND_OP_ADD;
+		BlendDesc.RenderTarget[i].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+	}
 	pDevice->CreateBlendState(&BlendDesc, &blendState_[(int)ALFA_BREND::ADD]);
 
 	D3D11_DEPTH_STENCIL_DESC depthDesc;
@@ -151,15 +160,18 @@ void DirectX11Wrapper::Init(void)
 
 	pDevice->CreateRasterizerState(&rdc, &rasterizerState_);
 
-	// スクリーンショット用にバックバッファの登録
-	directX11_->GetSwapChain()->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&screenShot_.pBuffer);
-	screenShot_.texture = nullptr;
+	VERTEX2D v[4];
+	for (int i = 0; i < 4; ++i)
+	{
+		v[i].position = VECTOR4((float)(i % 2), (float)(i / 2), 1, 1);
+		v[i].color = COLOR(1, 1, 1, 1);
+		v[i].texcoord = VECTOR2(0, 0);
+	}
+	CreateVertexBuffer(v, sizeof(VERTEX2D), 4);
 }
 
-void DirectX11Wrapper::Uninit(void)
+void Dx11Wrapper::Uninit(void)
 {
-	ReleasePtr(screenShot_.pBuffer);
-
 	for(int i = 0;i < (int)vertexBuffer_.size();)
 	{
 		ReleasePtr(vertexBuffer_[i].buffer);
@@ -215,7 +227,7 @@ void DirectX11Wrapper::Uninit(void)
 	}
 }
 
-UINT DirectX11Wrapper::InsideBuffer(void)
+UINT Dx11Wrapper::InsideBuffer(void)
 {
 	int s = (int)vertexBuffer_.size();
 	for (int i = 0; i < s; ++i)
@@ -229,7 +241,7 @@ UINT DirectX11Wrapper::InsideBuffer(void)
 	return R_ERROR;
 }
 
-UINT DirectX11Wrapper::CreateVertexBuffer(const void* v, UINT size, UINT vnum)
+UINT Dx11Wrapper::CreateVertexBuffer(const void* v, UINT size, UINT vnum)
 {
 	VertexBuffer* temp = nullptr;
 	UINT inside = InsideBuffer();
@@ -269,7 +281,7 @@ UINT DirectX11Wrapper::CreateVertexBuffer(const void* v, UINT size, UINT vnum)
 
 }
 
-UINT DirectX11Wrapper::CreateIndexBuffer(const WORD* v, UINT vnum)
+UINT Dx11Wrapper::CreateIndexBuffer(const WORD* v, UINT vnum)
 {
 	int inside = -1;
 	ID3D11Buffer* temp = nullptr;
@@ -313,7 +325,7 @@ UINT DirectX11Wrapper::CreateIndexBuffer(const WORD* v, UINT vnum)
 	return (UINT)indexBuffer_.size() - 1;
 }
 
-void DirectX11Wrapper::ReleaseBuffer(UINT number, Wrapper::FVF fvf)
+void Dx11Wrapper::ReleaseBuffer(UINT number, Wrapper::FVF fvf)
 {
 	if (fvf == Wrapper::FVF::INDEX)
 	{
@@ -325,7 +337,7 @@ void DirectX11Wrapper::ReleaseBuffer(UINT number, Wrapper::FVF fvf)
 	}
 }
 
-void DirectX11Wrapper::SetTexture(int stage, int texNum, int modelNum)
+void Dx11Wrapper::SetTexture(int stage, int texNum, int modelNum)
 {
 	const auto& pContext = directX11_->GetDeviceContext();
 	if (!pContext) { return; }
@@ -341,7 +353,7 @@ void DirectX11Wrapper::SetTexture(int stage, int texNum, int modelNum)
 	}
 }
 
-void DirectX11Wrapper::Draw(const CanvasRenderer* obj, const Shader* shader)
+void Dx11Wrapper::Draw(const CanvasRenderer* obj, const Shader* shader)
 {
 	const auto& pContext = directX11_->GetDeviceContext();
 	if (!pContext) { return; }
@@ -380,7 +392,6 @@ void DirectX11Wrapper::Draw(const CanvasRenderer* obj, const Shader* shader)
 	// 頂点バッファをセット
 	const auto& vb = vertexBuffer_[obj->GetBuffer()];
 	pContext->IASetVertexBuffers(0, 1, &vb.buffer, &vb.stride, &vb.offset);
-//	pContext->IASetIndexBuffer(nullptr, DXGI_FORMAT_R16_UINT, 0);
 
 	// プリミティブトポロジーを設定
 	pContext->IASetPrimitiveTopology(SelectPrimitiveType(obj->GetPrimitiveType()));
@@ -388,7 +399,7 @@ void DirectX11Wrapper::Draw(const CanvasRenderer* obj, const Shader* shader)
 	pContext->Draw(obj->GetPrimitiveNum() * 2, 0);
 }
 
-void DirectX11Wrapper::Draw(const SpriteRenderer* obj, const Shader* shader)
+void Dx11Wrapper::Draw(const SpriteRenderer* obj, const Shader* shader)
 {
 	const auto& pContext = directX11_->GetDeviceContext();
 	if (!pContext) { return; }
@@ -439,11 +450,16 @@ void DirectX11Wrapper::Draw(const SpriteRenderer* obj, const Shader* shader)
 
 	// テクスチャの設定
 	SetTexture(0, (int)obj->texNum);
-	pContext->PSSetShaderResources(1, 1, &shadowMap_.shaderResourceView);
+	if (auto target = static_cast<Dx11RenderTarget*>(directX11_->GetRenderTarget()))
+	{	
+		auto tex = target->GetShaderResourceView(RenderTarget::List::SHADOW);
+		pContext->PSSetShaderResources(1, 1, &tex);
+		auto samp = target->GetShadowSampler();
+		pContext->PSSetSamplers(1, 1, &samp);
+	}
 
 	// テクスチャサンプラの設定
 	pContext->PSSetSamplers(0, 1, &sampler);
-	pContext->PSSetSamplers(1, 1, &shadowMap_.sampler);
 
 	// シェーダーの設定
 	pContext->VSSetShader(vertex, NULL, 0);
@@ -465,7 +481,7 @@ void DirectX11Wrapper::Draw(const SpriteRenderer* obj, const Shader* shader)
 	pContext->OMSetBlendState(blendState_[(int)ALFA_BREND::DEF], blendFactor, 0xffffffff);
 }
 
-void DirectX11Wrapper::Draw(MeshRenderer* obj, const Shader* shader)
+void Dx11Wrapper::Draw(MeshRenderer* obj, const Shader* shader)
 {
 	const auto& pContext = directX11_->GetDeviceContext();
 	if (!pContext) { return; }
@@ -500,11 +516,17 @@ void DirectX11Wrapper::Draw(MeshRenderer* obj, const Shader* shader)
 
 	pContext->IASetInputLayout(vertex->layout);
 
-	pContext->PSSetShaderResources(1, 1, &shadowMap_.shaderResourceView);
+	if (auto target = static_cast<Dx11RenderTarget*>(directX11_->GetRenderTarget()))
+	{
+		auto tex = target->GetShaderResourceView(RenderTarget::List::SHADOW);
+		pContext->PSSetShaderResources(1, 1, &tex);
+		auto samp = target->GetShadowSampler();
+		pContext->PSSetSamplers(1, 1, &samp);
+	}
+
 	// テクスチャサンプラステートのセット
 	pContext->PSSetSamplers(0, 1, &sampler);
 	pContext->PSSetSamplers(2, 1, &sampler);
-	pContext->PSSetSamplers(1, 1, &shadowMap_.sampler);
 
 	int modelNum = (int)obj->GetModelNum();
 
@@ -576,7 +598,7 @@ void DirectX11Wrapper::Draw(MeshRenderer* obj, const Shader* shader)
 	}
 }
 
-void DirectX11Wrapper::Draw(const Particle* obj, const Shader* shader)
+void Dx11Wrapper::Draw(const Particle* obj, const Shader* shader)
 {
 	const auto& pContext = directX11_->GetDeviceContext();
 	if (!pContext) { return; }
@@ -617,7 +639,7 @@ void DirectX11Wrapper::Draw(const Particle* obj, const Shader* shader)
 	pContext->Draw(1, 0);
 }
 
-void DirectX11Wrapper::Draw(const ColliderRenderer* obj)
+void Dx11Wrapper::Draw(const ColliderRenderer* obj)
 {
 	const auto& dev = directX11_->GetDeviceContext();
 	if (!dev) { return; }
@@ -699,7 +721,7 @@ void DirectX11Wrapper::Draw(const ColliderRenderer* obj)
 	dev->Draw(obj->GetVertexNum(), 0);
 }
 
-void DirectX11Wrapper::BeginDrawCanvasRenderer(void)
+void Dx11Wrapper::BeginDrawCanvasRenderer(void)
 {
 	const auto& pContext = directX11_->GetDeviceContext();
 	if (!pContext) { return; }
@@ -724,11 +746,11 @@ void DirectX11Wrapper::BeginDrawCanvasRenderer(void)
 	pContext->GSSetShader(NULL, NULL, 0);
 }
 
-void DirectX11Wrapper::EndDrawCanvasRenderer(void)
+void Dx11Wrapper::EndDrawCanvasRenderer(void)
 {
 }
 
-void DirectX11Wrapper::BeginDrawObjectRenderer(void)
+void Dx11Wrapper::BeginDrawObjectRenderer(void)
 {
 	const auto& pContext = directX11_->GetDeviceContext();
 	if (!pContext) { return; }
@@ -751,11 +773,12 @@ void DirectX11Wrapper::BeginDrawObjectRenderer(void)
 	pContext->UpdateSubresource(constant, 0, NULL, &sg, 0, 0);
 }
 
-void DirectX11Wrapper::EndDrawObjectRenderer(void)
+void Dx11Wrapper::EndDrawObjectRenderer(void)
 {
+
 }
 
-D3D11_PRIMITIVE_TOPOLOGY DirectX11Wrapper::SelectPrimitiveType(PRIMITIVE::TYPE type)
+D3D11_PRIMITIVE_TOPOLOGY Dx11Wrapper::SelectPrimitiveType(PRIMITIVE::TYPE type)
 {
 	switch (type)
 	{
@@ -775,7 +798,7 @@ D3D11_PRIMITIVE_TOPOLOGY DirectX11Wrapper::SelectPrimitiveType(PRIMITIVE::TYPE t
 	return D3D11_PRIMITIVE_TOPOLOGY_POINTLIST;
 }
 
-HRESULT DirectX11Wrapper::LoadTexture(string fileName, int texNum, int modelNum)
+HRESULT Dx11Wrapper::LoadTexture(string fileName, int texNum, int modelNum)
 {
 	if (modelNum < 0)
 	{
@@ -832,7 +855,7 @@ HRESULT DirectX11Wrapper::LoadTexture(string fileName, int texNum, int modelNum)
 	return S_OK;
 }
 
-void DirectX11Wrapper::ReleaseTexture(int texNum, int modelNum)
+void Dx11Wrapper::ReleaseTexture(int texNum, int modelNum)
 {
 	SetTexture(0, -1);
 	SetTexture(1, -1);
@@ -845,7 +868,7 @@ void DirectX11Wrapper::ReleaseTexture(int texNum, int modelNum)
 
 	if (modelNum >= 0)
 	{
-		for (int i = (int)tex.size() - 1; i >= 0; --i)
+		for (int i = tex.size() - 1; i >= 0; --i)
 		{
 			ReleasePtr(tex[i].data);
 
@@ -890,7 +913,7 @@ void DirectX11Wrapper::ReleaseTexture(int texNum, int modelNum)
 	}
 }
 
-HRESULT DirectX11Wrapper::LoadModel(string fileName, int modelNum)
+HRESULT Dx11Wrapper::LoadModel(string fileName, int modelNum)
 {
 	LoadM Loader;
 	MODEL tempModel;
@@ -946,6 +969,7 @@ HRESULT DirectX11Wrapper::LoadModel(string fileName, int modelNum)
 		int texMax = static_cast<int>(MaterialType::MAX);
 		for (int j = 0;j < texMax;++j)
 		{
+			mesh.material.texture[j] = 0;
 			string tempName = mesh.material.textureName[j];
 			if (tempName != "")
 			{
@@ -963,16 +987,21 @@ HRESULT DirectX11Wrapper::LoadModel(string fileName, int modelNum)
 				mesh.material.textureName[j] = tempName.c_str();
 				directory += texName;
 
-				LoadTexture(directory, texNum, modelNum);	
-				mesh.material.texture[j] = texNum;
-				texNum++;
+				if (SUCCEEDED(LoadTexture(directory, texNum, modelNum)))
+				{
+					mesh.material.texture[j] = texNum;
+					texNum++;
+				}
 			}
 			else
 			{
-				string temp = Systems::Instance()->GetTexture()->GetWhiteTextureFileName();
-				LoadTexture(temp, texNum, modelNum);
-				mesh.material.texture[j] = texNum;
-				texNum++;
+				if (j == 0)
+				{
+					string temp = Systems::Instance()->GetTexture()->GetWhiteTextureFileName();
+					LoadTexture(temp, texNum, modelNum);
+					mesh.material.texture[j] = texNum;
+					texNum++;
+				}
 			}
 		}
 	}
@@ -985,7 +1014,7 @@ HRESULT DirectX11Wrapper::LoadModel(string fileName, int modelNum)
 	return S_OK; 
 }
 
-HRESULT DirectX11Wrapper::LoadModelAnimation(string fileName, int parent)
+HRESULT Dx11Wrapper::LoadModelAnimation(string fileName, int parent)
 {
 	LoadM	Loader;
 	MODEL	tempModel;
@@ -1020,10 +1049,14 @@ HRESULT DirectX11Wrapper::LoadModelAnimation(string fileName, int parent)
 	return E_FAIL;
 }
 
-void DirectX11Wrapper::ReleaseModel(int modelNum)
+void Dx11Wrapper::ReleaseModel(int modelNum)
 {
 	for (auto& mesh : model_[modelNum].mesh)
 	{
+		mesh.material.texture[0] = 0;
+		mesh.material.texture[1] = 0;
+		mesh.material.textureName[0] = "";
+		mesh.material.textureName[1] = "";
 		ReleaseBuffer(mesh.vertexBuffer, Wrapper::FVF::VERTEX_3D);
 		ReleaseBuffer(mesh.indexBuffer, Wrapper::FVF::INDEX);
 	}
@@ -1047,7 +1080,7 @@ void DirectX11Wrapper::ReleaseModel(int modelNum)
 
 }
 
-MATRIX DirectX11Wrapper::CreateViewMatrix(VECTOR3 position, VECTOR3 at, VECTOR3 up)
+MATRIX Dx11Wrapper::CreateViewMatrix(VECTOR3 position, VECTOR3 at, VECTOR3 up)
 {
 	XMMATRIX xTemp = XMMatrixLookAtLH(XM(position), XM(at), XM(up));
 
@@ -1057,14 +1090,14 @@ MATRIX DirectX11Wrapper::CreateViewMatrix(VECTOR3 position, VECTOR3 at, VECTOR3 
 	return temp;
 }
 
-MATRIX DirectX11Wrapper::CreateProjectionMatrix(int fov, float aspect, float cnear, float cfar)
+MATRIX Dx11Wrapper::CreateProjectionMatrix(int fov, float aspect, float cnear, float cfar)
 {
 	XMMATRIX temp;
 	temp = XMMatrixPerspectiveFovLH(XMConvertToRadians((float)fov), aspect, cnear, cfar);
 	return V(temp);
 }
 
-ID3DBlob* DirectX11Wrapper::CompiledShader(string fileName, string method, string version)
+ID3DBlob* Dx11Wrapper::CompiledShader(string fileName, string method, string version)
 {
 	//hlslファイル読み込み ブロブ作成　ブロブとはシェーダーの塊みたいなもの。XXシェーダーとして特徴を持たない。後で各種シェーダーに成り得る。
 	ID3DBlob* pCompiledShader	= nullptr;
@@ -1084,7 +1117,7 @@ ID3DBlob* DirectX11Wrapper::CompiledShader(string fileName, string method, strin
 	return pCompiledShader;
 }
 
-long DirectX11Wrapper::ReadShader(string csoName, BYTE** byte)
+long Dx11Wrapper::ReadShader(string csoName, BYTE** byte)
 {
 	FILE* fp;
 	int ret = fopen_s(&fp, csoName.c_str(), "rb");
@@ -1100,7 +1133,7 @@ long DirectX11Wrapper::ReadShader(string csoName, BYTE** byte)
 	return size;
 }
 
-UINT DirectX11Wrapper::CreateVertexShader(string fileName, string method, string version, void* t, UINT elemNum)
+UINT Dx11Wrapper::CreateVertexShader(string fileName, string method, string version, void* t, UINT elemNum)
 {
 	if (version != "vs_5_0") { return 0; }
 
@@ -1127,7 +1160,7 @@ UINT DirectX11Wrapper::CreateVertexShader(string fileName, string method, string
 	return (UINT)vertexShader_.size() - 1;
 }
 
-UINT DirectX11Wrapper::CreatePixelShader(string fileName, string method, string version)
+UINT Dx11Wrapper::CreatePixelShader(string fileName, string method, string version)
 {
 	if (version != "ps_5_0") { return 0; }
 
@@ -1154,6 +1187,7 @@ UINT DirectX11Wrapper::CreatePixelShader(string fileName, string method, string 
 	SamDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
 	SamDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
 	SamDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+
 	hr = pDevice->CreateSamplerState(&SamDesc, &tempPixelShader.sampler);
 	if (directX11_->GetWindow()->ErrorMessage("テクスチャサンプラの作成に失敗", "エラー", hr)) { return R_ERROR; }
 
@@ -1162,7 +1196,7 @@ UINT DirectX11Wrapper::CreatePixelShader(string fileName, string method, string 
 	return (UINT)pixelShader_.size() - 1;
 }
 
-UINT DirectX11Wrapper::CreateGeometryShader(string fileName, string method, string version)
+UINT Dx11Wrapper::CreateGeometryShader(string fileName, string method, string version)
 {
 	const auto& pDevice = directX11_->GetDevice();
 	HRESULT hr;
@@ -1183,7 +1217,7 @@ UINT DirectX11Wrapper::CreateGeometryShader(string fileName, string method, stri
 	return (UINT)geometryShader_.size() - 1;
 }
 
-UINT DirectX11Wrapper::CreateComputeShader(string fileName, string method, string version, const void* v, UINT size, UINT num)
+UINT Dx11Wrapper::CreateComputeShader(string fileName, string method, string version, const void* v, UINT size, UINT num)
 {
 	const auto& dev = directX11_->GetDevice();
 	HRESULT hr;
@@ -1258,7 +1292,7 @@ UINT DirectX11Wrapper::CreateComputeShader(string fileName, string method, strin
 	return (UINT)computeShader_.size() - 1;
 }
 
-UINT DirectX11Wrapper::CreateConstantBuffer(UINT size)
+UINT Dx11Wrapper::CreateConstantBuffer(UINT size)
 {
 	const auto& pDevice = directX11_->GetDevice();
 
@@ -1278,210 +1312,42 @@ UINT DirectX11Wrapper::CreateConstantBuffer(UINT size)
 	return (UINT)constantBuffer_.size() - 1;
 }
 
-HRESULT DirectX11Wrapper::CreateShadowMap(void)
+void Dx11Wrapper::DrawQuad(VECTOR2 position, VECTOR2 size)
 {
-	const auto& dev = directX11_->GetDevice();
+	BeginDrawCanvasRenderer();
 
-	ID3D11Texture2D* tex2D;
-	// 深度テクスチャの生成.
-	D3D11_TEXTURE2D_DESC texDesc;
-	ZeroMemory(&texDesc, sizeof(texDesc));
-	texDesc.Width				= Graphics::WIDTH  * 4;
-	texDesc.Height				= Graphics::HEIGHT * 4;
-	texDesc.Format				= DXGI_FORMAT_R32_TYPELESS;
-	texDesc.MipLevels			= 1;
-	texDesc.ArraySize			= 1;
-	texDesc.SampleDesc.Count	= 1;
-	texDesc.SampleDesc.Quality  = 0;
-	texDesc.Usage				= D3D11_USAGE_DEFAULT;
-	texDesc.BindFlags			= D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
-	texDesc.CPUAccessFlags		= 0;
-	texDesc.MiscFlags			= 0;
-
-	HRESULT hr =  dev->CreateTexture2D(&texDesc, nullptr, &tex2D);
-	if (FAILED(hr)) { return hr; }
-
-	// 深度ステンシルビューではαが使えず、ビルボードの影が作れない
-	// レンダーターゲットビューの生成.
-	D3D11_RENDER_TARGET_VIEW_DESC viewDesc;
-	ZeroMemory(&viewDesc, sizeof(viewDesc));
-	viewDesc.Format				= DXGI_FORMAT_R32_FLOAT;
-	viewDesc.ViewDimension		= D3D11_RTV_DIMENSION_TEXTURE2D;
-	viewDesc.Texture2D.MipSlice = 0;
-
-	hr = dev->CreateRenderTargetView(tex2D, &viewDesc, &shadowMap_.renderTargetView);
-	if (FAILED(hr)) { return hr; }
-
-	// シャドウマップシェーダリソースビューの生成.
-	D3D11_SHADER_RESOURCE_VIEW_DESC rvDesc;
-	ZeroMemory(&rvDesc, sizeof(rvDesc));
-	rvDesc.Format						= DXGI_FORMAT_R32_FLOAT;
-	rvDesc.ViewDimension				= D3D11_SRV_DIMENSION_TEXTURE2D;
-	rvDesc.Texture2D.MipLevels			= 1;
-	rvDesc.Texture2D.MostDetailedMip	= 0;
-
-	hr = dev->CreateShaderResourceView(tex2D, &rvDesc, &shadowMap_.shaderResourceView);
-	if (FAILED(hr)) { return hr; }
-
-	ReleasePtr(tex2D);
-
-	// 専用サンプラーを作る
-	// これでやらないと描画が重い
-	D3D11_SAMPLER_DESC sd;
-	ZeroMemory(&sd, sizeof(sd));
-	sd.AddressU			= D3D11_TEXTURE_ADDRESS_BORDER;
-	sd.AddressV			= D3D11_TEXTURE_ADDRESS_BORDER;
-	sd.AddressW			= D3D11_TEXTURE_ADDRESS_BORDER;
-	sd.BorderColor[0]	= 1.0f;
-	sd.BorderColor[1]	= 1.0f;
-	sd.BorderColor[2]	= 1.0f;
-	sd.BorderColor[3]	= 1.0f;
-	sd.ComparisonFunc	= D3D11_COMPARISON_LESS_EQUAL;
-	sd.Filter			= D3D11_FILTER_COMPARISON_MIN_MAG_MIP_LINEAR;
-	sd.MaxAnisotropy	= 1;
-	sd.MipLODBias		= 0;
-	sd.MinLOD			= -FLT_MAX;
-	sd.MaxLOD			= +FLT_MAX;
-
-	// サンプラーステートを生成.
-	hr = dev->CreateSamplerState(&sd, &shadowMap_.sampler);
-
-	// 元のビューポート
-	shadowMap_.defViewPort.Width	= Graphics::WIDTH;
-	shadowMap_.defViewPort.Height	= Graphics::HEIGHT;
-	shadowMap_.defViewPort.MinDepth = 0.0f;
-	shadowMap_.defViewPort.MaxDepth = 1.0f;
-	shadowMap_.defViewPort.TopLeftX = 0;
-	shadowMap_.defViewPort.TopLeftY = 0;
-
-	// シャドウマップ用ビューポート
-	shadowMap_.viewPort.Width	 = (float)texDesc.Width;
-	shadowMap_.viewPort.Height	 = (float)texDesc.Height;
-	shadowMap_.viewPort.MinDepth = 0.0f;
-	shadowMap_.viewPort.MaxDepth = 1.0f;
-	shadowMap_.viewPort.TopLeftX = 0;
-	shadowMap_.viewPort.TopLeftY = 0;
-
-	const auto& context = directX11_->GetDeviceContext();
-	context->OMGetRenderTargets(1, &shadowMap_.defRenderTargetView, &shadowMap_.defDepthStencilView);
-
-	return S_OK;
-}
-
-void DirectX11Wrapper::BeginDrawShadow(void)
-{
-	const auto& dev = directX11_->GetDeviceContext();
-
-	dev->OMSetRenderTargets(1, &shadowMap_.renderTargetView, 0);
-	// クリア処理	
-	dev->ClearRenderTargetView(shadowMap_.renderTargetView, (float*)COLOR(0, 0, 0, 0));
-	dev->RSSetViewports(1, &shadowMap_.viewPort);
-}
-
-void DirectX11Wrapper::EndDrawShadow(void)
-{
-	const auto& dev = directX11_->GetDeviceContext();
-	dev->RSSetViewports(1, &shadowMap_.defViewPort);
-	dev->OMSetRenderTargets(1, &shadowMap_.defRenderTargetView, shadowMap_.defDepthStencilView);
-}
-
-void DirectX11Wrapper::ReleaseShadowMap(void)
-{
-	auto& s = shadowMap_;
-	ReleasePtr(s.defDepthStencilView);
-	ReleasePtr(s.defRenderTargetView);
-	ReleasePtr(s.renderTargetView);
-	ReleasePtr(s.shaderResourceView);
-	ReleasePtr(s.sampler);
-}
-
-void DirectX11Wrapper::DrawScreenshot(CanvasRenderer& sprite)
-{
 	const auto& pContext = directX11_->GetDeviceContext();
 	if (!pContext) { return; }
 
-	//頂点インプットレイアウトをセット
-	pContext->IASetInputLayout(vertexShader_[0].layout);
-
-	pContext->RSSetState(rasterizerState_);
-
-	// アルファブレンドのセット
-	float blendFactor[] = { 0.0f, 0.0f, 0.0f, 0.0f };
-	pContext->OMSetBlendState(blendState_[(int)ALFA_BREND::DEF], blendFactor, 0xffffffff);
-
-	// 深度ステンシルの設定
-	pContext->OMSetDepthStencilState(depthState_, 1);
-
-	// スクリーン座標の設定
-	const auto& constant = constantBuffer_[shader_[0].constantBuffer[0]];
-	VECTOR4 screen = VECTOR4((float)Graphics::WIDTH, (float)Graphics::HEIGHT, 0, 0);
-	pContext->UpdateSubresource(constant, 0, NULL, &screen, 0, 0);
-	pContext->VSSetConstantBuffers(0, 1, &constant);
-
-
-	const auto& constant1 = constantBuffer_[shader_[0].constantBuffer[1]];
-	SHADER_UI c(sprite);
-	pContext->UpdateSubresource(constant1, 0, NULL, &c, 0, 0);
-	pContext->VSSetConstantBuffers(1, 1, &constant1);
-
+	int pixelNum = 0;
 	const auto& vertex = vertexShader_[shader_[0].vertexShader[0]].shader;
-
-	const auto& pixel = pixelShader_[shader_[0].pixelShader[0]].shader;
-	const auto& sampler = pixelShader_[shader_[0].pixelShader[0]].sampler;
-
-	//使用するシェーダーの設定
-	pContext->PSSetShader(pixel, NULL, 0);
-	pContext->VSSetShader(vertex, NULL, 0);
+	const auto& pixel = pixelShader_[shader_[0].pixelShader[pixelNum]].shader;
+	const auto& sampler = pixelShader_[shader_[0].pixelShader[pixelNum]].sampler;
 
 	// テクスチャサンプラの設定
 	pContext->PSSetSamplers(0, 1, &sampler);
-	if (sprite.texNum == (int)Texture::Base::UNOWN)
-	{
-		pContext->PSSetShaderResources(0, 1, &screenShot_.texture);
-	}
-	else
-	{
-		SetTexture(0, sprite.texNum);
-	}
+
+	const auto& constant = constantBuffer_[shader_[0].constantBuffer[1]];
+	SHADER_UI c;
+	c.position = VECTOR4(position.x, position.y, 1, 1);
+	c.sizeSplit.x = size.x;
+	c.sizeSplit.y = size.y;
+
+	pContext->UpdateSubresource(constant, 0, NULL, &c, 0, 0);
+	pContext->VSSetConstantBuffers(1, 1, &constant);
+
+	//使用するシェーダーの設定
+	pContext->VSSetShader(vertex, NULL, 0);
+	pContext->PSSetShader(pixel, NULL, 0);
 
 	// 頂点バッファをセット
-	const auto& vb = vertexBuffer_[sprite.GetBuffer()];
+	const auto& vb = vertexBuffer_[0];
 	pContext->IASetVertexBuffers(0, 1, &vb.buffer, &vb.stride, &vb.offset);
 
 	// プリミティブトポロジーを設定
-	pContext->IASetPrimitiveTopology(SelectPrimitiveType(sprite.GetPrimitiveType()));
+	pContext->IASetPrimitiveTopology(SelectPrimitiveType(Wrapper::PRIMITIVE::TYPE::TRIANGLE_STRIP));
 	// 描画
-	pContext->Draw(sprite.GetPrimitiveNum() * 2, 0);
-}
+	pContext->Draw(2 * 2, 0);
 
-void DirectX11Wrapper::CreateScreenshot(string& filename)
-{
-	if (screenShot_.texture) { ReleaseScreenshot(); }
-
-	const auto& dev = directX11_->GetDevice();
-
-	D3D11_TEXTURE2D_DESC td;
-	screenShot_.pBuffer->GetDesc(&td);
-	td.SampleDesc.Count   = 1;
-	td.SampleDesc.Quality = 0;
-	td.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
-	ID3D11Texture2D* tempTexture;
-	dev->CreateTexture2D(&td, NULL, &tempTexture);
-
-	const auto& pContext = directX11_->GetDeviceContext();
-	// マルチサンプリングをしている場合
-	pContext->ResolveSubresource(tempTexture, 0, screenShot_.pBuffer, 0, DXGI_FORMAT_R8G8B8A8_UNORM);
-	// マルチサンプリングを使用していない場合
-//	pContext->CopyResource(tempTexture, screenShot_.pBuffer);
-	const auto temp = D3DX11SaveTextureToFile(pContext, tempTexture, D3DX11_IFF_BMP, filename.c_str());
-
-	// 吐き出したテクスチャを読み込み
-	std::wstring name(filename.begin(), filename.end());
-	ID3D11Resource* descOriginal;
-	DirectX::CreateWICTextureFromFile(directX11_->GetDevice(), name.c_str(), &descOriginal, &screenShot_.texture);
-}
-
-void DirectX11Wrapper::ReleaseScreenshot(void)
-{
-	ReleasePtr(screenShot_.texture);
+	EndDrawCanvasRenderer();
 }

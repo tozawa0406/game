@@ -16,6 +16,9 @@
 #include "Shader/Default.h"
 #include "Shader/ZTexture.h"
 
+#include "../../Graphics/DirectX11/DirectX11.h"
+#include "../../Graphics/DirectX11/Dx11RenderTarget.h"
+
 void ObjectRendererManager::Add(ObjectRenderer* obj)
 {
 	BaseManager::Add(obj);
@@ -60,8 +63,11 @@ void ObjectRendererManager::Sort(void)
 
 void ObjectRendererManager::FastDraw(void)
 {
-	const auto& dev = systems_->GetRenderer()->GetWrapper();
+	const auto& directX11	= static_cast<DirectX11*>(systems_->GetRenderer());
+	const auto& target		= directX11->GetRenderTarget();
+	const auto& dev			= systems_->GetRenderer()->GetWrapper();
 
+	target->BeginMultiRendererTarget();
 	dev->BeginDrawObjectRenderer();
 
 	for (auto& obj : obj_)
@@ -97,8 +103,10 @@ void ObjectRendererManager::FastDraw(void)
 }
 
 void ObjectRendererManager::Draw(void)
-{
-	const auto& dev = systems_->GetRenderer()->GetWrapper();
+{	
+	const auto& directX11	= static_cast<DirectX11*>(systems_->GetRenderer());
+	const auto& target		= directX11->GetRenderTarget();
+	const auto& dev			= systems_->GetRenderer()->GetWrapper();
 
 	this->Sort();
 	dev->BeginDrawObjectRenderer();
@@ -133,6 +141,7 @@ void ObjectRendererManager::Draw(void)
 	}
 
 	dev->EndDrawObjectRenderer();
+	target->EndMultiRendererTarget();
 }
 
 void ObjectRendererManager::DrawShadow(void)

@@ -95,8 +95,8 @@ void GuiManager::GuiUpdate(void)
 
 	draw_ = false;
 	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-	ImVec2 pos = { 30, 30 };
-	ImGui::SetNextWindowPos(pos);
+	ImGui::SetNextWindowPos(ImVec2(30, 30));
+	ImGui::SetNextWindowSize(ImVec2(100, 200));
 
 	if (Windows::GRAPHICS_TYPE == Graphics::Type::DirectX9)
 	{
@@ -112,6 +112,33 @@ void GuiManager::GuiUpdate(void)
 	{
 		return;
 	}
+
+	if (debug_)
+	{
+		if (const auto& systems = debug_->GetSystems())
+		{
+			if (const auto& window = systems->GetWindow())
+			{
+				if (const auto& graphics = window->GetGraphics())
+				{
+					if (const auto& target = graphics->GetRenderTarget())
+					{
+						if (ImGui::Button("def")) { target->SetDebugDraw(RenderTarget::List::MAX); }
+						ImGui::SameLine();
+						if (ImGui::Button("clr")) { target->SetDebugDraw(RenderTarget::List::COLOR); }
+						ImGui::SameLine();
+						if (ImGui::Button("pos")) { target->SetDebugDraw(RenderTarget::List::POSITION); }
+						ImGui::SameLine();
+						if (ImGui::Button("nrm")) { target->SetDebugDraw(RenderTarget::List::NORMAL); }
+						ImGui::SameLine();
+						if (ImGui::Button("shd")) { target->SetDebugDraw(RenderTarget::List::SHADOW); }
+					}
+				}
+			}
+		}
+	}
+
+
 
 	if (ImGui::BeginMenu("Menu"))
 	{
@@ -318,6 +345,30 @@ void GuiManager::Draw(void)
 #ifdef _SELF_DEBUG
 	if (draw_) { return; }
 	draw_ = true;
+
+	if (debug_)
+	{
+		if (const auto& systems = debug_->GetSystems())
+		{
+			if (const auto& window = systems->GetWindow())
+			{
+				if (const auto& graphics = window->GetGraphics())
+				{
+					if (const auto& target = graphics->GetRenderTarget())
+					{
+						VECTOR2 size = VECTOR2(RenderTarget::SIZE_X, RenderTarget::SIZE_Y);
+						VECTOR2 pos  = VECTOR2(Half(size.x) + 450, Half(size.y) + 50);
+
+						target->Draw(RenderTarget::List::COLOR	 , VECTOR2(pos.x + (size.x * 0), pos.y + (size.y * 0)), size);
+						target->Draw(RenderTarget::List::POSITION, VECTOR2(pos.x + (size.x * 1), pos.y + (size.y * 0)), size);
+						target->Draw(RenderTarget::List::NORMAL	 , VECTOR2(pos.x + (size.x * 0), pos.y + (size.y * 1)), size);
+						target->Draw(RenderTarget::List::SHADOW  , VECTOR2(pos.x + (size.x * 1), pos.y + (size.y * 1)), size);
+					}
+				}
+			}
+		}
+	}
+
 	if (Windows::GRAPHICS_TYPE == Graphics::Type::DirectX9 ||
 		Windows::GRAPHICS_TYPE == Graphics::Type::DirectX11)
 	{

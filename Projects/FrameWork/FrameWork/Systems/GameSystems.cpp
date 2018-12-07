@@ -75,8 +75,6 @@ void Systems::Draw(void)
 	const auto& objRenderer = (ObjectRendererManager*)manager_[(int)SystemsNum::OBJECTRENDERER];
 	objRenderer->DrawShadow();
 
-	window_->GetGraphics()->ClearRenderer();
-
 	// ƒQ[ƒ€‚Ì•`‰æ
 	const auto& scene = (SceneManager*)manager_[(int)SystemsNum::SCENE];
 	scene->Draw();

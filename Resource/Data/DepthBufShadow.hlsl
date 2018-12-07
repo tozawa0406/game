@@ -32,6 +32,15 @@ struct OUT_VS
 	float2 texcoord : TEXCOORD0;
 	float4 ZCalcTex : TEXCOORD1;
 	float4 color    : COLOR0;
+	float4 worldPosition : TEXCOORD2;
+	float4 worldNormal   : TEXCOORD3;
+};
+
+struct OUT_PS
+{
+	float4 target0 : SV_Target0;
+	float4 target1 : SV_Target1;
+	float4 target2 : SV_Target2;
 };
 
 //バーテックスシェーダー
@@ -40,6 +49,7 @@ OUT_VS VS_DepthBufShadow(IN_VS In)
 	OUT_VS Out = (OUT_VS)0;
 
 	Out.position = mul(In.position , transpose(World));
+	Out.worldPosition = Out.position;
 	Out.position = mul(Out.position, transpose(View));
 	Out.position = mul(Out.position, transpose(Proj));
 
@@ -54,7 +64,7 @@ OUT_VS VS_DepthBufShadow(IN_VS In)
 	// 濃くなりすぎないように調節しています
 	matrix mtx = transpose(World);
 	mtx._41_42_43 = 0;
-	float3 N = normalize(mul(In.normal, mtx));
+	float3 N = normalize(mul(In.normal, mtx).xyz);
 	float3 lightDirect = normalize(float3(LightView._31, LightView._32, LightView._33));
 	float k = max(dot(N, -lightDirect), 0.0f);
 	Out.color = Color * (0.3 + k);
@@ -63,12 +73,15 @@ OUT_VS VS_DepthBufShadow(IN_VS In)
 	Out.color = Color;
 
 	Out.texcoord = In.texcoord;
+	Out.worldNormal.xyz = mul(In.normal.xyz, (float3x3)transpose(World));
+	Out.worldNormal = normalize(Out.worldNormal);
+	Out.worldNormal.w = 1;
 
     return Out;
 }
 
 //ピクセルシェーダー
-float4 PS_DepthBufShadow(OUT_VS In) : SV_Target
+OUT_PS PS_DepthBufShadow(OUT_VS In)
 {
 	float4 Out = In.color * DiffuseTexture.Sample(DiffuseSampler, In.texcoord);
 
@@ -92,5 +105,9 @@ float4 PS_DepthBufShadow(OUT_VS In) : SV_Target
 		Out.rgb *= 0.5f;
 	}
 
-	return Out;
+	OUT_PS outPS;
+	outPS.target0 = Out;
+	outPS.target1 = In.worldPosition;
+	outPS.target2 = In.worldNormal;
+	return outPS;
 }

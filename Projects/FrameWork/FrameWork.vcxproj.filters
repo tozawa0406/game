@@ -30,9 +30,6 @@
     <Filter Include="FrameWork\Graphics">
       <UniqueIdentifier>{181eba20-8422-4a6a-b71a-48c0cb6cd305}</UniqueIdentifier>
     </Filter>
-    <Filter Include="FrameWork\Graphics\DirectX11">
-      <UniqueIdentifier>{77cb2143-4274-4f17-919b-309607a5837e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="FrameWork\Systems\Renderer">
       <UniqueIdentifier>{a9ba5ff8-ec94-4f91-9793-31fc806d3b32}</UniqueIdentifier>
     </Filter>
@@ -66,6 +63,9 @@
     <Filter Include="FrameWork\Systems\Collider\Collider3D">
       <UniqueIdentifier>{18745037-80f7-4a32-978c-3f89ac70dfbc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FrameWork\Graphics\DirectX11">
+      <UniqueIdentifier>{c47a17c8-2f7f-410c-b87a-eb12d014a76a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FrameWork\Define\Color.h">
@@ -79,15 +79,6 @@
     </ClInclude>
     <ClInclude Include="FrameWork\Define\Vector.h">
       <Filter>FrameWork\Define</Filter>
-    </ClInclude>
-    <ClInclude Include="FrameWork\Graphics\DirectX11\DirectX11.h">
-      <Filter>FrameWork\Graphics\DirectX11</Filter>
-    </ClInclude>
-    <ClInclude Include="FrameWork\Graphics\DirectX11\DirectX11Wrapper.h">
-      <Filter>FrameWork\Graphics\DirectX11</Filter>
-    </ClInclude>
-    <ClInclude Include="FrameWork\Graphics\DirectX11\WICTextureLoader.h">
-      <Filter>FrameWork\Graphics\DirectX11</Filter>
     </ClInclude>
     <ClInclude Include="FrameWork\Graphics\Graphics.h">
       <Filter>FrameWork\Graphics</Filter>
@@ -230,9 +221,6 @@
     <ClInclude Include="FrameWork\Systems\Score.h">
       <Filter>FrameWork\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="FrameWork\Systems\Screenshot.h">
-      <Filter>FrameWork\Systems</Filter>
-    </ClInclude>
     <ClInclude Include="FrameWork\Windows\Dialog.h">
       <Filter>FrameWork\Window</Filter>
     </ClInclude>
@@ -308,6 +296,27 @@
     <ClInclude Include="FrameWork\Systems\Collider\Collider3D\Collider3DPlane.h">
       <Filter>FrameWork\Systems\Collider\Collider3D</Filter>
     </ClInclude>
+    <ClInclude Include="FrameWork\Graphics\RenderTarget.h">
+      <Filter>FrameWork\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Graphics\DirectX11\DirectX11.h">
+      <Filter>FrameWork\Graphics\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Graphics\DirectX11\Dx11Include.h">
+      <Filter>FrameWork\Graphics\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Graphics\DirectX11\Dx11RenderTarget.h">
+      <Filter>FrameWork\Graphics\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Graphics\DirectX11\Dx11Wrapper.h">
+      <Filter>FrameWork\Graphics\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Graphics\DirectX11\WICTextureLoader.h">
+      <Filter>FrameWork\Graphics\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Screenshot.h">
+      <Filter>FrameWork\Systems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FrameWork\Define\Matrix.cpp">
@@ -315,15 +324,6 @@
     </ClCompile>
     <ClCompile Include="FrameWork\Define\Vector.cpp">
       <Filter>FrameWork\Define</Filter>
-    </ClCompile>
-    <ClCompile Include="FrameWork\Graphics\DirectX11\DirectX11.cpp">
-      <Filter>FrameWork\Graphics\DirectX11</Filter>
-    </ClCompile>
-    <ClCompile Include="FrameWork\Graphics\DirectX11\DirectX11Wrapper.cpp">
-      <Filter>FrameWork\Graphics\DirectX11</Filter>
-    </ClCompile>
-    <ClCompile Include="FrameWork\Graphics\DirectX11\WICTextureLoader.cpp">
-      <Filter>FrameWork\Graphics\DirectX11</Filter>
     </ClCompile>
     <ClCompile Include="FrameWork\Object\Object.cpp">
       <Filter>FrameWork\Object</Filter>
@@ -454,9 +454,6 @@
     <ClCompile Include="FrameWork\Systems\Score.cpp">
       <Filter>FrameWork\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="FrameWork\Systems\Screenshot.cpp">
-      <Filter>FrameWork\Systems</Filter>
-    </ClCompile>
     <ClCompile Include="FrameWork\Windows\Dialog.cpp">
       <Filter>FrameWork\Window</Filter>
     </ClCompile>
@@ -510,6 +507,21 @@
     </ClCompile>
     <ClCompile Include="FrameWork\Systems\Collider\Collider3D\Collider3DPlane.cpp">
       <Filter>FrameWork\Systems\Collider\Collider3D</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Graphics\DirectX11\DirectX11.cpp">
+      <Filter>FrameWork\Graphics\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Graphics\DirectX11\Dx11RenderTarget.cpp">
+      <Filter>FrameWork\Graphics\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Graphics\DirectX11\Dx11Wrapper.cpp">
+      <Filter>FrameWork\Graphics\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Graphics\DirectX11\WICTextureLoader.cpp">
+      <Filter>FrameWork\Graphics\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Screenshot.cpp">
+      <Filter>FrameWork\Systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -11,7 +11,7 @@
 #include "../../Light.h"
 #include "../../../../../Sources/Scene/GameScene.h"
 
-#include "../../../Graphics/DirectX11/DirectX11Wrapper.h"
+#include "../../../Graphics/DirectX11/Dx11Wrapper.h"
 #include "Default.h"
 
 ZTexture::ZTexture(ShaderManager* manager) : Shader(manager, shaderDirectoryName + FILENAME)
@@ -20,7 +20,6 @@ ZTexture::ZTexture(ShaderManager* manager) : Shader(manager, shaderDirectoryName
 
 ZTexture::~ZTexture(void)
 {
-	manager_->GetSystems()->GetRenderer()->GetWrapper()->ReleaseShadowMap();
 }
 
 HRESULT ZTexture::Init(void)
@@ -48,7 +47,7 @@ HRESULT ZTexture::Init(void)
 
 		if (FAILED(Shader::Init())) { return E_FAIL; }
 
-		const auto& dx11 = (DirectX11Wrapper*)dev_;
+		const auto& dx11 = (Dx11Wrapper*)dev_;
 		constantBuffer_.emplace_back(dx11->CreateConstantBuffer(sizeof(CONSTANT)));
 	}
 	else
@@ -56,12 +55,13 @@ HRESULT ZTexture::Init(void)
 		if (FAILED(Shader::Init())) { return E_FAIL; }
 	}
 
-	return manager_->GetSystems()->GetRenderer()->GetWrapper()->CreateShadowMap();
+	return S_OK;
 }
 
 HRESULT ZTexture::BeginDraw(void)
 {
-	const auto& dev = manager_->GetSystems()->GetRenderer()->GetWrapper();
+	const auto& graphics = manager_->GetSystems()->GetRenderer();
+	const auto& dev = graphics->GetWrapper();
 
 	const auto& camera = manager_->GetSystems()->GetSceneManager()->GetCameraManager()->GetCamera();
 	VECTOR3 at = camera->GetAt();
@@ -82,7 +82,7 @@ HRESULT ZTexture::BeginDraw(void)
 			}
 		}
 	}
-	dev->BeginDrawShadow();
+	graphics->GetRenderTarget()->BeginDrawShadow();
 
 	return S_OK;
 }
@@ -98,7 +98,7 @@ HRESULT ZTexture::SetParam(const MATRIX& mtx, const COLOR& color, VECTOR4 texcoo
 	}
 	else if (Windows::GRAPHICS_TYPE == Graphics::Type::DirectX11)
 	{
-		const auto& dx11 = (DirectX11Wrapper*)dev;
+		const auto& dx11 = (Dx11Wrapper*)dev;
 
 		CONSTANT cbuf;
 		cbuf.world = mtx;
@@ -117,7 +117,7 @@ HRESULT ZTexture::SetParam(const MATRIX& mtx, const COLOR& color, VECTOR4 texcoo
 
 HRESULT ZTexture::EndDraw(void)
 {
-	manager_->GetSystems()->GetRenderer()->GetWrapper()->EndDrawShadow();
+	manager_->GetSystems()->GetRenderer()->GetRenderTarget()->EndDrawShadow();
 
 	return S_OK;
 }
