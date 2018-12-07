@@ -317,6 +317,9 @@
     <ClInclude Include="FrameWork\Systems\Screenshot.h">
       <Filter>FrameWork\Systems</Filter>
     </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Renderer\Font.h">
+      <Filter>FrameWork\Systems\Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FrameWork\Define\Matrix.cpp">
@@ -522,6 +525,9 @@
     </ClCompile>
     <ClCompile Include="FrameWork\Systems\Screenshot.cpp">
       <Filter>FrameWork\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Renderer\Font.cpp">
+      <Filter>FrameWork\Systems\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

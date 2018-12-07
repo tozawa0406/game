@@ -14,6 +14,8 @@
 #include "../../Systems/Renderer/Model/LoadModel.h"
 #include "../../Systems/Renderer/Shader/Shader.h"
 
+#include "../../Systems/Renderer/Font.h"
+
 //-----------------------------------------------------------------------------
 //	クラス定義
 //-----------------------------------------------------------------------------
@@ -69,7 +71,9 @@ public:
 	// ライトの設定
 	void SetLight(LightInfo& light) override { UNREFERENCED_PARAMETER(light); }
 
-	void DrawQuad(VECTOR2 position, VECTOR2 size) override;
+	void DrawQuad(VECTOR2 position, VECTOR2 size, COLOR color = COLOR(1, 1, 1, 1)) override;
+
+	Font* GetFont(void) { return font_; }
 
 private:
 	ID3DBlob*	CompiledShader(string fileName, string method, string version);
@@ -143,6 +147,8 @@ private:
 	std::vector<ID3D11Buffer*>			constantBuffer_;		// アプリ←→シェーダー架け橋　ワールドから射影までの変換行列を渡すためのコンスタントバッファー
 
 	ShaderData shader_[2];
+
+	Font* font_;
 
 public:
 	ComputeShader& GetComputeShader(int i) { return computeShader_[i]; }

@@ -119,7 +119,7 @@ public:
 	virtual void	Draw(const Particle*	     obj, const Shader* shader) = 0;
 	virtual void    Draw(const ColliderRenderer* obj) = 0;
 
-	virtual void DrawQuad(VECTOR2 position, VECTOR2 size) = 0;
+	virtual void DrawQuad(VECTOR2 position, VECTOR2 size, COLOR color = COLOR(1, 1, 1, 1)) = 0;
 
 	// テクスチャのロード
 	virtual HRESULT LoadTexture(string fileName, int texNum, int modelNum = -1) = 0;

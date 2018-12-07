@@ -75,6 +75,7 @@
     <ClInclude Include="FrameWork\Systems\Loading.h" />
     <ClInclude Include="FrameWork\Systems\Particle\Particle.h" />
     <ClInclude Include="FrameWork\Systems\Particle\ParticleManager.h" />
+    <ClInclude Include="FrameWork\Systems\Renderer\Font.h" />
     <ClInclude Include="FrameWork\Systems\Renderer\MeshField.h" />
     <ClInclude Include="FrameWork\Systems\Renderer\Model\LoadModel.h" />
     <ClInclude Include="FrameWork\Systems\Renderer\Model\MeshRenderer.h" />
@@ -146,6 +147,7 @@
     <ClCompile Include="FrameWork\Systems\Loading.cpp" />
     <ClCompile Include="FrameWork\Systems\Particle\Particle.cpp" />
     <ClCompile Include="FrameWork\Systems\Particle\ParticleManager.cpp" />
+    <ClCompile Include="FrameWork\Systems\Renderer\Font.cpp" />
     <ClCompile Include="FrameWork\Systems\Renderer\MeshField.cpp" />
     <ClCompile Include="FrameWork\Systems\Renderer\Model\LoadModel.cpp" />
     <ClCompile Include="FrameWork\Systems\Renderer\Model\MeshRenderer.cpp" />

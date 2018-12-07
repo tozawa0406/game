@@ -168,10 +168,18 @@ void Dx11Wrapper::Init(void)
 		v[i].texcoord = VECTOR2(0, 0);
 	}
 	CreateVertexBuffer(v, sizeof(VERTEX2D), 4);
+
+	font_ = new Font;
+	if (font_)
+	{
+		font_->Init(directX11_);
+	}
 }
 
 void Dx11Wrapper::Uninit(void)
 {
+	UninitDeletePtr(font_);
+
 	for(int i = 0;i < (int)vertexBuffer_.size();)
 	{
 		ReleasePtr(vertexBuffer_[i].buffer);
@@ -775,7 +783,6 @@ void Dx11Wrapper::BeginDrawObjectRenderer(void)
 
 void Dx11Wrapper::EndDrawObjectRenderer(void)
 {
-
 }
 
 D3D11_PRIMITIVE_TOPOLOGY Dx11Wrapper::SelectPrimitiveType(PRIMITIVE::TYPE type)
@@ -1312,7 +1319,7 @@ UINT Dx11Wrapper::CreateConstantBuffer(UINT size)
 	return (UINT)constantBuffer_.size() - 1;
 }
 
-void Dx11Wrapper::DrawQuad(VECTOR2 position, VECTOR2 size)
+void Dx11Wrapper::DrawQuad(VECTOR2 position, VECTOR2 size, COLOR color)
 {
 	BeginDrawCanvasRenderer();
 
@@ -1332,6 +1339,7 @@ void Dx11Wrapper::DrawQuad(VECTOR2 position, VECTOR2 size)
 	c.position = VECTOR4(position.x, position.y, 1, 1);
 	c.sizeSplit.x = size.x;
 	c.sizeSplit.y = size.y;
+	c.color		  = color;
 
 	pContext->UpdateSubresource(constant, 0, NULL, &c, 0, 0);
 	pContext->VSSetConstantBuffers(1, 1, &constant);
