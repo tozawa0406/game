@@ -19,7 +19,7 @@
 //! @def	大きさ
 static constexpr float SCALE = 0.9f;
 //! @def	ライフ
-static constexpr int MAX_LIFE = 2500;
+static constexpr int MAX_LIFE = 1;
 
 //! @def	飛行フラグ
 static constexpr uint IS_FLY = 0x0002;
@@ -299,10 +299,14 @@ bool Dragon::TakenDamage(void)
 			currentAttack_ = nullptr;
 		}
 
-		int maxAnim = meshAnim_.mesh.GetMaxAnimation();
-		int pattern = static_cast<int>(meshAnim_.mesh.GetPattern());
-		if (pattern >= maxAnim - 1)
+		if (moveController_)
 		{
+			UninitDeletePtr(moveController_);
+		}
+
+		if (isEndAnim_)
+		{
+			meshAnim_.mesh.AnimEndPattern();
 			ded_ = true;
 			return true;
 		}
@@ -311,6 +315,7 @@ bool Dragon::TakenDamage(void)
 		meshAnim_.animation = static_cast<int>(Animation::DIE);
 		meshAnim_.mesh.ChangeAnimation(meshAnim_.animation, 30, true);
 
+		int pattern = static_cast<int>(meshAnim_.mesh.GetPattern());
 		if(pattern >= 35)
 		{
 			meshAnim_.animSpeed = 0.5f;

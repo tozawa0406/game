@@ -463,9 +463,6 @@
     <ClCompile Include="FrameWork\Windows\Windows.cpp">
       <Filter>FrameWork\Window</Filter>
     </ClCompile>
-    <ClCompile Include="FrameWork\main.cpp">
-      <Filter>FrameWork</Filter>
-    </ClCompile>
     <ClCompile Include="FrameWork\Systems\DebugSetting\Debug.cpp">
       <Filter>FrameWork\Systems\DebugSetting</Filter>
     </ClCompile>

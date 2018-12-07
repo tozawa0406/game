@@ -164,6 +164,9 @@
     <ClCompile Include="Sources\Object\StaticObject\WallA.cpp">
       <Filter>Source\Object\StaticObject</Filter>
     </ClCompile>
+    <ClCompile Include="Sources\main.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sources\Object\UI\Timer.h">

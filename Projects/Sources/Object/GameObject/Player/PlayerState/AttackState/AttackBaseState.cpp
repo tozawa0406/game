@@ -99,7 +99,6 @@ PlayerState* AttackBaseState::Update(void)
 	if (!wapon) { return nullptr; }
 
 	auto& meshAnim	= player_->GetMeshAnimation();
-	int max			= meshAnim.mesh.GetMaxAnimation();
 
 	// アニメーションの情報
 	float pattern = meshAnim.mesh.GetPattern();
@@ -129,8 +128,9 @@ PlayerState* AttackBaseState::Update(void)
 	}
 
 	// アニメーションの終了
-	if (pattern >= max - 1)
+	if (player_->IsEndAnim())
 	{
+		meshAnim.mesh.AnimEndPattern();
 		// 抜刀待機状態に戻る
 		meshAnim.animation = static_cast<int>(Player::Animation::SetupWait);
 		meshAnim.mesh.ChangeAnimation(meshAnim.animation, ANIMATION_CHANGE_FRAME15, true);

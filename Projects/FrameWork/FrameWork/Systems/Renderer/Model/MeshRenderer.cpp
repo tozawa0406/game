@@ -89,7 +89,7 @@ bool MeshRenderer::Animation(float add)
 
 	pattern_ += add;
 	int m = (add < 0) ? 1 : 0;
-	if(fabs(pattern_) >= animationMax_[animation_] - (5 * m))
+	if(fabs(pattern_) >= animationMax_[animation_] - ((4 * m) + 1))
 	{
 		patternOld_ = pattern_ - add;
 		pattern_ = 0;

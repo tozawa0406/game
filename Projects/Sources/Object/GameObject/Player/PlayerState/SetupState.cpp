@@ -59,8 +59,6 @@ PlayerState* SetupState::Update(void)
 {
 	if (!player_) { return nullptr; }
 	auto& meshAnim = player_->GetMeshAnimation();
-	int max = meshAnim.mesh.GetMaxAnimation();
-	int pattern = static_cast<int>(meshAnim.mesh.GetPattern());
 
 	// 納刀抜刀中であり、アニメーションが一定以下
 	if (fabs(meshAnim.mesh.GetPattern()) >= 30)
@@ -94,13 +92,14 @@ PlayerState* SetupState::Update(void)
 	}
 
 	// キー入力がない場合は待機モーションへ移行
-	if (isDraw_)
+	if (player_->IsEndAnim())
 	{
-		if (player_->IsEndAnim()) { return new PaidWaitState; }
-	}
-	else
-	{
-		if (pattern >= max - 1) { return new DrawnWaitState; }
+		if (isDraw_) { return new PaidWaitState; }
+		else 
+		{
+			meshAnim.mesh.AnimEndPattern(); 
+			return new DrawnWaitState; 
+		}
 	}
 
 	return nullptr;

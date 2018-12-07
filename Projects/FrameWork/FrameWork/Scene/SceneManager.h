@@ -9,8 +9,8 @@
 
 #include "../Define/Define.h"
 
+#include <Scene/EachScene.h>
 #include "BaseScene.h"
-#include "../../../Sources/Scene/EachScene.h"
 #include "../Systems/Renderer/Sprite/CanvasRenderer.h"
 #include "../Systems/Input/Controller.h"
 
