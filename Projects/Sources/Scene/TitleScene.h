@@ -39,9 +39,9 @@ private:
 	//! フレームのカウンタ
 	int				frameCnt_;
 	//! 「please press」
-	CanvasRenderer	press_;
+	CanvasRenderer::Image	press_;
 	//! 「Enter」「〇」「X」
-	CanvasRenderer	button_[static_cast<uint8>(InputType::MAX)];
+	CanvasRenderer::Image	button_[static_cast<uint8>(InputType::MAX)];
 };
 
 #endif // _TITLE_SCENE_H_

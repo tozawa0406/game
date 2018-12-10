@@ -79,68 +79,60 @@ void Timer::Init(void)
 {
 	// à íuÇéwíË
 	transform_.position = POSITION;
-
-	const auto& systems = Systems::Instance();
+	VECTOR2 pos = VECTOR2(POSITION.x, POSITION.y);
 
 	// îwåi
-	back_.Init(systems, LAYER - 1, static_cast<int>(Texture::Game::TIMER_UI));
-	back_.position				= transform_.position;
-	back_.position.x		   -= ADJUST_BACK_POSITION;
-	back_.size					= VECTOR2(BACK_SIZE);
-	back_.color					= COLOR(1, 1, 1, 1 * ALPHA);
-	back_.scale					= VECTOR2(SCALE);
-	back_.scaleOffset			= VECTOR2(Half(back_.size));
-	back_.split					= BACK_SPLIT;
-	back_.pattern				= 0;
+	back_.Init(LAYER - 1, static_cast<int>(Texture::Game::TIMER_UI));
+	back_.SetPosition(VECTOR2(pos.x - ADJUST_BACK_POSITION, pos.y));
+	back_.SetSize(VECTOR2(BACK_SIZE));
+	back_.SetColor(COLOR(1, 1, 1, 1 * ALPHA));
+	back_.SetScale(VECTOR2(SCALE));
+	back_.SetScaleOffset(VECTOR2(Half(BACK_SIZE)));
+	back_.SetSplit(BACK_SPLIT);
+	back_.SetPattern(0);
 
 	// ÉQÅ[ÉWÇÃèâä˙âª
-	circleGauge_.Init(systems, LAYER, static_cast<int>(Texture::Base::WHITE));
-	circleGauge_.position		= transform_.position;
-	circleGauge_.size			= VECTOR2(GAUGE_SIZE);
-	circleGauge_.color			= COLOR(1, 1, 1, 0.5f * ALPHA);
-	circleGauge_.scale			= VECTOR2(SCALE);
-	circleGauge_.scaleOffset	= VECTOR2(Half(circleGauge_.size));
-	circleGauge_.shader			= Shader::ENUM::CIRCLE_GAUGE;
-	circleGauge_.angle			= (float)time_ / TIME * MAX_PERCENT;
+	circleGauge_.Init(LAYER, static_cast<int>(Texture::Base::WHITE));
+	circleGauge_.SetSize(VECTOR2(GAUGE_SIZE));
+	circleGauge_.SetPosition(pos);
+	circleGauge_.SetColor(COLOR(1, 1, 1, 0.5f * ALPHA));
+	circleGauge_.SetScale(VECTOR2(SCALE));
+	circleGauge_.SetScaleOffset(VECTOR2(Half(circleGauge_.GetSize())));
+	circleGauge_.SetShader(Shader::ENUM::CIRCLE_GAUGE);
+	circleGauge_.SetAngle((float)time_ / TIME * MAX_PERCENT);
 
 	// èIóπà íuêjèâä˙âª
-	handEnd_.Init(systems, LAYER + 2, static_cast<int>(Texture::Game::TIMER_UI));
-	handEnd_.position			= circleGauge_.position;
-	handEnd_.position.x		   += ADJUST_HANDEND_POSITION;
-	handEnd_.size				= HAND_SIZE;
-	handEnd_.position.y		   -= Half(handEnd_.size.y * SCALE);
-	handEnd_.scale				= VECTOR2(SCALE);
-	handEnd_.color				= COLOR(1, 1, 1, ALPHA);
-	handEnd_.scaleOffset		= VECTOR2(Half(handEnd_.size));
-	handEnd_.rotationOffset		= VECTOR2(Half(handEnd_.size.x), handEnd_.size.y + (Half(handEnd_.size.y * SCALE - handEnd_.size.y)));
-	handEnd_.split				= HAND_SPLIT;
-	handEnd_.pattern			= HANDEND_PATTERN;
-
+	handEnd_.Init(LAYER + 2, static_cast<int>(Texture::Game::TIMER_UI));
+	handEnd_.SetSize(HAND_SIZE);
+	handEnd_.SetPosition(VECTOR2(pos.x + ADJUST_HANDEND_POSITION, pos.y - Half(handEnd_.GetSize().y * SCALE)));
+	handEnd_.SetColor(COLOR(1, 1, 1, ALPHA));
+	handEnd_.SetScale(VECTOR2(SCALE));
+	handEnd_.SetScaleOffset(VECTOR2(Half(handEnd_.GetSize())));
+	handEnd_.SetRotationOffset(VECTOR2(Half(handEnd_.GetSize().x), handEnd_.GetSize().y + (Half(handEnd_.GetSize().y * SCALE - handEnd_.GetSize().y))));
+	handEnd_.SetSplit(HAND_SPLIT);
+	handEnd_.SetPattern(HANDEND_PATTERN);
 
 	// åªç›à íuêjèâä˙âª
-	handNow_.Init(systems, LAYER + 1, (int)Texture::Game::TIMER_UI);
-	handNow_.position			= circleGauge_.position;
-	handNow_.position.x		   += ADJUST_HANDNOW_POSITION;
-	handNow_.size				= HAND_SIZE;
-	handNow_.position.y		   -= Half(handNow_.size.y * SCALE);
-	handNow_.scale				= VECTOR2(SCALE);
-	handNow_.angle				= circleGauge_.angle * MOVE;
-	handNow_.color				= COLOR(1, 0, 0, ALPHA);
-	handNow_.scaleOffset		= VECTOR2(Half(handNow_.size));
-	handNow_.rotationOffset		= VECTOR2(Half(handNow_.size.x), handNow_.size.y + (Half(handNow_.size.y * SCALE - handNow_.size.y)));
-	handNow_.split				= HAND_SPLIT;
-	handNow_.pattern			= HANDNOW_PATTERN;
+	handNow_.Init(LAYER + 1, (int)Texture::Game::TIMER_UI);
+	handNow_.SetSize(HAND_SIZE);
+	handNow_.SetPosition(VECTOR2(pos.x + ADJUST_HANDNOW_POSITION, pos.y - Half(handNow_.GetSize().y * SCALE)));
+	handNow_.SetColor(COLOR(1, 0, 0, ALPHA));
+	handNow_.SetScale(VECTOR2(SCALE));
+	handNow_.SetAngle(circleGauge_.GetAngle() * MOVE);
+	handNow_.SetScaleOffset(VECTOR2(Half(handNow_.GetSize())));
+	handNow_.SetRotationOffset(VECTOR2(Half(handNow_.GetSize().x), handNow_.GetSize().y + (Half(handNow_.GetSize().y * SCALE - handNow_.GetSize().y))));
+	handNow_.SetSplit(HAND_SPLIT);
+	handNow_.SetPattern(HANDNOW_PATTERN);
 
 	// éûåvíÜâõ
-	clip_.Init(Systems::Instance(), LAYER + 4, (int)Texture::Game::TIMER_UI);
-	clip_.position				= transform_.position;
-	clip_.position.x		   += ADJUST_CLIP_POSITION;
-	clip_.size					= CLIP_SIZE;
-	clip_.scale					= VECTOR2(SCALE);
-	clip_.color					= COLOR(1, 1, 1, 1 * ALPHA);
-	clip_.scaleOffset			= VECTOR2(Half(back_.size));
-	clip_.split					= HAND_SPLIT;
-	clip_.pattern				= CLIP_PATTERN;
+	clip_.Init(LAYER + 4, (int)Texture::Game::TIMER_UI);
+	clip_.SetSize(CLIP_SIZE);
+	clip_.SetPosition(VECTOR2(pos.x + ADJUST_CLIP_POSITION, pos.y));
+	clip_.SetColor(COLOR(1, 1, 1, 1 * ALPHA));
+	clip_.SetScale(VECTOR2(SCALE));
+	clip_.SetScaleOffset(VECTOR2(Half(back_.GetSize())));
+	clip_.SetSplit(HAND_SPLIT);
+	clip_.SetPattern(CLIP_PATTERN);
 }
 
 /* @brief	å„èàóù
@@ -148,6 +140,11 @@ void Timer::Init(void)
  * @return	Ç»Çµ				*/
 void Timer::Uninit(void)
 {
+	clip_.Uninit();
+	handNow_.Uninit();
+	handEnd_.Uninit();
+	circleGauge_.Uninit();
+	back_.Uninit();
 }
 
 /* @brief	çXêVèàóù
@@ -173,17 +170,18 @@ void Timer::Update(void)
 	}
 
 	// äpìxÇïœçX
-	circleGauge_.angle	= (float)time_ / TIME * MAX_PERCENT;
+	float angle = (float)time_ / TIME * MAX_PERCENT;
+	circleGauge_.SetAngle(angle);
 
 	// êjÇâÒÇ∑
-	handNow_.angle		= max(0, (circleGauge_.angle * MOVE));
+	handNow_.SetAngle(max(0, (angle * MOVE)));
 	// àÍíËÇí¥Ç¶ÇΩÇÁàÍî‘è„Ç…ï`âÊ
-	if (handNow_.angle < PI) { handNow_.SetPriority(LAYER + 3); }
+	if (handNow_.GetAngle() < PI) { handNow_.SetPriority(LAYER + 3); }
 
 	// écÇËè≠ÇµÇ≈ê‘Ç≠Ç∑ÇÈ
-	if (circleGauge_.angle < RED_TIME)
+	if (angle < RED_TIME)
 	{
-		circleGauge_.color = COLOR(1, 0, 0, 0.5f * ALPHA);
+		circleGauge_.SetColor(COLOR(1, 0, 0, 0.5f * ALPHA));
 	}
 
 }

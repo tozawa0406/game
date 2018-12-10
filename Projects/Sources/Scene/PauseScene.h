@@ -30,10 +30,10 @@ private:
 	int		selectNum_;				//! 選択している番号
 	int     paddingTimeCnt_;		//! 選択後の時間経過
 
-	CanvasRenderer back_;						//! 背景
-	CanvasRenderer menuBack_[SELECT_NUM];		//! UI背景
-	CanvasRenderer notSelect_[SELECT_NUM - 1];	//! 非選択オブジェクトを暗くする
-	CanvasRenderer menu_[SELECT_NUM];			//! メニュー
+	CanvasRenderer::Image back_;						//! 背景
+	CanvasRenderer::Image menuBack_[SELECT_NUM];		//! UI背景
+	CanvasRenderer::Image notSelect_[SELECT_NUM - 1];	//! 非選択オブジェクトを暗くする
+	CanvasRenderer::Image menu_[SELECT_NUM];			//! メニュー
 };
 
 #endif // _PAUSE_SCENE_H_

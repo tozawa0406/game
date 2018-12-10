@@ -10,21 +10,19 @@
 #include "../../../Define/Define.h"
 #include "../../BaseManager.h"
 
-struct CanvasRenderer;
-//-----------------------------------------------------------------------------
-//	ƒNƒ‰ƒXéŒ¾
-//-----------------------------------------------------------------------------
-class CanvasRendererManager : public BaseManager<CanvasRenderer>
+class CanvasRendererBase;
+class CanvasRendererManager : public BaseManager<CanvasRendererBase>
 {
-	friend struct CanvasRenderer;
+	friend CanvasRendererBase;
 public:
 	CanvasRendererManager(Systems* systems) : BaseManager(systems) {}
 
-	HRESULT Init(void) override { return S_OK; }
-	void    Draw(void) override;	//ƒ|ƒŠƒSƒ“•`‰æˆ—
+	HRESULT Init(void)	 override { return S_OK; }
+	void	Uninit(void) override;
+	void    Draw(void)   override;	//ƒ|ƒŠƒSƒ“•`‰æˆ—
 
 private:
-	void Add(CanvasRenderer* obj);
+	void Add(CanvasRendererBase* obj);
 	void Sort(void);
 };
 

@@ -9,7 +9,7 @@
 
 #include "../Define/Define.h"
 #include "../Systems/GameSystems.h"
-#include "../Systems/Renderer/Sprite/CanvasRenderer.h"
+#include "../Systems/Renderer/CanvasRenderer/CanvasRendererImage.h"
 #include "../Systems/Renderer/Sprite/SpriteRenderer.h"
 #include "../Systems/Renderer/Model/MeshRenderer.h"
 

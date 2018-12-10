@@ -72,22 +72,22 @@ VECTOR2 VECTOR2::operator - (void)
 	return *this;
 }
 
-VECTOR2 VECTOR2::operator + (const VECTOR2& v)
+VECTOR2 VECTOR2::operator + (const VECTOR2& v) const
 {
 	return VECTOR2(x + v.x, y + v.y);
 }
 
-VECTOR2 VECTOR2::operator - (const VECTOR2& v)
+VECTOR2 VECTOR2::operator - (const VECTOR2& v) const
 {
 	return VECTOR2(x - v.x, y - v.y);
 }
 
-VECTOR2 VECTOR2::operator * (float f)
+VECTOR2 VECTOR2::operator * (float f) const 
 {
 	return VECTOR2(x * f, y * f);
 }
 
-VECTOR2 VECTOR2::operator / (float f)
+VECTOR2 VECTOR2::operator / (float f) const
 {
 	float inv = 1.0f / f;
 	return VECTOR2(x * inv, y * inv);

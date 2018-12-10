@@ -28,14 +28,14 @@ Score::Score(SceneManager* parent, bool bZero, int dig) : systems_(Systems::Inst
 	textureSize.x = temp.x / 5;
 	textureSize.y = temp.y / 2;
 
-	texture_ = new CanvasRenderer[dig];
+	texture_ = new CanvasRenderer::Image[dig];
 
 	for (int i = 0; i < dig; ++i)
 	{
-		(texture_ + i)->Init(systems_, 240, (int)Texture::Base::NUMBER);
-		(texture_ + i)->split  = { 5, 2 };
-		(texture_ + i)->size   = textureSize;
-		(texture_ + i)->enable = true;
+		(texture_ + i)->Init(240, (int)Texture::Base::NUMBER);
+		(texture_ + i)->SetSplit(VECTOR2(5, 2));
+		(texture_ + i)->SetSize(textureSize);
+		(texture_ + i)->SetEnable(true);
 	}
 }
 
@@ -43,6 +43,11 @@ Score::~Score(void)
 {
 	if (texture_ != nullptr)
 	{
+		for (int i = 0; i < dig_; ++i)
+		{
+			(texture_ + i)->Uninit();
+		}
+
 		delete[] texture_;
 		texture_ = nullptr;
 	}
@@ -71,7 +76,7 @@ void Score::Update(int score, VECTOR2 pos)
 	//表示スコアが上限だった場合上限
 	score = min(score, SCORE_MAX_);
 
-	float halfX = Half(texture_->size.x * scale_ * dig_) - Half(texture_->size.x * scale_);
+	float halfX = Half(texture_->GetSize().x * scale_ * dig_) - Half(texture_->GetSize().x * scale_);
 	//数値分解
 	int num = 1;
 	//スコアがあれば
@@ -83,13 +88,13 @@ void Score::Update(int score, VECTOR2 pos)
 		//スコアの桁を減らす
 		score = (int)(score * 0.1);
 		//数字を描画
-		(texture_ + i)->color = color_;
-		(texture_ + i)->scale = scale_;
-		(texture_ + i)->pattern = (float)n;
-		VECTOR2 size = (texture_ + i)->size.x * scale_;
-		(texture_ + i)->position = VECTOR2(pos.x + (size.x * dig_) - (size.x * num) - halfX, pos.y);
+		(texture_ + i)->SetColor(color_);
+		(texture_ + i)->SetScale(scale_);
+		(texture_ + i)->SetPattern((float)n);
+		VECTOR2 size = (texture_ + i)->GetSize().x * scale_;
+		(texture_ + i)->SetPosition(VECTOR2(pos.x + (size.x * dig_) - (size.x * num) - halfX, pos.y));
 		(texture_ + i)->SetPriority(priority_);
-		(texture_ + i)->enable = true;
+		(texture_ + i)->SetEnable(true);
 		//表示桁の格納
 		num++;
 	}
@@ -102,13 +107,13 @@ void Score::Update(int score, VECTOR2 pos)
 		{
 			int i = num - 1;
 			// 0を描画
-			(texture_ + i)->color = color_;
-			(texture_ + i)->scale = scale_;
-			(texture_ + i)->pattern = 0;
-			VECTOR2 size = (texture_ + i)->size.x * scale_;
-			(texture_ + i)->position = VECTOR2(pos.x + (size.x * dig_) - (size.x * num) - halfX, pos.y);
+			(texture_ + i)->SetColor(color_);
+			(texture_ + i)->SetScale(scale_);
+			(texture_ + i)->SetPattern(0);
+			VECTOR2 size = (texture_ + i)->GetSize().x * scale_;
+			(texture_ + i)->SetPosition(VECTOR2(pos.x + (size.x * dig_) - (size.x * num) - halfX, pos.y));
 			(texture_ + i)->SetPriority(priority_);
-			(texture_ + i)->enable = true;
+			(texture_ + i)->SetEnable(true);
 			//表示桁数を増やす
 			num++;
 		}
@@ -119,7 +124,7 @@ void Score::Update(int score, VECTOR2 pos)
 		{
 			int i = num - 1;
 			// 0を描画
-			(texture_ + i)->enable = false;
+			(texture_ + i)->SetEnable(false);
 			num++;
 		}
 	}
@@ -141,15 +146,15 @@ NumBoard::NumBoard(BaseScene* parent, VECTOR2 pos, float scale)
 	VECTOR2 p = position_;
 	p.x += size.x * 2 - 5;
 
-	back_.Init(parent->GetManager()->GetSystems(), 230, (int)Texture::Base::FILL_RECTANGLE);
-	float inv = 1.0f / 255;
-	back_.color = COLOR(0, 0, 100 * inv, 200 * inv);
-	back_.position = p;
-	back_.size = VECTOR2(120, 30);
+	back_.Init(230, (int)Texture::Base::WHITE);
+	back_.SetColor(COLOR::RGBA(0, 0, 100, 200));
+	back_.SetPosition(p);
+	back_.SetSize(VECTOR2(120, 30));
 }
 
 NumBoard::~NumBoard(void)
 {
+	back_.Uninit();
 	DeletePtr(sec_);
 	DeletePtr(min_);
 }

@@ -39,10 +39,10 @@ public:
 	VECTOR2 operator + ();
 	VECTOR2 operator - ();
 
-	VECTOR2 operator + (const VECTOR2& v);
-	VECTOR2 operator - (const VECTOR2& v);
-	VECTOR2 operator * (float f);
-	VECTOR2 operator / (float f);
+	VECTOR2 operator + (const VECTOR2& v) const;
+	VECTOR2 operator - (const VECTOR2& v) const;
+	VECTOR2 operator * (float f) const;
+	VECTOR2 operator / (float f) const;
 
 	bool operator == (const VECTOR2& v);
 	bool operator != (float f);

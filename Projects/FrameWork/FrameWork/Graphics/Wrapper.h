@@ -10,7 +10,7 @@
 #include "../Define/Define.h"
 
 // ‘O•û’è‹`
-struct CanvasRenderer;
+namespace CanvasRenderer { class Image; }
 struct SpriteRenderer;
 struct MeshRenderer;
 class  Particle;
@@ -114,7 +114,7 @@ public:
 	virtual void    SetTexture(int stage, int texNum = -1, int modelNum = -1) = 0;
 
 	// •`‰æˆ—
-	virtual void    Draw(const CanvasRenderer*   obj, const Shader* shader) = 0;
+	virtual void    Draw(const CanvasRenderer::Image*   obj, const Shader* shader) = 0;
 	virtual void    Draw(const SpriteRenderer*   obj, const Shader* shader) = 0;
 	virtual void    Draw(MeshRenderer*     obj, const Shader* shader) = 0;
 	virtual void	Draw(const Particle*	     obj, const Shader* shader) = 0;

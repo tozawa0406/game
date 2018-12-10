@@ -5,12 +5,23 @@
 //																	2018/08/18
 //-----------------------------------------------------------------------------
 #include "CanvasRendererManager.h"
-#include "CanvasRenderer.h"
 #include <math.h>
 #include "../../../Graphics/Graphics.h"
+#include "../../../Graphics/Utility/Font.h"
 #include "../../GameSystems.h"
 
-void CanvasRendererManager::Add(CanvasRenderer* obj)
+#include "../CanvasRenderer/CanvasRendererBase.h"
+#include "../CanvasRenderer/CanvasRendererImage.h"
+
+void CanvasRendererManager::Uninit(void)
+{
+	for (auto& obj : obj_)
+	{
+		if (obj) { obj->Uninit(); }
+	}
+}
+
+void CanvasRendererManager::Add(CanvasRendererBase* obj)
 {
 	BaseManager::Add(obj);
 	this->Sort();
@@ -22,7 +33,7 @@ void CanvasRendererManager::Sort(void)
 	for (int i = 0; i < size; ++i)
 	{
 		// —Dæ‡ˆÊ‚É‰ž‚¶‚Ä“ü‚ê‘Ö‚¦
-		if (obj_[i]->priority_ > obj_[i + 1]->priority_)
+		if (obj_[i]->GetPriority() > obj_[i + 1]->GetPriority())
 		{
 			Swap(obj_[i], obj_[i + 1]);
 			i = -1;		// ƒCƒ“ƒNƒŠƒƒ“ƒg‚³‚ê‚Ä0‚É–ß‚é
@@ -39,21 +50,34 @@ void CanvasRendererManager::Draw(void)
 
 	for (auto& obj : obj_)
 	{
-		if (obj->enable)
+		if (obj->GetEnable())
 		{
-			Shader* shader = nullptr;
-			if (obj->shader != Shader::ENUM::UNKOUWN) 
+			const auto& type = obj->GetType();
+			if (type == CanvasRendererBase::Type::Image)
 			{
-				shader = systems_->GetShader()->GetShader(obj->shader);
-				MATRIX m;
-				m._11 = obj->angle;
-				shader->SetParam(m, obj->color, VECTOR4(0, 0, 1, 1));
+				const auto& img = static_cast<CanvasRenderer::Image*>(obj);
+				Shader* shader = nullptr;
+				Shader::ENUM draw = img->GetShader();
+				if (draw != Shader::ENUM::UNKOUWN)
+				{
+					shader = systems_->GetShader()->GetShader(draw);
+					MATRIX m;
+					m._11 = img->GetAngle();
+					shader->SetParam(m, img->GetColor(), VECTOR4(0, 0, 1, 1));
+				}
+				dev->SetTexture(0, img->GetTexNum());
+				dev->Draw(img, shader);
+				if (draw != Shader::ENUM::UNKOUWN)
+				{
+					dev->BeginDrawCanvasRenderer();
+				}
 			}
-			dev->SetTexture(0, (int)obj->texNum);
-			dev->Draw(obj, shader);
-			if (obj->shader != Shader::ENUM::UNKOUWN)
+			else if (type == CanvasRendererBase::Type::Text)
 			{
-				dev->BeginDrawCanvasRenderer();
+				if (const auto& font = dev->GetFont())
+				{
+					font->Draw("", obj->GetPosition(), obj->GetSize(), obj->GetColor());
+				}
 			}
 		}
 	}

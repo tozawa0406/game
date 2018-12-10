@@ -77,6 +77,8 @@
     <ClInclude Include="FrameWork\Systems\Loading.h" />
     <ClInclude Include="FrameWork\Systems\Particle\Particle.h" />
     <ClInclude Include="FrameWork\Systems\Particle\ParticleManager.h" />
+    <ClInclude Include="FrameWork\Systems\Renderer\CanvasRenderer\CanvasRendererBase.h" />
+    <ClInclude Include="FrameWork\Systems\Renderer\CanvasRenderer\CanvasRendererImage.h" />
     <ClInclude Include="FrameWork\Systems\Renderer\MeshField.h" />
     <ClInclude Include="FrameWork\Systems\Renderer\Model\LoadModel.h" />
     <ClInclude Include="FrameWork\Systems\Renderer\Model\MeshRenderer.h" />
@@ -94,7 +96,6 @@
     <ClInclude Include="FrameWork\Systems\Renderer\Shader\SkinningShadow.h" />
     <ClInclude Include="FrameWork\Systems\Renderer\Shader\ZTexture.h" />
     <ClInclude Include="FrameWork\Systems\Renderer\SkyDome.h" />
-    <ClInclude Include="FrameWork\Systems\Renderer\Sprite\CanvasRenderer.h" />
     <ClInclude Include="FrameWork\Systems\Renderer\Sprite\CanvasRendererManager.h" />
     <ClInclude Include="FrameWork\Systems\Renderer\Sprite\SpriteRenderer.h" />
     <ClInclude Include="FrameWork\Systems\Renderer\Sprite\Texture.h" />
@@ -150,6 +151,7 @@
     <ClCompile Include="FrameWork\Systems\Loading.cpp" />
     <ClCompile Include="FrameWork\Systems\Particle\Particle.cpp" />
     <ClCompile Include="FrameWork\Systems\Particle\ParticleManager.cpp" />
+    <ClCompile Include="FrameWork\Systems\Renderer\CanvasRenderer\CanvasRendererImage.cpp" />
     <ClCompile Include="FrameWork\Systems\Renderer\MeshField.cpp" />
     <ClCompile Include="FrameWork\Systems\Renderer\Model\LoadModel.cpp" />
     <ClCompile Include="FrameWork\Systems\Renderer\Model\MeshRenderer.cpp" />
@@ -167,7 +169,6 @@
     <ClCompile Include="FrameWork\Systems\Renderer\Shader\SkinningShadow.cpp" />
     <ClCompile Include="FrameWork\Systems\Renderer\Shader\ZTexture.cpp" />
     <ClCompile Include="FrameWork\Systems\Renderer\SkyDome.cpp" />
-    <ClCompile Include="FrameWork\Systems\Renderer\Sprite\CanvasRenderer.cpp" />
     <ClCompile Include="FrameWork\Systems\Renderer\Sprite\CanvasRendererManager.cpp" />
     <ClCompile Include="FrameWork\Systems\Renderer\Sprite\SpriteRenderer.cpp" />
     <ClCompile Include="FrameWork\Systems\Renderer\Sprite\Texture.cpp" />

@@ -28,15 +28,15 @@ private:
 	uint8	second_;		//! •b
 
 	//! ”wŒi
-	CanvasRenderer back_;
+	CanvasRenderer::Image back_;
 	//! ƒQ[ƒW
-	CanvasRenderer circleGauge_;
+	CanvasRenderer::Image circleGauge_;
 	//! I—¹ˆÊ’uj
-	CanvasRenderer handEnd_;
+	CanvasRenderer::Image handEnd_;
 	//! Œ»İˆÊ’uj
-	CanvasRenderer handNow_;
+	CanvasRenderer::Image handNow_;
 	//! ’†‰›
-	CanvasRenderer clip_;
+	CanvasRenderer::Image clip_;
 
 };
 

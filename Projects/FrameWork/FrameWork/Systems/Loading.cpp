@@ -21,36 +21,37 @@ Loading::~Loading(void)
 
 HRESULT Loading::Init(void)
 {
-	display_[0].Init(systems_, 251, (int)Texture::Base::FILL_RECTANGLE);
-	display_[0].position	= VECTOR2(Half((float)Graphics::WIDTH), Half((float)Graphics::HEIGHT));
-	display_[0].size		= VECTOR2((float)Graphics::WIDTH, (float)Graphics::HEIGHT);
-	display_[0].color		= COLOR(0, 0, 0, 0);
-	display_[0].enable		= false;
+	display_[0].Init(251, (int)Texture::Base::WHITE);
+	display_[0].SetPosition(VECTOR2(Half((float)Graphics::WIDTH), Half((float)Graphics::HEIGHT)));
+	display_[0].SetSize(VECTOR2((float)Graphics::WIDTH, (float)Graphics::HEIGHT));
+	display_[0].SetColor(COLOR(0, 0, 0, 0));
+	display_[0].SetEnable(false);
 
 	float c = 0.3f;
-	display_[1].Init(systems_, 252, (int)Texture::Base::FILL_RECTANGLE);
+	display_[1].Init(252, (int)Texture::Base::WHITE);
 	VECTOR2 adjust = { BAR_PADDING_X + Half(BAR_SIZE_X), BAR_PADDING_Y + Half(BAR_SIZE_Y) };
-	display_[1].position	= VECTOR2(Graphics::WIDTH - adjust.x, Graphics::HEIGHT - adjust.y);
-	display_[1].size		= VECTOR2(BAR_SIZE_X, BAR_SIZE_Y);
-	display_[1].color		= COLOR(c, c, c, 1);
-	display_[1].enable		= false;
+	display_[1].SetPosition(VECTOR2(Graphics::WIDTH - adjust.x, Graphics::HEIGHT - adjust.y));
+	display_[1].SetSize(VECTOR2(BAR_SIZE_X, BAR_SIZE_Y));
+	display_[1].SetColor(COLOR(c, c, c, 1));
+	display_[1].SetEnable(false);
 
 	c = 0.7f;
-	display_[2].Init(systems_, 253, (int)Texture::Base::FILL_RECTANGLE);
-	display_[2].position	= VECTOR2(Graphics::WIDTH - adjust.x, Graphics::HEIGHT - adjust.y);
-	display_[2].size		= VECTOR2(0, (float)BAR_SIZE_Y);
-	display_[2].color		= COLOR(c, c, c, 1);
-	display_[2].enable		= false;
+	display_[2].Init(253, (int)Texture::Base::WHITE);
+	display_[2].SetPosition(VECTOR2(Graphics::WIDTH - adjust.x, Graphics::HEIGHT - adjust.y));
+	display_[2].SetSize(VECTOR2(0, (float)BAR_SIZE_Y));
+	display_[2].SetColor(COLOR(c, c, c, 1));
+	display_[2].SetEnable(false);
 
-	display_[3].Init(systems_, 253, (int)Texture::Base::LOAD);
-	display_[3].position		= display_[0].position;
-	display_[3].position.y		-= 100;
-	display_[3].size			= VECTOR2(150, 150);
-	display_[3].rotationOffset	= VECTOR2(75, 75);
-	display_[3].color			= COLOR(1, 1, 1, 1);
-	display_[3].enable			= false;
-	display_[3].split			= VECTOR2(3, 1);
-	display_[3].pattern			= 0;
+	display_[3].Init(253, (int)Texture::Base::LOAD);
+	auto p = display_[0].GetPosition();
+	p.y -= 100;
+	display_[3].SetPosition(p);
+	display_[3].SetSize(VECTOR2(150, 150));
+	display_[3].SetRotationOffset(VECTOR2(75, 75));
+	display_[3].SetColor(COLOR(1, 1, 1, 1));
+	display_[3].SetEnable(false);
+	display_[3].SetSplit(VECTOR2(3, 1));
+	display_[3].SetPattern(0);
 
 	loadingPercent_ = new Score(systems_->GetSceneManager(), false, 3);
 	loadingPercent_->SetPriority(252);
@@ -62,6 +63,7 @@ HRESULT Loading::Init(void)
 
 void Loading::Uninit(void)
 {
+	for (auto& d : display_) { d.Uninit(); }
 	DeletePtr(loadingPercent_);
 }
 
@@ -71,10 +73,14 @@ void Loading::FadeAlpha(float a)
 	if (allTask_ > 0)
 	{
 		float percent = nowLoading_ / (float)allTask_;
-		display_[2].size.x = percent * BAR_SIZE_X;
-		display_[2].position.x = (float)Graphics::WIDTH - (BAR_PADDING_X + BAR_SIZE_X) + Half(display_[2].size.x);
+		auto size = display_[2].GetSize();
+		size.x = percent * BAR_SIZE_X;
+		display_[2].SetSize(size);
+		auto pos = display_[2].GetPosition();
+		pos.x = (float)Graphics::WIDTH - (BAR_PADDING_X + BAR_SIZE_X) + Half(size.x);
+		display_[2].SetPosition(pos);
 		
-		VECTOR2 pos = { Graphics::WIDTH - (BAR_PADDING_X + loadingPercent_->GetSize().x) , Graphics::HEIGHT - BAR_PADDING_Y * 1.3f + Half(BAR_SIZE_Y) };
+		pos = { Graphics::WIDTH - (BAR_PADDING_X + loadingPercent_->GetSize().x) , Graphics::HEIGHT - BAR_PADDING_Y * 1.3f + Half(BAR_SIZE_Y) };
 		loadingPercent_->Update(min((int)(percent * 100), 100), pos);
 	}
 
@@ -82,15 +88,17 @@ void Loading::FadeAlpha(float a)
 	if (isLoading_)
 	{
 		patternCnt_ += 0.025f;
-		display_[3].pattern = (float)((int)patternCnt_ % 2);
-		if ((int)patternCnt_ % 4 == 3) { display_[3].pattern = 2; }
-		display_[3].enable = true;
+		display_[3].SetPattern((float)((int)patternCnt_ % 2));
+		if ((int)patternCnt_ % 4 == 3) { display_[3].SetPattern(2); }
+		display_[3].SetEnable(true);
 	}
 
 	for (int i = 0; i < 3; ++i)
 	{
-		display_[i].color.a = a;
-		display_[i].enable = true;
+		auto c = display_[i].GetColor();
+		c.a = a;
+		display_[i].SetColor(c);
+		display_[i].SetEnable(true);
 	}
 }
 
@@ -130,10 +138,12 @@ void Loading::End(void)
 	nowLoading_			= 0;
 	loadingCnt_			= 0;
 	patternCnt_			= 0;
-	display_[2].size.x	= 0;
-	display_[2].enable	= true;
-	display_[3].angle   = 0;
-	display_[3].enable  = false;
+	auto size = display_[2].GetSize();
+	size.x = 0;
+	display_[2].SetSize(size);
+	display_[2].SetEnable(true);
+	display_[3].SetAngle(0);
+	display_[3].SetEnable(false);
 
 	thread_->detach();
 	DeletePtr(thread_);

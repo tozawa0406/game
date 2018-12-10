@@ -9,7 +9,7 @@
 
 #include "../Define/Define.h"
 #include "Renderer/Sprite/Texture.h"
-#include "Renderer/Sprite/CanvasRenderer.h"
+#include "Renderer/CanvasRenderer/CanvasRendererImage.h"
 #include "../Object/Object.h"
 
 //-----------------------------------------------------------------------------
@@ -31,18 +31,18 @@ public:
 
 	void Update(int score, VECTOR2 pos);
 
-	void    SetEnable(bool enable)   { for (int i = 0; i < dig_; i++) { (texture_ + i)->enable = enable; } }
+	void    SetEnable(bool enable)   { for (int i = 0; i < dig_; i++) { (texture_ + i)->SetEnable(enable); } }
 	void    SetColor(COLOR color)	 { color_ = color; }
 	void    SetScale(float scale)    { scale_ = scale;  }
 	void	SetPriority(byte p)		 { priority_ = p; }
-	VECTOR2 GetSize(void)            { return texture_->size * scale_; }
+	VECTOR2 GetSize(void)            { return texture_->GetSize() * scale_; }
 
 private:
 	SceneManager* parent_;
 
 	int SCORE_MAX_ = 0;					//ç≈ëÂåÖêî
 	byte	priority_;
-	CanvasRenderer* texture_;
+	CanvasRenderer::Image* texture_;
 	COLOR	 color_;
 	float    scale_;
 	bool     bZero_;
@@ -65,7 +65,7 @@ private:
 
 	VECTOR2 position_;
 	int     timeCnt_;
-	CanvasRenderer back_;
+	CanvasRenderer::Image back_;
 	Score*    min_;
 	Score*    sec_;
 };

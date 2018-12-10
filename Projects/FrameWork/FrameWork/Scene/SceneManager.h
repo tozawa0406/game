@@ -11,7 +11,7 @@
 
 #include <Scene/EachScene.h>
 #include "BaseScene.h"
-#include "../Systems/Renderer/Sprite/CanvasRenderer.h"
+#include "../Systems/Renderer/CanvasRenderer/CanvasRendererImage.h"
 #include "../Systems/Input/Controller.h"
 
 #include "../Systems/DebugSetting/Debug.h"
@@ -62,7 +62,7 @@ private:
 	int			fadeCnt_;			// フェード進行
 	bool		isPause_;			// ポーズの状態
 
-	CanvasRenderer fade_;
+	CanvasRenderer::Image fade_;
 
 	Loading*		loading_;
 	bool			startLoad_;

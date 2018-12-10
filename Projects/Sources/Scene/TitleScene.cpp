@@ -35,28 +35,31 @@ TitleScene::~TitleScene(void)
 void TitleScene::Init(void)
 {
 	// 「please press」
-	press_.Init(systems_, UI_PRIORITY, static_cast<int>(Texture::Title::PLEASE_PRESS));
-	press_.position = PRESS_POSITION;
-	press_.size		= PRESS_SIZE;
+	press_.Init(UI_PRIORITY, static_cast<int>(Texture::Title::PLEASE_PRESS));
+	press_.SetPosition(PRESS_POSITION);
+	press_.SetSize(PRESS_SIZE);
 
 	// 各種ボタン
 	for (auto& b : button_)
 	{
-		b.Init(systems_, UI_PRIORITY, static_cast<int>(Texture::Title::ENTER));
-		b.position	  = press_.position;
-		b.position.x += ADJUST_POSITION_X;
-		b.size		  = VECTOR2(press_.size.y, press_.size.y);
-		b.enable	  = false;
+		b.Init(UI_PRIORITY, static_cast<int>(Texture::Title::ENTER));
+		b.SetPosition(VECTOR2(PRESS_POSITION.x + ADJUST_POSITION_X, PRESS_POSITION.y));
+		b.SetSize(VECTOR2(PRESS_SIZE.y, PRESS_SIZE.y));
+		b.SetEnable(false);
 	}
 	int num = static_cast<int>(InputType::Keyboard);
-	button_[num].position.x += ADJUST_KEY_POSITION_X;
-	button_[num].size.x		*= ADJUST_KEY_SIZE_X;
+	auto pos = button_[num].GetPosition();
+	pos.x += ADJUST_KEY_POSITION_X;
+	button_[num].SetPosition(pos);
+	auto size = button_[num].GetSize();
+	size.x *= ADJUST_KEY_SIZE_X;
+	button_[num].SetSize(size);
 
 	num = static_cast<int>(InputType::PS4);
-	button_[num].texNum = static_cast<int>(Texture::Title::MARU);
+	button_[num].SetTexNum(static_cast<int>(Texture::Title::MARU));
 
 	num = static_cast<int>(InputType::X);
-	button_[num].texNum = static_cast<int>(Texture::Title::B);
+	button_[num].SetTexNum(static_cast<int>(Texture::Title::B));
 }
 
 /* @brief	後処理
@@ -64,6 +67,11 @@ void TitleScene::Init(void)
  * @return	なし				*/
 void TitleScene::Uninit(void)
 {
+	for (auto& b : button_)
+	{
+		b.Uninit();
+	}
+	press_.Uninit();
 }
 
 /* @brief	更新処理
@@ -94,8 +102,12 @@ void TitleScene::Flashing(Controller& ctrl)
 
 	// αの設定
 	float a = (frameCnt_ < FLASHING_RANGE) ? frameCnt_ / FLASHING_RANGE : 2 - frameCnt_ / FLASHING_RANGE;
-	press_.color.a = a;
-	button_[JudgeCtrlType(ctrl)].color.a = a;
+	auto c = press_.GetColor();
+	c.a = a;
+	press_.SetColor(c);
+	c = button_[JudgeCtrlType(ctrl)].GetColor();
+	c.a = a;
+	button_[JudgeCtrlType(ctrl)].SetColor(c);
 }
 
 /* @brief	コントローラのタイプ判定
@@ -117,8 +129,8 @@ int TitleScene::JudgeCtrlType(Controller& ctrl)
 		num = static_cast<int>(InputType::X);
 		break;
 	}
-	for (auto& b : button_) { b.enable = false; }
-	button_[num].enable = true;
+	for (auto& b : button_) { b.SetEnable(false); }
+	button_[num].SetEnable(true);
 
 	return num;
 }

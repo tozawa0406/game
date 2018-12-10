@@ -8,7 +8,7 @@
 #include "Dx11RenderTarget.h"
 #include "../../Windows/Windows.h"
 
-#include "../../Systems/Renderer/Sprite/CanvasRenderer.h"
+#include "../../Systems/Renderer/CanvasRenderer/CanvasRendererImage.h"
 #include "../../Systems/Renderer/Sprite/SpriteRenderer.h"
 #include "../../Systems/Renderer/Model/MeshRenderer.h"
 #include "../../Systems/Particle/Particle.h"
@@ -44,25 +44,25 @@ struct SHADER_UI
 	SHADER_UI(void) : position(0), sizeSplit(1), scale(1), rotationPattern(0), color(1){}
 
 	// シェーダーに渡す値のコピー
-	SHADER_UI(const CanvasRenderer& c)
+	SHADER_UI(const CanvasRenderer::Image& c)
 	{
-		this->position.x		= c.position.x;
-		this->position.y		= c.position.y;
+		this->position.x		= c.GetPosition().x;
+		this->position.y		= c.GetPosition().y;
 		this->position.z		= 1;
 		this->position.w		= 1;
-		this->sizeSplit.x		= c.size.x;
-		this->sizeSplit.y		= c.size.y;
-		this->scale.x			= c.scale.x;
-		this->scale.y			= c.scale.y;
-		this->scale.z			= c.scaleOffset.x;
-		this->scale.w			= c.scaleOffset.y;
-		this->rotationPattern.y = c.angle;
-		this->rotationPattern.z = c.rotationOffset.x;
-		this->rotationPattern.w = c.rotationOffset.y;
-		this->rotationPattern.x = c.pattern;
-		this->sizeSplit.z		= c.split.x;
-		this->sizeSplit.w		= c.split.y;
-		this->color				= c.color;
+		this->sizeSplit.x		= c.GetSize().x;
+		this->sizeSplit.y		= c.GetSize().y;
+		this->scale.x			= c.GetScale().x;
+		this->scale.y			= c.GetScale().y;
+		this->scale.z			= c.GetScaleOffset().x;
+		this->scale.w			= c.GetScaleOffset().y;
+		this->rotationPattern.y = c.GetAngle();
+		this->rotationPattern.z = c.GetRotationOffset().x;
+		this->rotationPattern.w = c.GetRotationOffset().y;
+		this->rotationPattern.x = c.GetPattern();
+		this->sizeSplit.z		= c.GetSplit().x;
+		this->sizeSplit.w		= c.GetSplit().y;
+		this->color				= c.GetColor();
 	}
 };
 
@@ -361,14 +361,14 @@ void Dx11Wrapper::SetTexture(int stage, int texNum, int modelNum)
 	}
 }
 
-void Dx11Wrapper::Draw(const CanvasRenderer* obj, const Shader* shader)
+void Dx11Wrapper::Draw(const CanvasRenderer::Image *obj, const Shader* shader)
 {
 	const auto& pContext = directX11_->GetDeviceContext();
 	if (!pContext) { return; }
 
 	int pixelNum = 0;
 	// テクスチャを使用しない場合
-	if (obj->texNum < (int)Texture::Base::WHITE) { pixelNum = 1; }
+	if (obj->GetTexNum() < (int)Texture::Base::WHITE) { pixelNum = 1; }
 
 	ID3D11VertexShader* vertex = nullptr;
 	ID3D11PixelShader*  pixel = nullptr;

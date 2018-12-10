@@ -10,7 +10,6 @@
 #include "../../Define/Define.h"
 #include "ColliderRenderer.h"
 #include "../BaseManager.h"
-#include "../Renderer/Sprite/CanvasRenderer.h"
 
 //-----------------------------------------------------------------------------
 //	ƒNƒ‰ƒXéŒ¾

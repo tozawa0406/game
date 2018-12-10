@@ -72,6 +72,9 @@
     <Filter Include="FrameWork\Graphics\DirectX11\Dx11Utility">
       <UniqueIdentifier>{c34625aa-0869-4952-9741-bbe08b5b27bf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FrameWork\Systems\Renderer\CanvasRenderer">
+      <UniqueIdentifier>{05b54610-0b0c-4f19-89eb-0462a3f61812}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FrameWork\Define\Color.h">
@@ -187,9 +190,6 @@
     </ClInclude>
     <ClInclude Include="FrameWork\Systems\Renderer\Shader\ZTexture.h">
       <Filter>FrameWork\Systems\Renderer\Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="FrameWork\Systems\Renderer\Sprite\CanvasRenderer.h">
-      <Filter>FrameWork\Systems\Renderer\Sprite</Filter>
     </ClInclude>
     <ClInclude Include="FrameWork\Systems\Renderer\Sprite\CanvasRendererManager.h">
       <Filter>FrameWork\Systems\Renderer\Sprite</Filter>
@@ -329,6 +329,12 @@
     <ClInclude Include="FrameWork\Graphics\DirectX11\Dx11Utility\Dx11Font.h">
       <Filter>FrameWork\Graphics\DirectX11\Dx11Utility</Filter>
     </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Renderer\CanvasRenderer\CanvasRendererBase.h">
+      <Filter>FrameWork\Systems\Renderer\CanvasRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Renderer\CanvasRenderer\CanvasRendererImage.h">
+      <Filter>FrameWork\Systems\Renderer\CanvasRenderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FrameWork\Define\Matrix.cpp">
@@ -429,9 +435,6 @@
     </ClCompile>
     <ClCompile Include="FrameWork\Systems\Renderer\Shader\ZTexture.cpp">
       <Filter>FrameWork\Systems\Renderer\Shader</Filter>
-    </ClCompile>
-    <ClCompile Include="FrameWork\Systems\Renderer\Sprite\CanvasRenderer.cpp">
-      <Filter>FrameWork\Systems\Renderer\Sprite</Filter>
     </ClCompile>
     <ClCompile Include="FrameWork\Systems\Renderer\Sprite\CanvasRendererManager.cpp">
       <Filter>FrameWork\Systems\Renderer\Sprite</Filter>
@@ -540,6 +543,9 @@
     </ClCompile>
     <ClCompile Include="FrameWork\Graphics\DirectX11\Dx11Utility\Dx11Font.cpp">
       <Filter>FrameWork\Graphics\DirectX11\Dx11Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Renderer\CanvasRenderer\CanvasRendererImage.cpp">
+      <Filter>FrameWork\Systems\Renderer\CanvasRenderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

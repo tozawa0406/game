@@ -38,28 +38,27 @@ PlayerLife::~PlayerLife(void)
  * @return	なし					*/
 void PlayerLife::Init(void)
 {
-	const auto& systems = Systems::Instance();
 	int texNum = static_cast<int>(Texture::Game::HP_BAR);
 
 	// 背景
-	back_.Init(systems, PRIORITY, texNum);
-	back_.position	= POSITION;
-	back_.size		= SIZE_DRAW;
-	back_.split		= SPLIT;
+	back_.Init(PRIORITY, texNum);
+	back_.SetPosition(POSITION);
+	back_.SetSize(SIZE_DRAW);
+	back_.SetSplit(SPLIT);
 
 	// ライフ
-	life_.Init(systems, PRIORITY + 1, texNum);
-	life_.position	= LIFE_POSITION;
-	life_.size		= SIZE_BAR;
-	life_.split		= SPLIT;
-	life_.pattern	= 1;
+	life_.Init(PRIORITY + 1, texNum);
+	life_.SetPosition(LIFE_POSITION);
+	life_.SetSize(SIZE_BAR);
+	life_.SetSplit(SPLIT);
+	life_.SetPattern(1);
 
 	// スタミナ
-	stamina_.Init(systems, PRIORITY + 1, texNum);
-	stamina_.position	= STAMINA_POSITION;
-	stamina_.size		= SIZE_BAR;
-	stamina_.split		= SPLIT;
-	stamina_.pattern	= 2;
+	stamina_.Init(PRIORITY + 1, texNum);
+	stamina_.SetPosition(STAMINA_POSITION);
+	stamina_.SetSize(SIZE_BAR);
+	stamina_.SetSplit(SPLIT);
+	stamina_.SetPattern(2);
 }
 
 /* @brief	後処理
@@ -67,6 +66,9 @@ void PlayerLife::Init(void)
  * @return	なし					*/
 void PlayerLife::Uninit(void)
 {
+	stamina_.Uninit();
+	life_.Uninit();
+	back_.Uninit();
 }
 
 /* @brief	更新処理
@@ -77,11 +79,18 @@ void PlayerLife::Update(void)
 	if (!player_) { return; }
 
 	int life = player_->GetLife();
-	life_.size.x		= life * ONE_LIFE;
-	life_.position.x	= LIFE_POSITION.x - ((150 - life) * ONE_RANGE);
+	auto pos	= life_.GetPosition();
+	auto size	= life_.GetSize();
+	pos.x	= LIFE_POSITION.x - ((150 - life) * ONE_RANGE);
+	size.x	= life * ONE_LIFE;
+	life_.SetPosition(pos);
+	life_.SetSize(size);
 
 	float stamina = player_->GetStamina();
-	stamina_.size.x		= stamina * ONE_LIFE;
-	stamina_.position.x = LIFE_POSITION.x - ((150 - stamina) * ONE_RANGE);
-
+	pos		= stamina_.GetPosition();
+	size	= stamina_.GetSize();
+	pos.x	= LIFE_POSITION.x - ((150 - stamina) * ONE_RANGE);
+	size.x	= stamina * ONE_LIFE;
+	stamina_.SetPosition(pos);
+	stamina_.SetSize(size);
 }

@@ -58,14 +58,14 @@ private:
 	Player* player_;
 
 	//! 背景
-	CanvasRenderer back_;
+	CanvasRenderer::Image back_;
 	//! アイテムの名前背景
-	CanvasRenderer itemName_;
+	CanvasRenderer::Image itemName_;
 	//! アイテムアイコンの背景
-	CanvasRenderer backItemBack_[static_cast<int>(BackItem::MAX)];
+	CanvasRenderer::Image backItemBack_[static_cast<int>(BackItem::MAX)];
 
 	//! UI
-	CanvasRenderer ui_[static_cast<int>(ButtonUI::MAX)];
+	CanvasRenderer::Image ui_[static_cast<int>(ButtonUI::MAX)];
 
 	int		flag_;		//! 左右フラグ
 	uint8	cnt_;		//! カウンタ

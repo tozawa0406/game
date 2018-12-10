@@ -48,56 +48,55 @@ ItemList::~ItemList(void)
  * @return	なし					*/
 void ItemList::Init(void)
 {
-	const auto& systems = Systems::Instance();
 	int texNum = static_cast<int>(Texture::Game::ITEM_UI);
 
 	// 背景
-	back_.Init(systems, PRIORITY, texNum);
-	back_.position	= POSITION;
-	back_.size		= SIZE_BACK;
-	back_.split		= VECTOR2(1, 3);
+	back_.Init(PRIORITY, texNum);
+	back_.SetPosition(POSITION);
+	back_.SetSize(SIZE_BACK);
+	back_.SetSplit(VECTOR2(1, 3));
 
 	for (int i = 0; i < static_cast<int>(BackItem::MAX); ++i)
 	{
-		backItemBack_[i].Init(systems, PRIORITY + 2, texNum);
+		backItemBack_[i].Init(PRIORITY + 2, texNum);
 		float x = POSITION.x + ((ITEM_RANGE * 2) - (i * ITEM_RANGE));
-		backItemBack_[i].position	= VECTOR2(x, POSITION.y);
-		backItemBack_[i].split		= VECTOR2(2, 3);
-		backItemBack_[i].pattern	= 2;
-		backItemBack_[i].size		= SIZE_ITEM_BACK_LIST;
+		backItemBack_[i].SetPosition(VECTOR2(x, POSITION.y));
+		backItemBack_[i].SetSplit(VECTOR2(2, 3));
+		backItemBack_[i].SetPattern(2);
+		backItemBack_[i].SetSize(SIZE_ITEM_BACK_LIST);
 	}
 	SetItemBack();
 
 	// アイテムの名前
-	itemName_.Init(systems, PRIORITY + 2, texNum);
-	itemName_.position	= POSITION_ITEM_NAME;
-	itemName_.size		= SIZE_BACK;
-	itemName_.split		= VECTOR2(1, 3);
-	itemName_.pattern	= 2;
+	itemName_.Init(PRIORITY + 2, texNum);
+	itemName_.SetPosition(POSITION_ITEM_NAME);
+	itemName_.SetSize(SIZE_BACK);
+	itemName_.SetSplit(VECTOR2(1, 3));
+	itemName_.SetPattern(2);
 
 	// ボタンUI
 	int button = static_cast<int>(ButtonUI::L);
-	ui_[button].Init(systems, PRIORITY + 1, texNum);
-	ui_[button].position	= POSITION_L;
-	ui_[button].size		= SIZE_L;
-	ui_[button].split		= VECTOR2(2, 6);
-	ui_[button].pattern		= 5;
+	ui_[button].Init(PRIORITY + 1, texNum);
+	ui_[button].SetPosition(POSITION_L);
+	ui_[button].SetSize(SIZE_L);
+	ui_[button].SetSplit(VECTOR2(2, 6));
+	ui_[button].SetPattern(5);
 
 	button = static_cast<int>(ButtonUI::MARU);
-	ui_[button].Init(systems, PRIORITY + 5, texNum);
-	ui_[button].position	= VECTOR2(POSITION.x + (ITEM_RANGE * 3), POSITION.y + 30);
-	ui_[button].size		= VECTOR2(60, 50);
-	ui_[button].split		= VECTOR2(4, 6);
-	ui_[button].pattern		= 15;
-	ui_[button].enable		= false;
+	ui_[button].Init(PRIORITY + 5, texNum);
+	ui_[button].SetPosition(VECTOR2(POSITION.x + (ITEM_RANGE * 3), POSITION.y + 30));
+	ui_[button].SetSize(VECTOR2(60, 50));
+	ui_[button].SetSplit(VECTOR2(4, 6));
+	ui_[button].SetPattern(15);
+	ui_[button].SetEnable(false);
 	
 	button = static_cast<int>(ButtonUI::SHIKAKU);
-	ui_[button].Init(systems, PRIORITY + 5, texNum);
-	ui_[button].position	= VECTOR2(POSITION.x - (ITEM_RANGE * 3), POSITION.y + 30);
-	ui_[button].size		= VECTOR2(60, 50);
-	ui_[button].split		= VECTOR2(4, 6);
-	ui_[button].pattern		= 14;
-	ui_[button].enable		= false;
+	ui_[button].Init(PRIORITY + 5, texNum);
+	ui_[button].SetPosition(VECTOR2(POSITION.x - (ITEM_RANGE * 3), POSITION.y + 30));
+	ui_[button].SetSize(VECTOR2(60, 50));
+	ui_[button].SetSplit(VECTOR2(4, 6));
+	ui_[button].SetPattern(14);
+	ui_[button].SetEnable(false);
 }
 
 /* @brief	後処理
@@ -105,6 +104,10 @@ void ItemList::Init(void)
  * @return	なし					*/
 void ItemList::Uninit(void)
 {
+	for (auto& c : ui_) { c.Uninit(); }
+	for (auto& c : backItemBack_) { c.Uninit(); }
+	itemName_.Uninit();
+	back_.Uninit();
 }
 
 /* @brief	更新処理
@@ -120,12 +123,12 @@ void ItemList::Update(void)
 	if (ctrl->Press(Input::GAMEPAD_L1, DIK_Z))
 	{
 		// 押下時に背景を横に引き延ばす
-		back_.size = SIZE_BACK_SELECT;
+		back_.SetSize(SIZE_BACK_SELECT);
 
 		// 他アイテムの描画
 		for (int i = 0; i < static_cast<int>(BackItem::EMPTY); ++i)
 		{
-			backItemBack_[i].enable = true;
+			backItemBack_[i].SetEnable(true);
 		}
 
 		// ボタンUIの表示変更
@@ -145,14 +148,14 @@ void ItemList::Update(void)
 		if (flag_ == 0)
 		{
 			// 背景のサイズを戻す
-			back_.size = SIZE_BACK;
+			back_.SetSize(SIZE_BACK);
 
 			// アイテムの表示を消す
-			for (auto& ui : backItemBack_) { ui.enable = false; }
+			for (auto& ui : backItemBack_) { ui.SetEnable(false); }
 			// 中央だけ描画
 			for (int i = static_cast<int>(BackItem::FrontRight); i <= static_cast<int>(BackItem::FrontLeft); ++i)
 			{
-				backItemBack_[i].enable = true;
+				backItemBack_[i].SetEnable(true);
 			}
 
 			// ボタンUIの表示変更
@@ -167,12 +170,12 @@ void ItemList::Update(void)
 		if (SetMove(*ctrl, Input::GAMEPAD_LEFT, DIK_X, Input::GAMEPAD_RIGHT, DIK_C))
 		{
 			// 背景を横に引き延ばす
-			back_.size = SIZE_BACK_SELECT;
+			back_.SetSize(SIZE_BACK_SELECT);
 
 			// UIの描画
 			for (int i = 0; i < static_cast<int>(BackItem::EMPTY); ++i)
 			{
-				backItemBack_[i].enable = true;
+				backItemBack_[i].SetEnable(true);
 			}
 
 			// ボタンUI
@@ -183,15 +186,24 @@ void ItemList::Update(void)
 	else
 	{
 		// アイテムの移動
-		for (auto& ui : backItemBack_) { ui.position.x += MOVE_LIST * flag_; }
+		for (auto& ui : backItemBack_) 
+		{
+			auto pos = ui.GetPosition();
+			pos.x += MOVE_LIST * flag_;
+			ui.SetPosition(pos);
+		}
 		cnt_++;	
 
 		// 中央のアイテムのサイズを小さくする
-		backItemBack_[static_cast<int>(BackItem::Center)].size -= ITEM_SIZE_DIFF;
+		auto size = backItemBack_[static_cast<int>(BackItem::Center)].GetSize();
+		size -= ITEM_SIZE_DIFF;
+		backItemBack_[static_cast<int>(BackItem::Center)].SetSize(size);
 
 		// 次に中央に行くアイテムのサイズを大きく
 		int num = static_cast<int>((flag_ > 0) ? BackItem::FrontLeft : BackItem::FrontRight);
-		backItemBack_[num].size += ITEM_SIZE_DIFF;
+		size = backItemBack_[num].GetSize();
+		size += ITEM_SIZE_DIFF;
+		backItemBack_[num].SetSize(size);
 
 		// 一定のフレーム以上移動したら
 		if(cnt_ >= CHANGE_FRAME)
@@ -202,7 +214,7 @@ void ItemList::Update(void)
 				// 変更した位置をリストに更新
 				for (int i = 0; i < static_cast<int>(BackItem::EMPTY); ++i)
 				{
-					backItemBack_[i].position = backItemBack_[i + 1].position;
+					backItemBack_[i].SetPosition(backItemBack_[i + 1].GetPosition());
 				}
 			}
 			// 左移動だった
@@ -211,10 +223,10 @@ void ItemList::Update(void)
 				// 変更した位置をリストに更新
 				for (int i = static_cast<int>(BackItem::BackLeft); i > 0; --i)
 				{
-					backItemBack_[i].position = backItemBack_[i - 1].position;
+					backItemBack_[i].SetPosition(backItemBack_[i - 1].GetPosition());
 				}
 				// 逆回りなのでこれだけうまくいかない
-				backItemBack_[static_cast<int>(BackItem::BackRight)].position = backItemBack_[static_cast<int>(BackItem::EMPTY)].position;
+				backItemBack_[static_cast<int>(BackItem::BackRight)].SetPosition(backItemBack_[static_cast<int>(BackItem::EMPTY)].GetPosition());
 			}
 
 			// アイテムの描画順更新
@@ -242,10 +254,10 @@ void ItemList::SetItemBack(void)
 
 		ui.SetPriority(static_cast<uint8>(PRIORITY + priority));
 		// 真ん中だけ大きさが違う
-		ui.size = (i == static_cast<int>(BackItem::Center)) ? SIZE_ITEM_BACK : SIZE_ITEM_BACK_LIST;
+		ui.SetSize((i == static_cast<int>(BackItem::Center)) ? SIZE_ITEM_BACK : SIZE_ITEM_BACK_LIST);
 	}
 	// 移動用一時オブジェクトは非表示
-	backItemBack_[static_cast<int>(BackItem::EMPTY)].enable = false;
+	backItemBack_[static_cast<int>(BackItem::EMPTY)].SetEnable(false);
 }
 
 /* @brief	アイテム移動の開始
@@ -265,9 +277,11 @@ bool ItemList::SetMove(Controller& ctrl, WORD lpad, int lkey, WORD rpad, int rke
 	if (key)
 	{
 		// 移動一時オブジェクトの描画
-		auto& empty			= backItemBack_[static_cast<int>(BackItem::EMPTY)];
-		empty.enable		= true;
-		empty.position.x	= POSITION.x - ((ITEM_RANGE * 3) * key);
+		auto& empty	= backItemBack_[static_cast<int>(BackItem::EMPTY)];
+		empty.SetEnable(true);
+		auto pos = empty.GetPosition();
+		pos.x = POSITION.x - ((ITEM_RANGE * 3) * key);
+		empty.SetPosition(pos);
 		// フラグ等の設定
 		cnt_	= 0;
 		flag_	= key;
@@ -285,9 +299,9 @@ bool ItemList::SetMove(Controller& ctrl, WORD lpad, int lkey, WORD rpad, int rke
  * @param	なし					*/
 void ItemList::SetButtonUIEnable(bool l, bool maru, bool shikaku)
 {
-	ui_[static_cast<int>(ButtonUI::L)].enable		= l;
-	ui_[static_cast<int>(ButtonUI::MARU)].enable	= maru;
-	ui_[static_cast<int>(ButtonUI::SHIKAKU)].enable = shikaku;
+	ui_[static_cast<int>(ButtonUI::L)].SetEnable(l);
+	ui_[static_cast<int>(ButtonUI::MARU)].SetEnable(maru);
+	ui_[static_cast<int>(ButtonUI::SHIKAKU)].SetEnable(shikaku);
 }
 
 /* @brief	Guiの更新処理
@@ -298,32 +312,32 @@ void ItemList::GuiUpdate(void)
 	const auto& debug = Systems::Instance()->GetDebug();
 	ImGui::Text("BackRight  : ");
 	ImGui::SameLine();
-	ImGui::Text(debug->BoolToString(backItemBack_[0].enable).c_str());
+	ImGui::Text(debug->BoolToString(backItemBack_[0].GetEnable()).c_str());
 	ImGui::SameLine();
-	ImGui::Text(" : %.2f", backItemBack_[0].position.x);
+	ImGui::Text(" : %.2f", backItemBack_[0].GetPosition().x);
 	ImGui::Text("FrontRight : ");
 	ImGui::SameLine();
-	ImGui::Text(debug->BoolToString(backItemBack_[1].enable).c_str());
+	ImGui::Text(debug->BoolToString(backItemBack_[1].GetEnable()).c_str());
 	ImGui::SameLine();
-	ImGui::Text(" : %.2f", backItemBack_[1].position.x);
+	ImGui::Text(" : %.2f", backItemBack_[1].GetPosition().x);
 	ImGui::Text("Center     : ");
 	ImGui::SameLine();
-	ImGui::Text(debug->BoolToString(backItemBack_[2].enable).c_str());
+	ImGui::Text(debug->BoolToString(backItemBack_[2].GetEnable()).c_str());
 	ImGui::SameLine();
-	ImGui::Text(" : %.2f", backItemBack_[2].position.x);
+	ImGui::Text(" : %.2f", backItemBack_[2].GetPosition().x);
 	ImGui::Text("FrontLeft  : ");
 	ImGui::SameLine();
-	ImGui::Text(debug->BoolToString(backItemBack_[3].enable).c_str());
+	ImGui::Text(debug->BoolToString(backItemBack_[3].GetEnable()).c_str());
 	ImGui::SameLine();
-	ImGui::Text(" : %.2f", backItemBack_[3].position.x);
+	ImGui::Text(" : %.2f", backItemBack_[3].GetPosition().x);
 	ImGui::Text("BackLeft   : ");
 	ImGui::SameLine();
-	ImGui::Text(debug->BoolToString(backItemBack_[4].enable).c_str());
+	ImGui::Text(debug->BoolToString(backItemBack_[4].GetEnable()).c_str());
 	ImGui::SameLine();
-	ImGui::Text(" : %.2f", backItemBack_[4].position.x);
+	ImGui::Text(" : %.2f", backItemBack_[4].GetPosition().x);
 	ImGui::Text("Empty      : ");
 	ImGui::SameLine();
-	ImGui::Text(debug->BoolToString(backItemBack_[5].enable).c_str());
+	ImGui::Text(debug->BoolToString(backItemBack_[5].GetEnable()).c_str());
 	ImGui::SameLine();
-	ImGui::Text(" : %.2f", backItemBack_[5].position.x);
+	ImGui::Text(" : %.2f", backItemBack_[5].GetPosition().x);
 }

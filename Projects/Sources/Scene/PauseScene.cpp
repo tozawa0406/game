@@ -25,35 +25,35 @@ Pause::~Pause(void)
 void Pause::Init(void)
 {
 	 // 暗転
-	 back_.position = VECTOR2((float)Half(Graphics::WIDTH), (float)Half(Graphics::HEIGHT));
-	 back_.size = VECTOR2((float)Graphics::WIDTH, (float)Graphics::HEIGHT);
-	 back_.color = COLOR::RGBA(0, 0, 0, 100);
-	 back_.Init(systems_, 250, (int)Texture::Base::FILL_RECTANGLE);
+	 back_.SetPosition(VECTOR2((float)Half(Graphics::WIDTH), (float)Half(Graphics::HEIGHT)));
+	 back_.SetSize(VECTOR2((float)Graphics::WIDTH, (float)Graphics::HEIGHT));
+	 back_.SetColor(COLOR::RGBA(0, 0, 0, 100));
+	 back_.Init(250, (int)Texture::Base::WHITE);
 
 	 // メニュー
 	 for (int i = 0; i < 3; ++i)
 	 {
 		 // メニュー背景
-		 menuBack_[i].color = COLOR(1, 1, 1, 1);
-		 menuBack_[i].position = VECTOR2((float)Half(Graphics::WIDTH), PAUSE_H * (1.0f + (2 * i)) + Half(PAUSE_H));
-		 menuBack_[i].size = VECTOR2(PAUSE_W, PAUSE_H);
-		 menuBack_[i].Init(systems_, 252, (int)Texture::Base::FILL_RECTANGLE);
+		 menuBack_[i].SetColor(COLOR(1, 1, 1, 1));
+		 menuBack_[i].SetPosition(VECTOR2((float)Half(Graphics::WIDTH), PAUSE_H * (1.0f + (2 * i)) + Half(PAUSE_H)));
+		 menuBack_[i].SetSize(VECTOR2(PAUSE_W, PAUSE_H));
+		 menuBack_[i].Init(252, (int)Texture::Base::WHITE);
 
 		 // 
-		 menu_[i].position = menuBack_[i].position;
-		 menu_[i].color = COLOR::RGBA(100, 100, 100, 255);
-		 menu_[i].size = menuBack_[i].size;
-		 menu_[i].pattern = (float)i;
-		 menu_[i].split.y = 3;
-		 //		menu_[i].Init(systems_, 253, (int)Texture::Game::MENU);
+		 menu_[i].SetPosition(menuBack_[i].GetPosition());
+		 menu_[i].SetColor(COLOR::RGBA(100, 100, 100, 255));
+		 menu_[i].SetSize(menuBack_[i].GetSize());
+		 menu_[i].SetPattern((float)i);
+		 menu_[i].SetSplit(VECTOR2(1, 3));
+		 //		menu_[i].Init(253, (int)Texture::Game::MENU);
 
 		 if (i < 2)
 		 {
 			 // 非選択オブジェクトを暗くするため
-			 notSelect_[i].Init(systems_, 254, (int)Texture::Base::FILL_RECTANGLE);
-			 notSelect_[i].position = VECTOR2((float)Half(Graphics::WIDTH), PAUSE_H * (1.0f + (2 * (i + 1))) + Half(PAUSE_H));
-			 notSelect_[i].size = menu_[i].size;
-			 notSelect_[i].color = COLOR::RGBA(0, 0, 0, 150);
+			 notSelect_[i].Init(254, (int)Texture::Base::WHITE);
+			 notSelect_[i].SetPosition(VECTOR2((float)Half(Graphics::WIDTH), PAUSE_H * (1.0f + (2 * (i + 1))) + Half(PAUSE_H)));
+			 notSelect_[i].SetSize(menu_[i].GetSize());
+			 notSelect_[i].SetColor(COLOR::RGBA(0, 0, 0, 150));
 		 }
 	 }
 	 EnableUI(false);
@@ -64,6 +64,10 @@ void Pause::Init(void)
  * @return	なし					*/
 void Pause::Uninit(void)
 {
+	for (auto& b : menu_) { b.Uninit(); }
+	for (auto& b : notSelect_) { b.Uninit(); }
+	for (auto& b : menuBack_) { b.Uninit(); }
+	back_.Uninit();
 }
 
 /* @brief	更新処理
@@ -89,11 +93,11 @@ SceneList Pause::Update(void)
 		// 点滅処理
 		if (paddingTimeCnt_ % 10 < 5)
 		{
-			menuBack_[selectNum_].color = COLOR(1, 1, 1, 1);
+			menuBack_[selectNum_].SetColor(COLOR(1, 1, 1, 1));
 		}
 		else
 		{
-			menuBack_[selectNum_].color = COLOR::RGBA(100, 100, 100, 200);
+			menuBack_[selectNum_].SetColor(COLOR::RGBA(100, 100, 100, 200));
 		}
 
 		return SceneList::NOTCHANGE;
@@ -140,7 +144,7 @@ SceneList Pause::Update(void)
 	{
 		if (i != selectNum_)
 		{
-			notSelect_[not].position = menu_[i].position;
+			notSelect_[not].SetPosition(menu_[i].GetPosition());
 			not++;
 		}
 	}
@@ -153,14 +157,14 @@ SceneList Pause::Update(void)
  * @return	なし					*/
 void Pause::EnableUI(bool enable)
 {
-	back_.enable = enable;
+	back_.SetEnable(enable);
 	for (int i = 0; i < SELECT_NUM; ++i)
 	{
-		menu_[i].enable = enable; 
-		menuBack_[i].enable = enable;
+		menu_[i].SetEnable(enable);
+		menuBack_[i].SetEnable(enable);
 		if (i < SELECT_NUM - 1)
 		{
-			notSelect_[i].enable = enable;
+			notSelect_[i].SetEnable(enable);
 		}
 	}
 }

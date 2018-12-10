@@ -10,7 +10,7 @@
 #include "../Define/Define.h"
 #include "../../../Sources/Scene/EachScene.h"
 
-#include "../Systems/Renderer/Sprite/CanvasRenderer.h"
+#include "../Systems/Renderer/CanvasRenderer/CanvasRendererImage.h"
 #include "../Systems/Input/Controller.h"
 
 #include "../Systems/GameSystems.h"

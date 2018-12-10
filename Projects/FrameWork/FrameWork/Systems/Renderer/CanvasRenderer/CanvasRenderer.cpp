@@ -53,10 +53,6 @@ void CanvasRenderer::Init(Systems* systems, byte priority, int texNu)
 		break;
 	}
 
-//	uint n = systems->GetRenderer()->GetWrapper()->CreateVertexBuffer(vnum);
-//	if (n == -1) { return; }
-
-//	this->buffer = n;
 	priority_ = priority;
 
 	systems->GetCanvasRenderer()->Add(this);

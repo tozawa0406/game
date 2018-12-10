@@ -29,11 +29,11 @@ private:
 	Player* player_;
 
 	//! 背景
-	CanvasRenderer back_;
+	CanvasRenderer::Image back_;
 	//! ライフバー
-	CanvasRenderer life_;
+	CanvasRenderer::Image life_;
 	//! スタミナバー
-	CanvasRenderer stamina_;
+	CanvasRenderer::Image stamina_;
 };
 
 #endif // _PLAYER_LIFE_H_

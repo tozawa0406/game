@@ -8,7 +8,7 @@
 #define _LOADING_H_
 
 #include "BaseManager.h"
-#include "Renderer/Sprite/CanvasRenderer.h"
+#include "Renderer/CanvasRenderer/CanvasRendererImage.h"
 #include <thread>
 #include <mutex>
 
@@ -37,7 +37,7 @@ public:
 	void	Uninit(void) override;
 	void	FadeAlpha(float a);
 
-	void	EndFade(void) { for (auto& d : display_) { d.enable = false; } loadingPercent_->SetEnable(false); }
+	void	EndFade(void) { for (auto& d : display_) { d.SetEnable(false); } loadingPercent_->SetEnable(false); }
 
 	void	Start(int sceneNum);
 	bool	IsLoading(void) { return LoadingSafe(); }
@@ -64,7 +64,7 @@ private:
 	std::mutex		mutex_;
 	std::thread*	thread_;
 
-	CanvasRenderer	display_[4];
+	CanvasRenderer::Image	display_[4];
 };
 
 #endif // _LOADING_H_

@@ -38,11 +38,11 @@ HRESULT SceneManager::Init(void)
 #ifdef _DEBUG
 	displayMode_ = SceneList::TITLE;
 #endif
-	fade_.Init(systems_, 250, (int)Texture::Base::FILL_RECTANGLE);
-	fade_.position = { (float)Half(Graphics::WIDTH), (float)Half(Graphics::HEIGHT) };
-	fade_.size = { (float)Graphics::WIDTH, (float)Graphics::HEIGHT };
-	fade_.color = COLOR(0, 0, 0, 0);
-	fade_.enable = false;
+	fade_.Init(250, (int)Texture::Base::WHITE);
+	fade_.SetPosition(VECTOR2((float)Half(Graphics::WIDTH), (float)Half(Graphics::HEIGHT)));
+	fade_.SetSize(VECTOR2((float)Graphics::WIDTH, (float)Graphics::HEIGHT));
+	fade_.SetColor(COLOR(0, 0, 0, 0));
+	fade_.SetEnable(false);
 
 	loading_ = new Loading(systems_);
 	assert(loading_);
@@ -59,6 +59,7 @@ HRESULT SceneManager::Init(void)
 
 void SceneManager::Uninit(void)
 {
+	fade_.Uninit();
 	DeletePtr(eachScene_);
 	UninitDeletePtr(loading_);
 	UninitDeletePtr(pause_);
@@ -125,9 +126,9 @@ void SceneManager::SceneUpdate(void)
 void SceneManager::Fade(void)
 {
 	int a = 0;
-	if (fade_.enable)
+	if (fade_.GetEnable())
 	{
-		fade_.enable = false;
+		fade_.SetEnable(false);
 		loading_->EndFade();
 	}
 	if (fadeCnt_ < SCENE_FADE_OUT)
@@ -144,8 +145,8 @@ void SceneManager::Fade(void)
 	if (static_cast<int>(sceneChange_))
 	{
 		COLOR c = { 0, 0, 0, a / 255.0f };
-		fade_.color = c;
-		fade_.enable = true;
+		fade_.SetColor(c);
+		fade_.SetEnable(true);
 		loading_->FadeAlpha(c.a);
 	}
 }

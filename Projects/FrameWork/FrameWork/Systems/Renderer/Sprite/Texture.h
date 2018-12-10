@@ -19,13 +19,6 @@ class Texture : public Interface
 public:
 	enum class Base : int
 	{
-		POINT = -7,
-		LINE,
-		RECTANGLE,
-		FILL_TRIANGLE,
-		FILL_RECTANGLE,
-		FILL_CIRCLE,
-
 		UNOWN = -1,
 
 		WHITE = 0,

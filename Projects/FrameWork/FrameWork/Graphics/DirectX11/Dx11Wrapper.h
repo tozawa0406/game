@@ -33,7 +33,7 @@ public:
 	void    EndDrawObjectRenderer(void)   override;
 
 	void    SetTexture(int stage, int texNum = -1, int modelNum = -1) override;
-	void    Draw(const CanvasRenderer* obj, const Shader* shader)	override;
+	void    Draw(const CanvasRenderer::Image* obj, const Shader* shader)	override;
 	void    Draw(const SpriteRenderer* obj, const Shader* shader)	override;
 	void    Draw(MeshRenderer*   obj, const Shader* shader)			override;
 	void	Draw(const Particle*	   obj, const Shader* shader)	override;
