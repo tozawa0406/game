@@ -69,7 +69,7 @@ void MeshRenderer::AnimEndPattern(void)
 bool MeshRenderer::Animation(float add)
 {
 	isSkinning_ = false;
-	if (animationMax_.size() <= (UINT)animation_) { return false; }
+	if (animationMax_.size() <= (uint)animation_) { return false; }
 
 	if (animationOld_ >= 0)
 	{
@@ -138,7 +138,7 @@ void MeshRenderer::Skinning(void)
 		memcpy_s(&cbuf1.boneInv[j], sizeof(MATRIX), &model.bone[j].inverseMtx, sizeof(MATRIX));
 
 		int anim = (int)pattern_;
-		if (model.bone[j].animMtx.size() <= (UINT)animation_ || model.bone[j].animMtx[animation_].size() == 0)
+		if (model.bone[j].animMtx.size() <= (uint)animation_ || model.bone[j].animMtx[animation_].size() == 0)
 		{
 			memcpy_s(&cbuf1.boneAnim[j], sizeof(MATRIX), &model.bone[j].offsetMtx, sizeof(MATRIX));
 			memcpy_s(&model.bone[j].nowBone, sizeof(MATRIX), &model.bone[j].offsetMtx, sizeof(MATRIX));
@@ -164,7 +164,7 @@ void MeshRenderer::Skinning(void)
 			else
 			{
 				MATRIX mtx1, mtx2;
-				if (model.bone[j].animMtx.size() >(UINT)animationOld_ || model.bone[j].animMtx[animationOld_].size() > 0)
+				if (model.bone[j].animMtx.size() >(uint)animationOld_ || model.bone[j].animMtx[animationOld_].size() > 0)
 				{
 					memcpy_s(&mtx1, sizeof(MATRIX), &model.bone[j].animMtx[animation_][anim], sizeof(MATRIX));
 					anim = (int)patternOld_;

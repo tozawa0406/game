@@ -101,8 +101,8 @@ public:
 	~Input(void)           override;
 	HRESULT     Init(void) override;
 	KeyInput*   GetKeyboard(void)            { return keyboard_;                                }
-	BYTE        NowNumber(void)              { return nowNumber_;                               }
-	BYTE        CallBackController(void)     { return numCallBackController_;                   }
+	byte        NowNumber(void)              { return nowNumber_;                               }
+	byte        CallBackController(void)     { return numCallBackController_;                   }
 	Controller* GetCtrl(int i)               { return controller_[min(i, MAX_CONTROLLERS - 1)]; }
 	void        CallBackControllerZero(void) { nowNumber_ = 0;                                  }
 	void        CallBackControllerPlus(void) { nowNumber_++;                                    }
@@ -115,8 +115,8 @@ private:
 	KeyInput*   keyboard_;
 	Controller* controller_[MAX_CONTROLLERS];
 
-	BYTE        nowNumber_;
-	BYTE        numCallBackController_;
+	byte        nowNumber_;
+	byte        numCallBackController_;
 };
 
 #endif

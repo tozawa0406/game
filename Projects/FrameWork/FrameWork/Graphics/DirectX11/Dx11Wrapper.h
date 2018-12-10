@@ -9,12 +9,11 @@
 
 #include "../Wrapper.h"
 #include "DirectX11.h"
+#include "Dx11Utility/Dx11Font.h"
 
 #include "../../Systems/Renderer/Model/Model.h"
 #include "../../Systems/Renderer/Model/LoadModel.h"
 #include "../../Systems/Renderer/Shader/Shader.h"
-
-#include "../../Systems/Renderer/Font.h"
 
 //-----------------------------------------------------------------------------
 //	クラス定義
@@ -23,9 +22,9 @@ class Dx11Wrapper : public Wrapper
 {
 	friend DirectX11;
 public:
-	UINT	CreateVertexBuffer(const void* v, UINT size, UINT vnum)	override;
-	UINT	CreateIndexBuffer(const WORD* v, UINT vnum)				override;
-	void	ReleaseBuffer(UINT number, Wrapper::FVF fvf)			override;
+	uint	CreateVertexBuffer(const void* v, uint size, uint vnum)	override;
+	uint	CreateIndexBuffer(const WORD* v, uint vnum)				override;
+	void	ReleaseBuffer(uint number, Wrapper::FVF fvf)			override;
 
 	void    BeginDrawCanvasRenderer(void) override;
 	void    EndDrawCanvasRenderer(void)   override;
@@ -51,20 +50,20 @@ public:
 	HRESULT LoadModelAnimation(string fileName, int parent)		override;
 	void    ReleaseModel(int modelNum)							override;
 
-	UINT	CreateVertexShader(string fileName, string method, string version, void* t, UINT elemNum) override;
-	HRESULT	SetVertexShader(UINT number)	 override {	UNREFERENCED_PARAMETER(number); return S_OK; }
-	void	ReleaseVertesShader(UINT number) override { UNREFERENCED_PARAMETER(number); }
+	uint	CreateVertexShader(string fileName, string method, string version, void* t, uint elemNum) override;
+	HRESULT	SetVertexShader(uint number)	 override {	UNREFERENCED_PARAMETER(number); return S_OK; }
+	void	ReleaseVertesShader(uint number) override { UNREFERENCED_PARAMETER(number); }
 
-	UINT	CreatePixelShader(string fileName, string method, string version) override;
-	HRESULT	SetPixelShader(UINT number)		override { UNREFERENCED_PARAMETER(number); return S_OK; }
-	void	ReleasePixelShader(UINT number) override { UNREFERENCED_PARAMETER(number); }
+	uint	CreatePixelShader(string fileName, string method, string version) override;
+	HRESULT	SetPixelShader(uint number)		override { UNREFERENCED_PARAMETER(number); return S_OK; }
+	void	ReleasePixelShader(uint number) override { UNREFERENCED_PARAMETER(number); }
 
-	UINT    CreateGeometryShader(string fileName, string method, string version);
-	UINT	CreateComputeShader(string fileName, string method, string version, const void* v, UINT size, UINT num);
-	UINT	CreateConstantBuffer(UINT size);
+	uint    CreateGeometryShader(string fileName, string method, string version);
+	uint	CreateComputeShader(string fileName, string method, string version, const void* v, uint size, uint num);
+	uint	CreateConstantBuffer(uint size);
 
 	ID3D11DeviceContext* GetContext(void) { return directX11_->GetDeviceContext(); }
-	ID3D11Buffer*        GetConstantBuffer(UINT num) { return constantBuffer_[num]; }
+	ID3D11Buffer*        GetConstantBuffer(uint num) { return constantBuffer_[num]; }
 
 	MODEL&	GetModel(int i) { return model_[i]; }
 
@@ -73,11 +72,9 @@ public:
 
 	void DrawQuad(VECTOR2 position, VECTOR2 size, COLOR color = COLOR(1, 1, 1, 1)) override;
 
-	Font* GetFont(void) { return font_; }
-
 private:
 	ID3DBlob*	CompiledShader(string fileName, string method, string version);
-	long		ReadShader(string csoName, BYTE** byte);
+	long		ReadShader(string csoName, byte** b);
 
 	// DirectX11のテクスチャ情報
 	struct Dx11Texture : public TextureData
@@ -88,8 +85,8 @@ private:
 	struct VertexBuffer
 	{
 		ID3D11Buffer* buffer;
-		UINT stride;
-		UINT offset;
+		uint stride;
+		uint offset;
 	};
 	// DirectX11の頂点シェーダー
 	struct VertexShader
@@ -114,10 +111,10 @@ private:
 
 	struct ShaderData
 	{
-		std::vector<UINT> vertexShader;
-		std::vector<UINT> pixelShader;
-		std::vector<UINT> geometryShader_;
-		std::vector<UINT> constantBuffer;
+		std::vector<uint> vertexShader;
+		std::vector<uint> pixelShader;
+		std::vector<uint> geometryShader_;
+		std::vector<uint> constantBuffer;
 	};
 
 	Dx11Wrapper(DirectX11* directX);
@@ -126,7 +123,7 @@ private:
 	void Init(void)   override;
 	void Uninit(void) override;
 
-	UINT InsideBuffer(void);
+	uint InsideBuffer(void);
 	D3D11_PRIMITIVE_TOPOLOGY SelectPrimitiveType(PRIMITIVE::TYPE type);
 
 	DirectX11* directX11_;
@@ -147,8 +144,6 @@ private:
 	std::vector<ID3D11Buffer*>			constantBuffer_;		// アプリ←→シェーダー架け橋　ワールドから射影までの変換行列を渡すためのコンスタントバッファー
 
 	ShaderData shader_[2];
-
-	Font* font_;
 
 public:
 	ComputeShader& GetComputeShader(int i) { return computeShader_[i]; }

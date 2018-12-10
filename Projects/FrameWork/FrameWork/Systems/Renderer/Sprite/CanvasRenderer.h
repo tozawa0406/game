@@ -16,10 +16,10 @@ struct CanvasRenderer
 {
 	friend class CanvasRendererManager;
 
-	void Init(Systems* systems, BYTE priority, int texNum);
-	UINT GetBuffer(void)       const { return buffer_; }
-	BYTE GetPrimitiveNum(void) const { return pnum_; }
-	void SetPriority(BYTE p) { priority_ = p; systems_->GetCanvasRenderer()->Sort(); }
+	void Init(Systems* systems, byte priority, int texNum);
+	uint GetBuffer(void)       const { return buffer_; }
+	byte GetPrimitiveNum(void) const { return pnum_; }
+	void SetPriority(byte p) { priority_ = p; systems_->GetCanvasRenderer()->Sort(); }
 	Wrapper::PRIMITIVE::TYPE GetPrimitiveType(void) const { return type_; }
 
 	int			  texNum;
@@ -65,9 +65,9 @@ private:
 	void Sprite(void);
 
 	Wrapper::PRIMITIVE::TYPE type_;
-	BYTE pnum_;
-	BYTE priority_;
-	UINT buffer_;
+	byte pnum_;
+	byte priority_;
+	uint buffer_;
 
 	Systems* systems_;
 };

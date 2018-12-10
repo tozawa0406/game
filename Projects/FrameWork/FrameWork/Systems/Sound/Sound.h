@@ -98,7 +98,7 @@ private:
 	struct SOUNDDATA
 	{
 		IXAudio2SourceVoice*	sourceVoice;	// ソースボイス
-		BYTE*					data;			// オーディオデータ
+		byte*					data;			// オーディオデータ
 		DWORD					size;			// オーディオデータサイズ
 		int						loop;
 	};

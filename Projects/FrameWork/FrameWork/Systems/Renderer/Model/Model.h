@@ -25,7 +25,7 @@ struct MATERIAL
 	COLOR		specular;
 	COLOR		emission;
 	float		power;
-	UINT		texture[static_cast<int>(MaterialType::MAX)];
+	uint		texture[static_cast<int>(MaterialType::MAX)];
 	string		textureName[static_cast<int>(MaterialType::MAX)];
 };
 
@@ -44,9 +44,9 @@ struct MESH
 	MATRIX						transMtx;
 	std::vector<VERTEX>			vertex;
 	std::vector<WORD>			index;
-	UINT						vertexBuffer;
-	UINT						indexBuffer;
-	UINT						computeShader;
+	uint						vertexBuffer;
+	uint						indexBuffer;
+	uint						computeShader;
 	MATERIAL					material;
 };
 

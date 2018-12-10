@@ -19,7 +19,7 @@
 //! @def	大きさ
 static constexpr float SCALE = 0.9f;
 //! @def	ライフ
-static constexpr int MAX_LIFE = 1;
+static constexpr int MAX_LIFE = 2500;
 
 //! @def	飛行フラグ
 static constexpr uint IS_FLY = 0x0002;

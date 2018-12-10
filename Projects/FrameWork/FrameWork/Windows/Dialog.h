@@ -30,7 +30,7 @@ public:
 	Graphics::Type GetGraphicsType(void) { return type_; }
 
 	// ダイアログ処理
-	static BOOL CALLBACK DialogProc(HWND window, UINT message, WPARAM wParam, LPARAM lParam);
+	static BOOL CALLBACK DialogProc(HWND window, uint message, WPARAM wParam, LPARAM lParam);
 
 private:
 	HWND dialog_;

@@ -26,10 +26,12 @@
     <ClInclude Include="FrameWork\Graphics\DirectX11\DirectX11.h" />
     <ClInclude Include="FrameWork\Graphics\DirectX11\Dx11Include.h" />
     <ClInclude Include="FrameWork\Graphics\DirectX11\Dx11RenderTarget.h" />
+    <ClInclude Include="FrameWork\Graphics\DirectX11\Dx11Utility\Dx11Font.h" />
     <ClInclude Include="FrameWork\Graphics\DirectX11\Dx11Wrapper.h" />
     <ClInclude Include="FrameWork\Graphics\DirectX11\WICTextureLoader.h" />
     <ClInclude Include="FrameWork\Graphics\Graphics.h" />
     <ClInclude Include="FrameWork\Graphics\RenderTarget.h" />
+    <ClInclude Include="FrameWork\Graphics\Utility\Font.h" />
     <ClInclude Include="FrameWork\Graphics\Wrapper.h" />
     <ClInclude Include="FrameWork\Object\Object.h" />
     <ClInclude Include="FrameWork\Object\ObjectManager.h" />
@@ -75,7 +77,6 @@
     <ClInclude Include="FrameWork\Systems\Loading.h" />
     <ClInclude Include="FrameWork\Systems\Particle\Particle.h" />
     <ClInclude Include="FrameWork\Systems\Particle\ParticleManager.h" />
-    <ClInclude Include="FrameWork\Systems\Renderer\Font.h" />
     <ClInclude Include="FrameWork\Systems\Renderer\MeshField.h" />
     <ClInclude Include="FrameWork\Systems\Renderer\Model\LoadModel.h" />
     <ClInclude Include="FrameWork\Systems\Renderer\Model\MeshRenderer.h" />
@@ -109,8 +110,10 @@
     <ClCompile Include="FrameWork\Define\Vector.cpp" />
     <ClCompile Include="FrameWork\Graphics\DirectX11\DirectX11.cpp" />
     <ClCompile Include="FrameWork\Graphics\DirectX11\Dx11RenderTarget.cpp" />
+    <ClCompile Include="FrameWork\Graphics\DirectX11\Dx11Utility\Dx11Font.cpp" />
     <ClCompile Include="FrameWork\Graphics\DirectX11\Dx11Wrapper.cpp" />
     <ClCompile Include="FrameWork\Graphics\DirectX11\WICTextureLoader.cpp" />
+    <ClCompile Include="FrameWork\Graphics\Utility\Font.cpp" />
     <ClCompile Include="FrameWork\Object\Object.cpp" />
     <ClCompile Include="FrameWork\Object\ObjectManager.cpp" />
     <ClCompile Include="FrameWork\Scene\BaseScene.cpp" />
@@ -147,7 +150,6 @@
     <ClCompile Include="FrameWork\Systems\Loading.cpp" />
     <ClCompile Include="FrameWork\Systems\Particle\Particle.cpp" />
     <ClCompile Include="FrameWork\Systems\Particle\ParticleManager.cpp" />
-    <ClCompile Include="FrameWork\Systems\Renderer\Font.cpp" />
     <ClCompile Include="FrameWork\Systems\Renderer\MeshField.cpp" />
     <ClCompile Include="FrameWork\Systems\Renderer\Model\LoadModel.cpp" />
     <ClCompile Include="FrameWork\Systems\Renderer\Model\MeshRenderer.cpp" />

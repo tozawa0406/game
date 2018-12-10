@@ -169,7 +169,7 @@ void Dx11Wrapper::Init(void)
 	}
 	CreateVertexBuffer(v, sizeof(VERTEX2D), 4);
 
-	font_ = new Font;
+	font_ = new Dx11Font;
 	if (font_)
 	{
 		font_->Init(directX11_);
@@ -235,7 +235,7 @@ void Dx11Wrapper::Uninit(void)
 	}
 }
 
-UINT Dx11Wrapper::InsideBuffer(void)
+uint Dx11Wrapper::InsideBuffer(void)
 {
 	int s = (int)vertexBuffer_.size();
 	for (int i = 0; i < s; ++i)
@@ -249,10 +249,10 @@ UINT Dx11Wrapper::InsideBuffer(void)
 	return R_ERROR;
 }
 
-UINT Dx11Wrapper::CreateVertexBuffer(const void* v, UINT size, UINT vnum)
+uint Dx11Wrapper::CreateVertexBuffer(const void* v, uint size, uint vnum)
 {
 	VertexBuffer* temp = nullptr;
-	UINT inside = InsideBuffer();
+	uint inside = InsideBuffer();
 	if (inside != R_ERROR) { temp = &vertexBuffer_[inside]; }
 	else { temp = new VertexBuffer; }
 
@@ -285,11 +285,11 @@ UINT Dx11Wrapper::CreateVertexBuffer(const void* v, UINT size, UINT vnum)
 	}
 	vertexBuffer_.emplace_back(*temp);
 	delete temp;
-	return (UINT)vertexBuffer_.size() - 1;
+	return (uint)vertexBuffer_.size() - 1;
 
 }
 
-UINT Dx11Wrapper::CreateIndexBuffer(const WORD* v, UINT vnum)
+uint Dx11Wrapper::CreateIndexBuffer(const WORD* v, uint vnum)
 {
 	int inside = -1;
 	ID3D11Buffer* temp = nullptr;
@@ -330,10 +330,10 @@ UINT Dx11Wrapper::CreateIndexBuffer(const WORD* v, UINT vnum)
 	}
 
 	indexBuffer_.emplace_back(temp);
-	return (UINT)indexBuffer_.size() - 1;
+	return (uint)indexBuffer_.size() - 1;
 }
 
-void Dx11Wrapper::ReleaseBuffer(UINT number, Wrapper::FVF fvf)
+void Dx11Wrapper::ReleaseBuffer(uint number, Wrapper::FVF fvf)
 {
 	if (fvf == Wrapper::FVF::INDEX)
 	{
@@ -602,7 +602,7 @@ void Dx11Wrapper::Draw(MeshRenderer* obj, const Shader* shader)
 		pContext->IASetIndexBuffer(indexBuffer_[mesh.indexBuffer], DXGI_FORMAT_R16_UINT, 0);
 
 		// 描画
-		pContext->DrawIndexed((UINT)mesh.index.size(), 0, 0);
+		pContext->DrawIndexed((uint)mesh.index.size(), 0, 0);
 	}
 }
 
@@ -833,7 +833,7 @@ HRESULT Dx11Wrapper::LoadTexture(string fileName, int texNum, int modelNum)
 	}
 	else
 	{
-		if (texture_.size() < (UINT)modelNum + 2)
+		if (texture_.size() < (uint)modelNum + 2)
 		{
 			std::vector<Dx11Texture> t;
 			texture_.emplace_back(t);
@@ -864,18 +864,15 @@ HRESULT Dx11Wrapper::LoadTexture(string fileName, int texNum, int modelNum)
 
 void Dx11Wrapper::ReleaseTexture(int texNum, int modelNum)
 {
-	SetTexture(0, -1);
-	SetTexture(1, -1);
-	SetTexture(2, -1);
-	SetTexture(3, -1);
-	SetTexture(4, -1);
+	for (int i = 0; i < 8; ++i) { SetTexture(i, -1); }
 
-	if (static_cast<UINT>(modelNum + 1) >= texture_.size()) { return; }
+	if (static_cast<uint>(modelNum + 1) >= texture_.size()) { return; }
 	auto& tex = texture_[modelNum + 1];
 
 	if (modelNum >= 0)
 	{
-		for (int i = tex.size() - 1; i >= 0; --i)
+		int texSize = static_cast<int>(tex.size());
+		for (int i = texSize - 1; i >= 0; --i)
 		{
 			ReleasePtr(tex[i].data);
 
@@ -924,7 +921,6 @@ HRESULT Dx11Wrapper::LoadModel(string fileName, int modelNum)
 {
 	LoadM Loader;
 	MODEL tempModel;
-	bool fbx = false;
 
 	string extension;
 	for (int i = (int)fileName.size() - 1; i > 0 && fileName[i] != '.'; --i)
@@ -935,7 +931,6 @@ HRESULT Dx11Wrapper::LoadModel(string fileName, int modelNum)
 	if (extension == "bmx")
 	{
 		tempModel = Loader.Load(fileName);
-		fbx = true;
 	}
 
 	for (auto& b : tempModel.bone)
@@ -949,28 +944,10 @@ HRESULT Dx11Wrapper::LoadModel(string fileName, int modelNum)
 	for (auto& mesh : tempModel.mesh)
 	{
 		mesh.computeShader = R_ERROR;
-		if (fbx)
-		{
-			mesh.vertexBuffer = CreateVertexBuffer(&mesh.vertex[0], sizeof(mesh.vertex[0]), (UINT)mesh.vertex.size());
-			if (mesh.vertexBuffer == R_ERROR) { return E_FAIL; }
-		}
-		else
-		{
-			std::vector<VERTEX3D> temp;
-			temp.resize(mesh.vertex.size());
-			int size = (int)mesh.vertex.size();
-			for (int i = 0; i < size; ++i)
-			{
-				temp[i].position = mesh.vertex[i].position;
-				temp[i].normal   = mesh.vertex[i].normal;
-				temp[i].color    = mesh.vertex[i].color;
-				temp[i].texcoord = mesh.vertex[i].texcoord;
-			}
-			mesh.vertexBuffer = CreateVertexBuffer(&temp[0], sizeof(temp[0]), (UINT)mesh.vertex.size());
-			if (mesh.vertexBuffer == R_ERROR) { return E_FAIL; }
-		}
+		mesh.vertexBuffer = CreateVertexBuffer(&mesh.vertex[0], sizeof(mesh.vertex[0]), (uint)mesh.vertex.size());
+		if (mesh.vertexBuffer == R_ERROR) { return E_FAIL; }
 
-		mesh.indexBuffer = CreateIndexBuffer(&mesh.index[0], (UINT)mesh.index.size());
+		mesh.indexBuffer = CreateIndexBuffer(&mesh.index[0], (uint)mesh.index.size());
 		if (mesh.indexBuffer == R_ERROR) { return E_FAIL; }
 
 		int texMax = static_cast<int>(MaterialType::MAX);
@@ -982,7 +959,7 @@ HRESULT Dx11Wrapper::LoadModel(string fileName, int modelNum)
 			{
 				string directory = fileName;
 				// テクスチャのディレクトリはモデルと同じ
-				for (UINT i = (UINT)directory.size() - 1; directory[i] != '/' && i > 0; i--) { directory.pop_back(); }
+				for (uint i = (uint)directory.size() - 1; directory[i] != '/' && i > 0; i--) { directory.pop_back(); }
 
 				string texName;
 				int size = (int)tempName.size() - 1;
@@ -1124,7 +1101,7 @@ ID3DBlob* Dx11Wrapper::CompiledShader(string fileName, string method, string ver
 	return pCompiledShader;
 }
 
-long Dx11Wrapper::ReadShader(string csoName, BYTE** byte)
+long Dx11Wrapper::ReadShader(string csoName, byte** b)
 {
 	FILE* fp;
 	int ret = fopen_s(&fp, csoName.c_str(), "rb");
@@ -1133,14 +1110,14 @@ long Dx11Wrapper::ReadShader(string csoName, BYTE** byte)
 	long size = ftell(fp);
 	fseek(fp, 0, SEEK_SET);
 
-	*byte = new BYTE[size];
+	*b = new byte[size];
 
-	fread(*byte, size, 1, fp);
+	fread(*b, size, 1, fp);
 	fclose(fp);
 	return size;
 }
 
-UINT Dx11Wrapper::CreateVertexShader(string fileName, string method, string version, void* t, UINT elemNum)
+uint Dx11Wrapper::CreateVertexShader(string fileName, string method, string version, void* t, uint elemNum)
 {
 	if (version != "vs_5_0") { return 0; }
 
@@ -1164,10 +1141,10 @@ UINT Dx11Wrapper::CreateVertexShader(string fileName, string method, string vers
 
 	vertexShader_.emplace_back(tempVertexShader);
 	
-	return (UINT)vertexShader_.size() - 1;
+	return (uint)vertexShader_.size() - 1;
 }
 
-UINT Dx11Wrapper::CreatePixelShader(string fileName, string method, string version)
+uint Dx11Wrapper::CreatePixelShader(string fileName, string method, string version)
 {
 	if (version != "ps_5_0") { return 0; }
 
@@ -1200,10 +1177,10 @@ UINT Dx11Wrapper::CreatePixelShader(string fileName, string method, string versi
 
 	pixelShader_.emplace_back(tempPixelShader);
 
-	return (UINT)pixelShader_.size() - 1;
+	return (uint)pixelShader_.size() - 1;
 }
 
-UINT Dx11Wrapper::CreateGeometryShader(string fileName, string method, string version)
+uint Dx11Wrapper::CreateGeometryShader(string fileName, string method, string version)
 {
 	const auto& pDevice = directX11_->GetDevice();
 	HRESULT hr;
@@ -1221,10 +1198,10 @@ UINT Dx11Wrapper::CreateGeometryShader(string fileName, string method, string ve
 	ReleasePtr(pCompiledShader);
 
 	geometryShader_.emplace_back(tempGeometryShader);
-	return (UINT)geometryShader_.size() - 1;
+	return (uint)geometryShader_.size() - 1;
 }
 
-UINT Dx11Wrapper::CreateComputeShader(string fileName, string method, string version, const void* v, UINT size, UINT num)
+uint Dx11Wrapper::CreateComputeShader(string fileName, string method, string version, const void* v, uint size, uint num)
 {
 	const auto& dev = directX11_->GetDevice();
 	HRESULT hr;
@@ -1237,23 +1214,23 @@ UINT Dx11Wrapper::CreateComputeShader(string fileName, string method, string ver
 	}
 
 	ID3DBlob* pCompiledShader = nullptr;
-	BYTE* byte = nullptr,*temp = nullptr;
+	byte* b = nullptr,*temp = nullptr;
 	long  s    = -1;
 	if (extension == "cso")
 	{
 		s = ReadShader(fileName, &temp);
-		byte = temp;
+		b = temp;
 	}
 	else
 	{
 		pCompiledShader = CompiledShader(fileName, method, version);
 		if (!pCompiledShader) { return R_ERROR; }
 
-		byte = (BYTE*)pCompiledShader->GetBufferPointer();
+		b = (byte*)pCompiledShader->GetBufferPointer();
 		s	 = (long)pCompiledShader->GetBufferSize();
 	}
 
-	hr = dev->CreateComputeShader(byte, s, NULL, &tempComputeShader.shader);
+	hr = dev->CreateComputeShader(b, s, NULL, &tempComputeShader.shader);
 	if (directX11_->GetWindow()->ErrorMessage("コンピュートシェーダーの作成に失敗", "エラー", hr))
 	{
 		ReleasePtr(pCompiledShader);
@@ -1296,10 +1273,10 @@ UINT Dx11Wrapper::CreateComputeShader(string fileName, string method, string ver
 	if (FAILED(hr)) { return R_ERROR; }
 
 	computeShader_.emplace_back(tempComputeShader);
-	return (UINT)computeShader_.size() - 1;
+	return (uint)computeShader_.size() - 1;
 }
 
-UINT Dx11Wrapper::CreateConstantBuffer(UINT size)
+uint Dx11Wrapper::CreateConstantBuffer(uint size)
 {
 	const auto& pDevice = directX11_->GetDevice();
 
@@ -1316,7 +1293,7 @@ UINT Dx11Wrapper::CreateConstantBuffer(UINT size)
 	if (directX11_->GetWindow()->ErrorMessage("コンスタントバッファの作成に失敗", "エラー", hr)) { return R_ERROR; }
 
 	constantBuffer_.emplace_back(temp);
-	return (UINT)constantBuffer_.size() - 1;
+	return (uint)constantBuffer_.size() - 1;
 }
 
 void Dx11Wrapper::DrawQuad(VECTOR2 position, VECTOR2 size, COLOR color)

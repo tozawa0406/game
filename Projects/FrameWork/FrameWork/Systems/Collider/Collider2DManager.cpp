@@ -18,7 +18,7 @@ Collision2DManager::Collision2DManager(Systems* systems) : BaseManager(systems)
 
 Collision2DManager::~Collision2DManager(void)
 {
-	for (UINT i = 0; i < obj_.size();)
+	for (uint i = 0; i < obj_.size();)
 	{
 		this->RemovePtr(obj_[i]);
 	}

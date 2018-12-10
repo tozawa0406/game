@@ -29,8 +29,8 @@ public:
 	~Controller(void);
 
 	Input*               GetInput(void)   { return input_;    }
-	BYTE                 GetNumber(void)  { return number_;   }
-	BYTE                 GetCtrlNum(void) { return ctrlNum_;  }
+	byte                 GetNumber(void)  { return number_;   }
+	byte                 GetCtrlNum(void) { return ctrlNum_;  }
 	LPDIRECTINPUTDEVICE8 GetDevCtrl(void) { return pDevCtrl_; }
 
 	INPUT_BUTTON GetButton(void) { return state_.button; }
@@ -47,7 +47,7 @@ public:
 	void Cutting(void);
 
 private:
-	Controller(Input* input, BYTE number);
+	Controller(Input* input, byte number);
 	void Update(void);
 
 	LPDIRECTINPUT8 GetInputDevice(void) { return this->pInput_; };
@@ -65,8 +65,8 @@ private:
 	GUID temp_;
 
 	Input* input_;
-	BYTE   number_;
-	BYTE   ctrlNum_;
+	byte   number_;
+	byte   ctrlNum_;
 
 	LPDIRECTINPUT8       pInput_;		// DirectInputオブジェクトへのポインタ
 	LPDIRECTINPUTDEVICE8 pDevCtrl_;		// 入力デバイス(キーボード)へのポインタ

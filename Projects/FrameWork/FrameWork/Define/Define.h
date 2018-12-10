@@ -20,11 +20,6 @@
 #include "Matrix.h"
 #include "Color.h"
 
-#pragma comment(lib, "winmm.lib")
-#pragma comment(lib, "dinput8.lib")
-#pragma comment(lib, "dxguid.lib")
-#pragma comment(lib, "Xinput.lib")
-
 //-----------------------------------------------------------------------------
 //	’è”’è‹`
 //-----------------------------------------------------------------------------
@@ -37,6 +32,10 @@ namespace Define
 typedef unsigned char uint8;
 typedef unsigned int  uint;
 
+#ifdef _INC_LIMITS
+#else
+static constexpr uint UINT_MAX = 0xffffffff;
+#endif
 static constexpr float PI = 3.14f;
 
 //-----------------------------------------------------------------------------

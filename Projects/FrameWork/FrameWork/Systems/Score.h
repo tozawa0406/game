@@ -34,14 +34,14 @@ public:
 	void    SetEnable(bool enable)   { for (int i = 0; i < dig_; i++) { (texture_ + i)->enable = enable; } }
 	void    SetColor(COLOR color)	 { color_ = color; }
 	void    SetScale(float scale)    { scale_ = scale;  }
-	void	SetPriority(BYTE p)		 { priority_ = p; }
+	void	SetPriority(byte p)		 { priority_ = p; }
 	VECTOR2 GetSize(void)            { return texture_->size * scale_; }
 
 private:
 	SceneManager* parent_;
 
 	int SCORE_MAX_ = 0;					//Å‘åŒ…”
-	BYTE	priority_;
+	byte	priority_;
 	CanvasRenderer* texture_;
 	COLOR	 color_;
 	float    scale_;

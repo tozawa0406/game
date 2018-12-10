@@ -66,6 +66,12 @@
     <Filter Include="FrameWork\Graphics\DirectX11">
       <UniqueIdentifier>{c47a17c8-2f7f-410c-b87a-eb12d014a76a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FrameWork\Graphics\Utility">
+      <UniqueIdentifier>{0213f8bb-f7be-4352-82df-a34a2895f5f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Graphics\DirectX11\Dx11Utility">
+      <UniqueIdentifier>{c34625aa-0869-4952-9741-bbe08b5b27bf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FrameWork\Define\Color.h">
@@ -317,8 +323,11 @@
     <ClInclude Include="FrameWork\Systems\Screenshot.h">
       <Filter>FrameWork\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="FrameWork\Systems\Renderer\Font.h">
-      <Filter>FrameWork\Systems\Renderer</Filter>
+    <ClInclude Include="FrameWork\Graphics\Utility\Font.h">
+      <Filter>FrameWork\Graphics\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Graphics\DirectX11\Dx11Utility\Dx11Font.h">
+      <Filter>FrameWork\Graphics\DirectX11\Dx11Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -526,8 +535,11 @@
     <ClCompile Include="FrameWork\Systems\Screenshot.cpp">
       <Filter>FrameWork\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="FrameWork\Systems\Renderer\Font.cpp">
-      <Filter>FrameWork\Systems\Renderer</Filter>
+    <ClCompile Include="FrameWork\Graphics\Utility\Font.cpp">
+      <Filter>FrameWork\Graphics\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Graphics\DirectX11\Dx11Utility\Dx11Font.cpp">
+      <Filter>FrameWork\Graphics\DirectX11\Dx11Utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -89,7 +89,7 @@ void XInput::GuiUpdate(void)
 {
 }
 
-void XInput::GuiCheck(const WORD& button, const SHORT& axis, const BYTE& trigger)
+void XInput::GuiCheck(const WORD& button, const SHORT& axis, const byte& trigger)
 {
 	if (button & XINPUT_GAMEPAD_A)
 	{

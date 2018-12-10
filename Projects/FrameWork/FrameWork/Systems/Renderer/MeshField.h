@@ -46,8 +46,8 @@ private:
 
 	Systems* systems_;
 
-	UINT vertexBuffer_;
-	UINT indexBuffer_;
+	uint vertexBuffer_;
+	uint indexBuffer_;
 
 	std::vector<VERTEX> outputVertex_;
 	std::vector<WORD>   outputIndex_;

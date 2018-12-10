@@ -15,7 +15,7 @@
 #include <BluetoothAPIs.h>
 #pragma comment (lib, "Bthprops")
 
-Input::Input(Systems* systems) : Interface(systems), nowNumber_((BYTE)-1), numCallBackController_(0)
+Input::Input(Systems* systems) : Interface(systems), nowNumber_((byte)-1), numCallBackController_(0)
 {
 }
 
@@ -65,8 +65,8 @@ HRESULT Input::Init(void)
 
 	for (int i = 0; i < MAX_CONTROLLERS; i++)
 	{
-		nowNumber_ = (BYTE)i;
-		controller_[i] = new Controller(this, (BYTE)i);
+		nowNumber_ = (byte)i;
+		controller_[i] = new Controller(this, (byte)i);
 
 		if (controller_[i]->ConnectXCtrl())
 		{
@@ -77,7 +77,7 @@ HRESULT Input::Init(void)
 			controller_[i]->ctrl_ = new PS4Input(controller_[i]);
 		}
 	}
-	nowNumber_ = (BYTE)-1;
+	nowNumber_ = (byte)-1;
 
 	return S_OK;
 }
@@ -96,7 +96,7 @@ void Input::Update(void)
 	int nonConnect = 0;
 	for (int i = 0; i < MAX_CONTROLLERS; i++)
 	{
-		nowNumber_ = (BYTE)i;
+		nowNumber_ = (byte)i;
 
 		if (keyboard_->Press(DIK_C))
 		{
@@ -118,7 +118,7 @@ void Input::Update(void)
 		}
 		controller_[i]->Update();
 	}
-	nowNumber_ = (BYTE)-1;
+	nowNumber_ = (byte)-1;
 
 	if (nonConnect > 0)
 	{

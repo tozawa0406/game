@@ -72,7 +72,7 @@ KeyInput::~KeyInput(void)
 // キーボードの更新処理
 void KeyInput::Update(void)
 {
-	BYTE newKey[KEY_MAX];
+	byte newKey[KEY_MAX];
 
 	// デバイスからデータを取得
 	if(SUCCEEDED(pDevKeyboard_->GetDeviceState(sizeof(newKey), newKey)))

@@ -12,6 +12,11 @@
 
 #include "Dialog.h"
 
+#pragma comment(lib, "winmm.lib")
+#pragma comment(lib, "dinput8.lib")
+#pragma comment(lib, "dxguid.lib")
+#pragma comment(lib, "Xinput.lib")
+
 //-----------------------------------------------------------------------------
 //	クラス定義
 //-----------------------------------------------------------------------------
@@ -78,7 +83,7 @@ private:
 	float		fps_;
 
 	//ウィンドウプロシージャ
-	static LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+	static LRESULT CALLBACK WndProc(HWND hWnd, uint uMsg, WPARAM wParam, LPARAM lParam);
 };
 
 #endif // _WINDOWS_H

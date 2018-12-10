@@ -1,21 +1,21 @@
-#include "Font.h"
-#include <FrameWork/Graphics/DirectX11/DirectX11.h>
+#include "Dx11Font.h"
+#include "../DirectX11.h"
 #include <Shlwapi.h>
 
 static const string filename = "Resource/Data/ProggyClean.ttf";
 
-Font::Font(void) : directX11_(nullptr)
+Dx11Font::Dx11Font(void)
 {
 }
 
-Font::~Font(void)
+Dx11Font::~Dx11Font(void)
 {
 }
 
-HRESULT Font::Init(DirectX11* directX11)
+HRESULT Dx11Font::Init(Graphics* graphics)
 {
-	if (!directX11) { return E_FAIL; }
-	directX11_ = directX11;
+	if (!graphics) { return E_FAIL; }
+	graphics_ = graphics;
 
 	// フォントを使えるようにする
 	DESIGNVECTOR design;
@@ -24,46 +24,19 @@ HRESULT Font::Init(DirectX11* directX11)
 	return S_OK;
 }
 
-HRESULT Font::CreateStringData(const string& fonts, int fontSize)
+HRESULT Dx11Font::CreateFontData(const char* font, int fontSize)
 {
-	int max = fonts.size();
-	bool next = false;
-	for (int i = 0; i < max; ++i)
-	{
-		if (next) { next = false; continue; }
+	if (font_.count(font) != 0) { return E_ABORT; }
 
-		auto& f = fonts[i];
-		if (('a' <= f && f <= 'z') || ('A' <= f && f <= 'Z'))
-		{
-			string s = { f };
-			if (font_.count(s) != 0) { continue; }
-			TCHAR temp[2] = { f, 0 };
-			if (FAILED(CreateFontData(temp, fontSize))) { return E_FAIL; }
-		}
-		else
-		{
-			if (i + 1 >= max) { continue; }
-			string s = { f, fonts[i + 1] };
-			if (font_.count(s) != 0) { next = true; continue; }
-
-			TCHAR temp[3] = { f, fonts[i + 1], 0 };
-			if (FAILED(CreateFontData(temp, fontSize))) { return E_FAIL; }
-			next = true;
-		}
-	}
-	return S_OK;
-}
-
-HRESULT Font::CreateFontData(const TCHAR* font, int fontSize)
-{
-	const auto& window = directX11_->GetWindow();
+	const auto& window = graphics_->GetWindow();
 	if (!window) { return E_FAIL; }
 
 	BITMAPFONTDATA fontData;
 	HRESULT hr = CreateBitMapFontData(fontData, font, fontSize);
 
-	const auto& device  = directX11_->GetDevice();
-	const auto& context = directX11_->GetDeviceContext();
+	const auto& directX11 = static_cast<DirectX11*>(graphics_);
+	const auto& device  = directX11->GetDevice();
+	const auto& context = directX11->GetDeviceContext();
 
 	// CPUで書き込みができるテクスチャを作成
 	// テクスチャ作成
@@ -90,7 +63,7 @@ HRESULT Font::CreateFontData(const TCHAR* font, int fontSize)
 	if (window->ErrorMessage(string(font + temp).c_str(), "エラー", hr)) { return E_FAIL; }
 
 	// ここで書き込む
-	BYTE* pBits = (BYTE*)hMappedResource.pData;
+	byte* pBits = (byte*)hMappedResource.pData;
 
 	// フォント情報の書き込み
 	// iOfs_x, iOfs_y : 書き出し位置(左上)
@@ -111,7 +84,7 @@ HRESULT Font::CreateFontData(const TCHAR* font, int fontSize)
 			Alpha = (255 * fontData.ptr[x - iOfs_x + iBmp_w * (y - iOfs_y)]) / (Level - 1);
 			Color = 0x00ffffff | (Alpha << 24);
 
-			memcpy((BYTE*)pBits + hMappedResource.RowPitch * y + 4 * x, &Color, sizeof(DWORD));
+			memcpy((byte*)pBits + hMappedResource.RowPitch * y + 4 * x, &Color, sizeof(DWORD));
 		}
 	}
 	context->Unmap(tex2D, 0);
@@ -136,9 +109,9 @@ HRESULT Font::CreateFontData(const TCHAR* font, int fontSize)
 	return S_OK;
 }
 
-HRESULT Font::CreateBitMapFontData(BITMAPFONTDATA& fontData, const TCHAR* font, int fontSize)
+HRESULT Dx11Font::CreateBitMapFontData(BITMAPFONTDATA& fontData, const char* font, int fontSize)
 {
-	const auto& window = directX11_->GetWindow();
+	const auto& window = graphics_->GetWindow();
 	if (!window) { return E_FAIL; }
 
 	// フォントの生成
@@ -157,17 +130,17 @@ HRESULT Font::CreateBitMapFontData(BITMAPFONTDATA& fontData, const TCHAR* font, 
 	HFONT	oldFont = (HFONT)SelectObject(hdc, hFont);
 
 	// 文字コード取得
-	UINT code = 0;
+	uint code = 0;
 #if _UNICODE
-	// unicodeの場合、文字コードは単純にワイド文字のUINT変換です
-	code = (UINT)*c;
+	// unicodeの場合、文字コードは単純にワイド文字のuint変換です
+	code = (uint)*c;
 #else
 	// マルチバイト文字の場合、
-	// 1バイト文字のコードは1バイト目のUINT変換、
+	// 1バイト文字のコードは1バイト目のuint変換、
 	// 2バイト文字のコードは[先導コード]*256 + [文字コード]です
 	if (IsDBCSLeadByte(*font))
 	{
-		code = (BYTE)font[0] << 8 | (BYTE)font[1];
+		code = (byte)font[0] << 8 | (byte)font[1];
 	}
 	else
 	{
@@ -179,7 +152,7 @@ HRESULT Font::CreateBitMapFontData(BITMAPFONTDATA& fontData, const TCHAR* font, 
 	GetTextMetrics(hdc, &fontData.TM);
 	const MAT2	Mat = { { 0,1 },{ 0,0 },{ 0,0 },{ 0,1 } };
 	DWORD		size = GetGlyphOutline(hdc, code, GGO_GRAY4_BITMAP, &fontData.GM, 0, NULL, &Mat);
-	fontData.ptr = new BYTE[size];
+	fontData.ptr = new byte[size];
 	GetGlyphOutline(hdc, code, GGO_GRAY4_BITMAP, &fontData.GM, size, fontData.ptr, &Mat);
 
 	// デバイスコンテキストとフォントハンドルの開放
@@ -190,7 +163,7 @@ HRESULT Font::CreateBitMapFontData(BITMAPFONTDATA& fontData, const TCHAR* font, 
 	return S_OK;
 }
 
-void Font::Uninit(void)
+void Dx11Font::Uninit(void)
 {
 	for (auto& f : font_)
 	{
@@ -205,40 +178,13 @@ void Font::Uninit(void)
 	RemoveFontResourceEx(TEXT(filename.c_str()), FR_PRIVATE, &design);
 }
 
-void Font::DrawFont(const string& font, VECTOR2 position, VECTOR2 size, COLOR color)
+void Dx11Font::DrawFont(const string& font, VECTOR2 position, VECTOR2 size, COLOR color)
 {
 	if (font_.count(font) == 0) { return; }
 
-	const auto& context = directX11_->GetDeviceContext();
-	const auto& wrapper = directX11_->GetWrapper();
+	const auto& context = static_cast<DirectX11*>(graphics_)->GetDeviceContext();
+	const auto& wrapper = graphics_->GetWrapper();
 
 	context->PSSetShaderResources(0, 1, &font_[font]);
 	wrapper->DrawQuad(position, size, color);
-}
-
-void Font::Draw(const string& fonts, VECTOR2 position, VECTOR2 size, COLOR color)
-{
-	int max = fonts.size();
-
-	float startX = position.x - (Half(size.x) * Half(max - 2));
-
-	bool draw = false;
-	for(int i = 0;i < max;++i)
-	{
-		if (draw) { draw = false; continue; }
-
-		auto& f = fonts[i];
-		if (('a' <= f && f <= 'z') || ('A' <= f && f <= 'Z'))
-		{
-			string temp = { f };
-			DrawFont(temp, VECTOR2(startX + (Half(size.x) * i) - Quarter(size.x), position.y), VECTOR2(Half(size.x), size.y), color);
-		}
-		else
-		{
-			if (i + 1 >= max) { continue; }
-			string temp = { fonts[i], fonts[i + 1] };
-			DrawFont(temp, VECTOR2(startX + (Half(size.x) * i), position.y), size, color);
-			draw = true;
-		}
-	}
 }

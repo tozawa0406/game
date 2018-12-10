@@ -13,7 +13,7 @@
 #include "XInput.h"
 #include "BinInput.h"
 
-Controller::Controller(Input* input, BYTE number) : GUI(input->GetSystems(), nullptr, "ctrl"),
+Controller::Controller(Input* input, byte number) : GUI(input->GetSystems(), nullptr, "ctrl"),
                                                     input_(input), number_(number), ctrl_(nullptr), pInput_(nullptr), pDevCtrl_(nullptr)
 {
 	ZeroMemory(&state_, sizeof(INPUT_STATE));
@@ -48,7 +48,7 @@ BOOL CALLBACK Controller::EnumJoysticksCallback(const DIDEVICEINSTANCE *pdidInst
 {
 	UNREFERENCED_PARAMETER(pContext);
 	Input* input = Systems::Instance()->GetInput();
-	BYTE nowNumber = input->NowNumber();
+	byte nowNumber = input->NowNumber();
 	HRESULT hr = input->GetCtrl(nowNumber)->GetInputDevice()->CreateDevice(pdidInstance->guidInstance, &input->GetCtrl(nowNumber)->pDevCtrl_, NULL);
 
 	if (FAILED(hr))

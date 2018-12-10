@@ -33,9 +33,9 @@ struct ColliderRenderer
 	const VECTOR3&	 GetSize(void)		const { return size; }
 	const COLOR&	 GetColor(void)     const { return color; }
 	void			 SetColor(COLOR c)	      { color = c; }
-	UINT GetVertexBuffer(void) const { return vertexBuffer; }
-	UINT GetVertexNum(void)	   const { return vnum;    }
-	UINT GetPrimitiveNum(void) const { return pnum;         }
+	uint GetVertexBuffer(void) const { return vertexBuffer; }
+	uint GetVertexNum(void)	   const { return vnum;    }
+	uint GetPrimitiveNum(void) const { return pnum;         }
 	Wrapper::PRIMITIVE::TYPE GetType(void) const { return type; }
 
 	void ColliderRectangle(const Collider2DBase* col);
@@ -61,9 +61,9 @@ private:
 	COLOR		color;
 
 	Wrapper::PRIMITIVE::TYPE type;
-	BYTE		pnum;
-	UINT		vertexBuffer;
-	UINT		vnum;
+	byte		pnum;
+	uint		vertexBuffer;
+	uint		vnum;
 
 	Systems*	systems;
 };

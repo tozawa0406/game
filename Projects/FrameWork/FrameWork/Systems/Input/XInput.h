@@ -40,7 +40,7 @@ private:
 	void CreateButton(INPUT_BUTTON& newState, XINPUT_STATE& xs);
 	void CreateAxis  (INPUT_AXIS&   newState, XINPUT_STATE& xs, INPUT_AXIS& state);
 
-	void GuiCheck(const WORD& button, const SHORT& axis, const BYTE& trigger);
+	void GuiCheck(const WORD& button, const SHORT& axis, const byte& trigger);
 
 	static constexpr float rangeTrig  = 1 / (TRIGGER_MAX / (float)Input::RANGE);
 	static constexpr float rangeThumb = 1 / (THUMB_MAX   / (float)Input::RANGE);

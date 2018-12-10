@@ -12,12 +12,12 @@
 struct SpriteRenderer : public ObjectRenderer
 {
 	void	Init(Systems* systems, int texNu, const Transform* transform);
-	void	SetVertex(UINT n, UINT vnum)  { vertexBuffer = n; vertexNum = vnum; }
-	void	SetIndex(UINT n, UINT vnum)   { indexBuffer = n; indexNum = vnum;   }
-	UINT	GetVertexBuffer(void)	const { return vertexBuffer; }
-	UINT	GetIndexBuffer(void)	const { return indexBuffer;  }
-	UINT	GetVertexNum(void)		const { return vertexNum;    }
-	UINT	GetIndexNum(void)		const { return indexNum;     }
+	void	SetVertex(uint n, uint vnum)  { vertexBuffer = n; vertexNum = vnum; }
+	void	SetIndex(uint n, uint vnum)   { indexBuffer = n; indexNum = vnum;   }
+	uint	GetVertexBuffer(void)	const { return vertexBuffer; }
+	uint	GetIndexBuffer(void)	const { return indexBuffer;  }
+	uint	GetVertexNum(void)		const { return vertexNum;    }
+	uint	GetIndexNum(void)		const { return indexNum;     }
 	VECTOR4 GetTexcoord(void)		const { return texcoord;	 }
 
 	int			  texNum;
@@ -34,10 +34,10 @@ struct SpriteRenderer : public ObjectRenderer
 	bool Animation(float add) override;
 
 private:
-	UINT	vertexBuffer;
-	UINT	indexBuffer;
-	UINT	vertexNum;
-	UINT	indexNum;
+	uint	vertexBuffer;
+	uint	indexBuffer;
+	uint	vertexNum;
+	uint	indexNum;
 	VECTOR4 texcoord;
 };
 

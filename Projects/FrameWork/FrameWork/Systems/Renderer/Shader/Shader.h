@@ -32,9 +32,9 @@ public:
 	};
 
 	ShaderManager*	GetManager(void)		const { return manager_;		}
-	UINT			GetVertexShader(void)	const { return vertexShader_;   }
-	UINT			GetPixelShader(void)	const { return pixelShader_;	}
-	UINT			GetConstantBuffer(int i)	const { return (i < (int)constantBuffer_.size()) ? constantBuffer_[i] : constantBuffer_[0]; }
+	uint			GetVertexShader(void)	const { return vertexShader_;   }
+	uint			GetPixelShader(void)	const { return pixelShader_;	}
+	uint			GetConstantBuffer(int i)	const { return (i < (int)constantBuffer_.size()) ? constantBuffer_[i] : constantBuffer_[0]; }
 	string			GetVMethod(void)		const { return vMethod_;	    }
 
 	void SetVMethod(string methodName)	{ vMethod_  = methodName;	}
@@ -53,9 +53,9 @@ protected:
 													, pMethod_("PS_Main"), pVersion_("ps_2_0"), techName_("Tech"), dev_(nullptr)
 													, layout_(nullptr), layoutSize_(0), constantBuffer_(0) {}
 
-	UINT				vertexShader_;
-	UINT				pixelShader_;
-	std::vector<UINT>	constantBuffer_;
+	uint				vertexShader_;
+	uint				pixelShader_;
+	std::vector<uint>	constantBuffer_;
 
 	string			fileName_;
 	string			vMethod_;
@@ -68,7 +68,7 @@ protected:
 	Wrapper*		dev_;
 
 	void*			layout_;
-	UINT			layoutSize_;
+	uint			layoutSize_;
 
 	virtual HRESULT Init(void);
 };

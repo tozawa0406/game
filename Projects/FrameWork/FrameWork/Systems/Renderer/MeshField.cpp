@@ -192,7 +192,7 @@ HRESULT MeshField::InputData(void)
 	fread(&split_, sizeof(VECTOR2), 1, pFile);
 	fread(&size_, sizeof(VECTOR2), 1, pFile);
 
-	UINT size = 0;
+	uint size = 0;
 	fread(&size, sizeof(size), 1, pFile);
 	for (int i = 0; i < (int)size; ++i)
 	{
@@ -210,8 +210,8 @@ HRESULT MeshField::InputData(void)
 	fread(&size, sizeof(size), 1, pFile);
 	for (int i = 0; i < (int)size; ++i)
 	{
-		UINT v;
-		fread(&v, sizeof(UINT), 1, pFile);
+		uint v;
+		fread(&v, sizeof(uint), 1, pFile);
 		outputIndex_.emplace_back(v);
 	}
 

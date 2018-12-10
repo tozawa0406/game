@@ -13,7 +13,7 @@
 
 void ParticleManager::Uninit(void)
 {
-	for (UINT i = 0; i < obj_.size();)
+	for (uint i = 0; i < obj_.size();)
 	{
 		RemoveVectorPtr(obj_, obj_[i]);
 	}
@@ -87,7 +87,7 @@ void ParticleManager::Draw(void)
 //オブジェクトの破壊
 void ParticleManager::DestroyCheck(void)
 {
-	for (UINT i = 0; i < obj_.size();)
+	for (uint i = 0; i < obj_.size();)
 	{
 		if (obj_[i]->destroy_)
 		{

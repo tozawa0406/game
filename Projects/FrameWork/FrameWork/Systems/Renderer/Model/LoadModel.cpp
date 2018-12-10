@@ -17,17 +17,17 @@ MODEL LoadM::Load(string fileName)
 
 	fread(&model.transMtx, sizeof(MATRIX), 1, fp);
 
-	UINT size = 0;
+	uint size = 0;
 	fread(&size, sizeof(size), 1, fp);
-	for (UINT i = 0; i < size; ++i)
+	for (uint i = 0; i < size; ++i)
 	{
 		GetMesh(fp, model);
 	}
 
 	const auto& bone = model.bone;
-	size = (UINT)bone.size();
+	size = (uint)bone.size();
 	fread(&size, sizeof(size), 1, fp);
-	for (UINT i = 0; i < size; ++i)
+	for (uint i = 0; i < size; ++i)
 	{
 		GetBone(fp, model);
 	}
@@ -47,7 +47,7 @@ HRESULT LoadM::LoadAnimation(string fileName, MODEL& model)
 	while (end)
 	{
 		BONE bone;
-		UINT size = 0;
+		uint size = 0;
 		int n = (int)fread(&size, sizeof(size), 1, fp);
 		if (n < 1) { end = false; }
 		char buf[1028];
@@ -57,7 +57,7 @@ HRESULT LoadM::LoadAnimation(string fileName, MODEL& model)
 
 		fread(&size, sizeof(size), 1, fp);
 		std::vector<MATRIX> anim;
-		for (UINT i = 0; i < size; ++i)
+		for (uint i = 0; i < size; ++i)
 		{
 			MATRIX am;
 			fread(&am, sizeof(MATRIX), 1, fp);
@@ -91,7 +91,7 @@ HRESULT LoadM::LoadAnimation(string fileName, MODEL& model)
 void LoadM::GetMesh(FILE* fp, MODEL& model)
 {
 	MESH tempMesh;
-	UINT size = 0;
+	uint size = 0;
 
 	fread(&size, sizeof(size), 1, fp);
 	char buf[1028];
@@ -102,7 +102,7 @@ void LoadM::GetMesh(FILE* fp, MODEL& model)
 	fread(&tempMesh.transMtx, sizeof(MATRIX), 1, fp);
 
 	fread(&size, sizeof(size), 1, fp);
-	for (UINT i = 0; i < size; ++i)
+	for (uint i = 0; i < size; ++i)
 	{
 		VERTEX v;
 		fread(&v, sizeof(VERTEX), 1, fp);
@@ -110,10 +110,10 @@ void LoadM::GetMesh(FILE* fp, MODEL& model)
 	}
 
 	fread(&size, sizeof(size), 1, fp);
-	for (UINT i = 0; i < size; ++i)
+	for (uint i = 0; i < size; ++i)
 	{
-		UINT temp;
-		fread(&temp, sizeof(UINT), 1, fp);
+		uint temp;
+		fread(&temp, sizeof(uint), 1, fp);
 		tempMesh.index.emplace_back(temp);
 	}
 
@@ -138,7 +138,7 @@ void LoadM::GetMesh(FILE* fp, MODEL& model)
 void LoadM::GetBone(FILE* fp, MODEL& model)
 {
 	BONE tempBone;
-	UINT size = 0;
+	uint size = 0;
 
 	fread(&size, sizeof(size), 1, fp);
 	char buf[1028];

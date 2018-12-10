@@ -7,9 +7,8 @@
 #ifndef _COLOR_H_
 #define _COLOR_H_
 
-//-----------------------------------------------------------------------------
-//	構造体定義
-//-----------------------------------------------------------------------------
+typedef unsigned char byte;
+
 struct COLOR
 {
 	//! 色(R, G, B, A)[0～1]
@@ -20,40 +19,19 @@ struct COLOR
 
 	/* @fn		コンストラクタ
 	 * @param	(f)		引数を全ての色要素に			*/
-	COLOR(float f)
-	{
-		this->r = f;
-		this->g = f;
-		this->b = f;
-		this->a = f;
-	}
+	COLOR(float f) : r(f), g(f), b(f), a(f) {}
 
 	/* @fn		コンストラクタ
 	 * @param	(r, g, b)	引数で色要素を指定[aは1]	*/
-	COLOR(float r, float g, float b)
-	{
-		this->r = r;
-		this->g = g;
-		this->b = b;
-		this->a = 1;
-	}
+	COLOR(float r, float g, float b) : r(r), g(g), b(b) {}
 
 	/* @fn		コンストラクタ
 	 * @param	(r, g, b, a)	引数で色要素を指定		*/
-	COLOR(float r, float g, float b, float a)
-	{
-		this->r = r;
-		this->g = g;
-		this->b = b;
-		this->a = a;
-	}
+	COLOR(float r, float g, float b, float a) : r(r), g(g), b(b), a(a) {}
 
 	/* @fn		operator float*
 	 * @brief	先頭アドレス			*/
-	operator float*(void)
-	{
-		return &r;
-	}
+	operator float*(void) { return &r; }
 
 	/* @fn		operator =
 	 * @brief	値のコピー				*/
@@ -76,7 +54,7 @@ struct COLOR
 
 	/* @fn		RBGA
 	 * @brief	0～255で色要素を指定する		*/
-	static COLOR RGBA(BYTE r, BYTE g, BYTE b, BYTE a)
+	static COLOR RGBA(byte r, byte g, byte b, byte a)
 	{
 		float inv = 1.0f / 255;
 		return COLOR(r * inv, g * inv, b * inv, a * inv);

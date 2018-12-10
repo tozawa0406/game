@@ -22,7 +22,7 @@ HWND Dialog::CreateStartUpDialog(HINSTANCE instance, HWND hWnd)
 }
 
 // ダイアログ処理
-BOOL Dialog::DialogProc(HWND window, UINT message, WPARAM wParam, LPARAM lParam)
+BOOL Dialog::DialogProc(HWND window, uint message, WPARAM wParam, LPARAM lParam)
 {
 	UNREFERENCED_PARAMETER(lParam);
 

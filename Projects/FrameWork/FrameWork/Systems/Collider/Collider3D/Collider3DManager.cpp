@@ -11,7 +11,7 @@
 
 Collision3DManager::~Collision3DManager(void)
 {
-	for (UINT i = 0; i < obj_.size();)
+	for (uint i = 0; i < obj_.size();)
 	{
 		this->RemovePtr(obj_[i]);
 	}
@@ -219,13 +219,13 @@ bool Collision3DManager::HitSegmentBoard(Segment s1, Float3 n2, std::vector<Poin
 		// ポリゴン内部に貫通点が含まれるかをチェック
 		bool hit = false;
 		// トライアングルストリップのせいで入るループ
-		for (UINT j = 0; j < p2.size() - 2; j++)
+		for (uint j = 0; j < p2.size() - 2; j++)
 		{
 			// 初期化
 			Vector3 cross  = { 1, 1, 1 };
 			bool check = false;
 			// トライアングルストリップだからな！！！！！！！！！！！！！！！！！！！！
-			for (UINT i = j; i < 3 + j; i++)
+			for (uint i = j; i < 3 + j; i++)
 			{
 				Vector3 vector1;
 				// 次の頂点へのベクトル

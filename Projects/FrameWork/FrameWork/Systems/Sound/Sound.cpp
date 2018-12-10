@@ -190,7 +190,7 @@ HRESULT Sound::LoadSound(Sound::SOUNDPARAM param, int i)
 	{
 		return S_FALSE;
 	}
-	tempAudio.data = (BYTE*)malloc(tempAudio.size);
+	tempAudio.data = (byte*)malloc(tempAudio.size);
 	hr = ReadChunkData(hFile, tempAudio.data, tempAudio.size, dwChunkPosition);
 	if (windows->ErrorMessage("オーディオデータ読み込みに失敗(2)", "エラー", hr))
 	{

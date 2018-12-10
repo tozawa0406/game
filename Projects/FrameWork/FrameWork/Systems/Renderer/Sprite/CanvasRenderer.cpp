@@ -23,7 +23,7 @@ CanvasRenderer::~CanvasRenderer(void)
 	}
 }
 
-void CanvasRenderer::Init(Systems* systems, BYTE priority, int texNu)
+void CanvasRenderer::Init(Systems* systems, byte priority, int texNu)
 {
 	systems_ = systems;
 	texNum = texNu;
@@ -53,7 +53,7 @@ void CanvasRenderer::Init(Systems* systems, BYTE priority, int texNu)
 		break;
 	}
 
-//	UINT n = systems->GetRenderer()->GetWrapper()->CreateVertexBuffer(vnum);
+//	uint n = systems->GetRenderer()->GetWrapper()->CreateVertexBuffer(vnum);
 //	if (n == -1) { return; }
 
 //	this->buffer = n;

@@ -17,6 +17,7 @@ class  Particle;
 struct ColliderRenderer;
 struct LightInfo;
 class Shader;
+class Font;
 //-----------------------------------------------------------------------------
 //	クラス定義
 //-----------------------------------------------------------------------------
@@ -26,7 +27,7 @@ protected:
 	MATRIX inverse_;		// viewの逆行列
 
 public:	
-	static constexpr UINT R_ERROR = UINT_MAX;		// エラー値
+	static constexpr uint R_ERROR = UINT_MAX;		// エラー値
 
 	// プリミティブの値
 	class PRIMITIVE
@@ -85,7 +86,7 @@ public:
 	};
 
 	// コンストラクタ
-	Wrapper(void) { inverse_.Identity(); }
+	Wrapper(void) : font_(nullptr) { inverse_.Identity(); }
 	// デストラクタ
 	virtual ~Wrapper(void) {}
 
@@ -93,11 +94,11 @@ public:
 	virtual void Uninit(void) {}		// 後処理
 
 	// 頂点バッファ生成
-	virtual UINT    CreateVertexBuffer(const void* v, UINT size, UINT vnum) = 0;
+	virtual uint    CreateVertexBuffer(const void* v, uint size, uint vnum) = 0;
 	// インデックスバッファ生成
-	virtual UINT    CreateIndexBuffer(const WORD* v, UINT vnum)		 = 0;
+	virtual uint    CreateIndexBuffer(const WORD* v, uint vnum)		 = 0;
 	// バッファの解放(頂点バッファ、インデックスバッファの判定は第二引数のFVF)
-	virtual void    ReleaseBuffer(UINT number, FVF fvf)    = 0;
+	virtual void    ReleaseBuffer(uint number, FVF fvf)    = 0;
 
 	// 2D描画の開始
 	virtual void    BeginDrawCanvasRenderer(void) = 0;
@@ -141,21 +142,26 @@ public:
 	virtual MATRIX  CreateProjectionMatrix(int fov, float aspect, float cnear, float cfar) = 0;
 
 	// 頂点シェーダーの生成
-	virtual UINT	CreateVertexShader(string fileName, string method, string version, void* t = nullptr, UINT elemNum = 0) = 0;
+	virtual uint	CreateVertexShader(string fileName, string method, string version, void* t = nullptr, uint elemNum = 0) = 0;
 	// 頂点シェーダーのセット
-	virtual HRESULT	SetVertexShader(UINT number)		= 0;
+	virtual HRESULT	SetVertexShader(uint number)		= 0;
 	// 頂点シェーダーの解放
-	virtual void	ReleaseVertesShader(UINT number)	= 0;
+	virtual void	ReleaseVertesShader(uint number)	= 0;
 
 	// ピクセルシェーダーの生成
-	virtual UINT	CreatePixelShader(string fileName, string method, string version) = 0;
+	virtual uint	CreatePixelShader(string fileName, string method, string version) = 0;
 	// ピクセルシェーダーのセット
-	virtual HRESULT	SetPixelShader(UINT number)		= 0;
+	virtual HRESULT	SetPixelShader(uint number)		= 0;
 	// ピクセルシェーダーの解放
-	virtual void	ReleasePixelShader(UINT number) = 0;
+	virtual void	ReleasePixelShader(uint number) = 0;
 
 	// ライトの設定
 	virtual void SetLight(LightInfo& light) = 0;
+
+	Font* GetFont(void) { return font_; }
+
+protected:
+	Font* font_;
 };
 
 #endif // _WRAPPER_H

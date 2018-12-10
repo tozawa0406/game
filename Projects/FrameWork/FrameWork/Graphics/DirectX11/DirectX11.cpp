@@ -37,7 +37,7 @@ HRESULT DirectX11::InitAll(void)
 	if (wrapper_)
 	{
 		wrapper_->Init();
-		static_cast<Dx11Wrapper*>(wrapper_)->GetFont()->CreateStringData("Aˆ¢‚ ", 100);
+		wrapper_->GetFont()->CreateStringData("Aˆ¢‚ ", 100);
 	}
 
 	renderTarget_ = new Dx11RenderTarget(this);
@@ -65,8 +65,8 @@ bool DirectX11::SetDevice(void)
 	MSAA.Quality = 0;
 	//for (int i = 0; i <= D3D11_MAX_MULTISAMPLE_SAMPLE_COUNT; ++i) 
 	//{
-	//	UINT quality;
-	//	hr = pDevice_->CheckMultisampleQualityLevels(DXGI_FORMAT_D24_UNORM_S8_UINT, i, &quality);
+	//	uint quality;
+	//	hr = pDevice_->CheckMultisampleQualityLevels(DXGI_FORMAT_D24_UNORM_S8_uint, i, &quality);
 	//	if(SUCCEEDED(hr))
 	//	{
 	//		if (0 < quality) 
@@ -193,7 +193,7 @@ HRESULT DirectX11::DrawBegin(void)
 // •`‰æI—¹
 void DirectX11::DrawEnd(void)
 {
-	static_cast<Dx11Wrapper*>(wrapper_)->GetFont()->Draw("‚ ˆ¢", VECTOR2((float)Half(Windows::WIDTH), (float)Half(Windows::HEIGHT)), VECTOR2(100, 100), COLOR(0, 0, 0, 1));
+	wrapper_->GetFont()->Draw("‚ Aˆ¢‚ AA", VECTOR2((float)Half(Windows::WIDTH), (float)Half(Windows::HEIGHT)), VECTOR2(100, 100), COLOR(0, 0, 0, 1), true, VECTOR2(200, 300));
 	HRESULT h = pSwapChain_->Present(1, 0);
 	if (h == DXGI_ERROR_DRIVER_INTERNAL_ERROR)
 	{

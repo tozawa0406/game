@@ -21,7 +21,7 @@ void ObjectManager::Uninit(void)
 {
 	for (auto& obj : obj_) { obj->Uninit(); }
 
-	for (UINT i = 0; i < obj_.size();)
+	for (uint i = 0; i < obj_.size();)
 	{
 		RemoveVectorPtr(obj_, obj_[i]);
 	}
@@ -30,8 +30,8 @@ void ObjectManager::Uninit(void)
 //オブジェクトの更新処理
 void ObjectManager::Update(void)
 {
-	UINT size = (UINT)obj_.size();
-	for (UINT i = 0; i < size; ++i)
+	uint size = (uint)obj_.size();
+	for (uint i = 0; i < size; ++i)
 	{
 		if (obj_[i] != nullptr)
 		{
@@ -45,7 +45,7 @@ void ObjectManager::Update(void)
 //オブジェクトの破壊
 void ObjectManager::DestroyCheck(void)
 {
-	for (UINT i = 0; i < obj_.size();)
+	for (uint i = 0; i < obj_.size();)
 	{
 		if (obj_[i]->GetDestroy())
 		{

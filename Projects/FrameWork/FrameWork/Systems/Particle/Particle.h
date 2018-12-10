@@ -39,7 +39,7 @@ public:
 
 	const Transform& GetTransform(void)    const { return transform_; }
 	int				 GetTexNum(void)       const { return texNum_;    }
-	UINT			 GetVertexBuffer(void) const { return vertexBuffer_; }
+	uint			 GetVertexBuffer(void) const { return vertexBuffer_; }
 
 private:
 	void Destroy(void) { destroy_ = true; }
@@ -49,7 +49,7 @@ private:
 	bool			destroy_;
 	int				frame_;
 	PARTICLE_DATA	data_;
-	UINT			vertexBuffer_;
+	uint			vertexBuffer_;
 	float			a_;
 
 	ParticleManager* manager_;
