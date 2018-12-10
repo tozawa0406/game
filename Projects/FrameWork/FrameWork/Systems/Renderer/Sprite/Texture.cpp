@@ -64,12 +64,12 @@ HRESULT Texture::Load(int sceneNum)
 		break;
 	case SceneList::RESULT:
 		size = (int)Result::MAX;
-		fileName = &resultFileName[0];
+	//	fileName = &resultFileName[0];
 		break;
 	default: break;
 	}
 
-	if (!fileName) { return E_FAIL; }
+	if (!fileName && size != (int)Base::MAX) { return E_FAIL; }
 	for (int i = 0; i < size; ++i)
 	{
 		if (i < (int)Base::MAX) { continue; }

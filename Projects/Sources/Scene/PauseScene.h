@@ -33,7 +33,7 @@ private:
 	CanvasRenderer::Image back_;						//! 背景
 	CanvasRenderer::Image menuBack_[SELECT_NUM];		//! UI背景
 	CanvasRenderer::Image notSelect_[SELECT_NUM - 1];	//! 非選択オブジェクトを暗くする
-	CanvasRenderer::Image menu_[SELECT_NUM];			//! メニュー
+	CanvasRenderer::Text  menu_[SELECT_NUM];			//! メニュー
 };
 
 #endif // _PAUSE_SCENE_H_

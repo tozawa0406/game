@@ -10,8 +10,9 @@
 #include "../../../Graphics/Utility/Font.h"
 #include "../../GameSystems.h"
 
-#include "../CanvasRenderer/CanvasRendererBase.h"
-#include "../CanvasRenderer/CanvasRendererImage.h"
+#include "CanvasRendererBase.h"
+#include "CanvasRendererImage.h"
+#include "CanvasRendererText.h"
 
 void CanvasRendererManager::Uninit(void)
 {
@@ -76,7 +77,8 @@ void CanvasRendererManager::Draw(void)
 			{
 				if (const auto& font = dev->GetFont())
 				{
-					font->Draw("", obj->GetPosition(), obj->GetSize(), obj->GetColor());
+					const auto& text = static_cast<CanvasRenderer::Text*>(obj);
+					font->Draw(text->GetString(), text->GetPosition(), text->GetSize(), text->GetColor(), text->GetFaldBack(), text->GetDrawSize());
 				}
 			}
 		}

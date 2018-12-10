@@ -13,7 +13,7 @@
 #include "Input/Input.h"
 #include "Renderer/Sprite/Texture.h"
 #include "Renderer/ObjectRendererManager.h"
-#include "Renderer/Sprite/CanvasRendererManager.h"
+#include "Renderer/CanvasRenderer/CanvasRendererManager.h"
 #include "Renderer/Model/Model.h"
 #include "Renderer/Shader/ShaderManager.h"
 #include "Sound/Sound.h"

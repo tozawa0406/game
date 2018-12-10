@@ -37,7 +37,6 @@ HRESULT DirectX11::InitAll(void)
 	if (wrapper_)
 	{
 		wrapper_->Init();
-		wrapper_->GetFont()->CreateStringData("Aˆ¢‚ ", 100);
 	}
 
 	renderTarget_ = new Dx11RenderTarget(this);
@@ -193,7 +192,6 @@ HRESULT DirectX11::DrawBegin(void)
 // •`‰æI—¹
 void DirectX11::DrawEnd(void)
 {
-	wrapper_->GetFont()->Draw("‚ Aˆ¢‚ AA", VECTOR2((float)Half(Windows::WIDTH), (float)Half(Windows::HEIGHT)), VECTOR2(100, 100), COLOR(0, 0, 0, 1), true, VECTOR2(200, 300));
 	HRESULT h = pSwapChain_->Present(1, 0);
 	if (h == DXGI_ERROR_DRIVER_INTERNAL_ERROR)
 	{

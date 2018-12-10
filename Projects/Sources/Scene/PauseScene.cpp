@@ -30,6 +30,8 @@ void Pause::Init(void)
 	 back_.SetColor(COLOR::RGBA(0, 0, 0, 100));
 	 back_.Init(250, (int)Texture::Base::WHITE);
 
+	 string temp[3] = { "戻る", "やり直す", "タイトルへ" };
+	 float  adjust[3] = { 1, 2, 2.5f };
 	 // メニュー
 	 for (int i = 0; i < 3; ++i)
 	 {
@@ -40,19 +42,17 @@ void Pause::Init(void)
 		 menuBack_[i].Init(252, (int)Texture::Base::WHITE);
 
 		 // 
-		 menu_[i].SetPosition(menuBack_[i].GetPosition());
+		 menu_[i].SetPosition(menuBack_[i].GetPosition() - VECTOR2(70 * adjust[i], 35));
 		 menu_[i].SetColor(COLOR::RGBA(100, 100, 100, 255));
 		 menu_[i].SetSize(menuBack_[i].GetSize());
-		 menu_[i].SetPattern((float)i);
-		 menu_[i].SetSplit(VECTOR2(1, 3));
-		 //		menu_[i].Init(253, (int)Texture::Game::MENU);
+		 menu_[i].Init(253, temp[i], 70);
 
 		 if (i < 2)
 		 {
 			 // 非選択オブジェクトを暗くするため
 			 notSelect_[i].Init(254, (int)Texture::Base::WHITE);
 			 notSelect_[i].SetPosition(VECTOR2((float)Half(Graphics::WIDTH), PAUSE_H * (1.0f + (2 * (i + 1))) + Half(PAUSE_H)));
-			 notSelect_[i].SetSize(menu_[i].GetSize());
+			 notSelect_[i].SetSize(menuBack_[i].GetSize());
 			 notSelect_[i].SetColor(COLOR::RGBA(0, 0, 0, 150));
 		 }
 	 }
@@ -64,9 +64,9 @@ void Pause::Init(void)
  * @return	なし					*/
 void Pause::Uninit(void)
 {
-	for (auto& b : menu_) { b.Uninit(); }
-	for (auto& b : notSelect_) { b.Uninit(); }
-	for (auto& b : menuBack_) { b.Uninit(); }
+	for (auto& b : menu_)		{ b.Uninit(); }
+	for (auto& b : notSelect_)	{ b.Uninit(); }
+	for (auto& b : menuBack_)	{ b.Uninit(); }
 	back_.Uninit();
 }
 
@@ -144,7 +144,7 @@ SceneList Pause::Update(void)
 	{
 		if (i != selectNum_)
 		{
-			notSelect_[not].SetPosition(menu_[i].GetPosition());
+			notSelect_[not].SetPosition(menuBack_[i].GetPosition());
 			not++;
 		}
 	}

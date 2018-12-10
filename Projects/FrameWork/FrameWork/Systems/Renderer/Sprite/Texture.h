@@ -31,13 +31,7 @@ public:
 
 	enum class Title : int
 	{
-		PLEASE_PRESS = (int)Base::MAX,
-		A,
-		B,
-		ENTER,
-		MARU,
-
-		TITLE,
+		TITLE = (int)Base::MAX,
 
 		MAX
 	};
@@ -54,21 +48,13 @@ public:
 
 		TIMER_UI,
 
-		MENU,
-
 		MAX
 
 	};
 
 	enum class Result
 	{
-		PLEASE_PRESS = (int)Base::MAX,
-		A,
-		B,
-		ENTER,
-		MARU,
-
-		MAX
+		MAX = (int)Base::MAX
 	};
 
 private:
@@ -81,13 +67,7 @@ private:
 	};
 
 	const string titleFileName[(int)Title::MAX - (int)Base::MAX]
-	{
-		{ directoryName + "UI/please_press/please_press.png" },
-		{ directoryName + "UI/please_press/A.png"		},
-		{ directoryName + "UI/please_press/B.png"		},
-		{ directoryName + "UI/please_press/enter.png"	},
-		{ directoryName + "UI/please_press/maru.png"	},
-		  
+	{		  
 		{ directoryName + "UI/title_rogo.png"			},
 	};
 
@@ -102,18 +82,11 @@ private:
 		{ directoryName + "UI/game/itemlist.png"		},
 
 		{ directoryName + "UI/timer.png"				},
-
-		{ directoryName + "UI/menuUI.png"				},
 	};
 
-	const string resultFileName[(int)Result::MAX - (int)Base::MAX]
-	{
-		{ directoryName + "UI/please_press/please_press.png" },
-		{ directoryName + "UI/please_press/A.png"		},
-		{ directoryName + "UI/please_press/B.png"		},
-		{ directoryName + "UI/please_press/enter.png"	},
-		{ directoryName + "UI/please_press/maru.png"	},
-	};
+	//const string resultFileName[(int)Result::MAX - (int)Base::MAX]
+	//{
+	//};
 
 
 public:

@@ -11,6 +11,7 @@
 #include "../../../Sources/Scene/EachScene.h"
 
 #include "../Systems/Renderer/CanvasRenderer/CanvasRendererImage.h"
+#include "../Systems/Renderer/CanvasRenderer/CanvasRendererText.h"
 #include "../Systems/Input/Controller.h"
 
 #include "../Systems/GameSystems.h"

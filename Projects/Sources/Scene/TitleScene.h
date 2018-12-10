@@ -11,15 +11,6 @@
 
 class TitleScene : public BaseScene, public GUI
 {
-	//! @def	コントローラのタイプによる配列番号
-	enum class InputType : uint8
-	{
-		Keyboard = 0,
-		PS4,
-		X,
-
-		MAX
-	};
 public:
 	TitleScene(SceneManager* manager);
 	~TitleScene(void);
@@ -32,16 +23,18 @@ public:
 private:
 	SceneList	Update(void) override;
 
-	void		Flashing(Controller& ctrl);
-	int 		JudgeCtrlType(Controller& ctrl);
+	void		Flashing(void);
+	void		JudgeCtrlType(Controller& ctrl);
 	SceneList	EndScene(Controller& ctrl);
 
 	//! フレームのカウンタ
 	int				frameCnt_;
 	//! 「please press」
-	CanvasRenderer::Image	press_;
+	CanvasRenderer::Text press_;
+
 	//! 「Enter」「〇」「X」
-	CanvasRenderer::Image	button_[static_cast<uint8>(InputType::MAX)];
+	CanvasRenderer::Text button_;
+
 };
 
 #endif // _TITLE_SCENE_H_

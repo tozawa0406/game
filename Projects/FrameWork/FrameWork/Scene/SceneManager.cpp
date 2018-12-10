@@ -115,7 +115,7 @@ void SceneManager::SceneUpdate(void)
 				else
 				{
 					Change(static_cast<SceneList>(change));
-					DeletePtr(pause_);
+					UninitDeletePtr(pause_);
 				}
 			}
 		}

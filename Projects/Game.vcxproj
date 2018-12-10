@@ -171,13 +171,14 @@
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>Sources;FrameWork;$(DXSDK_DIR)include;$(IncludePath)</IncludePath>
     <LibraryPath>$(DXSDK_DIR)lib\x86;$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir)</OutDir>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <LibraryPath>$(DXSDK_DIR)lib\x64;$(LibraryPath)</LibraryPath>
     <IncludePath>Sources;FrameWork;$(DXSDK_DIR)include;$(IncludePath)</IncludePath>
+    <OutDir>$(SolutionDir)</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

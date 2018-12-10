@@ -21,9 +21,9 @@ CanvasRenderer::Image::~Image(void)
 
 void CanvasRenderer::Image::Init(byte priority, int texNum)
 {
-	OnInit();
-	texNum_		= texNum;
 	priority_	= priority;
+	OnInit();
+	texNum_ = texNum;
 
 	CreateVertexBuffer();
 }
