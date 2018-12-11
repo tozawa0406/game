@@ -41,6 +41,9 @@ private:
 	HRESULT CreateShadowmapRenderTarget(void);
 	HRESULT CreateRenderTarget(List num, ID3D11Texture2D* tex2D, D3D11_RENDER_TARGET_VIEW_DESC* rtDesc, D3D11_SHADER_RESOURCE_VIEW_DESC* srDesc);
 
+	void Temp(void);
+
+
 	ID3D11RenderTargetView*     renderTargetView_[static_cast<int>(List::MAX)];
 	ID3D11ShaderResourceView*   shaderResourceView_[static_cast<int>(List::MAX)];
 	ID3D11DepthStencilView*		depthStencilView_;
@@ -48,6 +51,15 @@ private:
 	D3D11_VIEWPORT				shadowViewport_;
 
 	DirectX11*	directX11_;
+
+	static constexpr int MAX_CASCADE = 4;
+
+	struct CascadeConfig
+	{
+		INT cascadeLevels;
+		INT bufferSize;
+	} cascadeConfig_;
+
 };
 
 #endif // _DX11_RENDERER_TARGET_H

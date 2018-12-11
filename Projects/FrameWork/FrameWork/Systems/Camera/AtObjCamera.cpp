@@ -141,8 +141,8 @@ void AtObjCamera::Move(void)
 		else { rot_.y = 0; }
 		
 		// ベクトルの座標変換
-		localPosition_ = VecTransformNormal(localPosition_, mtxRotX);
-		localPosition_ = VecTransformNormal(localPosition_, mtxRotY);
+		localPosition_ = VecTransform(localPosition_, mtxRotX);
+		localPosition_ = VecTransform(localPosition_, mtxRotY);
 	}
 	else
 	{

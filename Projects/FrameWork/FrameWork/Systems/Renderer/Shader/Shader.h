@@ -48,6 +48,7 @@ public:
 
 	virtual ~Shader(void) { if (dev_) { dev_->ReleaseVertesShader(vertexShader_); dev_->ReleasePixelShader(pixelShader_); } }
 
+	string			fileName_;
 protected:
 	Shader(ShaderManager* manager, string fileName) : manager_(manager), fileName_(fileName), vMethod_("VS_Main"), vVersion_("vs_2_0")
 													, pMethod_("PS_Main"), pVersion_("ps_2_0"), techName_("Tech"), dev_(nullptr)
@@ -57,7 +58,7 @@ protected:
 	uint				pixelShader_;
 	std::vector<uint>	constantBuffer_;
 
-	string			fileName_;
+//	string			fileName_;
 	string			vMethod_;
 	string			vVersion_;
 	string			pMethod_;

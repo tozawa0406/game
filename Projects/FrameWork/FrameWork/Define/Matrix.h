@@ -70,6 +70,7 @@ struct MATRIX
 //-----------------------------------------------------------------------------
 //	関数定義
 //-----------------------------------------------------------------------------
-VECTOR3 VecTransformNormal(const VECTOR3& v, const MATRIX& m);		// 行列を元に座標変換
+VECTOR3 VecTransform(const VECTOR3& v, const MATRIX& m);		// 行列を元に座標変換
+VECTOR3 VecTransformCoord(const VECTOR3& v, const MATRIX& m);		// 行列を元に座標変換
 
 #endif //_MATRIX_H_

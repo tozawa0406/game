@@ -28,6 +28,7 @@ public:
 private:
 	void Add(ObjectRenderer* obj);
 	void Sort(void);
+
 };
 
 

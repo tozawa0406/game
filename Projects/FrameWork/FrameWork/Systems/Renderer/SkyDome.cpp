@@ -27,4 +27,9 @@ SkyDome::SkyDome(Systems* systems)
 void SkyDome::Update(void)
 {
 	transform_.rotation.y += MOVE;
+	auto c = mesh_.material.diffuse;
+	c.r = max(c.r - 0.001f, 0.15f);
+	c.g = max(c.g - 0.0015f, 0.15f);
+	c.b = max(c.b - 0.002f, 0.15f);
+	mesh_.material.diffuse = c;
 }

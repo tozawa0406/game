@@ -489,6 +489,8 @@ void Dx11Wrapper::Draw(const SpriteRenderer* obj, const Shader* shader)
 	pContext->OMSetBlendState(blendState_[(int)ALFA_BREND::DEF], blendFactor, 0xffffffff);
 }
 
+
+
 void Dx11Wrapper::Draw(MeshRenderer* obj, const Shader* shader)
 {
 	const auto& pContext = directX11_->GetDeviceContext();

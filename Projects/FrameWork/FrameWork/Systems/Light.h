@@ -2,6 +2,7 @@
 #define _LIGHT_H_
 
 #include "Renderer/Model/Model.h"
+#include "DebugSetting/GUI.h"
 
 struct LightInfo
 {
@@ -12,7 +13,7 @@ struct LightInfo
 };
 
 class Systems;
-class Light
+class Light : public GUI
 {
 public:
 	Light(Systems* systems);
@@ -20,10 +21,14 @@ public:
 
 	LightInfo& GetLightInfo(void) { return light_; }
 
+	void Update(void);
 	void SetLight(void);
+
+	void GuiUpdate(void) override;
 
 private:
 	LightInfo light_;
+	float angle_;
 
 	Systems* systems_;
 };

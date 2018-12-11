@@ -17,5 +17,5 @@ void Collider3D::Plane::Update(void)
 void Collider3D::Plane::SetNormal(const VECTOR3& normal)
 {
 	MATRIX rot = MATRIX().Identity().Rotation(transform_.rotation);
-	normal_ = VecTransformNormal(normal, rot);
+	normal_ = VecTransform(normal, rot);
 }

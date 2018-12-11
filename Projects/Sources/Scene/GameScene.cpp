@@ -53,7 +53,7 @@ void GameScene::Init(void)
 	auto* player = objectManager_->Create<Player>();
 	auto* wapon  = objectManager_->Create<KohakuSword>();
 	player->SetWapon(wapon);
-	objectManager_->Create<Dragon>();
+//	objectManager_->Create<Dragon>();
 	objectManager_->Create<Timer>();
 	auto* life = objectManager_->Create<PlayerLife>();
 	life->SetPlayer(player);
@@ -83,6 +83,8 @@ SceneList GameScene::Update(void)
 {
 	if (sky_) { sky_->Update(); }
 	if (objectManager_) { objectManager_->Update(); }
+	if (light_) { light_->Update(); }
+
 
 	if (systems_->GetInput()->GetCtrl(0)->Trigger(Input::GAMEPAD_START, DIK_P)) 
 	{

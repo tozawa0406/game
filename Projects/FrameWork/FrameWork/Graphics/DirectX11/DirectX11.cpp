@@ -8,6 +8,8 @@
 #include "Dx11RenderTarget.h"
 #include "../../Windows/Windows.h"
 
+#include "../../Systems/Renderer/ObjectRendererManager.h"
+
 // コンストラクタ
 DirectX11::DirectX11(Windows* window) : Graphics(window)
 	, pSwapChain_(nullptr)

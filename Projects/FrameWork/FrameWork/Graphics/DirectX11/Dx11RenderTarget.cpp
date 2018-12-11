@@ -3,14 +3,24 @@
 #include "../../Windows/Windows.h"
 #include "../../Systems/Renderer/Sprite/Texture.h"
 
+#include "../../Systems/GameSystems.h"
+#include "../../Systems/Renderer/Shader/ZTexture.h"
+#include "../../Scene/SceneManager.h"
+#include "../../Systems/Light.h"
+#include "../../../../Sources/Scene/GameScene.h"
+#include "../../Systems/Camera/CameraManager.h"
+
 /* @biref	コンストラクタ
  * @param	(dx11)	親のポインタ		*/
-Dx11RenderTarget::Dx11RenderTarget(DirectX11* dx11) : 
+Dx11RenderTarget::Dx11RenderTarget(DirectX11* dx11) :
 	directX11_(dx11)
 	, shadowSampler_(nullptr)
 {
 	for (auto& r : renderTargetView_)	{ r = nullptr; }
 	for (auto& s : shaderResourceView_) { s = nullptr; }
+
+	cascadeConfig_.cascadeLevels = MAX_CASCADE;
+	cascadeConfig_.bufferSize	 = 1024;
 }
 
 /* @brief	デストラクタ				*/
@@ -60,6 +70,7 @@ void Dx11RenderTarget::Uninit(void)
 
 	for (auto& r : renderTargetView_)	{ ReleasePtr(r); }
 	for (auto& s : shaderResourceView_) { ReleasePtr(s); }
+
 }
 
 /* @brief	普通のレンダーターゲットの作成
@@ -325,6 +336,8 @@ void Dx11RenderTarget::BeginDrawShadow(void)
 	const auto& context = directX11_->GetDeviceContext();
 	if (!context) { return; }
 
+	Temp();
+
 	int n = static_cast<int>(List::SHADOW);
 
 	ID3D11RenderTargetView * nullRTV = nullptr;
@@ -347,4 +360,8 @@ void Dx11RenderTarget::EndDrawShadow(void)
 	context->OMSetRenderTargets(1, &nullRTV, 0);
 	context->RSSetViewports(1, &directX11_->GetViewport());
 	context->OMSetRenderTargets(1, &renderTargetView_[static_cast<int>(List::DEFAULT)], depthStencilView_);
+}
+
+void Dx11RenderTarget::Temp(void)
+{
 }

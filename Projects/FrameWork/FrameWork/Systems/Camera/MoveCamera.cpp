@@ -78,8 +78,8 @@ void MoveCamera::MoveRotation(void)
 
 		VECTOR3 vec = at_ - pos_;		// 方向ベクトル
 		// ベクトルの座標変換
-		vec = VecTransformNormal(vec, rotY);
-		vec = VecTransformNormal(vec, rotX);
+		vec = VecTransform(vec, rotY);
+		vec = VecTransform(vec, rotX);
 
 		// 単位ベクトル
 		VECTOR3 check = vec;
@@ -123,8 +123,8 @@ void MoveCamera::MoveAtRotation(void)
 
 		VECTOR3 vec = pos_ - at_;		// 方向ベクトル
 		// ベクトルの座標変換	
-		vec = VecTransformNormal(vec, rotY);
-		vec = VecTransformNormal(vec, rotX);
+		vec = VecTransform(vec, rotY);
+		vec = VecTransform(vec, rotX);
 
 		// 単位ベクトル
 		VECTOR3 check = vec;
