@@ -25,6 +25,9 @@ Windows::Windows(void) : graphics_(nullptr), systems_(nullptr)//, dialog_(nullpt
 // 初期化処理
 HRESULT Windows::Init(HINSTANCE Instance, int cmdShow)
 {
+	// メモリーリーク検出
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+
 	hInstance_ = Instance;
 
 	// ウィンドウ情報の設定

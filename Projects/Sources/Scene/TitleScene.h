@@ -31,10 +31,8 @@ private:
 	int				frameCnt_;
 	//! 「please press」
 	CanvasRenderer::Text press_;
-
 	//! 「Enter」「〇」「X」
 	CanvasRenderer::Text button_;
-
 };
 
 #endif // _TITLE_SCENE_H_

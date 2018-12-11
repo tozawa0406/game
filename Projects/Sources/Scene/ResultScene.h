@@ -18,7 +18,19 @@ public:
 	void Init(void)   override;
 	void Uninit(void) override;
 private:
-	SceneList Update(void) override;						// 更新処理	
+	SceneList Update(void) override;
+
+	void		Flashing(void);
+	void		JudgeCtrlType(Controller& ctrl);
+	SceneList	EndScene(Controller& ctrl);
+
+	//! フレームカウンタ
+	int frameCnt_;
+	//! 「please press」
+	CanvasRenderer::Text press_;
+	//! 「Enter」「〇」「X」
+	CanvasRenderer::Text button_;
+
 };
 
 #endif // _RESULT_SCENE_H_
