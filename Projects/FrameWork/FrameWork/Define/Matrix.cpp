@@ -288,7 +288,7 @@ VECTOR3 VecTransformCoord(const VECTOR3& v, const MATRIX& m)
 	float r[4];
 	for (int i = 0; i < 4; ++i)
 	{
-		r[i] = v.x * m.m[0][i] + v.y * m.m[1][i] + v.z * m.m[2][i] + 0 * m.m[3][i];
+		r[i] = v.x * m.m[0][i] + v.y * m.m[1][i] + v.z * m.m[2][i] + m.m[3][i];
 	}
 
 	float inv = 1 / r[3];

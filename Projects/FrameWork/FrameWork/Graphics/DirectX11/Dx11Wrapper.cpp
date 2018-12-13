@@ -481,6 +481,7 @@ void Dx11Wrapper::Draw(const SpriteRenderer* obj, const Shader* shader)
 
 	// プリミティブトポロジーを設定
 	pContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+
 	// 描画
 	pContext->DrawIndexed(obj->GetIndexNum(), 0, 0);
 
@@ -488,8 +489,6 @@ void Dx11Wrapper::Draw(const SpriteRenderer* obj, const Shader* shader)
 	float blendFactor[] = { 0.0f, 0.0f, 0.0f, 0.0f };
 	pContext->OMSetBlendState(blendState_[(int)ALFA_BREND::DEF], blendFactor, 0xffffffff);
 }
-
-
 
 void Dx11Wrapper::Draw(MeshRenderer* obj, const Shader* shader)
 {

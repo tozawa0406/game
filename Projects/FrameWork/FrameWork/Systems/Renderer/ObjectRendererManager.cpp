@@ -5,6 +5,7 @@
 //																	2018/08/18
 //-----------------------------------------------------------------------------
 #include "ObjectRendererManager.h"
+
 #include "ObjectRenderer.h"
 #include "Sprite/SpriteRenderer.h"
 #include "Model/MeshRenderer.h"
@@ -13,11 +14,9 @@
 #include "../../Scene/SceneManager.h"
 #include "../Camera/CameraManager.h"
 
+#include "../../Graphics/DirectX11/DirectX11.h"
 #include "Shader/Default.h"
 #include "Shader/ZTexture.h"
-
-#include "../../Graphics/DirectX11/DirectX11.h"
-#include "../../Graphics/DirectX11/Dx11RenderTarget.h"
 
 void ObjectRendererManager::Add(ObjectRenderer* obj)
 {

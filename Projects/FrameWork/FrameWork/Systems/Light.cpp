@@ -15,7 +15,7 @@ Light::Light(Systems* systems) : GUI(systems, nullptr, "Light")
 	for (auto& t : c.texture) { t = 0; }
 	for (auto& t : c.textureName) { t = ""; }
 
-	light_.position  = VECTOR3(-100, 0, -150);
+	light_.position  = VECTOR3(0, 100, -150);
 	light_.at		 = VECTOR3(0, -10, 0);
 	light_.direction = light_.position - light_.at;
 	light_.direction = VecNorm(light_.direction);
@@ -47,9 +47,9 @@ Light::Light(Systems* systems, VECTOR3 position, VECTOR3 at, COLOR color) : GUI(
 
 void Light::Update(void)
 {
-	angle_ += 0.001f;
-	light_.position.x = sinf(angle_) * 100;
-	light_.position.y = max(cosf(angle_) * 100, -2);
+	//angle_ += 0.001f;
+	//light_.position.x = sinf(angle_) * 100;
+	//light_.position.y = max(cosf(angle_) * 100, -2);
 }
 
 void Light::SetLight(void)
