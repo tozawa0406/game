@@ -53,8 +53,8 @@ void CanvasRendererManager::Draw(void)
 	{
 		if (obj->GetEnable())
 		{
-			const auto& type = obj->GetType();
-			if (type == CanvasRendererBase::Type::Image)
+			const auto& type = obj->GetCanvasType();
+			if (type == CanvasRendererBase::CanvasType::Image)
 			{
 				const auto& img = static_cast<CanvasRenderer::Image*>(obj);
 				Shader* shader = nullptr;
@@ -73,7 +73,7 @@ void CanvasRendererManager::Draw(void)
 					dev->BeginDrawCanvasRenderer();
 				}
 			}
-			else if (type == CanvasRendererBase::Type::Text)
+			else if (type == CanvasRendererBase::CanvasType::Text)
 			{
 				if (const auto& font = dev->GetFont())
 				{

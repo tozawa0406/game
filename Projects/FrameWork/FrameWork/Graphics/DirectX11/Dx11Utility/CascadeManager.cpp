@@ -98,17 +98,6 @@ HRESULT CascadeManager::InitShadowState(DirectX11* directX)
     pBlob->Release();
 	if (FAILED(hr)) { return hr; }
 
-    // 定数バッファの生成
-    D3D11_BUFFER_DESC bDesc;
-	ZeroMemory(&bDesc, sizeof(bDesc));
-	bDesc.Usage          = D3D11_USAGE_DEFAULT;
-	bDesc.ByteWidth      = sizeof( CONSTANT_SHADOW );
-	bDesc.BindFlags      = D3D11_BIND_CONSTANT_BUFFER;
-	bDesc.CPUAccessFlags = 0;
-
-	hr = device->CreateBuffer(&bDesc, nullptr, &shadowState_.pCB);
-	if (FAILED(hr)) { return hr; }
-
     // サンプラーステートの生成
     D3D11_SAMPLER_DESC sDesc;
 	ZeroMemory(&sDesc, sizeof(sDesc));
@@ -138,7 +127,6 @@ void CascadeManager::UninitShadowState(void)
 	for (auto& p : shadowState_.pDSV) { ReleasePtr(p); }
 	for (auto& p : shadowState_.pDepthSRV) { ReleasePtr(p); }
 	ReleasePtr(shadowState_.pVS);
-	ReleasePtr(shadowState_.pCB);
 	ReleasePtr(shadowState_.pSmp);
 }
 
@@ -185,25 +173,6 @@ void CascadeManager::Begin(int i)
 
 	context->ClearDepthStencilView(shadowState_.pDSV[i], D3D11_CLEAR_DEPTH, 1.0f, 0);
 	drawNum_ = i;
-}
-
-void CascadeManager::SetShadow(const MATRIX& m)
-{
-	const auto& directX11 = static_cast<DirectX11*>(Systems::Instance()->GetRenderer());
-	const auto& context = directX11->GetDeviceContext();
-
-	context->VSSetShader(shadowState_.pVS, nullptr, 0);
-	context->GSSetShader(nullptr, nullptr, 0);
-	context->PSSetShader(nullptr, nullptr, 0);
-	context->DSSetShader(nullptr, nullptr, 0);
-	context->HSSetShader(nullptr, nullptr, 0);
-
-	CONSTANT_SHADOW param;
-	param.world		= m;
-	param.viewProj	= shadowMatrix_[drawNum_];
-
-	context->UpdateSubresource(shadowState_.pCB, 0, nullptr, &param, 0, 0);
-	context->VSSetConstantBuffers(0, 1, &shadowState_.pCB);
 }
 
 void CascadeManager::End(void)

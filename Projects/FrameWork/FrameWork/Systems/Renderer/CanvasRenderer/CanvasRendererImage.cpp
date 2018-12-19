@@ -1,6 +1,6 @@
 #include "CanvasRendererImage.h"
 
-CanvasRenderer::Image::Image(void) : CanvasRendererBase(Type::Image)
+CanvasRenderer::Image::Image(void) : CanvasRendererBase(CanvasType::Image)
 	, texNum_(static_cast<int>(Texture::Base::UNOWN))
 	, scale_(VECTOR2(1))
 	, scaleOffset_(VECTOR2(0))

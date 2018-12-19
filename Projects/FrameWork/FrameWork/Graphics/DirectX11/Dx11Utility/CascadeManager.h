@@ -11,7 +11,6 @@ struct SADOWSTATE
 	ID3D11DepthStencilView*     pDSV[MAX_CASCADE];
 	ID3D11ShaderResourceView*   pDepthSRV[MAX_CASCADE];
 	ID3D11VertexShader*         pVS;
-	ID3D11Buffer*               pCB;
 	ID3D11SamplerState*         pSmp;
 	D3D11_VIEWPORT              viewport;
 };
@@ -38,12 +37,6 @@ struct SHADOWMAP_SPLIT
 	float z;
 	float xMax;
 	float xMin;
-};
-
-struct CONSTANT_SHADOW
-{
-	MATRIX world;
-	MATRIX viewProj;
 };
 
 class DirectX11;
@@ -78,11 +71,6 @@ public:
 	 * @return	なし				*/
 	void End(void);
 	
-	/* @brief	影描画ConstantBufferの設定
-	 * @param	(m)	オブジェクトのワールド行列
-	 * @return	なし				*/
-	void SetShadow(const MATRIX& m);
-
 	/* @brief	オブジェクト描画ConstantBufferの設定
 	 * @param	なし
 	 * @return	なし				*/

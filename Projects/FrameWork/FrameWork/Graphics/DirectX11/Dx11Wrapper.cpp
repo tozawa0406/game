@@ -494,21 +494,8 @@ void Dx11Wrapper::Draw(const SpriteRenderer* obj, const Shader* shader)
 	// プリミティブトポロジーを設定
 	pContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
-	if (shader && (shader->GetFileName() == "./Resource/Data/SkinningShadow.hlsl" || shader->GetFileName() == "./Resource/Data/ShadowVS.hlsl"))
-	{
-	}
-	else
-	{
-		static_cast<Dx11RenderTarget*>(directX11_->GetRenderTarget())->GetCascadeManager()->Set();
-	}
-
 	// 描画
 	pContext->DrawIndexed(obj->GetIndexNum(), 0, 0);
-
-	if (shader && shader->GetVMethod() == "VS_ZBufferCalc")
-	{
-		pContext->PSSetShader(NULL, NULL, 0);
-	}
 
 	// アルファブレンドのセット
 	float blendFactor[] = { 0.0f, 0.0f, 0.0f, 0.0f };
@@ -639,14 +626,6 @@ void Dx11Wrapper::Draw(MeshRenderer* obj, const Shader* shader)
 		const auto& vb = vertexBuffer_[mesh.vertexBuffer];
 		pContext->IASetVertexBuffers(0, 1, &vb.buffer, &vb.stride, &vb.offset);
 		pContext->IASetIndexBuffer(indexBuffer_[mesh.indexBuffer], DXGI_FORMAT_R16_UINT, 0);
-
-		if (shader && (shader->GetFileName() == "./Resource/Data/SkinningShadow.hlsl" || shader->GetFileName() == "./Resource/Data/ShadowVS.hlsl"))
-		{
-		}
-		else
-		{
-			static_cast<Dx11RenderTarget*>(directX11_->GetRenderTarget())->GetCascadeManager()->Set();
-		}
 
 		// 描画
 		pContext->DrawIndexed((uint)mesh.index.size(), 0, 0);
@@ -826,6 +805,17 @@ void Dx11Wrapper::BeginDrawObjectRenderer(void)
 	const auto& constant = constantBuffer_[shader_[1].constantBuffer[0]];
 	pContext->VSSetConstantBuffers(0, 1, &constant);
 	pContext->UpdateSubresource(constant, 0, NULL, &sg, 0, 0);
+
+	if (directX11_)
+	{
+		if (const auto& renderTarget = static_cast<Dx11RenderTarget*>(directX11_->GetRenderTarget()))
+		{
+			if (const auto& cascade = renderTarget->GetCascadeManager())
+			{
+				cascade->Set();
+			}
+		}
+	}
 }
 
 void Dx11Wrapper::EndDrawObjectRenderer(void)

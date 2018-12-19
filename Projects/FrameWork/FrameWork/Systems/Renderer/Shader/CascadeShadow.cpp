@@ -83,6 +83,7 @@ HRESULT CascadeShadow::BeginDraw(int i)
 
 HRESULT CascadeShadow::SetParam(const MATRIX& mtx, const COLOR& color, VECTOR4 texcoord) const
 {
+	UNREFERENCED_PARAMETER(texcoord);
 	UNREFERENCED_PARAMETER(color);
 
 	const auto& dev = manager_->GetSystems()->GetRenderer()->GetWrapper();

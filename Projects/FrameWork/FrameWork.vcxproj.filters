@@ -344,6 +344,9 @@
     <ClInclude Include="FrameWork\Systems\Renderer\Shader\CascadeShadow.h">
       <Filter>FrameWork\Systems\Renderer\Shader</Filter>
     </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Renderer\RendererBase.h">
+      <Filter>FrameWork\Systems\Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FrameWork\Define\Matrix.cpp">

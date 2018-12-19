@@ -1,7 +1,7 @@
 #include "CanvasRendererText.h"
 #include "../../../Graphics/Utility/Font.h"
 
-CanvasRenderer::Text::Text(void) : CanvasRendererBase(Type::Text)
+CanvasRenderer::Text::Text(void) : CanvasRendererBase(CanvasType::Text)
 	, string_("")
 	, drawSize_(VECTOR2(0))
 	, faldBack_(false)

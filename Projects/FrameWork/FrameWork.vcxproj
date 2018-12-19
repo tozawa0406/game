@@ -78,6 +78,7 @@
     <ClInclude Include="FrameWork\Systems\Loading.h" />
     <ClInclude Include="FrameWork\Systems\Particle\Particle.h" />
     <ClInclude Include="FrameWork\Systems\Particle\ParticleManager.h" />
+    <ClInclude Include="FrameWork\Systems\Renderer\RendererBase.h" />
     <ClInclude Include="FrameWork\Systems\Renderer\CanvasRenderer\CanvasRendererBase.h" />
     <ClInclude Include="FrameWork\Systems\Renderer\CanvasRenderer\CanvasRendererImage.h" />
     <ClInclude Include="FrameWork\Systems\Renderer\CanvasRenderer\CanvasRendererManager.h" />
