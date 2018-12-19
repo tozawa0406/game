@@ -68,7 +68,7 @@ PlayerState* PaidWaitState::Update(void)
 		meshAnim.mesh.ChangeAnimation(meshAnim.animation, ANIMATION_CHANGE_FRAME30, true);
 	}
 
-	waitCnt_++;
+	if (meshAnim.animation == static_cast<int>(Player::Animation::Wait)) { waitCnt_++; }
 	// ˆê’èŽžŠÔ‚ð’´‚¦‚½‚ç‘Ò‹@ƒ‚[ƒVƒ‡ƒ“‚ÌÄ¶
 	if (waitCnt_ > ANIMATION_WAIT_FRAME)
 	{

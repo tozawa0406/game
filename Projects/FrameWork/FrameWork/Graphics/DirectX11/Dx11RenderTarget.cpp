@@ -15,12 +15,10 @@
 Dx11RenderTarget::Dx11RenderTarget(DirectX11* dx11) :
 	directX11_(dx11)
 	, shadowSampler_(nullptr)
+	, cascade_(nullptr)
 {
 	for (auto& r : renderTargetView_)	{ r = nullptr; }
 	for (auto& s : shaderResourceView_) { s = nullptr; }
-
-	cascadeConfig_.cascadeLevels = MAX_CASCADE;
-	cascadeConfig_.bufferSize	 = 1024;
 }
 
 /* @brief	デストラクタ				*/
@@ -57,6 +55,12 @@ HRESULT Dx11RenderTarget::Init(void)
 	hr = CreateShadowmapRenderTarget();
 	if (window->ErrorMessage("シャドウマップの初期化に失敗しました。", "エラー", hr)) { return hr; }
 
+	cascade_ = new CascadeManager;
+	if (cascade_)
+	{
+		cascade_->Init(directX11_);
+	}
+
 	return S_OK;
 }
 
@@ -65,6 +69,7 @@ HRESULT Dx11RenderTarget::Init(void)
  * @return	なし						*/
 void Dx11RenderTarget::Uninit(void)
 {
+	UninitDeletePtr(cascade_);
 	ReleasePtr(shadowSampler_);
 	ReleasePtr(depthStencilView_);
 
@@ -127,15 +132,15 @@ HRESULT Dx11RenderTarget::CreateShadowmapRenderTarget(void)
 	// 深度テクスチャの生成.
 	D3D11_TEXTURE2D_DESC texDesc;
 	ZeroMemory(&texDesc, sizeof(texDesc));
-	texDesc.Width				= Graphics::WIDTH  * 4;
-	texDesc.Height				= Graphics::HEIGHT * 4;
+	texDesc.Width				= Graphics::WIDTH  * 8;
+	texDesc.Height				= Graphics::HEIGHT * 8;
 	texDesc.Format				= DXGI_FORMAT_R32_TYPELESS;
 	texDesc.MipLevels			= 1;
 	texDesc.ArraySize			= 1;
 	texDesc.SampleDesc.Count	= 1;
 	texDesc.SampleDesc.Quality  = 0;
 	texDesc.Usage				= D3D11_USAGE_DEFAULT;
-	texDesc.BindFlags			= D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+	texDesc.BindFlags			= D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_SHADER_RESOURCE;
 	texDesc.CPUAccessFlags		= 0;
 	texDesc.MiscFlags			= 0;
 
@@ -144,11 +149,11 @@ HRESULT Dx11RenderTarget::CreateShadowmapRenderTarget(void)
 
 	// 深度ステンシルビューではαが使えず、ビルボードの影が作れない
 	// レンダーターゲットビューの生成.
-	D3D11_RENDER_TARGET_VIEW_DESC rtDesc;
-	ZeroMemory(&rtDesc, sizeof(rtDesc));
-	rtDesc.Format				= DXGI_FORMAT_R32_FLOAT;
-	rtDesc.ViewDimension		= D3D11_RTV_DIMENSION_TEXTURE2D;
-	rtDesc.Texture2D.MipSlice = 0;
+	D3D11_DEPTH_STENCIL_VIEW_DESC dsvDesc;
+	ZeroMemory(&dsvDesc, sizeof(dsvDesc));
+	dsvDesc.Format				= DXGI_FORMAT_D32_FLOAT;
+	dsvDesc.ViewDimension		= D3D11_DSV_DIMENSION_TEXTURE2D;
+	dsvDesc.Texture2D.MipSlice = 0;
 
 	// シャドウマップシェーダリソースビューの生成.
 	D3D11_SHADER_RESOURCE_VIEW_DESC srDesc;
@@ -158,7 +163,11 @@ HRESULT Dx11RenderTarget::CreateShadowmapRenderTarget(void)
 	srDesc.Texture2D.MipLevels			= 1;
 	srDesc.Texture2D.MostDetailedMip	= 0;
 
-	if (FAILED(CreateRenderTarget(List::SHADOW, tex2D, &rtDesc, &srDesc))) { return E_FAIL; }
+	hr = device->CreateDepthStencilView(tex2D, &dsvDesc, &shadowDepthStencilView_);
+	if (window->ErrorMessage("レンダーターゲットビューの作成に失敗しました。", "エラー", hr)) { return hr; }
+
+	hr = device->CreateShaderResourceView(tex2D, &srDesc, &shaderResourceView_[static_cast<int>(List::SHADOW)]);
+	if (window->ErrorMessage("シェーダーリソースビューの作成に失敗しました。", "エラー", hr)) { return hr; }
 
 	ReleasePtr(tex2D);
 
@@ -289,6 +298,8 @@ void Dx11RenderTarget::Draw(List num, VECTOR2 position, VECTOR2 size)
 	wrapper->DrawQuad(position, size);
 	ID3D11ShaderResourceView* temp = nullptr;
 	context->PSSetShaderResources(0, 1, &temp);
+
+	cascade_->DrawShadowMap();
 }
 
 /* @brief	スクリーンショットの作成
@@ -336,15 +347,11 @@ void Dx11RenderTarget::BeginDrawShadow(void)
 	const auto& context = directX11_->GetDeviceContext();
 	if (!context) { return; }
 
-	Temp();
+	ID3D11RenderTargetView* nullRTV = nullptr;
+	context->OMSetRenderTargets(1, &nullRTV, shadowDepthStencilView_);
 
-	int n = static_cast<int>(List::SHADOW);
-
-	ID3D11RenderTargetView * nullRTV = nullptr;
-	context->OMSetRenderTargets(1, &nullRTV, 0);
-	context->OMSetRenderTargets(1, &renderTargetView_[n], 0);
 	// クリア処理
-	context->ClearRenderTargetView(renderTargetView_[n], (float*)COLOR(0, 0, 0, 0));
+	context->ClearDepthStencilView(shadowDepthStencilView_, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	context->RSSetViewports(1, &shadowViewport_);
 }
 
@@ -360,8 +367,4 @@ void Dx11RenderTarget::EndDrawShadow(void)
 	context->OMSetRenderTargets(1, &nullRTV, 0);
 	context->RSSetViewports(1, &directX11_->GetViewport());
 	context->OMSetRenderTargets(1, &renderTargetView_[static_cast<int>(List::DEFAULT)], depthStencilView_);
-}
-
-void Dx11RenderTarget::Temp(void)
-{
 }

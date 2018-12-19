@@ -26,6 +26,7 @@
     <ClInclude Include="FrameWork\Graphics\DirectX11\DirectX11.h" />
     <ClInclude Include="FrameWork\Graphics\DirectX11\Dx11Include.h" />
     <ClInclude Include="FrameWork\Graphics\DirectX11\Dx11RenderTarget.h" />
+    <ClInclude Include="FrameWork\Graphics\DirectX11\Dx11Utility\CascadeManager.h" />
     <ClInclude Include="FrameWork\Graphics\DirectX11\Dx11Utility\Dx11Font.h" />
     <ClInclude Include="FrameWork\Graphics\DirectX11\Dx11Wrapper.h" />
     <ClInclude Include="FrameWork\Graphics\DirectX11\WICTextureLoader.h" />
@@ -89,6 +90,7 @@
     <ClInclude Include="FrameWork\Systems\Renderer\ObjectRendererManager.h" />
     <ClInclude Include="FrameWork\Systems\Renderer\Shader\2DCircleGauge.h" />
     <ClInclude Include="FrameWork\Systems\Renderer\Shader\BillboardShader.h" />
+    <ClInclude Include="FrameWork\Systems\Renderer\Shader\CascadeShadow.h" />
     <ClInclude Include="FrameWork\Systems\Renderer\Shader\CSSkinningRender.h" />
     <ClInclude Include="FrameWork\Systems\Renderer\Shader\Default.h" />
     <ClInclude Include="FrameWork\Systems\Renderer\Shader\DepthShadow.h" />
@@ -112,6 +114,7 @@
     <ClCompile Include="FrameWork\Define\Vector.cpp" />
     <ClCompile Include="FrameWork\Graphics\DirectX11\DirectX11.cpp" />
     <ClCompile Include="FrameWork\Graphics\DirectX11\Dx11RenderTarget.cpp" />
+    <ClCompile Include="FrameWork\Graphics\DirectX11\Dx11Utility\CascadeManager.cpp" />
     <ClCompile Include="FrameWork\Graphics\DirectX11\Dx11Utility\Dx11Font.cpp" />
     <ClCompile Include="FrameWork\Graphics\DirectX11\Dx11Wrapper.cpp" />
     <ClCompile Include="FrameWork\Graphics\DirectX11\WICTextureLoader.cpp" />
@@ -163,6 +166,7 @@
     <ClCompile Include="FrameWork\Systems\Renderer\ObjectRendererManager.cpp" />
     <ClCompile Include="FrameWork\Systems\Renderer\Shader\2DCircleGauge.cpp" />
     <ClCompile Include="FrameWork\Systems\Renderer\Shader\BillboardShader.cpp" />
+    <ClCompile Include="FrameWork\Systems\Renderer\Shader\CascadeShadow.cpp" />
     <ClCompile Include="FrameWork\Systems\Renderer\Shader\CSSkinningRender.cpp" />
     <ClCompile Include="FrameWork\Systems\Renderer\Shader\Default.cpp" />
     <ClCompile Include="FrameWork\Systems\Renderer\Shader\DepthShadow.cpp" />

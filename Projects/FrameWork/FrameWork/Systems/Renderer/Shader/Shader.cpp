@@ -15,10 +15,25 @@ HRESULT Shader::Init(void)
 {
 	dev_ = manager_->GetSystems()->GetRenderer()->GetWrapper();
 	if (dev_ == nullptr) { return E_FAIL; }
-	vertexShader_ = dev_->CreateVertexShader(fileName_, vMethod_, vVersion_, layout_, layoutSize_);
-	if (vertexShader_ == Wrapper::R_ERROR) { return E_FAIL; }
-	pixelShader_ = dev_->CreatePixelShader(fileName_, pMethod_, pVersion_);
-	if (pixelShader_ == Wrapper::R_ERROR) { return E_FAIL; }
+	if (vMethod_ != "")
+	{
+		vertexShader_ = dev_->CreateVertexShader(fileName_, vMethod_, vVersion_, layout_, layoutSize_);
+		if (vertexShader_ == Wrapper::R_ERROR) { return E_FAIL; }
+	}
+	else
+	{
+		vertexShader_ = Wrapper::S_NULL;
+	}
+
+	if (pMethod_ != "")
+	{
+		pixelShader_ = dev_->CreatePixelShader(fileName_, pMethod_, pVersion_);
+		if (pixelShader_ == Wrapper::R_ERROR) { return E_FAIL; }
+	}
+	else
+	{
+		pixelShader_ = Wrapper::S_NULL;
+	}
 
 	return S_OK;
 }

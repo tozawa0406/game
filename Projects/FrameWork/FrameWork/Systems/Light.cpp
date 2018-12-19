@@ -15,9 +15,9 @@ Light::Light(Systems* systems) : GUI(systems, nullptr, "Light")
 	for (auto& t : c.texture) { t = 0; }
 	for (auto& t : c.textureName) { t = ""; }
 
-	light_.position  = VECTOR3(0, 100, -150);
+	light_.position  = VECTOR3(0, 50, -100);
 	light_.at		 = VECTOR3(0, -10, 0);
-	light_.direction = light_.position - light_.at;
+	light_.direction = light_.at - light_.position;
 	light_.direction = VecNorm(light_.direction);
 
 	SetLight();

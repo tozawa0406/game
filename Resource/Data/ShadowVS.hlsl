@@ -9,39 +9,40 @@ struct VSInput
 	float4 weight   : TEXCOORD2;
 };
 
-
-///////////////////////////////////////////////////////////////////////////////////////////
-// VSOutput structure
-///////////////////////////////////////////////////////////////////////////////////////////
 struct VSOutput
 {
-    float4  Position : SV_POSITION;         //!< 位置座標です(ビュー射影空間).
+    float4  Position : SV_POSITION;
 };
 
-///////////////////////////////////////////////////////////////////////////////////////////
-// CBMatrix buffer
-///////////////////////////////////////////////////////////////////////////////////////////
-cbuffer CBMatrix : register( b1 )
+cbuffer CBMatrix : register(b0)
 {
-    float4x4    World       : packoffset( c0 );     //!< ワールド行列です.
-    float4x4    ViewProj    : packoffset( c4 );     //!< ビュー射影行列です.
+	float4x4    World;
+	float4x4    ViewProj;
 };
 
+cbuffer bone : register(b1)
+{
+	matrix BoneInv[512];
+	matrix BoneAnim[512];
+};
 
-//-----------------------------------------------------------------------------------------
-//! @brief      頂点シェーダメインエントリーポイントです.
-//-----------------------------------------------------------------------------------------
 VSOutput VSFunc( VSInput input )
 {
     VSOutput output = (VSOutput)0;
 
     float4 localPos    = input.Position;
+
+	localPos = (mul(mul(input.Position, transpose(BoneInv[input.boneIndex.x])), transpose(BoneAnim[input.boneIndex.x])) * input.weight.x) +
+			   (mul(mul(input.Position, transpose(BoneInv[input.boneIndex.y])), transpose(BoneAnim[input.boneIndex.y])) * input.weight.y) +
+			   (mul(mul(input.Position, transpose(BoneInv[input.boneIndex.z])), transpose(BoneAnim[input.boneIndex.z])) * input.weight.z) +
+			   (mul(mul(input.Position, transpose(BoneInv[input.boneIndex.w])), transpose(BoneAnim[input.boneIndex.w])) * input.weight.w);
+
+	localPos += input.Position * step(input.weight.x, 0.0001f);
+
     float4 worldPos    = mul( World,    localPos );
     float4 viewProjPos = mul( ViewProj, worldPos );
 
     output.Position = viewProjPos;
 
-    return output;
+	return output;
 }
-
-/* この頂点シェーダに対応するピクセルシェーダはありません.*/

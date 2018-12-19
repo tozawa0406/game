@@ -28,6 +28,7 @@ protected:
 
 public:	
 	static constexpr uint R_ERROR = UINT_MAX;		// エラー値
+	static constexpr uint S_NULL = UINT_MAX - 1;
 
 	// プリミティブの値
 	class PRIMITIVE

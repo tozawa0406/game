@@ -446,9 +446,21 @@ void Dx11Wrapper::Draw(const SpriteRenderer* obj, const Shader* shader)
 	}
 	else
 	{
-		vertex   = vertexShader_[shader->GetVertexShader()].shader;
-		pixel    = pixelShader_[shader->GetPixelShader()].shader;
-		sampler  = pixelShader_[shader->GetPixelShader()].sampler;
+		uint vertexShaderNum = shader->GetVertexShader();
+		if (vertexShaderNum == S_NULL) { vertex = nullptr; }
+		else { vertex = vertexShader_[vertexShaderNum].shader; }
+
+		uint pixelShaderNum = shader->GetPixelShader();
+		if (pixelShaderNum == S_NULL) 
+		{
+			pixel = nullptr;
+			sampler = nullptr;
+		}
+		else 
+		{
+			pixel = pixelShader_[pixelShaderNum].shader; 
+			sampler = pixelShader_[pixelShaderNum].sampler;
+		}
 		constant = constantBuffer_[shader->GetConstantBuffer(0)];
 
 		shader->SetParam(mtx, obj->material.diffuse, obj->GetTexcoord());
@@ -482,8 +494,21 @@ void Dx11Wrapper::Draw(const SpriteRenderer* obj, const Shader* shader)
 	// プリミティブトポロジーを設定
 	pContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
+	if (shader && (shader->GetFileName() == "./Resource/Data/SkinningShadow.hlsl" || shader->GetFileName() == "./Resource/Data/ShadowVS.hlsl"))
+	{
+	}
+	else
+	{
+		static_cast<Dx11RenderTarget*>(directX11_->GetRenderTarget())->GetCascadeManager()->Set();
+	}
+
 	// 描画
 	pContext->DrawIndexed(obj->GetIndexNum(), 0, 0);
+
+	if (shader && shader->GetVMethod() == "VS_ZBufferCalc")
+	{
+		pContext->PSSetShader(NULL, NULL, 0);
+	}
 
 	// アルファブレンドのセット
 	float blendFactor[] = { 0.0f, 0.0f, 0.0f, 0.0f };
@@ -514,9 +539,22 @@ void Dx11Wrapper::Draw(MeshRenderer* obj, const Shader* shader)
 	}
 	else
 	{
-		vertex   = &vertexShader_[shader->GetVertexShader()];
-		pixel    = pixelShader_[shader->GetPixelShader()].shader;
-		sampler  = pixelShader_[shader->GetPixelShader()].sampler;
+		uint vertexShaderNum = shader->GetVertexShader();
+		if (vertexShaderNum == S_NULL) { vertex = nullptr; }
+		else { vertex = &vertexShader_[vertexShaderNum]; }
+
+		uint pixelShaderNum = shader->GetPixelShader();
+		if (pixelShaderNum == S_NULL)
+		{
+			pixel = nullptr;
+			sampler = nullptr;
+		}
+		else
+		{
+			pixel = pixelShader_[pixelShaderNum].shader;
+			sampler = pixelShader_[pixelShaderNum].sampler;
+		}
+
 		constant = constantBuffer_[shader->GetConstantBuffer(0)];
 	}
 
@@ -601,6 +639,14 @@ void Dx11Wrapper::Draw(MeshRenderer* obj, const Shader* shader)
 		const auto& vb = vertexBuffer_[mesh.vertexBuffer];
 		pContext->IASetVertexBuffers(0, 1, &vb.buffer, &vb.stride, &vb.offset);
 		pContext->IASetIndexBuffer(indexBuffer_[mesh.indexBuffer], DXGI_FORMAT_R16_UINT, 0);
+
+		if (shader && (shader->GetFileName() == "./Resource/Data/SkinningShadow.hlsl" || shader->GetFileName() == "./Resource/Data/ShadowVS.hlsl"))
+		{
+		}
+		else
+		{
+			static_cast<Dx11RenderTarget*>(directX11_->GetRenderTarget())->GetCascadeManager()->Set();
+		}
 
 		// 描画
 		pContext->DrawIndexed((uint)mesh.index.size(), 0, 0);

@@ -1,3 +1,6 @@
+#include "VSParam.hlsl"
+#include "ShadowFunc.hlsl"
+
 cbuffer scene : register(b0)
 {
 	matrix World;
@@ -16,6 +19,20 @@ cbuffer bone : register(b1)
 	matrix BoneAnim[512];
 };
 
+cbuffer CBMatrix : register(b2)
+{
+	float4   TexelSize;
+	float4   cameraPos;
+	float4   lightDir;
+	float4   splitPos;
+	float4   splitPosXMax;
+	float4   splitPosXMin;
+	float4x4 Shadow0;
+	float4x4 Shadow1;
+	float4x4 Shadow2;
+	float4x4 Shadow3;
+};
+
 Texture2D    DiffuseTexture  : register(t0);   
 SamplerState DiffuseSampler  : register(s0);
 
@@ -25,28 +42,12 @@ SamplerState ShadowSampler : register(s1);
 Texture2D    NormalTexture  : register(t2);
 SamplerState NormalSampler  : register(s2);
 
-struct IN_VS
-{
-	float4 position : POSITION0;
-	float4 normal   : NORMAL0;
-	float4 tangent	: TANGENT0;
-	float4 color    : COLOR0;
-	float2 texcoord : TEXCOORD0;
-	float4 boneIndex: TEXCOORD1;
-	float4 weight   : TEXCOORD2;
-};
+Texture2D       ShadowMap0    : register(t3);     //!< シャドウマップ(カスケード0)です.
+Texture2D       ShadowMap1    : register(t4);     //!< シャドウマップ(カスケード1)です.
+Texture2D       ShadowMap2    : register(t5);     //!< シャドウマップ(カスケード2)です.
+Texture2D       ShadowMap3    : register(t6);     //!< シャドウマップ(カスケード3)です.
 
-struct OUT_VS
-{
-	float4 position : SV_POSITION;
-	float2 texcoord : TEXCOORD0;
-	float4 ZCalcTex : TEXCOORD1;
-	float3 eye		: TEXCOORD2;
-	float3 light	: TEXCOORD3;
-	float4 color    : COLOR0;
-	float4 worldPosition : COLOR1;
-	float4 worldNormal   : COLOR2;
-};
+SamplerComparisonState  ShadowSmp     : register(s3);     //!< シャドウマップ用サンプラー比較ステートです.
 
 struct OUT_PS
 {
@@ -69,7 +70,7 @@ OUT_VS VS_Main(IN_VS In)
 	float4 position = Out.position;
 
 	// 座標系の計算
-	Out.position = mul(Out.position, transpose(World));
+	Out.position = mul(World, Out.position);
 	Out.worldPosition = Out.position;
 	Out.position = mul(Out.position, transpose(View));
 	Out.position = mul(Out.position, transpose(Proj));
@@ -96,19 +97,26 @@ OUT_VS VS_Main(IN_VS In)
 	Out.light.z = dot(light, N);
 	Out.light = normalize(Out.light);
 
-	// ライトの目線によるワールドビュー射影変換をする
-	float4 calc;
-	calc = mul(In.position, transpose(World));
-	calc = mul(calc, transpose(LightView));
-	calc = mul(calc, transpose(LightProj));
-	Out.ZCalcTex = calc;
-
 	Out.color = Color;
 
 	Out.texcoord = In.texcoord;
 	Out.worldNormal.xyz = mul(In.normal.xyz, (float3x3)transpose(World));
 	Out.worldNormal = normalize(Out.worldNormal);
 	Out.worldNormal.w = 1;
+
+	Out.lightDir = -lightDir.xyz;
+	Out.cameraPos = cameraPos.xyz;
+
+	// カスケードシャドウマップ用.
+	Out.splitPos = splitPos;
+	Out.splitPosXMax = splitPosXMax;
+	Out.splitPosXMin = splitPosXMin;
+	Out.sdwcoord[0] = mul(Shadow0, Out.worldPosition);
+	Out.sdwcoord[1] = mul(Shadow1, Out.worldPosition);
+	Out.sdwcoord[2] = mul(Shadow2, Out.worldPosition);
+	Out.sdwcoord[3] = mul(Shadow3, Out.worldPosition);
+
+	Out.texelSize = TexelSize;
 
 	return Out;
 }
@@ -133,26 +141,39 @@ OUT_PS PS_Main(OUT_VS In)
 	clip(Out.a - 0.5f);
 	Out.xyz *= max(0.6f, dot(normal.xyz, In.light.xyz)) + S;
 
-	// ライト目線によるZ値の再算出
-	float inv = 1.0f / In.ZCalcTex.w;
-	float zValue = In.ZCalcTex.z * inv;
+	float shadow = 0;
+	float3 sdwColor = 1;
 
-	// 射影空間のXY座標をテクスチャ座標に変換
-	float3 transTexCoord;
-	transTexCoord.x = (1.0f + In.ZCalcTex.x * inv) * 0.5f;
-	transTexCoord.y = (1.0f - In.ZCalcTex.y * inv) * 0.5f;
-
-	float4 texColor = ShadowTexture.Sample(ShadowSampler, transTexCoord);
+	float dist = In.position.w;  // ビュー空間でのZ座標
 	
-	// リアルZ値抽出
-	float SM_Z = texColor.r;
-
-	// 算出点がシャドウマップのZ値よりも大きければ影と判断
-	if (zValue > SM_Z + 0.0005f)
+	if (dist < In.splitPos.x && (In.splitPosXMin[0] <= In.worldPosition.x && In.worldPosition.x <= In.splitPosXMax[0]))
 	{
-		Out.rgb *= 0.5f;
+		//index = 0;
+		sdwColor.gb = 1 - In.texelSize.z;
+		shadow = CreateShadow(In.sdwcoord[0], In.texelSize, 1, ShadowMap0, ShadowSmp);
 	}
-	
+	else if (dist < In.splitPos.y && (In.splitPosXMin[1] <= In.worldPosition.x && In.worldPosition.x <= In.splitPosXMax[1]))
+	{
+		//index = 1;
+		sdwColor.rb = 1 - In.texelSize.z;
+		shadow = CreateShadow(In.sdwcoord[1], In.texelSize, 2, ShadowMap1, ShadowSmp);
+	}
+	else if (dist < In.splitPos.z && (In.splitPosXMin[2] <= In.worldPosition.x && In.worldPosition.x <= In.splitPosXMax[2]))
+	{
+		//index = 2;
+		sdwColor.rg = 1 - In.texelSize.z;
+		shadow = CreateShadow(In.sdwcoord[2], In.texelSize, 4, ShadowMap2, ShadowSmp);
+	}
+	else
+	{
+		//index = 3;
+		sdwColor.g = 1 - In.texelSize.z;
+		shadow = CreateShadow(In.sdwcoord[3], In.texelSize, 8, ShadowMap3, ShadowSmp);
+	}
+
+	Out.rgb *= sdwColor;
+	Out.rgb *= shadow;
+
 	OUT_PS outPS;
 	outPS.target0 = Out;
 	outPS.target1 = In.worldPosition;

@@ -10,6 +10,7 @@
 
 #include "Default.h"
 #include "ZTexture.h"
+#include "CascadeShadow.h"
 #include "DepthShadow.h"
 #include "BillboardShader.h"
 #include "PointSprite.h"
@@ -41,7 +42,7 @@ HRESULT ShaderManager::Init(void)
 	if (window->ErrorMessage("シェーダーの作成に失敗しました", "エラー", shader_[(int)Shader::ENUM::DEFAULT]->Init()))
 	{ return E_FAIL; }
 
-	shader_[(int)Shader::ENUM::ZTEXTURE] = new ZTexture(this);
+	shader_[(int)Shader::ENUM::ZTEXTURE] = new CascadeShadow(this);
 	if (window->ErrorMessage("シェーダーの作成に失敗しました", "エラー", shader_[(int)Shader::ENUM::ZTEXTURE]->Init()))
 	{ return E_FAIL; }
 

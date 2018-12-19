@@ -16,7 +16,7 @@
 
 #include "../../Graphics/DirectX11/DirectX11.h"
 #include "Shader/Default.h"
-#include "Shader/ZTexture.h"
+#include "Shader/CascadeShadow.h"
 
 void ObjectRendererManager::Add(ObjectRenderer* obj)
 {
@@ -145,38 +145,42 @@ void ObjectRendererManager::Draw(void)
 
 void ObjectRendererManager::DrawShadow(void)
 {
-	const auto& dev = systems_->GetRenderer()->GetWrapper();
+	const auto& graphics = systems_->GetRenderer();
+	const auto& dev = graphics->GetWrapper();
 
-	ZTexture* shader = (ZTexture*)systems_->GetShader()->GetShader(Shader::ENUM::ZTEXTURE);
+	CascadeShadow* shader = static_cast<CascadeShadow*>(systems_->GetShader()->GetShader(Shader::ENUM::ZTEXTURE));
 	const auto& skinning = systems_->GetShader()->GetShader(Shader::ENUM::SKINNING_SHADOW);
 	dev->BeginDrawObjectRenderer();
-	shader->BeginDraw();
 
-	for (auto& obj : obj_)
+	for (int i = 0; i < MAX_CASCADE; ++i)
 	{
-		if (obj->shadow)
+		shader->BeginDraw(i);
+
+		for (auto& obj : obj_)
 		{
-			if (obj->type == ObjectRenderer::RendererType::SPRITE)
+			if (obj->shadow)
 			{
-				const auto& sprite = (SpriteRenderer*)obj;
-				shader->SetParam(MATRIX().Identity().Create(obj->transform_), COLOR(1, 1, 1, 1), VECTOR4(0, 0, 1, 1));
-				dev->Draw(sprite, shader);
-			}
-			else if (obj->type == ObjectRenderer::RendererType::MODEL)
-			{
-				const auto& model = (MeshRenderer*)obj;
-				if (model->shader == Shader::ENUM::DEFAULT)
+				if (obj->type == ObjectRenderer::RendererType::SPRITE)
 				{
-					dev->Draw(model, skinning);
+					const auto& sprite = (SpriteRenderer*)obj;
+					dev->Draw(sprite, shader);
 				}
-				else
+				else if (obj->type == ObjectRenderer::RendererType::MODEL)
 				{
-					dev->Draw(model, shader);
+					const auto& model = (MeshRenderer*)obj;
+					if (model->shader == Shader::ENUM::DEFAULT)
+					{
+						dev->Draw(model, shader);
+					}
+					else
+					{
+						dev->Draw(model, shader);
+					}
 				}
 			}
 		}
+		shader->EndDraw();
 	}
 
-	shader->EndDraw();
 	dev->EndDrawObjectRenderer();
 }

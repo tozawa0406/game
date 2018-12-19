@@ -338,6 +338,12 @@
     <ClInclude Include="FrameWork\Systems\Renderer\CanvasRenderer\CanvasRendererText.h">
       <Filter>FrameWork\Systems\Renderer\CanvasRenderer</Filter>
     </ClInclude>
+    <ClInclude Include="FrameWork\Graphics\DirectX11\Dx11Utility\CascadeManager.h">
+      <Filter>FrameWork\Graphics\DirectX11\Dx11Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Systems\Renderer\Shader\CascadeShadow.h">
+      <Filter>FrameWork\Systems\Renderer\Shader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FrameWork\Define\Matrix.cpp">
@@ -552,6 +558,12 @@
     </ClCompile>
     <ClCompile Include="FrameWork\Systems\Renderer\CanvasRenderer\CanvasRendererText.cpp">
       <Filter>FrameWork\Systems\Renderer\CanvasRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Graphics\DirectX11\Dx11Utility\CascadeManager.cpp">
+      <Filter>FrameWork\Graphics\DirectX11\Dx11Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Systems\Renderer\Shader\CascadeShadow.cpp">
+      <Filter>FrameWork\Systems\Renderer\Shader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
