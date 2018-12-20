@@ -14,7 +14,6 @@
  * @param	(dx11)	親のポインタ		*/
 Dx11RenderTarget::Dx11RenderTarget(DirectX11* dx11) :
 	directX11_(dx11)
-	, shadowSampler_(nullptr)
 	, cascade_(nullptr)
 {
 	for (auto& r : renderTargetView_)	{ r = nullptr; }
@@ -50,15 +49,15 @@ HRESULT Dx11RenderTarget::Init(void)
 	if (window->ErrorMessage("カラーの初期化に失敗しました。"		 , "エラー", hr)) { return hr; }
 	hr = CreateNormalRenderTarget(List::POSITION);					 
 	if (window->ErrorMessage("ポジションの初期化に失敗しました。"	 , "エラー", hr)) { return hr; }
-	hr = CreateNormalRenderTarget(List::NORMAL);					 
-	if (window->ErrorMessage("ノーマルの初期化に失敗しました。"		 , "エラー", hr)) { return hr; }
+	hr = CreateNormalRenderTarget(List::NORMAL);
+	if (window->ErrorMessage("ノーマルの初期化に失敗しました。", "エラー", hr)) { return hr; }
 	hr = CreateShadowmapRenderTarget();
 	if (window->ErrorMessage("シャドウマップの初期化に失敗しました。", "エラー", hr)) { return hr; }
 
 	cascade_ = new CascadeManager;
 	if (cascade_)
 	{
-		cascade_->Init(directX11_);
+		cascade_->Init();
 	}
 
 	return S_OK;
@@ -69,8 +68,11 @@ HRESULT Dx11RenderTarget::Init(void)
  * @return	なし						*/
 void Dx11RenderTarget::Uninit(void)
 {
+	for (auto& p : shadowState_.pDSV) { ReleasePtr(p); }
+	for (auto& p : shadowState_.pDepthSRV) { ReleasePtr(p); }
+	ReleasePtr(shadowState_.pSmp);
+
 	UninitDeletePtr(cascade_);
-	ReleasePtr(shadowSampler_);
 	ReleasePtr(depthStencilView_);
 
 	for (auto& r : renderTargetView_)	{ ReleasePtr(r); }
@@ -118,89 +120,88 @@ HRESULT Dx11RenderTarget::CreateNormalRenderTarget(List num)
  * @return	成功失敗					*/
 HRESULT Dx11RenderTarget::CreateShadowmapRenderTarget(void)
 {
-	if (!directX11_) { return E_FAIL; }
-	const auto& window = directX11_->GetWindow();
-	if (!window) { return E_FAIL; }
-
-	const auto& swapChain = directX11_->GetSwapChain();
 	const auto& device = directX11_->GetDevice();
 
-	if (!swapChain) { return E_FAIL; }
-	if (!device) { return E_FAIL; }
+	HRESULT hr = S_OK;
 
-	ID3D11Texture2D* tex2D;
-	// 深度テクスチャの生成.
-	D3D11_TEXTURE2D_DESC texDesc;
-	ZeroMemory(&texDesc, sizeof(texDesc));
-	texDesc.Width				= Graphics::WIDTH  * 8;
-	texDesc.Height				= Graphics::HEIGHT * 8;
-	texDesc.Format				= DXGI_FORMAT_R32_TYPELESS;
-	texDesc.MipLevels			= 1;
-	texDesc.ArraySize			= 1;
-	texDesc.SampleDesc.Count	= 1;
-	texDesc.SampleDesc.Quality  = 0;
-	texDesc.Usage				= D3D11_USAGE_DEFAULT;
-	texDesc.BindFlags			= D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_SHADER_RESOURCE;
-	texDesc.CPUAccessFlags		= 0;
-	texDesc.MiscFlags			= 0;
+	for (int i = 0; i < CascadeManager::MAX_CASCADE; ++i)
+	{
+		ID3D11Texture2D* pDepthTex;
+		// 深度テクスチャの生成
+		D3D11_TEXTURE2D_DESC texDesc;
+		ZeroMemory(&texDesc, sizeof(texDesc));
 
-	HRESULT hr =  device->CreateTexture2D(&texDesc, nullptr, &tex2D);
+		texDesc.Width				= CascadeManager::MAP_SIZE;
+		texDesc.Height				= CascadeManager::MAP_SIZE;
+		texDesc.Format				= DXGI_FORMAT_R16_TYPELESS;
+		texDesc.MipLevels			= 1;
+		texDesc.ArraySize			= 1;
+		texDesc.SampleDesc.Count	= 1;
+		texDesc.SampleDesc.Quality	= 0;
+		texDesc.Usage				= D3D11_USAGE_DEFAULT;
+		texDesc.BindFlags			= D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_SHADER_RESOURCE;
+		texDesc.CPUAccessFlags		= 0;
+		texDesc.MiscFlags			= 0;
+
+		hr = device->CreateTexture2D(&texDesc, nullptr, &pDepthTex);
+		if (FAILED(hr)) { return hr; }
+
+
+		// 深度ステンシルビューの生成
+		D3D11_DEPTH_STENCIL_VIEW_DESC dsvDesc;
+		ZeroMemory(&dsvDesc, sizeof(dsvDesc));
+		dsvDesc.Format				= DXGI_FORMAT_D16_UNORM;
+		dsvDesc.ViewDimension		= D3D11_DSV_DIMENSION_TEXTURE2D;
+		dsvDesc.Texture2D.MipSlice	= 0;
+
+		hr = device->CreateDepthStencilView(pDepthTex, &dsvDesc, &shadowState_.pDSV[i]);
+		if (FAILED(hr)) { return hr; }
+
+
+		// 深度用シェーダリソースビューの生成
+		D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
+		ZeroMemory(&srvDesc, sizeof(srvDesc));
+		srvDesc.Format						= DXGI_FORMAT_R16_UNORM;
+		srvDesc.ViewDimension				= D3D11_SRV_DIMENSION_TEXTURE2D;
+		srvDesc.Texture2D.MipLevels			= 1;
+		srvDesc.Texture2D.MostDetailedMip	= 0;
+
+		hr = device->CreateShaderResourceView(pDepthTex, &srvDesc, &shadowState_.pDepthSRV[i]);
+		if (FAILED(hr)) { return hr; }
+
+		ReleasePtr(pDepthTex);
+	}
+
+	// ビューポートの設定
+	shadowState_.viewport.Width		= static_cast<float>(CascadeManager::MAP_SIZE);
+	shadowState_.viewport.Height	= static_cast<float>(CascadeManager::MAP_SIZE);
+	shadowState_.viewport.TopLeftX	= 0.0f;
+	shadowState_.viewport.TopLeftY	= 0.0f;
+	shadowState_.viewport.MinDepth	= 0.0f;
+	shadowState_.viewport.MaxDepth	= 1.0f;
+
+	// サンプラーステートの生成
+	D3D11_SAMPLER_DESC sDesc;
+	ZeroMemory(&sDesc, sizeof(sDesc));
+	sDesc.AddressU			= D3D11_TEXTURE_ADDRESS_BORDER;
+	sDesc.AddressV			= D3D11_TEXTURE_ADDRESS_BORDER;
+	sDesc.AddressW			= D3D11_TEXTURE_ADDRESS_BORDER;
+	sDesc.BorderColor[0]	= 1.0f;
+	sDesc.BorderColor[1]	= 1.0f;
+	sDesc.BorderColor[2]	= 1.0f;
+	sDesc.BorderColor[3]	= 1.0f;
+	sDesc.ComparisonFunc	= D3D11_COMPARISON_LESS_EQUAL;
+	sDesc.Filter			= D3D11_FILTER_COMPARISON_MIN_MAG_MIP_LINEAR;
+	sDesc.MaxAnisotropy		= 1;
+	sDesc.MipLODBias		= 0;
+	sDesc.MinLOD			= -FLT_MAX;
+	sDesc.MaxLOD			= +FLT_MAX;
+
+	// サンプラーステートを生成
+	hr = device->CreateSamplerState(&sDesc, &shadowState_.pSmp);
 	if (FAILED(hr)) { return hr; }
 
-	// 深度ステンシルビューではαが使えず、ビルボードの影が作れない
-	// レンダーターゲットビューの生成.
-	D3D11_DEPTH_STENCIL_VIEW_DESC dsvDesc;
-	ZeroMemory(&dsvDesc, sizeof(dsvDesc));
-	dsvDesc.Format				= DXGI_FORMAT_D32_FLOAT;
-	dsvDesc.ViewDimension		= D3D11_DSV_DIMENSION_TEXTURE2D;
-	dsvDesc.Texture2D.MipSlice = 0;
-
-	// シャドウマップシェーダリソースビューの生成.
-	D3D11_SHADER_RESOURCE_VIEW_DESC srDesc;
-	ZeroMemory(&srDesc, sizeof(srDesc));
-	srDesc.Format						= DXGI_FORMAT_R32_FLOAT;
-	srDesc.ViewDimension				= D3D11_SRV_DIMENSION_TEXTURE2D;
-	srDesc.Texture2D.MipLevels			= 1;
-	srDesc.Texture2D.MostDetailedMip	= 0;
-
-	hr = device->CreateDepthStencilView(tex2D, &dsvDesc, &shadowDepthStencilView_);
-	if (window->ErrorMessage("レンダーターゲットビューの作成に失敗しました。", "エラー", hr)) { return hr; }
-
-	hr = device->CreateShaderResourceView(tex2D, &srDesc, &shaderResourceView_[static_cast<int>(List::SHADOW)]);
-	if (window->ErrorMessage("シェーダーリソースビューの作成に失敗しました。", "エラー", hr)) { return hr; }
-
-	ReleasePtr(tex2D);
-
-	// 専用サンプラーを作る
-	// これでやらないと描画が重い
-	D3D11_SAMPLER_DESC sd;
-	ZeroMemory(&sd, sizeof(sd));
-	sd.AddressU			= D3D11_TEXTURE_ADDRESS_BORDER;
-	sd.AddressV			= D3D11_TEXTURE_ADDRESS_BORDER;
-	sd.AddressW			= D3D11_TEXTURE_ADDRESS_BORDER;
-	sd.BorderColor[0]	= 1.0f;
-	sd.BorderColor[1]	= 1.0f;
-	sd.BorderColor[2]	= 1.0f;
-	sd.BorderColor[3]	= 1.0f;
-	sd.ComparisonFunc	= D3D11_COMPARISON_LESS_EQUAL;
-	sd.Filter			= D3D11_FILTER_COMPARISON_MIN_MAG_MIP_LINEAR;
-	sd.MaxAnisotropy	= 1;
-	sd.MipLODBias		= 0;
-	sd.MinLOD			= -FLT_MAX;
-	sd.MaxLOD			= +FLT_MAX;
-
-	// サンプラーステートを生成.
-	hr = device->CreateSamplerState(&sd, &shadowSampler_);
-
-	// シャドウマップ用ビューポート
-	shadowViewport_.Width	 = (float)texDesc.Width;
-	shadowViewport_.Height	 = (float)texDesc.Height;
-	shadowViewport_.MinDepth = 0.0f;
-	shadowViewport_.MaxDepth = 1.0f;
-	shadowViewport_.TopLeftX = 0;
-	shadowViewport_.TopLeftY = 0;
-
-	return S_OK;
+	return hr;
 }
 
 /* @brief	レンダーターゲットの作成
@@ -298,8 +299,23 @@ void Dx11RenderTarget::Draw(List num, VECTOR2 position, VECTOR2 size)
 	wrapper->DrawQuad(position, size);
 	ID3D11ShaderResourceView* temp = nullptr;
 	context->PSSetShaderResources(0, 1, &temp);
+}
 
-	cascade_->DrawShadowMap();
+void Dx11RenderTarget::DrawShadowMap(void)
+{
+	if (!directX11_) { return; }
+	const auto& context = directX11_->GetDeviceContext();
+	if (!context) { return; }
+	const auto& wrapper = directX11_->GetWrapper();
+	if (!wrapper) { return; }
+
+	int i = 0;
+	for (auto& srv : shadowState_.pDepthSRV)
+	{
+		context->PSSetShaderResources(0, 1, &srv);
+		wrapper->DrawQuad(VECTOR2(10.0f + 100 + (i * 210), Windows::HEIGHT - 10 - 100.0f), VECTOR2(200, 200));
+		i++;
+	}
 }
 
 /* @brief	スクリーンショットの作成
@@ -342,17 +358,19 @@ void Dx11RenderTarget::CreateScreenshot(const string& filename)
 /* @brief	シャドウマップの描画開始
  * @param	なし
  * @return	なし						*/
-void Dx11RenderTarget::BeginDrawShadow(void)
+void Dx11RenderTarget::BeginDrawShadow(int i)
 {
 	const auto& context = directX11_->GetDeviceContext();
 	if (!context) { return; }
 
-	ID3D11RenderTargetView* nullRTV = nullptr;
-	context->OMSetRenderTargets(1, &nullRTV, shadowDepthStencilView_);
+	if (i == 0) { cascade_->ComputeShadowMatrixPSSM(); }
 
-	// クリア処理
-	context->ClearDepthStencilView(shadowDepthStencilView_, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
-	context->RSSetViewports(1, &shadowViewport_);
+	ID3D11RenderTargetView* pRTV = nullptr;
+	context->OMSetRenderTargets(1, &pRTV, shadowState_.pDSV[i]);
+
+	context->ClearDepthStencilView(shadowState_.pDSV[i], D3D11_CLEAR_DEPTH, 1.0f, 0);
+
+	context->RSSetViewports(1, &shadowState_.viewport);
 }
 
 /* @brief	シャドウマップの描画終了
@@ -367,4 +385,7 @@ void Dx11RenderTarget::EndDrawShadow(void)
 	context->OMSetRenderTargets(1, &nullRTV, 0);
 	context->RSSetViewports(1, &directX11_->GetViewport());
 	context->OMSetRenderTargets(1, &renderTargetView_[static_cast<int>(List::DEFAULT)], depthStencilView_);
+
+	context->PSSetSamplers(3, 1, &shadowState_.pSmp);	
+	context->PSSetShaderResources(3, 4, shadowState_.pDepthSRV);
 }

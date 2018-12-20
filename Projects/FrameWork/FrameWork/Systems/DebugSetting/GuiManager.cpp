@@ -130,8 +130,6 @@ void GuiManager::GuiUpdate(void)
 						if (ImGui::Button("pos")) { target->SetDebugDraw(RenderTarget::List::POSITION); }
 						ImGui::SameLine();
 						if (ImGui::Button("nrm")) { target->SetDebugDraw(RenderTarget::List::NORMAL); }
-						ImGui::SameLine();
-						if (ImGui::Button("shd")) { target->SetDebugDraw(RenderTarget::List::SHADOW); }
 					}
 				}
 			}
@@ -362,7 +360,7 @@ void GuiManager::Draw(void)
 						target->Draw(RenderTarget::List::COLOR	 , VECTOR2(pos.x + (size.x * 0), pos.y + (size.y * 0)), size);
 						target->Draw(RenderTarget::List::POSITION, VECTOR2(pos.x + (size.x * 1), pos.y + (size.y * 0)), size);
 						target->Draw(RenderTarget::List::NORMAL	 , VECTOR2(pos.x + (size.x * 0), pos.y + (size.y * 1)), size);
-						target->Draw(RenderTarget::List::SHADOW  , VECTOR2(pos.x + (size.x * 1), pos.y + (size.y * 1)), size);
+						target->DrawShadowMap();
 					}
 				}
 			}

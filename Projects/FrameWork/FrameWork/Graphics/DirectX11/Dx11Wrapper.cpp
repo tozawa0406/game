@@ -470,13 +470,6 @@ void Dx11Wrapper::Draw(const SpriteRenderer* obj, const Shader* shader)
 
 	// テクスチャの設定
 	SetTexture(0, (int)obj->texNum);
-	if (auto target = static_cast<Dx11RenderTarget*>(directX11_->GetRenderTarget()))
-	{	
-		auto tex = target->GetShaderResourceView(RenderTarget::List::SHADOW);
-		pContext->PSSetShaderResources(1, 1, &tex);
-		auto samp = target->GetShadowSampler();
-		pContext->PSSetSamplers(1, 1, &samp);
-	}
 
 	// テクスチャサンプラの設定
 	pContext->PSSetSamplers(0, 1, &sampler);
@@ -549,14 +542,6 @@ void Dx11Wrapper::Draw(MeshRenderer* obj, const Shader* shader)
 	pContext->VSSetConstantBuffers(buf, 1, &constant);
 
 	pContext->IASetInputLayout(vertex->layout);
-
-	if (auto target = static_cast<Dx11RenderTarget*>(directX11_->GetRenderTarget()))
-	{
-		auto tex = target->GetShaderResourceView(RenderTarget::List::SHADOW);
-		pContext->PSSetShaderResources(1, 1, &tex);
-		auto samp = target->GetShadowSampler();
-		pContext->PSSetSamplers(1, 1, &samp);
-	}
 
 	// テクスチャサンプラステートのセット
 	pContext->PSSetSamplers(0, 1, &sampler);
@@ -805,17 +790,6 @@ void Dx11Wrapper::BeginDrawObjectRenderer(void)
 	const auto& constant = constantBuffer_[shader_[1].constantBuffer[0]];
 	pContext->VSSetConstantBuffers(0, 1, &constant);
 	pContext->UpdateSubresource(constant, 0, NULL, &sg, 0, 0);
-
-	if (directX11_)
-	{
-		if (const auto& renderTarget = static_cast<Dx11RenderTarget*>(directX11_->GetRenderTarget()))
-		{
-			if (const auto& cascade = renderTarget->GetCascadeManager())
-			{
-				cascade->Set();
-			}
-		}
-	}
 }
 
 void Dx11Wrapper::EndDrawObjectRenderer(void)

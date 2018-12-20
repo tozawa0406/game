@@ -14,7 +14,6 @@ public:
 		COLOR,
 		POSITION,
 		NORMAL,
-		SHADOW,
 		MAX
 	};
 
@@ -34,10 +33,11 @@ public:
 	virtual void EndMultiRendererTarget(void)	= 0;
 
 	virtual void Draw(List num, VECTOR2 position, VECTOR2 size) = 0;
+	virtual void DrawShadowMap(void) = 0;
 
 	virtual void CreateScreenshot(const string& filename) = 0;
 
-	virtual void BeginDrawShadow(void) = 0;
+	virtual void BeginDrawShadow(int i) = 0;
 	virtual void EndDrawShadow(void)   = 0;
 
 	inline void SetDebugDraw(List num) { debugDraw_ = num; }

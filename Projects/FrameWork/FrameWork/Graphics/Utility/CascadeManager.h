@@ -1,35 +1,13 @@
-﻿#pragma once
+﻿#ifndef _CASCADE_MANAGER_H_
+#define _CASCADE_MANAGER_H_
 
-#include "../../../Define/Define.h"
-#include "../../DirectX11/Dx11Include.h"
-
-static const int MAX_CASCADE = 4;
+#include "../../Define/Define.h"
 
 class Camera;
-struct SADOWSTATE
-{
-	ID3D11DepthStencilView*     pDSV[MAX_CASCADE];
-	ID3D11ShaderResourceView*   pDepthSRV[MAX_CASCADE];
-	ID3D11VertexShader*         pVS;
-	ID3D11SamplerState*         pSmp;
-	D3D11_VIEWPORT              viewport;
-};
-
 struct BOX
 {
 	VECTOR3 mini;
 	VECTOR3 maxi;
-};
-
-struct CONSTANT_DRAW
-{
-	VECTOR4		texlSize;
-	VECTOR4		cameraPos;
-	VECTOR4		lightDirection_;
-	float		splitPos[MAX_CASCADE];
-	float		splitPosXMax[MAX_CASCADE];
-	float		splitPosXMin[MAX_CASCADE];
-	MATRIX		shadow[MAX_CASCADE];
 };
 
 struct SHADOWMAP_SPLIT
@@ -39,10 +17,12 @@ struct SHADOWMAP_SPLIT
 	float xMin;
 };
 
-class DirectX11;
 class CascadeManager
 {
 public:
+	static const int MAX_CASCADE	= 4;
+	static const int MAP_SIZE		= 1024 * 2;
+
 	/* @brief	コンストラクタ		*/
     CascadeManager(void);
 
@@ -54,34 +34,17 @@ public:
 	/* @brief	初期化処理
 	 * @param	なし
 	 * @return	成功失敗			*/
-	HRESULT Init(DirectX11* directX);
+	HRESULT Init(void);
 
 	/* @brief	後処理
 	 * @param	なし
 	 * @return	なし				*/
     void	Uninit(void);
-
-	/* @brief	影描画準備
-	 * @param	描画するシャドウマップの番号
-	 * @return	なし				*/
-	void Begin(int i);
-
-	/* @brief	影描画終了
-	 * @param	なし
-	 * @return	なし				*/
-	void End(void);
 	
-	/* @brief	オブジェクト描画ConstantBufferの設定
+	/* @brief	シャドウ描画行列の分割処理
 	 * @param	なし
 	 * @return	なし				*/
-	void Set(void);
-
-
-
-	/* @brief	シャドウマップの描画
-	 * @param	なし
-	 * @return	なし				*/
-	void DrawShadowMap(void);
+	void ComputeShadowMatrixPSSM(void);
 
 	/* @brief	Guiの更新処理
 	 * @param	なし
@@ -93,23 +56,28 @@ public:
 	 * @return	シャドウ行列		*/
 	inline const MATRIX& GetShadowMatrix(int i) { return shadowMatrix_[i]; }
 
+	/* @brief	カメラの位置の取得
+	 * @param	なし
+	 * @return	カメラの位置		*/
+	inline const VECTOR3& GetCameraPosition(void) { return cameraPosition_; }
+	
+	/* @brief	ライト方向の取得
+	 * @param	なし
+	 * @return	ライト方向			*/
+	inline const VECTOR3& GetLightDirection(void) { return lightDirection_; }
+	
+	/* @brief	シャドウの分割位置取得
+	 * @param	(i)		どのシャドウか(4まで)
+	 * @return	シャドウの分割位置	*/
+	inline const SHADOWMAP_SPLIT& GetShadowSplit(int i) { return splitShadowMap_[i]; }
+
+	/* @brief	ソフトシャドウか			*/
+	inline bool IsSoft(void) { return isSoft_; }
+
+	/* @brief	カスケードに色は付けるか	*/
+	inline bool IsCascadeColor(void) { return isCascadeColor_; }
+
 private:
-	/* @brief	シャドウマップの初期化処理
-	 * @param	なし
-	 * @return	成功失敗			*/
-	HRESULT InitShadowState(DirectX11* directX);
-
-	/* @brief	シャドウマップの後処理
-	 * @param	なし
-	 * @return	なし				*/
-	void	UninitShadowState(void);
-
-	/* @brief	シャドウ描画行列の分割処理
-	 * @sa		Begin()
-	 * @param	なし
-	 * @return	なし				*/
-	void ComputeShadowMatrixPSSM(void);
-
 	/* @brief	単位キューブクリップ行列を求める
 	 * @param	(box)	箱
 	 * @return	単位キューブクリップ行列		*/
@@ -142,14 +110,6 @@ private:
 	 * @return	プロジェクション行列		*/
 	MATRIX CreateOrthographic(const float width, const float height, const float nearClip, const float farClip);
 
-	//! 描画するシャドウマップ
-	int drawNum_ = 0;
-	//! シャドウマップ
-	SADOWSTATE			shadowState_;
-
-	//! 描画で渡すコンストタントバッファ
-    ID3D11Buffer*		ConstantDraw_;
-
 	//! カメラポジション
 	VECTOR3				cameraPosition_;
 	//! ライト方向
@@ -162,3 +122,5 @@ private:
 	bool	isSoft_;			//! ソフトシャドウか
 	bool	isCascadeColor_;	//! カスケードに色は付けるか
 };
+
+#endif // _CASCADE_MANAGER_H_

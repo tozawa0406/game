@@ -9,7 +9,15 @@
 
 #include "Dx11Include.h"
 #include "../RenderTarget.h"
-#include "Dx11Utility/CascadeManager.h"
+#include "../Utility/CascadeManager.h"
+
+struct SHADOWSTATE
+{
+	ID3D11DepthStencilView*     pDSV[CascadeManager::MAX_CASCADE];
+	ID3D11ShaderResourceView*   pDepthSRV[CascadeManager::MAX_CASCADE];
+	ID3D11SamplerState*         pSmp;
+	D3D11_VIEWPORT              viewport;
+};
 
 class Dx11RenderTarget : public RenderTarget
 {
@@ -23,16 +31,16 @@ public:
 	void EndMultiRendererTarget(void)	override;
 
 	void Draw(List num, VECTOR2 position, VECTOR2 size) override;
+	void DrawShadowMap(void) override;
 
 	void CreateScreenshot(const string& filename) override;
 
-	void BeginDrawShadow(void) override;
+	void BeginDrawShadow(int i) override;
 	void EndDrawShadow(void)   override;
 
 	CascadeManager* GetCascadeManager(void) { return cascade_; }
 
 	inline ID3D11ShaderResourceView*	GetShaderResourceView(List num) { return shaderResourceView_[static_cast<int>(num)]; }
-	inline ID3D11SamplerState*			GetShadowSampler(void)			{ return shadowSampler_; }
 
 private:
 	friend class DirectX11;
@@ -47,9 +55,8 @@ private:
 	ID3D11RenderTargetView*     renderTargetView_[static_cast<int>(List::MAX)];
 	ID3D11ShaderResourceView*   shaderResourceView_[static_cast<int>(List::MAX)];
 	ID3D11DepthStencilView*		depthStencilView_;
-	ID3D11DepthStencilView*		shadowDepthStencilView_;
-	ID3D11SamplerState*			shadowSampler_;
-	D3D11_VIEWPORT				shadowViewport_;
+
+	SHADOWSTATE shadowState_;
 
 	DirectX11*		directX11_;
 	CascadeManager* cascade_;

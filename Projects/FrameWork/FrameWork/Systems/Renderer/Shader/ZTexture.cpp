@@ -82,7 +82,7 @@ HRESULT ZTexture::BeginDraw(void)
 			}
 		}
 	}
-	graphics->GetRenderTarget()->BeginDrawShadow();
+	graphics->GetRenderTarget()->BeginDrawShadow(0);
 
 	return S_OK;
 }

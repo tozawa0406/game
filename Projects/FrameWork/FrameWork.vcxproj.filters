@@ -338,14 +338,14 @@
     <ClInclude Include="FrameWork\Systems\Renderer\CanvasRenderer\CanvasRendererText.h">
       <Filter>FrameWork\Systems\Renderer\CanvasRenderer</Filter>
     </ClInclude>
-    <ClInclude Include="FrameWork\Graphics\DirectX11\Dx11Utility\CascadeManager.h">
-      <Filter>FrameWork\Graphics\DirectX11\Dx11Utility</Filter>
-    </ClInclude>
     <ClInclude Include="FrameWork\Systems\Renderer\Shader\CascadeShadow.h">
       <Filter>FrameWork\Systems\Renderer\Shader</Filter>
     </ClInclude>
     <ClInclude Include="FrameWork\Systems\Renderer\RendererBase.h">
       <Filter>FrameWork\Systems\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork\Graphics\Utility\CascadeManager.h">
+      <Filter>FrameWork\Graphics\Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -562,11 +562,11 @@
     <ClCompile Include="FrameWork\Systems\Renderer\CanvasRenderer\CanvasRendererText.cpp">
       <Filter>FrameWork\Systems\Renderer\CanvasRenderer</Filter>
     </ClCompile>
-    <ClCompile Include="FrameWork\Graphics\DirectX11\Dx11Utility\CascadeManager.cpp">
-      <Filter>FrameWork\Graphics\DirectX11\Dx11Utility</Filter>
-    </ClCompile>
     <ClCompile Include="FrameWork\Systems\Renderer\Shader\CascadeShadow.cpp">
       <Filter>FrameWork\Systems\Renderer\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameWork\Graphics\Utility\CascadeManager.cpp">
+      <Filter>FrameWork\Graphics\Utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

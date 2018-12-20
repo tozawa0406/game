@@ -9,7 +9,7 @@
 
 #include "Shader.h"
 #include "../Sprite/Texture.h"
-#include "../../../Graphics/DirectX11/Dx11Utility/CascadeManager.h"
+#include "../../../Graphics/Utility/CascadeManager.h"
 
 class CascadeShadow : public Shader
 {
@@ -32,6 +32,17 @@ private:
 	{
 		MATRIX world;
 		MATRIX shadowViewProj;
+	};
+
+	struct CONSTANT_DRAW
+	{
+		VECTOR4		texlSize;
+		VECTOR4		cameraPos;
+		VECTOR4		lightDirection_;
+		float		splitPos[CascadeManager::MAX_CASCADE];
+		float		splitPosXMax[CascadeManager::MAX_CASCADE];
+		float		splitPosXMin[CascadeManager::MAX_CASCADE];
+		MATRIX		shadow[CascadeManager::MAX_CASCADE];
 	};
 };
 

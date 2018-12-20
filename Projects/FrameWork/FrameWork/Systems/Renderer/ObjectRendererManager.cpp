@@ -149,10 +149,9 @@ void ObjectRendererManager::DrawShadow(void)
 	const auto& dev = graphics->GetWrapper();
 
 	CascadeShadow* shader = static_cast<CascadeShadow*>(systems_->GetShader()->GetShader(Shader::ENUM::ZTEXTURE));
-	const auto& skinning = systems_->GetShader()->GetShader(Shader::ENUM::SKINNING_SHADOW);
 	dev->BeginDrawObjectRenderer();
 
-	for (int i = 0; i < MAX_CASCADE; ++i)
+	for (int i = 0; i < CascadeManager::MAX_CASCADE; ++i)
 	{
 		shader->BeginDraw(i);
 
@@ -168,14 +167,7 @@ void ObjectRendererManager::DrawShadow(void)
 				else if (obj->type == ObjectRenderer::RendererType::MODEL)
 				{
 					const auto& model = (MeshRenderer*)obj;
-					if (model->shader == Shader::ENUM::DEFAULT)
-					{
-						dev->Draw(model, shader);
-					}
-					else
-					{
-						dev->Draw(model, shader);
-					}
+					dev->Draw(model, shader);
 				}
 			}
 		}

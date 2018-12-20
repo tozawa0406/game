@@ -56,13 +56,6 @@ OUT_VS VS_DepthBufShadow(IN_VS In)
 	Out.position = mul(Out.position, transpose(View));
 	Out.position = mul(Out.position, transpose(Proj));
 
-	//// ライトの目線によるワールドビュー射影変換をする
-	float4 calc;
-	calc = mul(In.position, transpose(World));
-	calc = mul(calc       , transpose(LightView));
-	calc = mul(calc       , transpose(LightProj));
-//	Out.ZCalcTex = calc;
-
 	// 法線とライトの方向から頂点の色を決定
 	// 濃くなりすぎないように調節しています
 	matrix mtx = transpose(World);
