@@ -15,7 +15,7 @@ SkyDome::SkyDome(Systems* systems)
 
 	transform_.position = VECTOR3(0, 0, 0);
 	transform_.rotation = VECTOR3(0, 0, 0);
-	transform_.scale    = VECTOR3(2, 2, 2);
+	transform_.scale    = VECTOR3(5, 5, 5);
 
 	mesh_.Init(systems, (int)Model::Game::SKY, &transform_);
 	mesh_.sort   = false;
@@ -27,9 +27,9 @@ SkyDome::SkyDome(Systems* systems)
 void SkyDome::Update(void)
 {
 	transform_.rotation.y += MOVE;
-	auto c = mesh_.material.diffuse;
-	c.r = max(c.r - 0.001f, 0.15f);
-	c.g = max(c.g - 0.0015f, 0.15f);
-	c.b = max(c.b - 0.002f, 0.15f);
-	mesh_.material.diffuse = c;
+	//auto c = mesh_.material.diffuse;
+	//c.r = max(c.r - 0.001f, 0.15f);
+	//c.g = max(c.g - 0.0015f, 0.15f);
+	//c.b = max(c.b - 0.002f, 0.15f);
+	//mesh_.material.diffuse = c;
 }

@@ -26,6 +26,7 @@ void Collision3DManager::Update(void)
 
 		obj->back_ = VECTOR3(0, 0, 0);
 		obj->Update();
+		MATRIX().Identity().Create(&obj->transform_);
 	}
 
 	for (auto col1 : obj_)
