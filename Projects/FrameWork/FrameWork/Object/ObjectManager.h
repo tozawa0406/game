@@ -1,9 +1,9 @@
-//-----------------------------------------------------------------------------
-//
-//	オブジェクト管理[ObjectManager.h]
-//	Auther : 戸澤翔太
-//																	2017/09/05
-//-----------------------------------------------------------------------------
+/*
+ * @file		ObjectManager.h
+ * @brief		オブジェクト管理クラス
+ * @author		戸澤翔太
+ * @data		2017/09/05
+ */
 #ifndef _OBJECT_MANAGER_H_ 
 #define _OBJECT_MANAGER_H_
 
@@ -13,11 +13,28 @@ class Object;
 class ObjectManager : public BaseManager<Object>
 {
 public:
+	/* @breif	コンストラクタ
+	 * @param	(parent)	生成したシーン		*/
 	ObjectManager(BaseScene* parent);
+	/* @brief	デストラクタ	*/
+	~ObjectManager(void);
 
-	HRESULT Init(void)   override { return S_OK; }
-	void    Uninit(void) override;		// オブジェクトの後処理
-	void    Update(void) override;		// オブジェクトの更新処理
+	/* @brief	初期化処理
+	 * @param	なし
+	 * @return	成功失敗		*/
+	HRESULT Init(void)   override;
+
+	/* @brief	後処理
+	 * @param	なし
+	 * @return	なし			*/
+	void    Uninit(void) override;
+
+	/* @brief	更新処理
+	 * @param	なし
+	 * @return	なし			*/
+	void    Update(void) override;
+
+	/* @brief	オブジェクト取得		*/
 	std::vector<Object*>& Get(void)        { return obj_;  }
 
 	/* @fn		GetScene
@@ -50,6 +67,9 @@ public:
 
 
 private:
+	/* @brief	オブジェクト削除
+	 * @param	なし
+	 * @return	なし			*/
 	void DestroyCheck(void);
 
 	//! 自身の存在するシーン

@@ -22,7 +22,7 @@ float CreateShadow(float4 positionLVP, float2 texelSize, float coefficient, Text
 		// ライトビュー上でのピクセルの深度値
 		float depthcompare = positionLVP.z / positionLVP.w;
 		// バイアス
-		depthcompare -= 0.0002f;
+		depthcompare -= 0.005f;
 		float cnt = 0;
 		// 左右
 		for (int i = -4; i < 5; i += 2)

@@ -1,25 +1,10 @@
-//-----------------------------------------------------------------------------
-//
-//	ベクトル[Vector.cpp]
-//	Auther : 戸澤翔太
-//																	2018/08/18
-//-----------------------------------------------------------------------------
 #include "Vector.h"
 
-// コンストラクタ
-VECTOR2::VECTOR2(void) {}
+VECTOR2::VECTOR2(void) : x(0), y(0) {}
 
-VECTOR2::VECTOR2(float f)
-{
-	this->x = f;
-	this->y = f;
-}
+VECTOR2::VECTOR2(float f) : x(f), y(f) {}
 
-VECTOR2::VECTOR2(float x, float y)
-{
-	this->x = x;
-	this->y = y;
-}
+VECTOR2::VECTOR2(float x, float y) : x(x), y(y) {}
 
 // 演算子のオーバーロード
 VECTOR2& VECTOR2::operator = (const VECTOR3& v)
@@ -110,22 +95,11 @@ bool VECTOR2::operator != (const VECTOR2& v)
 
 
 
-// コンストラクタ
-VECTOR3::VECTOR3(void) {}
+VECTOR3::VECTOR3(void) : x(0), y(0), z(0) {}
 
-VECTOR3::VECTOR3(float f)
-{
-	this->x = f;
-	this->y = f;
-	this->z = f;
-}
+VECTOR3::VECTOR3(float f) : x(f), y(f), z(f) {}
 
-VECTOR3::VECTOR3(float x, float y, float z)
-{
-	this->x = x;
-	this->y = y;
-	this->z = z;
-}
+VECTOR3::VECTOR3(float x, float y, float z) : x(x), y(y), z(z) {}
 
 VECTOR3& VECTOR3::operator = (const VECTOR2& v)
 {
@@ -235,24 +209,11 @@ bool VECTOR3::operator != (std::nullptr_t t)const
 
 
 
-// コンストラクタ
-VECTOR4::VECTOR4(void) {};
+VECTOR4::VECTOR4(void) : x(0), y(0), z(0), w(0) {}
 
-VECTOR4::VECTOR4(float f)
-{
-	this->x = f;
-	this->y = f;
-	this->z = f;
-	this->w = f;
-}
+VECTOR4::VECTOR4(float f) : x(f), y(f), z(f), w(f) {}
 
-VECTOR4::VECTOR4(float x, float y, float z, float w)
-{
-	this->x = x;
-	this->y = y;
-	this->z = z;
-	this->w = w;
-}
+VECTOR4::VECTOR4(float x, float y, float z, float w) : x(x), y(y), z(z), w(w) {}
 
 // 演算子のオーバーロード
 VECTOR4& VECTOR4::operator += (const VECTOR4& v)
@@ -348,55 +309,54 @@ bool VECTOR4::operator != (std::nullptr_t t)const
 
 
 
-// 内積(2次元)
+VECINT2::VECINT2(void) : x(0), y(0) {}
+
+VECINT2::VECINT2(int i) : x(i), y(i) {}
+
+VECINT2::VECINT2(int x, int y) : x(x), y(y) {}
+
+
+
 float VecDot(const VECTOR2 &r1, const VECTOR2 &r2)
 {
 	return r1.x * r2.x + r1.y * r2.y;
 }
 
-// 内積(3次元)
 float VecDot(const VECTOR3 &r1, const VECTOR3 &r2)
 {
 	return r1.x * r2.x + r1.y * r2.y + r1.z * r2.z;
 }
 
-// 外積(2次元)
 float VecCross(const VECTOR2& r1, const VECTOR2& r2)
 {
 	return r1.x * r2.y - r1.y * r2.x;
 }
 
-// 外積(3次元)
 VECTOR3 VecCross(const VECTOR3& r1, const VECTOR3& r2)
 {
 	return VECTOR3(r1.y * r2.z - r1.z * r2.y, r1.z * r2.x - r1.x * r2.z, r1.x * r2.y - r1.y * r2.x);
 }
 
-// 長さの2乗(2次元)
 float VecLengthSq(const VECTOR2& v)
 {
 	return v.x * v.x + v.y * v.y;
 }
 
-// 長さ(2次元)
 float VecLength(const VECTOR2& v)
 {
 	return sqrtf(VecLengthSq(v));
 }
 
-// 長さの2乗(3次元)
 float VecLengthSq(const VECTOR3& v)
 {
 	return v.x * v.x + v.y * v.y + v.z * v.z;
 }
 
-// 長さ(3次元)
 float VecLength(const VECTOR3& v)
 {
 	return sqrtf(VecLengthSq(v));
 }
 
-// 単位ベクトル(2次元)
 VECTOR2 VecNorm(const VECTOR2& v)
 {
 	VECTOR2 temp = v;
@@ -410,7 +370,6 @@ VECTOR2 VecNorm(const VECTOR2& v)
 	return temp;
 }
 
-// 単位ベクトル(3次元)
 VECTOR3 VecNorm(const VECTOR3& v)
 {
 	VECTOR3 temp = v;
@@ -425,19 +384,16 @@ VECTOR3 VecNorm(const VECTOR3& v)
 	return temp;
 }
 
-// 2次元ベクトルから3次元ベクトルへ(z = 0)
 VECTOR3 V3(const VECTOR2& v)
 {
 	return VECTOR3(v.x, v.y, 0);
 }
 
-// 3次元ベクトルから2次元ベクトルへ(z切り捨て)
 VECTOR2 V2(const VECTOR3& v)
 {
 	return VECTOR2(v.x, v.y);
 }
 
-// ベクトルの長さ制限(2次元)
 VECTOR2 VecRestriction(const VECTOR2& v, float restriction)
 {
 	VECTOR2 vec = v;
@@ -452,7 +408,6 @@ VECTOR2 VecRestriction(const VECTOR2& v, float restriction)
 	return vec;
 }
 
-// ベクトルの長さ制限(3次元)
 VECTOR3 VecRestriction(const VECTOR3& v, float restriction)
 {
 	VECTOR3 vec = v;
@@ -468,7 +423,6 @@ VECTOR3 VecRestriction(const VECTOR3& v, float restriction)
 	return vec;
 }
 
-// 円周の範囲を指定するとランダムで速度が返る
 VECTOR2 VecCircle(int range)
 {
 	srand((int)time(NULL) + rand());

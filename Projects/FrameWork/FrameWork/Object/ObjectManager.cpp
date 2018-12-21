@@ -1,20 +1,19 @@
-//-----------------------------------------------------------------------------
-//
-//	オブジェクト管理[ObjectManager.h]
-//	Auther : 戸澤翔太
-//																	2017/09/05
-//-----------------------------------------------------------------------------
 #include "ObjectManager.h"
 #include "Object.h"
 #include <algorithm>
 #include "../Scene/SceneManager.h"
 
-#include "../Systems/Camera/CameraManager.h"
-#include "../Systems/Camera/MoveCamera.h"
-//#include "Player.h"
-
 ObjectManager::ObjectManager(BaseScene* scene) : BaseManager(Systems::Instance()), scene_(scene)
 {
+}
+
+ObjectManager::~ObjectManager(void)
+{
+}
+
+HRESULT ObjectManager::Init(void)
+{
+	return S_OK;
 }
 
 void ObjectManager::Uninit(void)
@@ -27,7 +26,6 @@ void ObjectManager::Uninit(void)
 	}
 }
 
-//オブジェクトの更新処理
 void ObjectManager::Update(void)
 {
 	uint size = (uint)obj_.size();
@@ -42,7 +40,6 @@ void ObjectManager::Update(void)
 	DestroyCheck();
 }
 
-//オブジェクトの破壊
 void ObjectManager::DestroyCheck(void)
 {
 	for (uint i = 0; i < obj_.size();)

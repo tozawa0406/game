@@ -21,7 +21,9 @@ struct MESH_ANIMATION
 class GameObject : public Object
 {
 public:
+	/* @brief	コンストラクタ		*/
 	GameObject(ObjectTag tag);
+	/* @brief	デストラクタ		*/
 	virtual ~GameObject(void);
 
 	virtual void Hit(int damage) = 0;
@@ -30,8 +32,9 @@ public:
 				それ以外で使うな							*/
 	inline MESH_ANIMATION& GetMeshAnimation(void) { return meshAnim_; }
 
-	/* @brief	移動速度			*/
+	/* @brief	移動速度取得		*/
 	inline const VECTOR3&  GetVelocity(void)					{ return velocity_;		}
+	/* @brief	移動速度の設定		*/
 	inline void			   SetVelocity(const VECTOR3& velocity)	{ velocity_ = velocity; }
 
 	/* @brief	前ベクトル			*/
@@ -46,10 +49,23 @@ public:
 	inline int  GetLife(void) { return life_; }
 
 private:
+	/* @brief	前ベクトルの生成
+	 * @sa		Move()
+	 * @param	なし
+	 * @return	なし				*/
 	void CreateFrontVector(void);
 
 protected:
+	/* @brief	移動時の回転処理
+	 * @sa		Update()
+	 * @param	なし
+	 * @return	なし				*/
 	void Move(void);
+	
+	/* @brief	接地判定
+	 * @sa		Update()
+	 * @param	なし
+	 * @return	なし				*/
 	void OnGround(void);
 
 	int life_;						//! ライフ

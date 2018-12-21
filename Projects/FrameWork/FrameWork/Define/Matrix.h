@@ -1,9 +1,9 @@
-//-----------------------------------------------------------------------------
-//
-//	行列[Matrix.h]
-//	Auther : 戸澤翔太
-//																	2018/08/17
-//-----------------------------------------------------------------------------
+/*
+ * @file	Matrix.h
+ * @brief	行列
+ * @author	戸澤翔太
+ * @date	2018/08/17
+ */
 #ifndef _MATRIX_H_
 #define _MATRIX_H_
 
@@ -12,23 +12,26 @@
 #include <stdlib.h>
 #include "Vector.h"
 
-//-----------------------------------------------------------------------------
-//	構造体定義
-//-----------------------------------------------------------------------------
 struct MATRIX;
 struct Transform
 {
-	VECTOR3 position;
-	VECTOR3 rotation;
-	VECTOR3 scale;
+	VECTOR3 position;		//! 位置
+	VECTOR3 rotation;		//! 回転角度
+	VECTOR3 scale;			//! 拡縮
 
-	VECTOR3 globalPosition;
+	VECTOR3 globalPosition;		//! グローバル空間での座標
 
-	const Transform* parent;
-	const MATRIX*	 parentMtx;
+	const Transform* parent;		//! 親
+	const MATRIX*	 parentMtx;		//! 親の行列
 
-	Transform(void) : position(0), rotation(0), scale(1, 1, 1), globalPosition(0), parent(0), parentMtx(nullptr){}
-	Transform(VECTOR3 position, VECTOR3 rotation, VECTOR3 scale) : position(position), rotation(rotation), scale(scale), globalPosition(position), parent(nullptr), parentMtx(nullptr) {}
+	/* @brief	コンストラクタ		*/
+	Transform(void);
+
+	/* @brief	コンストラクタ
+	 * @param	(position)	位置
+	 * @param	(rotation)	回転角度
+	 * @param	(scale)		拡縮	*/
+	Transform(const VECTOR3& position, const VECTOR3& rotation, const VECTOR3& scale);
 };
 
 struct MATRIX
@@ -45,17 +48,44 @@ struct MATRIX
 		float m[4][4];
 	};
 
-	MATRIX(void);								// コンストラクタ
+	/* @brief	コンストラクタ		*/
+	MATRIX(void);
 
-	MATRIX& Identity(void);						// 単位行列
-	MATRIX& Translation(const VECTOR3& t);		// 移動(3次元)
-	MATRIX& Translation(const VECTOR2& t);		// 移動(2次元)
-	MATRIX& Rotation(const VECTOR3& r);			// 回転(YawPitchRoll)
-	MATRIX& Rotation(const VECTOR3& r, float angle);// 回転(任意軸)
-	MATRIX& Scaling(const VECTOR3& s);			// 拡縮
-	MATRIX& Create(const Transform* t);			// Transformを元に行列変換
-	MATRIX& Transpose(const MATRIX& mtx);		// 転置行列
-	MATRIX& Billboard(const MATRIX& mtx);		// ビルボード
+	/* @brief	単位行列			*/
+	MATRIX& Identity(void);
+
+	/* @brief	3次元移動
+	 * @param	(t)		移動ベクトル		*/
+	MATRIX& Translation(const VECTOR3& t);
+	
+	/* @brief	2次元移動
+	 * @param	(t)		移動ベクトル		*/
+	MATRIX& Translation(const VECTOR2& t);
+	
+	/* @brief	3次元回転
+	 * @param	(r)		YawPitchRoll		*/
+	MATRIX& Rotation(const VECTOR3& r);
+	
+	/* @brief	3次元回転
+	 * @param	(r)		回転軸
+	 * @param	(angle)	回転角度			*/
+	MATRIX& Rotation(const VECTOR3& r, float angle);
+
+	/* @brief	3次元拡縮
+	 * @param	(s)		拡縮				*/
+	MATRIX& Scaling(const VECTOR3& s);
+
+	/* @brief	姿勢行列の生成
+	 * @param	(t)		姿勢				*/
+	MATRIX& Create(const Transform* t);
+
+	/* @brief	転置行列
+	 * @param	(mtx)	転置する行列		*/
+	MATRIX& Transpose(const MATRIX& mtx);
+
+	/* @brief	ビルボード行列
+	 * @param	(mtx)	ビルボード処理する行列		*/
+	MATRIX& Billboard(const MATRIX& mtx);
 
 	MATRIX operator + (const MATRIX& mtx);
 	MATRIX operator * (const float f);
@@ -67,12 +97,29 @@ struct MATRIX
 	operator float*(void) { return &_11; }
 };
 
-//-----------------------------------------------------------------------------
-//	関数定義
-//-----------------------------------------------------------------------------
-VECTOR3 VecTransform(const VECTOR3& v, const MATRIX& m);		// 行列を元に座標変換
-VECTOR3 VecTransformCoord(const VECTOR3& v, const MATRIX& m);	// 行列を元に座標変換
+/* @brief	行列を元に座標変換
+ * @param	(v)		座標変換するベクトル
+ * @param	(m)		元にする行列			*/
+VECTOR3 VecTransform(const VECTOR3& v, const MATRIX& m);
+
+/* @brief	行列を元に座標変換
+ * @param	(v)		座標変換するベクトル
+ * @param	(m)		元にする行列			*/
+VECTOR3 VecTransformCoord(const VECTOR3& v, const MATRIX& m);
+
+/* @brief	View変換行列の生成
+ * @param	(position)	位置
+ * @param	(at)		注視点
+ * @param	(up)		上ベクトル
+ * @return	View変換行列					*/
 MATRIX  CreateViewMatrix(const VECTOR3& position, const VECTOR3& at, const VECTOR3& up);
+
+/* @brief	Projection変換行列
+ * @param	(fov)		0～360の角度
+ * @param	(aspect)	アスペクト比
+ * @param	(cnear)		near
+ * @param	(cfar)		far
+ * @return	Projection変換行列				*/
 MATRIX  CreateProjectionMatrix(int fov, float aspect, float cnear, float cfar);
 
 #endif //_MATRIX_H_

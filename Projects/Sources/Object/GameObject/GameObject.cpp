@@ -1,7 +1,6 @@
 #include "GameObject.h"
 #include "../../Scene/GameScene.h"
 
-/* @brief	コンストラクタ			*/
 GameObject::GameObject(ObjectTag tag) : Object(tag)
 	, life_(0)
 	, ded_(false)
@@ -12,15 +11,10 @@ GameObject::GameObject(ObjectTag tag) : Object(tag)
 {
 }
 
-/* @brief	デストラクタ			*/
 GameObject::~GameObject(void)
 {
 }
 
-/* @brief	移動時の回転処理
- * @sa		Update()
- * @param	なし
- * @return	なし					*/
 void GameObject::Move(void)
 {
 	// キャラクターの前ベクトルの生成
@@ -57,10 +51,6 @@ void GameObject::Move(void)
 	velocity_ *= 0.8f;						// 慣性
 }
 
-/* @brief	前ベクトルの生成
- * @sa		Move()
- * @param	なし
- * @return	なし					*/
 void GameObject::CreateFrontVector(void)
 {
 	MATRIX frontObj;
@@ -77,10 +67,6 @@ void GameObject::CreateFrontVector(void)
 	right_ = VecNorm(VecCross(VECTOR3(0, 1, 0), front_));
 }
 
-/* @brief	接地判定
- * @sa		Update()
- * @param	なし
- * @return	なし					*/
 void GameObject::OnGround(void)
 {
 	if (manager_)

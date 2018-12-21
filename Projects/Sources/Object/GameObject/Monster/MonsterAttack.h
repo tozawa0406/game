@@ -16,15 +16,23 @@
 class MonsterAttack : public GUI
 {
 public:
+	/* @brief	コンストラクタ		*/
 	MonsterAttack(void)	: GUI(Systems::Instance(), nullptr, "attack"), enable_(false), frame_(0), debug_nextFrame_(false)	{}
+	/* @brief	デストラクタ		*/
 	virtual ~MonsterAttack(void)	{}
 
+	/* @brief	初期化処理			*/
 	virtual void Init(GameObject* monster) { monster_ = monster; }
+	/* @brief	後処理				*/
 	virtual void Uninit(void) = 0;
+	/* @brief	準備処理			*/
 	virtual void SetMove(void) { enable_ = true; frame_ = 0; }
+	/* @brief	更新処理			*/
 	virtual bool Update(void) = 0;
+	/* @brief	終了処理			*/
 	virtual void EndMove(void)   = 0;
 
+	/* @brief	Gui更新処理			*/
 	virtual void GuiUpdate(void) override
 	{
 		if (const auto& systems = Systems::Instance())

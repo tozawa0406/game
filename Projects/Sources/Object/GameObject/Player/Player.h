@@ -46,15 +46,36 @@ public:
 	//! @def	スタミナ回復値
 	static constexpr float ADD_STAMINA = 0.2f;
 
+	/* @brief	コンストラクタ		*/
 	Player(void);
+	/* @brief	デストラクタ		*/
 	virtual ~Player(void);
 
+
+	
+	/* @brief	初期化処理
+	 * @param	なし
+	 * @return	なし				*/
 	virtual void Init(void)   override;
+	
+	/* @brief	後処理
+	 * @param	なし
+	 * @return	なし				*/
 	virtual void Uninit(void) override;
+	
+	/* @brief	更新処理
+	 * @param	なし
+	 * @return	なし				*/
 	virtual void Update(void) override;
-
+	
+	/* @brief	デバッグ用描画更新
+	 * @param	なし
+	 * @return	なし				*/
 	void GuiUpdate(void) override;
-
+	
+	/* @brief	ダメージ処理
+	 * @param	(damage)	ダメージ
+	 * @return	なし				*/
 	void Hit(int damage) override;
 
 	/* @brief	武器の設定
@@ -86,6 +107,10 @@ public:
 	inline void  SetStamina(float stamina)	{ stamina_ = stamina;	}
 
 private:
+	/* @brief	死亡判定
+	 * @sa		Update()
+	 * @param	なし
+	 * @return	死んでいたらtrue			*/
 	bool IsDed(void);
 
 	PlayerState*	state_;				//! プレイヤーのステート

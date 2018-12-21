@@ -15,13 +15,30 @@
 class PlayerLife : public Object
 {
 public:
+	/* @brief	コンストラクタ		*/
 	PlayerLife(void);
+	/* @brief	デストラクタ		*/
 	~PlayerLife(void);
 
+
+	
+	/* @brief	初期化処理
+	 * @param	なし
+	 * @return	なし				*/
 	void Init(void)   override;
+	
+	/* @brief	後処理
+	 * @param	なし
+	 * @return	なし				*/
 	void Uninit(void) override;
+
+	/* @brief	更新処理
+	 * @param	なし
+	 * @return	なし				*/
 	void Update(void) override;
 
+	/* @brief	プレイヤーの設定
+	 * @param	(player)	プレイヤー		*/
 	inline void SetPlayer(Player* player) { player_ = player; }
 
 private:

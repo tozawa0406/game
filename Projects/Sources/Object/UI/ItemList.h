@@ -36,13 +36,31 @@ class ItemList : public Object, public GUI
 	};
 
 public:
+	/* @brief	コンストラクタ		*/
 	ItemList(void);
+	/* @brief	デストラクタ		*/
 	~ItemList(void);
+	
 
+
+	/* @brief	初期化処理
+	 * @param	なし
+	 * @return	なし				*/
 	void Init(void)   override;
+	
+	/* @brief	後処理
+	 * @param	なし
+	 * @return	なし				*/
 	void Uninit(void) override;
+	
+	/* @brief	更新処理
+	 * @param	なし
+	 * @return	なし				*/
 	void Update(void) override;
-
+	
+	/* @brief	Guiの更新処理
+	 * @param	なし
+	 * @return	なし				*/
 	void GuiUpdate(void) override;
 
 	/* @brief	プレイヤー(親)の設定処理
@@ -50,8 +68,27 @@ public:
 	inline void SetPlayer(Player* player) { player_ = player; }
 
 private:
+	/* @brief	アイテムの背景の設定
+	 * @sa		Update()
+	 * @param	なし
+	 * @return	なし				*/
 	void SetItemBack(void);
+	
+	/* @brief	アイテム移動の開始
+	 * @sa		Update()
+	 * @param	(lpad)	左移動のゲームパッド
+	 * @param	(lkey)	左移動のキー
+	 * @param	(rpad)	右移動のゲームパッド
+	 * @param	(rkey)	右移動のキー
+	 * @return	移動開始したらtrue		*/
 	bool SetMove(Controller& ctrl, WORD lpad, int lkey, WORD rpad, int rkey);
+	
+	/* @brief	ボタンUIのEnable変更
+	 * @sa		Update()
+	 * @param	(l)			LUI
+	 * @param	(maru)		〇UI
+	 * @param	(shikaku)	□UI
+	 * @param	なし					*/
 	void SetButtonUIEnable(bool l, bool maru, bool shikaku);
 
 	//! プレイヤーのポインタ

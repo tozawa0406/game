@@ -24,7 +24,6 @@ static const     VECTOR3 COLLISION_OFFSET_POS = VECTOR3(0, 7.5f, 0);
 //! @def	当たり判定のサイズ
 static const     VECTOR3 COLLISION_SIZE = VECTOR3(3, 15, 3);
 
-/* @brief	コンストラクタ			*/
 Player::Player(void) : GameObject(ObjectTag::PLAYER), GUI(Systems::Instance(), this, "player")
 	, state_(nullptr)
 	, stamina_(150)
@@ -42,14 +41,10 @@ Player::Player(void) : GameObject(ObjectTag::PLAYER), GUI(Systems::Instance(), t
 	life_ = 150;
 }
 
-/* @brief	デストラクタ			*/
 Player::~Player(void)
 {
 }
 
-/* @brief	初期化処理
- * @param	なし
- * @return	なし					*/
 void Player::Init(void)
 {
 	const auto& systems = Systems::Instance();
@@ -121,9 +116,6 @@ void Player::Init(void)
 	}
 }
 
-/* @brief	後処理
- * @param	なし
- * @return	なし					*/
 void Player::Uninit(void)
 {
 	DeletePtr(collider_);
@@ -135,9 +127,6 @@ void Player::Uninit(void)
 	DeletePtr(state_);
 }
 
-/* @brief	更新処理
- * @param	なし
- * @return	なし					*/
 void Player::Update(void)
 {
 	if (IsDed()) { return; }
@@ -179,9 +168,6 @@ void Player::Update(void)
 	transform_.position += collider_->GetBack();
 }
 
-/* @brief	ダメージ処理
- * @param	(damage)	ダメージ
- * @return	なし			*/
 void Player::Hit(int damage)
 {
 	if (collider_->IsEnable())
@@ -200,10 +186,6 @@ void Player::Hit(int damage)
 	}
 }
 
-/* @brief	死亡判定
- * @sa		Update()
- * @param	なし
- * @return	死んでいたらtrue			*/
 bool Player::IsDed(void)
 {
 	if (static_cast<Animation>(meshAnim_.animation) == Animation::Die)
@@ -218,9 +200,6 @@ bool Player::IsDed(void)
 	return false;
 }
 
-/* @brief	デバッグ用描画更新
- * @param	なし
- * @return	なし					*/
 void Player::GuiUpdate(void)
 {
 	ImGui::Text("temp : %.2f, %.2f, %.2f", collider_->GetBack().x, collider_->GetBack().y, collider_->GetBack().z);

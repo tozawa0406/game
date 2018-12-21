@@ -229,7 +229,7 @@ MATRIX CascadeManager::CreateOrthographic(const float width, const float height,
 	assert(diffNF != 0.0f);
 
 	MATRIX result;
-	result._11 = 2.0f / width;
+	result._11 = -2.0f / width;
 	result._12 = 0.0f;
 	result._13 = 0.0f;
 	result._14 = 0.0f;

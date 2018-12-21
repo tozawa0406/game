@@ -30,7 +30,6 @@ static constexpr int MOVE_LIST = ITEM_RANGE / CHANGE_FRAME;
 //! @def	アイテム移動時の大きさ変更
 static const	 VECTOR2 ITEM_SIZE_DIFF = VECTOR2(SIZE_ITEM_BACK.x - SIZE_ITEM_BACK_LIST.x, SIZE_ITEM_BACK.y - SIZE_ITEM_BACK_LIST.y) * 0.1f;
 
-/* @brief	コンストラクタ			*/
 ItemList::ItemList(void) : Object(ObjectTag::UI), GUI(Systems::Instance(), this, "ItemList")
 	, player_(nullptr)
 	, flag_(0)
@@ -38,14 +37,10 @@ ItemList::ItemList(void) : Object(ObjectTag::UI), GUI(Systems::Instance(), this,
 {
 }
 
-/* @brief	デストラクタ			*/
 ItemList::~ItemList(void)
 {
 }
 
-/* @brief	初期化処理
- * @param	なし
- * @return	なし					*/
 void ItemList::Init(void)
 {
 	int texNum = static_cast<int>(Texture::Game::ITEM_UI);
@@ -99,9 +94,6 @@ void ItemList::Init(void)
 	ui_[button].SetEnable(false);
 }
 
-/* @brief	後処理
- * @param	なし
- * @return	なし					*/
 void ItemList::Uninit(void)
 {
 	for (auto& c : ui_) { c.Uninit(); }
@@ -110,9 +102,6 @@ void ItemList::Uninit(void)
 	back_.Uninit();
 }
 
-/* @brief	更新処理
- * @param	なし
- * @return	なし					*/
 void ItemList::Update(void)
 {
 	if (!player_) { return; }
@@ -239,10 +228,6 @@ void ItemList::Update(void)
 	}
 }
 
-/* @brief	アイテムの背景の設定
- * @sa		Update()
- * @param	なし
- * @return	なし					*/
 void ItemList::SetItemBack(void)
 {
 	for (int i = 0; i < static_cast<int>(BackItem::EMPTY); ++i)
@@ -260,13 +245,6 @@ void ItemList::SetItemBack(void)
 	backItemBack_[static_cast<int>(BackItem::EMPTY)].SetEnable(false);
 }
 
-/* @brief	アイテム移動の開始
- * @sa		Update()
- * @param	(lpad)	左移動のゲームパッド
- * @param	(lkey)	左移動のキー
- * @param	(rpad)	右移動のゲームパッド
- * @param	(rkey)	右移動のキー
- * @return	移動開始したらtrue		*/
 bool ItemList::SetMove(Controller& ctrl, WORD lpad, int lkey, WORD rpad, int rkey)
 {
 	// キー入力
@@ -291,12 +269,6 @@ bool ItemList::SetMove(Controller& ctrl, WORD lpad, int lkey, WORD rpad, int rke
 	return false;
 }
 
-/* @brief	ボタンUIのEnable変更
- * @sa		Update()
- * @param	(l)			LUI
- * @param	(maru)		〇UI
- * @param	(shikaku)	□UI
- * @param	なし					*/
 void ItemList::SetButtonUIEnable(bool l, bool maru, bool shikaku)
 {
 	ui_[static_cast<int>(ButtonUI::L)].SetEnable(l);
@@ -304,9 +276,6 @@ void ItemList::SetButtonUIEnable(bool l, bool maru, bool shikaku)
 	ui_[static_cast<int>(ButtonUI::SHIKAKU)].SetEnable(shikaku);
 }
 
-/* @brief	Guiの更新処理
- * @param	なし
- * @return	なし					*/
 void ItemList::GuiUpdate(void)
 {
 	const auto& debug = Systems::Instance()->GetDebug();

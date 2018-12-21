@@ -1,9 +1,3 @@
-//-----------------------------------------------------------------------------
-//
-//	シーン処理[SceneManager.cpp]
-//	Auther : 戸澤翔太
-//																	2017/09/05
-//-----------------------------------------------------------------------------
 #include "SceneManager.h"
 #include "../Windows/Windows.h"
 #include "../Systems/GameSystems.h"
@@ -12,7 +6,6 @@
 #include "../Systems/Input/Controller.h"
 #include "../Systems/Camera/CameraManager.h"
 
-// コンストラクタ
 SceneManager::SceneManager(Systems* systems) : Interface(systems)
 	, sceneChange_(SceneList::NEXT)
 	, displayMode_(SceneList::MAX)
@@ -25,7 +18,6 @@ SceneManager::SceneManager(Systems* systems) : Interface(systems)
 {
 }
 
-// デストラクタ
 SceneManager::~SceneManager(void)
 {
 }
@@ -67,7 +59,6 @@ void SceneManager::Uninit(void)
 	DeletePtr(camera_);
 }
 
-// 更新処理
 void SceneManager::Update(void)
 {	
 	// シーンの更新
@@ -80,7 +71,6 @@ void SceneManager::Update(void)
 	ForceSceneChange();
 }
 
-// 描画処理
 void SceneManager::Draw(void)
 {
 	camera_->Draw();
@@ -89,7 +79,6 @@ void SceneManager::Draw(void)
 	Fade();
 }
 
-// シーンの更新処理
 void SceneManager::SceneUpdate(void)
 {	
 	if (!isPause_)
@@ -122,7 +111,6 @@ void SceneManager::SceneUpdate(void)
 	}
 }
 
-// フェード処理
 void SceneManager::Fade(void)
 {
 	int a = 0;
@@ -151,7 +139,6 @@ void SceneManager::Fade(void)
 	}
 }
 
-// 外部呼出し遷移準備処理
 void SceneManager::Change(SceneList scene)
 {
 	//シーン遷移フラグをtrue
@@ -161,7 +148,6 @@ void SceneManager::Change(SceneList scene)
 	}
 }
 
-// 実際にシーンが切り替わる処理
 void SceneManager::ChangeActual(void)
 {
 	//外部呼出しされたら
@@ -210,7 +196,6 @@ void SceneManager::ChangeActual(void)
 	}
 }
 
-// BACKボタンで遷移
 void SceneManager::ForceSceneChange(void)
 {
 #ifdef _SELF_DEBUG

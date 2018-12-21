@@ -1,13 +1,26 @@
-//-----------------------------------------------------------------------------
-//
-//	行列[Matrix.cpp]
-//	Auther : 戸澤翔太
-//																	2018/08/17
-//-----------------------------------------------------------------------------
 #include "Matrix.h"
 #include "Define.h"
 
-// コンストラクタ
+Transform::Transform(void) :
+	position(VECTOR3(0))
+	, rotation(VECTOR3(0))
+	, scale(VECTOR3(1))
+	, globalPosition(VECTOR3(0))
+	, parent(nullptr)
+	, parentMtx(nullptr)
+{
+}
+
+Transform::Transform(const VECTOR3& position, const VECTOR3& rotation, const VECTOR3& scale) : 
+	position(position)
+	, rotation(rotation)
+	, scale(scale)
+	, globalPosition(position)
+	, parent(nullptr)
+	, parentMtx(nullptr)
+{
+}
+
 MATRIX::MATRIX(void)
 {
 	_11 = _12 = _13 = _14 =
@@ -90,7 +103,6 @@ MATRIX& MATRIX::operator*=(const MATRIX& mtx)
 	return *this;
 }
 
-// 単位行列
 MATRIX& MATRIX::Identity(void)
 {
 	_12 = _13 = _14 =
@@ -102,9 +114,10 @@ MATRIX& MATRIX::Identity(void)
 	return *this;
 }
 
-// Tarnsformを元に行列変換
 MATRIX& MATRIX::Create(const Transform* t)
 {
+	if (!t) { return *this; }
+
 	Scaling(t->scale);
 	Rotation(t->rotation);
 	Translation(t->position);
@@ -123,7 +136,6 @@ MATRIX& MATRIX::Create(const Transform* t)
 	return *this;
 }
 
-// 移動(3次元)
 MATRIX& MATRIX::Translation(const VECTOR3& t)
 {
 	MATRIX temp;
@@ -137,7 +149,6 @@ MATRIX& MATRIX::Translation(const VECTOR3& t)
 	return *this;
 }
 
-// 移動(2次元)
 MATRIX& MATRIX::Translation(const VECTOR2& t)
 {
 	MATRIX temp;
@@ -150,7 +161,6 @@ MATRIX& MATRIX::Translation(const VECTOR2& t)
 	return *this;
 }
 
-// 回転(YawPitchRoll)
 MATRIX& MATRIX::Rotation(const VECTOR3& r)
 {
 	MATRIX temp;
@@ -169,7 +179,6 @@ MATRIX& MATRIX::Rotation(const VECTOR3& r)
 	return *this;
 }
 
-// 回転(任意軸)
 MATRIX& MATRIX::Rotation(const VECTOR3& r, float angle)
 {
 	MATRIX temp;
@@ -194,8 +203,6 @@ MATRIX& MATRIX::Rotation(const VECTOR3& r, float angle)
 	return *this;
 }
 
-
-// 拡縮
 MATRIX& MATRIX::Scaling(const VECTOR3& s)
 {
 	MATRIX temp;
@@ -209,7 +216,6 @@ MATRIX& MATRIX::Scaling(const VECTOR3& s)
 	return *this;
 }
 
-// 転置行列
 MATRIX& MATRIX::Transpose(const MATRIX& mtx)
 {
 	*this = mtx;
@@ -233,7 +239,6 @@ MATRIX& MATRIX::Transpose(const MATRIX& mtx)
 	return *this;
 }
 
-// ビルボード
 MATRIX& MATRIX::Billboard(const MATRIX& mtx)
 {
 	Transpose(mtx);
@@ -243,7 +248,6 @@ MATRIX& MATRIX::Billboard(const MATRIX& mtx)
 	return *this;
 }
 
-// ==比較
 bool MATRIX::operator == (float n) const
 {
 	if (((_11 == n) && (_12 == n)) && ((_13 == n) && (_14 == n)))
@@ -262,7 +266,6 @@ bool MATRIX::operator == (float n) const
 	return false;
 }
 
-// !=比較
 bool MATRIX::operator != (float n) const
 {
 	return !operator==(n);
@@ -270,7 +273,6 @@ bool MATRIX::operator != (float n) const
 
 
 
-// 行列を元に座標変換
 VECTOR3 VecTransform(const VECTOR3& v, const MATRIX& m)
 {
 	float r[4];
@@ -282,8 +284,6 @@ VECTOR3 VecTransform(const VECTOR3& v, const MATRIX& m)
 	return VECTOR3(r[0], r[1], r[2]);
 }
 
-
-// 行列を元に座標変換
 VECTOR3 VecTransformCoord(const VECTOR3& v, const MATRIX& m)
 {
 	float r[4];

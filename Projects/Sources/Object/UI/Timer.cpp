@@ -57,9 +57,6 @@ static const	 VECTOR2 CLIP_SIZE = VECTOR2(50, 150);
 //! @def	時計中央留め具のテクスチャ位置
 static constexpr uint8	 CLIP_PATTERN = 5;
 
-
-
-/* @brief	コンストラクタ			*/
 Timer::Timer(void) : Object(ObjectTag::UI), GUI(Systems::Instance(), this, "Timer")
 	, frame_(0)
 	, time_(START_TIME)
@@ -67,14 +64,10 @@ Timer::Timer(void) : Object(ObjectTag::UI), GUI(Systems::Instance(), this, "Time
 {
 }
 
-/* @brief	デストラクタ			*/
 Timer::~Timer(void)
 {
 }
 
-/* @brief	初期化処理
- * @param	なし
- * @return	なし				*/
 void Timer::Init(void)
 {
 	// 位置を指定
@@ -135,9 +128,6 @@ void Timer::Init(void)
 	clip_.SetPattern(CLIP_PATTERN);
 }
 
-/* @brief	後処理
- * @param	なし
- * @return	なし				*/
 void Timer::Uninit(void)
 {
 	clip_.Uninit();
@@ -147,10 +137,6 @@ void Timer::Uninit(void)
 	back_.Uninit();
 }
 
-/* @brief	更新処理
- * @param	なし
- * @return	なし
- * @detail	時間の計測、描画の更新		*/
 void Timer::Update(void)
 {
 #ifdef TIME_TO_SECOND
@@ -186,9 +172,6 @@ void Timer::Update(void)
 
 }
 
-/* @brief	Gui更新処理
- * @param	なし
- * return	なし				*/
 void Timer::GuiUpdate(void)
 {
 	ImGui::Text("remaining time : %d", time_);

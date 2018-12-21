@@ -13,13 +13,32 @@
 class Timer : public Object, public GUI
 {
 public:
+	/* @brief	コンストラクタ		*/
 	Timer(void);
+	/* @brief	デストラクタ		*/
 	~Timer(void);
 
-	void Init(void)   override;
-	void Uninit(void) override;
-	void Update(void) override;
 
+	
+	/* @brief	初期化処理
+	 * @param	なし
+	 * @return	なし				*/
+	void Init(void)   override;
+	
+	/* @brief	後処理
+	 * @param	なし
+	 * @return	なし				*/
+	void Uninit(void) override;
+	
+	/* @brief	更新処理
+	 * @param	なし
+	 * @return	なし
+	 * @detail	時間の計測、描画の更新		*/
+	void Update(void) override;
+	
+	/* @brief	Gui更新処理
+	 * @param	なし
+	 * return	なし				*/
 	void GuiUpdate(void) override;
 
 private:
@@ -37,7 +56,6 @@ private:
 	CanvasRenderer::Image handNow_;
 	//! 中央
 	CanvasRenderer::Image clip_;
-
 };
 
 #endif // _TIMER_H_

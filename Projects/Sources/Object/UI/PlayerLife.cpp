@@ -22,20 +22,15 @@ static const	 float ONE_LIFE  = SIZE_BAR.x / 150;
 //! @def	バーのサイズと位置の比率
 static const     float ONE_RANGE = 355.0f / 150.0f;
 
-/* @brief	コンストラクタ			*/
 PlayerLife::PlayerLife(void) : Object(ObjectTag::UI)
 	, player_(nullptr)
 {
 }
 
-/* @brief	デストラクタ			*/
 PlayerLife::~PlayerLife(void)
 {
 }
 
-/* @brief	初期化処理
- * @param	なし
- * @return	なし					*/
 void PlayerLife::Init(void)
 {
 	int texNum = static_cast<int>(Texture::Game::HP_BAR);
@@ -61,9 +56,6 @@ void PlayerLife::Init(void)
 	stamina_.SetPattern(2);
 }
 
-/* @brief	後処理
- * @param	なし
- * @return	なし					*/
 void PlayerLife::Uninit(void)
 {
 	stamina_.Uninit();
@@ -71,9 +63,6 @@ void PlayerLife::Uninit(void)
 	back_.Uninit();
 }
 
-/* @brief	更新処理
- * @param	なし
- * @return	なし					*/
 void PlayerLife::Update(void)
 {
 	if (!player_) { return; }
