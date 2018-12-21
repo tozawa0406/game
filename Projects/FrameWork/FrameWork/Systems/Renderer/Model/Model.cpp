@@ -22,7 +22,7 @@ HRESULT Model::Init(void)
 	for (int i = 0; i < size; ++i)
 	{
 		// 現状は存在しないのでコメントアウト
-//		HRESULT hr = systems_->GetRenderer()->GetWrapper()->LoadModel(baseFileName[i], i);
+//		HRESULT hr = systems_->GetGraphics()->GetWrapper()->LoadModel(baseFileName[i], i);
 //		if (FAILED(hr)) { return E_FAIL; }
 	}
 
@@ -97,7 +97,7 @@ HRESULT Model::Load(int sceneNum)
 	for (int i = 0; i < size; ++i)
 	{
 		if (i < (int)Base::MAX) { continue; }
-		HRESULT hr = systems_->GetRenderer()->GetWrapper()->LoadModel(fileName[i - (int)Base::MAX], i);
+		HRESULT hr = systems_->GetGraphics()->GetWrapper()->LoadModel(fileName[i - (int)Base::MAX], i);
 		if (FAILED(hr)) { return E_FAIL; }
 		loading_->AddLoading();
 	}
@@ -127,7 +127,7 @@ HRESULT Model::Load(int sceneNum)
 	{
 		if (i < (int)Animation::Base::MAX) { continue; }
 		const auto& temp = info[i - (int)Animation::Base::MAX];
-		HRESULT hr = systems_->GetRenderer()->GetWrapper()->LoadModelAnimation(temp.fileName, temp.parent);
+		HRESULT hr = systems_->GetGraphics()->GetWrapper()->LoadModelAnimation(temp.fileName, temp.parent);
 		if (FAILED(hr)) { return E_FAIL; }
 		loading_->AddLoading();
 	}
@@ -157,6 +157,6 @@ void Model::Release(bool uninit)
 	if (uninit) { max = 0; }
 	for (int i = size - 1; i >= max; --i)
 	{
-		systems_->GetRenderer()->GetWrapper()->ReleaseModel(i);
+		systems_->GetGraphics()->GetWrapper()->ReleaseModel(i);
 	}
 }

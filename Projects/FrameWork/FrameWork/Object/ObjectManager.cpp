@@ -13,7 +13,7 @@
 #include "../Systems/Camera/MoveCamera.h"
 //#include "Player.h"
 
-ObjectManager::ObjectManager(BaseScene* scene) : BaseManager(scene->GetSystems()), scene_(scene)
+ObjectManager::ObjectManager(BaseScene* scene) : BaseManager(Systems::Instance()), scene_(scene)
 {
 }
 

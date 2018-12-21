@@ -34,7 +34,7 @@ void CanvasRenderer::Image::Uninit(void)
 	{
 		if (const auto& systems = manager_->GetSystems())
 		{
-			if (const auto& graphics = systems->GetRenderer())
+			if (const auto& graphics = systems->GetGraphics())
 			{
 				if (const auto& wrapper = graphics->GetWrapper())
 				{
@@ -65,7 +65,7 @@ void CanvasRenderer::Image::CreateVertexBuffer(void)
 	{
 		if (const auto& systems = manager_->GetSystems())
 		{
-			if (const auto& graphics = systems->GetRenderer())
+			if (const auto& graphics = systems->GetGraphics())
 			{
 				if (const auto& wrapper = graphics->GetWrapper())
 				{

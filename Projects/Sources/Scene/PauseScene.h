@@ -11,19 +11,40 @@
 
 class Pause : public BaseScene, public GUI
 {
+	//! @def	選択肢の数
 	static constexpr int SELECT_NUM = 3;
 public:
-	static constexpr float PAUSE_W = (float)Graphics::WIDTH  / 3;		//幅
-	static constexpr float PAUSE_H = (float)Graphics::HEIGHT / 7;		//高さ
+	//! @def	選択肢の幅
+	static constexpr float PAUSE_W = (float)Graphics::WIDTH  / 3;
+	//! @def	選択肢の高
+	static constexpr float PAUSE_H = (float)Graphics::HEIGHT / 7;
 
-	Pause(SceneManager* manager);
+	/* @brief	コンストラクタ		*/
+	Pause(void);
+	/* @brief	デストラクタ		*/
 	~Pause(void);
 
+
+
+	/* @brief	初期化処理
+	 * @param	なし
+	 * @return	なし				*/
 	void Init(void)   override;
+	
+	/* @brief	後処理
+	 * @param	なし
+	 * @return	なし				*/
 	void Uninit(void) override;
-	SceneList Update(void) override;		//更新処理
+	
+	/* @brief	更新処理
+	 * @param	なし
+	 * @return	シーン遷移フラグ	*/
+	SceneList Update(void) override;
 
 private:
+	/* @brief	UIの使用状態を一括変更処理
+	 * @param	(enable)	使用状態
+	 * @return	なし					*/
 	void EnableUI(bool enable);
 
 	VECTOR2 pos_[SELECT_NUM];		//! 選択オブジェクトの位置座標

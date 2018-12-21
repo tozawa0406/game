@@ -20,7 +20,7 @@ SpriteRenderer::~SpriteRenderer(void)
 {
 	if (systems_)
 	{
-		systems_->GetRenderer()->GetWrapper()->ReleaseBuffer(vertexBuffer, Wrapper::FVF::VERTEX_3D);
+		systems_->GetGraphics()->GetWrapper()->ReleaseBuffer(vertexBuffer, Wrapper::FVF::VERTEX_3D);
 	}
 }
 
@@ -42,7 +42,7 @@ void SpriteRenderer::Init(Systems* systems, int texNu, const Transform* transfor
 	texcoord.z = inv.x;
 	texcoord.w = inv.y;
 
-	const auto& wrapper = systems->GetRenderer()->GetWrapper();
+	const auto& wrapper = systems->GetGraphics()->GetWrapper();
 
 	VERTEX v[4];
 	for (int i = 0; i < 4; i++)

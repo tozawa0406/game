@@ -2,26 +2,20 @@
 #include <FrameWork/Scene/SceneManager.h>
 
 // 定数定義
-static constexpr int TITLE_CONTROLLER		= 20000;
 static constexpr int PAUSE_SELECT_UP		= 0;
 static constexpr int PADDING_TIME			= 30;
 
-/* @brief	コンストラクタ			*/
-Pause::Pause(SceneManager* manager) : BaseScene(manager),  GUI(manager->GetSystems(), nullptr, "ScenePause")
+Pause::Pause(void) : GUI(Systems::Instance(), nullptr, "ScenePause")
 	 , selectNum_(0)
 	 , paddingTimeCnt_(0)
 {
 	 for (auto& p : pos_) { p = VECTOR2(0, 0); }
 }
 
-/* @brief	デストラクタ			*/
 Pause::~Pause(void)
 {
 }
 
-/* @brief	初期化処理
- * @param	なし
- * @return	なし					*/
 void Pause::Init(void)
 {
 	 // 暗転
@@ -59,9 +53,6 @@ void Pause::Init(void)
 	 EnableUI(false);
 }
 
-/* @brief	後処理
- * @param	なし
- * @return	なし					*/
 void Pause::Uninit(void)
 {
 	for (auto& b : menu_)		{ b.Uninit(); }
@@ -70,9 +61,6 @@ void Pause::Uninit(void)
 	back_.Uninit();
 }
 
-/* @brief	更新処理
- * @param	なし
- * @return	シーン遷移フラグ		*/
 SceneList Pause::Update(void)
 {
 	EnableUI(true);
@@ -152,9 +140,6 @@ SceneList Pause::Update(void)
 	return SceneList::NOTCHANGE;
 }
 
-/* @brief	UIの使用状態を一括変更処理
- * @param	(enable)	使用状態
- * @return	なし					*/
 void Pause::EnableUI(bool enable)
 {
 	back_.SetEnable(enable);

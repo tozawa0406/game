@@ -13,7 +13,7 @@
 
 HRESULT Shader::Init(void)
 {
-	dev_ = manager_->GetSystems()->GetRenderer()->GetWrapper();
+	dev_ = manager_->GetSystems()->GetGraphics()->GetWrapper();
 	if (dev_ == nullptr) { return E_FAIL; }
 	if (vMethod_ != "")
 	{

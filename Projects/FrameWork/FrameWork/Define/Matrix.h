@@ -71,6 +71,8 @@ struct MATRIX
 //	関数定義
 //-----------------------------------------------------------------------------
 VECTOR3 VecTransform(const VECTOR3& v, const MATRIX& m);		// 行列を元に座標変換
-VECTOR3 VecTransformCoord(const VECTOR3& v, const MATRIX& m);		// 行列を元に座標変換
+VECTOR3 VecTransformCoord(const VECTOR3& v, const MATRIX& m);	// 行列を元に座標変換
+MATRIX  CreateViewMatrix(const VECTOR3& position, const VECTOR3& at, const VECTOR3& up);
+MATRIX  CreateProjectionMatrix(int fov, float aspect, float cnear, float cfar);
 
 #endif //_MATRIX_H_

@@ -1,9 +1,9 @@
-//-----------------------------------------------------------------------------
-//
-//	グラフィックスAPI[Graphics.h]
-//	Auther : 戸澤翔太
-//																	2018/08/18
-//-----------------------------------------------------------------------------
+/*
+ * @file		Graphics.h
+ * @brief		グラフィックスAPIの処理
+ * @author		戸澤翔太
+ * @data		2018/08/18
+ */
 #ifndef _GRAPHICS_H_
 #define _GRAPHICS_H_
 
@@ -11,16 +11,13 @@
 #include "Wrapper.h"
 #include "RenderTarget.h"
 
-//-----------------------------------------------------------------------------
-//	クラス定義
-//-----------------------------------------------------------------------------
 class Graphics
 {
 	friend class Windows;
 	friend class Systems;
 
 public:	
-	// グラフィックスのタイプ
+	//! @enum	グラフィックスの種類
 	enum class Type
 	{
 		UNKNOWN  = -1,
@@ -30,25 +27,41 @@ public:
 		MAX
 	};	
 
-	// 解像度
+	//! @def	横解像度
 	static constexpr int WIDTH  = 1280;
+	//! @def	縦解像度
 	static constexpr int HEIGHT = 720;
 
-	inline Windows*			GetWindow(void)			{ return window_;  }		// ウィンドウクラスの受け渡し
-	inline Wrapper*			GetWrapper(void)		{ return wrapper_; }		// ラッパークラスの受け渡し
+	/* @brief	Windowsクラスの取得			*/
+	inline Windows*			GetWindow(void)			{ return window_;		}
+	/* @brief	Wrapperクラスの取得			*/
+	inline Wrapper*			GetWrapper(void)		{ return wrapper_;		}
+	/* @brief	RenderTargetクラスの取得	*/
 	inline RenderTarget*	GetRenderTarget(void)	{ return renderTarget_; }
 
-	virtual void	Uninit(void) = 0;	// 後処理
+	/* @brief	後処理		*/
+	virtual void	Uninit(void) = 0;
+
 protected:
-	Graphics(Windows* window) { window_ = window; }		// コンストラクタ
+	/* @brief	コンストラクタ		*/
+	Graphics(void) : window_(nullptr) {}
 
-	virtual HRESULT Init(void)      = 0;	// 初期化処理
-	virtual HRESULT DrawBegin(void)	= 0;	// 描画開始
-	virtual void	DrawEnd(void)	= 0;	// 描画終了
+	/* @brief	Windowsクラスの設定処理		*/
+	void SetWindows(Windows* window) { window_ = window; }
 
-	Windows*		window_;		// ウィンドウクラスへのポインタ
-	Wrapper*		wrapper_;		// ラッパークラス
-	RenderTarget*	renderTarget_;	// レンダーターゲットクラス
+	/* @brief	初期化処理		*/
+	virtual HRESULT Init(void)      = 0;
+	/* @brief	描画開始処理	*/
+	virtual HRESULT DrawBegin(void) = 0;
+	/* @brief	描画終了処理	*/
+	virtual void	DrawEnd(void)	= 0;
+
+	//! Windowsクラスのポインタ
+	Windows*		window_;
+	//! Wrapperクラスのポインタ
+	Wrapper*		wrapper_;
+	//! RenderTargetクラスのポインタ
+	RenderTarget*	renderTarget_;
 };
 
 #endif // _GRAPHICS_H

@@ -85,7 +85,7 @@ void Player::Init(void)
 	}
 
 
-	if (const auto& renderer = systems->GetRenderer())
+	if (const auto& renderer = systems->GetGraphics())
 	{
 		if (Dx11Wrapper* wrapper = static_cast<Dx11Wrapper*>(renderer->GetWrapper()))
 		{
@@ -149,7 +149,7 @@ void Player::Update(void)
 	const auto& hits = collider_->HitCollider();
 	for (auto& hit : hits)
 	{
-		if (hit->GetRendererColor() == COLOR(1, 0, 0, 1))
+		if (hit->GetGraphicsColor() == COLOR(1, 0, 0, 1))
 		{
 			if (hit->GetParent()->GetTag() == Object::Tag::ENEMY)
 			{

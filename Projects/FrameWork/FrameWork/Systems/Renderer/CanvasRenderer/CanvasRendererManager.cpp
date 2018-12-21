@@ -45,7 +45,7 @@ void CanvasRendererManager::Sort(void)
 //ƒ|ƒŠƒSƒ“•`‰æˆ—
 void CanvasRendererManager::Draw(void)
 {
-	const auto& dev = systems_->GetRenderer()->GetWrapper();
+	const auto& dev = systems_->GetGraphics()->GetWrapper();
 
 	dev->BeginDrawCanvasRenderer();
 
@@ -84,5 +84,5 @@ void CanvasRendererManager::Draw(void)
 		}
 	}
 
-	dev->EndDrawCanvasRenderer();
+	dev->EndDrawRenderer();
 }

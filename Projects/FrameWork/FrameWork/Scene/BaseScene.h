@@ -1,9 +1,9 @@
-//-----------------------------------------------------------------------------
-//
-//	シーン基底[BaseScene.h]
-//	Auther : 戸澤翔太
-//																	2018/02/27
-//-----------------------------------------------------------------------------
+/*
+ * @file		BaseScene.h
+ * @brief		シーンの基底クラス
+ * @author		戸澤翔太
+ * @data		2018/02/27
+ */
 #ifndef _BASE_SCENE_H_
 #define _BASE_SCENE_H_
 
@@ -17,27 +17,42 @@
 #include "../Systems/GameSystems.h"
 #include "../Systems/DebugSetting/Debug.h"
 
-//-----------------------------------------------------------------------------
-//	クラス宣言
-//-----------------------------------------------------------------------------
 class SceneManager;
 class BaseScene
 {
 public:
-	BaseScene(SceneManager* manager);
-	virtual ~BaseScene(void) {};					// デストラクタ
+	/* @brief	コンストラクタ		*/
+	BaseScene(void);
+	/* @brief	デストラクタ		*/
+	virtual ~BaseScene(void);
 
+	/* @brief	初期化処理			*/
 	virtual void Init(void)   = 0;
+	/* @brief	後処理				*/
 	virtual void Uninit(void) = 0;
 
-	virtual SceneList		Update(void)	 { return SceneList::NOTCHANGE; }			// 更新処理
-	virtual SceneManager*	GetManager(void) { return manager_; }	// 親の取得
+	/* @brief	更新処理			*/
+	virtual SceneList		Update(void)	 { return SceneList::NOTCHANGE; }
 
-	Controller* GetCtrl(int i);						// コントローラの取得
-	Systems*    GetSystems(void) { return systems_; }
+	/* @brief	マネージャーの取得処理
+	 * @param	なし
+	 * @return	マネージャーのポインタ		*/
+	inline  SceneManager*	GetManager(void) { return manager_; }
+
+	/* @brief	マネージャーの設定処理
+	 * @param	(manager)	マネージャーのポインタ
+	 * @return	なし				*/
+	void SetManager(SceneManager* manager);
+
+	/* @brief	コントローラの取得処理
+	 * @param	(i)		コントローラの番号
+	 * @return	コントローラのポインタ		*/
+	Controller* GetCtrl(int i);
 
 protected:
-	SceneManager* manager_;		// 親
+	//! マネージャー
+	SceneManager* manager_;
+	//! システム系
 	Systems*      systems_;
 };
 

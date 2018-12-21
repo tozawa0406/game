@@ -19,7 +19,7 @@ HRESULT Texture::Init(void)
 	int size = (int)Texture::Base::MAX;
 	for (int i = 0;i < size; ++i)
 	{
-		HRESULT hr = systems_->GetRenderer()->GetWrapper()->LoadTexture(baseFileName[i], i);
+		HRESULT hr = systems_->GetGraphics()->GetWrapper()->LoadTexture(baseFileName[i], i);
 		if (FAILED(hr)) { return E_FAIL; }
 	}
 	return S_OK;
@@ -73,7 +73,7 @@ HRESULT Texture::Load(int sceneNum)
 	for (int i = 0; i < size; ++i)
 	{
 		if (i < (int)Base::MAX) { continue; }
-		HRESULT hr = systems_->GetRenderer()->GetWrapper()->LoadTexture(fileName[i - (int)Base::MAX], i);
+		HRESULT hr = systems_->GetGraphics()->GetWrapper()->LoadTexture(fileName[i - (int)Base::MAX], i);
 		if (FAILED(hr)) { return E_FAIL; }
 		loading_->AddLoading();
 	}
@@ -102,11 +102,11 @@ void Texture::Release(bool uninit)
 	if (uninit) { max = 0; }
 	for (int i = size - 1; i >= max; --i)
 	{
-		systems_->GetRenderer()->GetWrapper()->ReleaseTexture(i);
+		systems_->GetGraphics()->GetWrapper()->ReleaseTexture(i);
 	}
 }
 
 VECTOR2 Texture::GetTextureSize(int texNum) const
 {
-	return systems_->GetRenderer()->GetWrapper()->GetTextureSize(texNum);
+	return systems_->GetGraphics()->GetWrapper()->GetTextureSize(texNum);
 }

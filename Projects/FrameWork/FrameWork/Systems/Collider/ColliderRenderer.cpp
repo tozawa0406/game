@@ -16,7 +16,7 @@ void ColliderRendererManager::Draw(void)
 #ifdef _SELF_DEBUG
 	if (!systems_->GetDebug()->GetDebug()) { return; }
 
-	const auto& dev = systems_->GetRenderer()->GetWrapper();
+	const auto& dev = systems_->GetGraphics()->GetWrapper();
 
 	dev->BeginDrawObjectRenderer();
 	for (auto& obj : obj_)
@@ -26,7 +26,7 @@ void ColliderRendererManager::Draw(void)
 			dev->Draw(obj);
 		}
 	}
-	dev->EndDrawObjectRenderer();
+	dev->EndDrawRenderer();
 #endif
 }
 
@@ -46,7 +46,7 @@ ColliderRenderer::~ColliderRenderer(void)
 #ifdef _SELF_DEBUG
 	if (systems)
 	{
-		if (const auto& renderer = systems->GetRenderer())
+		if (const auto& renderer = systems->GetGraphics())
 		{
 			if (const auto& dev = renderer->GetWrapper())
 			{
@@ -114,7 +114,7 @@ void ColliderRenderer::ColliderRectangle(const Collider2DBase* col)
 	pnum = 4;
 
 	this->systems = col->systems_;
-	const auto& dev = systems->GetRenderer()->GetWrapper();
+	const auto& dev = systems->GetGraphics()->GetWrapper();
 	vertexBuffer = dev->CreateVertexBuffer(v, sizeof(v[0]), vnum);
 	this->vnum = vnum;
 	systems->GetColliderRendererManager()->Add(this);
@@ -153,7 +153,7 @@ void ColliderRenderer::ColliderCircle(const Collider2DBase* col)
 	pnum = Wrapper::PRIMITIVE::V::CIRCUMFERENCE;
 
 	this->systems = col->systems_;
-	const auto& dev = systems->GetRenderer()->GetWrapper();
+	const auto& dev = systems->GetGraphics()->GetWrapper();
 	vertexBuffer = dev->CreateVertexBuffer(v, sizeof(v[0]), vnum);
 	this->vnum = vnum;
 	systems->GetColliderRendererManager()->Add(this);
@@ -186,7 +186,7 @@ void ColliderRenderer::ColliderSegment(const Collider3DBase* col)
 	type = Wrapper::PRIMITIVE::TYPE::LINELIST;
 	pnum = 1;
 
-	const auto& dev = systems->GetRenderer()->GetWrapper();
+	const auto& dev = systems->GetGraphics()->GetWrapper();
 	vertexBuffer = dev->CreateVertexBuffer(v, sizeof(v[0]), vnum);
 	this->vnum = vnum;
 	systems->GetColliderRendererManager()->Add(this);
@@ -233,7 +233,7 @@ void ColliderRenderer::ColliderSphere(const Collider3DBase* col, bool second)
 	type = Wrapper::PRIMITIVE::TYPE::LINELIST;
 	pnum = Wrapper::PRIMITIVE::V::CIRCUMFERENCE;
 
-	const auto& dev = systems->GetRenderer()->GetWrapper();
+	const auto& dev = systems->GetGraphics()->GetWrapper();
 	vertexBuffer = dev->CreateVertexBuffer(v, sizeof(v[0]), vnum);
 	this->vnum = vnum;
 	systems->GetColliderRendererManager()->Add(this);
@@ -281,7 +281,7 @@ void ColliderRenderer::ColliderOBB(const Collider3DBase* col)
 	pnum = vn - 1;
 
 	this->systems = col->systems_;
-	const auto& dev = systems->GetRenderer()->GetWrapper();
+	const auto& dev = systems->GetGraphics()->GetWrapper();
 	vertexBuffer = dev->CreateVertexBuffer(v, sizeof(v[0]), vnum);
 	systems->GetColliderRendererManager()->Add(this);
 }

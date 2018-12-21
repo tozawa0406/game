@@ -71,7 +71,7 @@ Dx11Wrapper::Dx11Wrapper(DirectX11* directX) : directX11_(directX), depthState_(
 {
 }
 
-void Dx11Wrapper::Init(void)
+HRESULT Dx11Wrapper::Init(void)
 {
 	const auto& pDevice = directX11_->GetDevice();
 	string directoryHlsl = "";
@@ -174,6 +174,8 @@ void Dx11Wrapper::Init(void)
 	{
 		font_->Init(directX11_);
 	}
+
+	return S_OK;
 }
 
 void Dx11Wrapper::Uninit(void)
@@ -745,6 +747,20 @@ void Dx11Wrapper::BeginDrawCanvasRenderer(void)
 	const auto& pContext = directX11_->GetDeviceContext();
 	if (!pContext) { return; }
 
+	if(const auto& window = directX11_->GetWindow())
+	{
+		if (const auto& systems = window->GetSystems())
+		{
+			if (const auto& scene = systems->GetSceneManager())
+			{
+				if (const auto& camera = scene->GetCameraManager())
+				{
+					inverse_.Billboard(camera->GetView());
+				}
+			}
+		}
+	}
+
 	//頂点インプットレイアウトをセット
 	pContext->IASetInputLayout(vertexShader_[0].layout);
 
@@ -763,10 +779,6 @@ void Dx11Wrapper::BeginDrawCanvasRenderer(void)
 	pContext->UpdateSubresource(constant, 0, NULL, &screen, 0, 0);
 	pContext->VSSetConstantBuffers(0, 1, &constant);
 	pContext->GSSetShader(NULL, NULL, 0);
-}
-
-void Dx11Wrapper::EndDrawCanvasRenderer(void)
-{
 }
 
 void Dx11Wrapper::BeginDrawObjectRenderer(void)
@@ -792,8 +804,16 @@ void Dx11Wrapper::BeginDrawObjectRenderer(void)
 	pContext->UpdateSubresource(constant, 0, NULL, &sg, 0, 0);
 }
 
-void Dx11Wrapper::EndDrawObjectRenderer(void)
+void Dx11Wrapper::EndDrawRenderer(void)
 {
+	const auto& context = directX11_->GetDeviceContext();
+	if (!context) { return; }
+
+	context->VSSetShader(nullptr, nullptr, 0);
+	context->HSSetShader(nullptr, nullptr, 0);
+	context->DSSetShader(nullptr, nullptr, 0);
+	context->GSSetShader(nullptr, nullptr, 0);
+	context->PSSetShader(nullptr, nullptr, 0);
 }
 
 D3D11_PRIMITIVE_TOPOLOGY Dx11Wrapper::SelectPrimitiveType(PRIMITIVE::TYPE type)
@@ -1075,23 +1095,6 @@ void Dx11Wrapper::ReleaseModel(int modelNum)
 
 }
 
-MATRIX Dx11Wrapper::CreateViewMatrix(VECTOR3 position, VECTOR3 at, VECTOR3 up)
-{
-	XMMATRIX xTemp = XMMatrixLookAtLH(XM(position), XM(at), XM(up));
-
-	MATRIX temp = V(xTemp);
-	inverse_.Billboard(temp);
-
-	return temp;
-}
-
-MATRIX Dx11Wrapper::CreateProjectionMatrix(int fov, float aspect, float cnear, float cfar)
-{
-	XMMATRIX temp;
-	temp = XMMatrixPerspectiveFovLH(XMConvertToRadians((float)fov), aspect, cnear, cfar);
-	return V(temp);
-}
-
 ID3DBlob* Dx11Wrapper::CompiledShader(string fileName, string method, string version)
 {
 	//hlslファイル読み込み ブロブ作成　ブロブとはシェーダーの塊みたいなもの。XXシェーダーとして特徴を持たない。後で各種シェーダーに成り得る。
@@ -1345,5 +1348,5 @@ void Dx11Wrapper::DrawQuad(VECTOR2 position, VECTOR2 size, COLOR color)
 	// 描画
 	pContext->Draw(2 * 2, 0);
 
-	EndDrawCanvasRenderer();
+	EndDrawRenderer();
 }

@@ -9,8 +9,8 @@
 #include "../../Windows/Windows.h"
 
 // コンストラクタ
-DirectX11::DirectX11(Windows* window) : Graphics(window)
-	, pSwapChain_(nullptr)
+DirectX11::DirectX11(void) :
+	pSwapChain_(nullptr)
 	, pDevice_(nullptr)
 	, pDeviceContext_(nullptr)
 	, pRenderTargetView_(nullptr)

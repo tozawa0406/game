@@ -25,7 +25,7 @@ public:
 
 	void    Uninit(void)    override;		// Œãˆ—
 private:
-	DirectX11(Windows* window);
+	DirectX11(void);
 
 	HRESULT Init(void)      override;		// ‰Šú‰»ˆ—
 	HRESULT DrawBegin(void) override;		// •`‰æŠJn

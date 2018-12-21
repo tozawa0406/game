@@ -62,8 +62,7 @@ HRESULT ZTexture::Init(void)
 
 HRESULT ZTexture::BeginDraw(void)
 {
-	const auto& graphics = manager_->GetSystems()->GetRenderer();
-	const auto& dev = graphics->GetWrapper();
+	const auto& graphics = manager_->GetSystems()->GetGraphics();
 
 	const auto& camera = manager_->GetSystems()->GetSceneManager()->GetCameraManager()->GetCamera();
 	VECTOR3 at = camera->GetAt();
@@ -79,8 +78,8 @@ HRESULT ZTexture::BeginDraw(void)
 
 			if (light)
 			{
-				view_ = dev->CreateViewMatrix(light->GetLightInfo().position, light->GetLightInfo().at, up);
-				proj_ = dev->CreateProjectionMatrix(Camera::FOV, (float)Graphics::WIDTH / Graphics::HEIGHT, 60, 350);
+				view_ = CreateViewMatrix(light->GetLightInfo().position, light->GetLightInfo().at, up);
+				proj_ = CreateProjectionMatrix(Camera::FOV, (float)Graphics::WIDTH / Graphics::HEIGHT, 60, 350);
 			}
 		}
 	}
@@ -93,7 +92,7 @@ HRESULT ZTexture::SetParam(const MATRIX& mtx, const COLOR& color, VECTOR4 texcoo
 {
 	UNREFERENCED_PARAMETER(color);
 
-	const auto& dev = manager_->GetSystems()->GetRenderer()->GetWrapper();
+	const auto& dev = manager_->GetSystems()->GetGraphics()->GetWrapper();
 
 	const auto& systems = manager_->GetSystems();
 	const auto& window = systems->GetWindow();
@@ -122,7 +121,7 @@ HRESULT ZTexture::SetParam(const MATRIX& mtx, const COLOR& color, VECTOR4 texcoo
 
 HRESULT ZTexture::EndDraw(void)
 {
-	manager_->GetSystems()->GetRenderer()->GetRenderTarget()->EndDrawShadow();
+	manager_->GetSystems()->GetGraphics()->GetRenderTarget()->EndDrawShadow();
 
 	return S_OK;
 }

@@ -15,7 +15,7 @@ Particle::Particle(ParticleManager* manager, PARTICLE_DATA data) : texNum_((int)
 
 	a_ = data.vertex.color.a / data.limit;
 
-	const auto& dev = systems_->GetRenderer()->GetWrapper();
+	const auto& dev = systems_->GetGraphics()->GetWrapper();
 
 	vertexBuffer_ = dev->CreateVertexBuffer(&data.vertex, sizeof(data.vertex), 1);
 
@@ -24,7 +24,7 @@ Particle::Particle(ParticleManager* manager, PARTICLE_DATA data) : texNum_((int)
 
 Particle::~Particle(void)
 {
-	systems_->GetRenderer()->GetWrapper()->ReleaseBuffer(vertexBuffer_, Wrapper::FVF::VERTEX_POINT);
+	systems_->GetGraphics()->GetWrapper()->ReleaseBuffer(vertexBuffer_, Wrapper::FVF::VERTEX_POINT);
 }
 
 void Particle::Update(void)

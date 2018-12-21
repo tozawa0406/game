@@ -253,9 +253,9 @@ bool Windows::InitGame(Graphics::Type type)
 	else { graphicsType_ = type; }
 
 	// グラフィックスAPIの生成
-	if(graphicsType_ == Graphics::Type::DirectX11)
-	{ 
-		graphics_ = new DirectX11(this);
+	if (graphicsType_ == Graphics::Type::DirectX11) 
+	{
+		graphics_ = new DirectX11; 
 	}
 	else
 	{
@@ -263,11 +263,18 @@ bool Windows::InitGame(Graphics::Type type)
 		return true;
 	}
 	
-	if (FAILED(graphics_->Init())) { return true; }
+	if (graphics_)
+	{
+		graphics_->SetWindows(this);
+		if (FAILED(graphics_->Init())) { return true; }
+	}
 
 	// システム系の生成
 	systems_ = new Systems(this);
-	if (FAILED(systems_->Init()))  { return true; }
+	if (systems_)
+	{
+		if (FAILED(systems_->Init())) { return true; }
+	}
 
 	return false;
 }

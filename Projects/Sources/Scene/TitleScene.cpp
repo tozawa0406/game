@@ -16,20 +16,15 @@ static constexpr float ADJUST_POSITION_X = 6 * UI_TEXT_SIZE + UI_TEXT_SIZE * 0.5
 //! @def	点滅間隔
 static constexpr float FLASHING_RANGE = 60;
 
-/* @brief	コンストラクタ			*/
-TitleScene::TitleScene(SceneManager* manager) : BaseScene(manager), GUI(manager->GetSystems(), nullptr, "SceneTitle")
+TitleScene::TitleScene(void) : GUI(Systems::Instance(), nullptr, "SceneTitle")
 	, frameCnt_(0)
 {
 }
 
-/* @brief	デストラクタ			*/
 TitleScene::~TitleScene(void)
 {
 }
 
-/* @brief	初期化処理
- * @param	なし
- * @return	なし					*/
 void TitleScene::Init(void)
 {
 	// 「please press」
@@ -43,18 +38,12 @@ void TitleScene::Init(void)
 	button_.SetColor(COLOR(0, 0, 0, 1));
 }
 
-/* @brief	後処理
- * @param	なし
- * @return	なし				*/
 void TitleScene::Uninit(void)
 {
 	button_.Uninit();
 	press_.Uninit();
 }
 
-/* @brief	更新処理
- * @param	なし
- * @return	シーン番号			*/
 SceneList TitleScene::Update(void)
 {
 	// コントローラの取得
@@ -70,10 +59,6 @@ SceneList TitleScene::Update(void)
 	return EndScene(*ctrl);
 }
 
-/* @brief	点滅処理
- * @sa		Update()
- * @param	なし
- * @return	なし				*/
 void TitleScene::Flashing(void)
 {
 	// フレームカウンタ
@@ -90,10 +75,6 @@ void TitleScene::Flashing(void)
 	button_.SetColor(c);
 }
 
-/* @brief	コントローラのタイプ判定
- * @sa		Update()
- * @param	(ctrl)	コントローラ
- * @return	なし				*/
 void TitleScene::JudgeCtrlType(Controller& ctrl)
 {
 	switch (static_cast<Controller::CtrlNum>(ctrl.GetCtrlNum()))
@@ -110,10 +91,6 @@ void TitleScene::JudgeCtrlType(Controller& ctrl)
 	}
 }
 
-/* @brief	遷移処理
- * @sa		Update()
- * @param	(ctrl)	コントローラ
- * @return	シーン番号			*/
 SceneList TitleScene::EndScene(Controller& ctrl)
 {
 	// 入力
@@ -125,9 +102,6 @@ SceneList TitleScene::EndScene(Controller& ctrl)
 	return SceneList::NOTCHANGE;
 }
 
-/* @brief	Guiの更新処理
- * @param	なし
- * @return	なし				*/
 void TitleScene::GuiUpdate(void)
 {
 	ImGui::Text("a : %.2f", (frameCnt_ < FLASHING_RANGE) ? frameCnt_ / FLASHING_RANGE : 2 - frameCnt_ / FLASHING_RANGE);

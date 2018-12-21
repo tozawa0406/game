@@ -72,7 +72,7 @@ void ParticleManager::Sort(void)
 void ParticleManager::Draw(void)
 {
 //	this->Sort();
-	const auto& dev = systems_->GetRenderer()->GetWrapper();
+	const auto& dev = systems_->GetGraphics()->GetWrapper();
 	const auto& shader = systems_->GetShader()->GetShader(Shader::ENUM::POINT_SPRITE);
 	for (auto& obj : obj_)
 	{

@@ -27,7 +27,7 @@ HRESULT Screenshot::Init(void)
 {
 	if (systems_)
 	{
-		if (const auto& graphics = systems_->GetRenderer())
+		if (const auto& graphics = systems_->GetGraphics())
 		{
 			renderTarget_	= graphics->GetRenderTarget();
 			wrapper_		= graphics->GetWrapper();

@@ -12,19 +12,50 @@
 class TitleScene : public BaseScene, public GUI
 {
 public:
-	TitleScene(SceneManager* manager);
+	/* @brief	コンストラクタ		*/
+	TitleScene(void);
+	/* @brief	デストラクタ		*/
 	~TitleScene(void);
 
-	void Init(void)   override;
-	void Uninit(void) override;
 
+	
+	/* @brief	初期化処理
+	 * @param	なし
+	 * @return	なし				*/
+	void Init(void)   override;
+
+	/* @brief	後処理
+	 * @param	なし
+	 * @return	なし				*/
+	void Uninit(void) override;
+	
+	/* @brief	更新処理
+	 * @param	なし
+	 * @return	シーン番号			*/
+	SceneList	Update(void) override;
+	
+	/* @brief	Guiの更新処理
+	 * @param	なし
+	 * @return	なし				*/
 	void GuiUpdate(void) override;
 
 private:
-	SceneList	Update(void) override;
-
+	/* @brief	点滅処理
+	 * @sa		Update()
+	 * @param	なし
+	 * @return	なし				*/
 	void		Flashing(void);
+
+	/* @brief	コントローラのタイプ判定
+	 * @sa		Update()
+	 * @param	(ctrl)	コントローラ
+	 * @return	なし				*/
 	void		JudgeCtrlType(Controller& ctrl);
+	
+	/* @brief	遷移処理
+	 * @sa		Update()
+	 * @param	(ctrl)	コントローラ
+	 * @return	シーン番号			*/
 	SceneList	EndScene(Controller& ctrl);
 
 	//! フレームのカウンタ

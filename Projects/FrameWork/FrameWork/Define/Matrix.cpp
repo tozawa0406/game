@@ -5,6 +5,7 @@
 //																	2018/08/17
 //-----------------------------------------------------------------------------
 #include "Matrix.h"
+#include "Define.h"
 
 // コンストラクタ
 MATRIX::MATRIX(void)
@@ -293,4 +294,62 @@ VECTOR3 VecTransformCoord(const VECTOR3& v, const MATRIX& m)
 
 	float inv = 1 / r[3];
 	return VECTOR3(r[0] * inv, r[1] * inv, r[2] * inv);
+}
+
+MATRIX CreateViewMatrix(const VECTOR3& position, const VECTOR3& at, const VECTOR3& up)
+{
+	VECTOR3 direction = at - position;
+	VECTOR3 zaxis = VecNorm(direction);
+	VECTOR3 xaxis = VecNorm(VecCross(up, zaxis));
+	VECTOR3 yaxis = VecNorm(VecCross(zaxis, xaxis));
+
+	MATRIX temp;
+	temp._11 = xaxis.x;
+	temp._12 = yaxis.x;
+	temp._13 = zaxis.x;
+	temp._14 = 0.0f;
+
+	temp._21 = xaxis.y;
+	temp._22 = yaxis.y;
+	temp._23 = zaxis.y;
+	temp._24 = 0.0f;
+
+	temp._31 = xaxis.z;
+	temp._32 = yaxis.z;
+	temp._33 = zaxis.z;
+	temp._34 = 0.0f;
+
+	temp._41 = -VecDot(xaxis, position);
+	temp._42 = -VecDot(yaxis, position);
+	temp._43 = -VecDot(zaxis, position);
+	temp._44 = 1.0f;
+
+	return temp;
+}
+
+MATRIX CreateProjectionMatrix(int fov, float aspect, float cnear, float cfar)
+{
+	float angle = fov * (PI / 180.0f);
+	float clip = (cfar - cnear) * cfar;
+	VECTOR3 scale;
+	scale.y = 1.0f / tanf(angle / 2.0f);
+	scale.x = scale.y / aspect;
+	scale.z = 1 / clip;
+	float tarnsZ = -cnear / clip;
+
+	MATRIX temp;
+	temp._11 = scale.x;
+	temp._12 = temp._13 = temp._14 = 0.0f;
+
+	temp._22 = scale.y;
+	temp._21 = temp._23 = temp._24 = 0.0f;
+
+	temp._33 = scale.z;
+	temp._34 = 1.0f;
+	temp._31 = temp._32 = 0.0f;
+
+	temp._43 = tarnsZ;
+	temp._41 = temp._42 = temp._44 = 0.0f;
+
+	return temp;
 }

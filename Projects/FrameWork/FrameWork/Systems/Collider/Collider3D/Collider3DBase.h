@@ -70,7 +70,7 @@ public:
 
 	Object* GetParent(void) { return object_; }
 
-	inline COLOR GetRendererColor(void) { return renderer_.GetColor(); }
+	inline COLOR GetGraphicsColor(void) { return renderer_.GetColor(); }
 	inline void SetRendererColor(COLOR color) { renderer_.SetColor(color); }
 
 	inline const VECTOR3& GetBack(void) { return back_; }

@@ -62,9 +62,9 @@ void ObjectRendererManager::Sort(void)
 
 void ObjectRendererManager::FastDraw(void)
 {
-	const auto& directX11	= static_cast<DirectX11*>(systems_->GetRenderer());
+	const auto& directX11	= static_cast<DirectX11*>(systems_->GetGraphics());
 	const auto& target		= directX11->GetRenderTarget();
-	const auto& dev			= systems_->GetRenderer()->GetWrapper();
+	const auto& dev			= systems_->GetGraphics()->GetWrapper();
 
 	target->BeginMultiRendererTarget();
 	dev->BeginDrawObjectRenderer();
@@ -98,14 +98,14 @@ void ObjectRendererManager::FastDraw(void)
 		}
 	}
 
-	dev->EndDrawObjectRenderer();
+	dev->EndDrawRenderer();
 }
 
 void ObjectRendererManager::Draw(void)
 {	
-	const auto& directX11	= static_cast<DirectX11*>(systems_->GetRenderer());
+	const auto& directX11	= static_cast<DirectX11*>(systems_->GetGraphics());
 	const auto& target		= directX11->GetRenderTarget();
-	const auto& dev			= systems_->GetRenderer()->GetWrapper();
+	const auto& dev			= systems_->GetGraphics()->GetWrapper();
 
 	this->Sort();
 	dev->BeginDrawObjectRenderer();
@@ -139,13 +139,13 @@ void ObjectRendererManager::Draw(void)
 		}
 	}
 
-	dev->EndDrawObjectRenderer();
+	dev->EndDrawRenderer();
 	target->EndMultiRendererTarget();
 }
 
 void ObjectRendererManager::DrawShadow(void)
 {
-	const auto& graphics = systems_->GetRenderer();
+	const auto& graphics = systems_->GetGraphics();
 	const auto& dev = graphics->GetWrapper();
 
 	CascadeShadow* shader = static_cast<CascadeShadow*>(systems_->GetShader()->GetShader(Shader::ENUM::ZTEXTURE));
@@ -174,5 +174,5 @@ void ObjectRendererManager::DrawShadow(void)
 		shader->EndDraw();
 	}
 
-	dev->EndDrawObjectRenderer();
+	dev->EndDrawRenderer();
 }

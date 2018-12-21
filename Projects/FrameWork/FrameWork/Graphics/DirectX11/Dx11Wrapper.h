@@ -26,11 +26,9 @@ public:
 	uint	CreateIndexBuffer(const WORD* v, uint vnum)				override;
 	void	ReleaseBuffer(uint number, Wrapper::FVF fvf)			override;
 
-	void    BeginDrawCanvasRenderer(void) override;
-	void    EndDrawCanvasRenderer(void)   override;
-	
+	void    BeginDrawCanvasRenderer(void) override;	
 	void    BeginDrawObjectRenderer(void) override;
-	void    EndDrawObjectRenderer(void)   override;
+	void    EndDrawRenderer(void)   override;
 
 	void    SetTexture(int stage, int texNum = -1, int modelNum = -1) override;
 	void    Draw(const CanvasRenderer::Image* obj, const Shader* shader)	override;
@@ -42,9 +40,6 @@ public:
 	HRESULT LoadTexture(string fileName, int texNum, int modelNum = -1) override;
 	void    ReleaseTexture(int texNum, int modelNum = -1) override;
 	VECTOR2 GetTextureSize(int texNum)					  override { return texture_[0][texNum].size; }
-
-	MATRIX  CreateViewMatrix(VECTOR3 position, VECTOR3 at, VECTOR3 up) override;
-	MATRIX  CreateProjectionMatrix(int fov, float aspect, float cnear, float cfar) override;
 
 	HRESULT LoadModel(string fileName, int modelNum)			override;
 	HRESULT LoadModelAnimation(string fileName, int parent)		override;
@@ -120,8 +115,8 @@ private:
 	Dx11Wrapper(DirectX11* directX);
 	~Dx11Wrapper(void) {};
 
-	void Init(void)   override;
-	void Uninit(void) override;
+	HRESULT Init(void)   override;
+	void	Uninit(void) override;
 
 	uint InsideBuffer(void);
 	D3D11_PRIMITIVE_TOPOLOGY SelectPrimitiveType(PRIMITIVE::TYPE type);

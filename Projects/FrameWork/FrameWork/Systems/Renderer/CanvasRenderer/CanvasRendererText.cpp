@@ -23,7 +23,7 @@ void CanvasRenderer::Text::Init(byte priority, const string& s, int fontSize)
 	{
 		if (const auto& systems = manager_->GetSystems())
 		{
-			if (const auto& graphics = systems->GetRenderer())
+			if (const auto& graphics = systems->GetGraphics())
 			{
 				if (const auto& wrapper = graphics->GetWrapper())
 				{

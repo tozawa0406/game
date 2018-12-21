@@ -126,7 +126,7 @@ void CascadeManager::ComputeShadowMatrixPSSM(void)
 		// サイズを求める
 		float size = VecLength((maxi - mini));
 		// ライトの射影行列
-		MATRIX lightProj  = CreateOrthographic(size, size, nearFar[j], nearFar[j + 1]);
+		MATRIX lightProj = CreateOrthographic(size, size, nearFar[j], nearFar[j + 1]);
 		splitShadowMap_[j].z = nearFar[j + 1];
 
 		// ライトのビュー射影行列を求める

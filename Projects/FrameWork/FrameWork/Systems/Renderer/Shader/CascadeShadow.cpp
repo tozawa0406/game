@@ -64,7 +64,7 @@ HRESULT CascadeShadow::Init(void)
 		if (FAILED(Shader::Init())) { return E_FAIL; }
 	}
 
-	const auto& graphics = manager_->GetSystems()->GetRenderer();
+	const auto& graphics = manager_->GetSystems()->GetGraphics();
 	const auto& renderTarget = static_cast<Dx11RenderTarget*>(graphics->GetRenderTarget());
 
 	cascade_ = renderTarget->GetCascadeManager();
@@ -74,7 +74,7 @@ HRESULT CascadeShadow::Init(void)
 
 HRESULT CascadeShadow::BeginDraw(int i)
 {
-	const auto& graphics = manager_->GetSystems()->GetRenderer();
+	const auto& graphics = manager_->GetSystems()->GetGraphics();
 	const auto& renderTarget = static_cast<Dx11RenderTarget*>(graphics->GetRenderTarget());
 
 	renderTarget->BeginDrawShadow(i);
@@ -88,7 +88,7 @@ HRESULT CascadeShadow::SetParam(const MATRIX& mtx, const COLOR& color, VECTOR4 t
 	UNREFERENCED_PARAMETER(texcoord);
 	UNREFERENCED_PARAMETER(color);
 
-	const auto& dev = manager_->GetSystems()->GetRenderer()->GetWrapper();
+	const auto& dev = manager_->GetSystems()->GetGraphics()->GetWrapper();
 
 	const auto& systems = manager_->GetSystems();
 	const auto& window = systems->GetWindow();
@@ -115,9 +115,9 @@ HRESULT CascadeShadow::SetParam(const MATRIX& mtx, const COLOR& color, VECTOR4 t
 
 HRESULT CascadeShadow::EndDraw(void)
 {
-	manager_->GetSystems()->GetRenderer()->GetRenderTarget()->EndDrawShadow();
+	manager_->GetSystems()->GetGraphics()->GetRenderTarget()->EndDrawShadow();
 
-	const auto& directX11 = static_cast<DirectX11*>(Systems::Instance()->GetRenderer());
+	const auto& directX11 = static_cast<DirectX11*>(Systems::Instance()->GetGraphics());
 	const auto& context = directX11->GetDeviceContext();
 	const auto& wrapper = static_cast<Dx11Wrapper*>(directX11->GetWrapper());
 

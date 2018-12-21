@@ -1,9 +1,9 @@
-//-----------------------------------------------------------------------------
-//
-//	Graphics毎に依存した処理[Wrapper.h]
-//	Auther : 戸澤翔太
-//																	2018/08/18
-//-----------------------------------------------------------------------------
+/*
+ * @file		Wrapper.h
+ * @brief		グラフィックスAPIの描画処理
+ * @author		戸澤翔太
+ * @data		2018/08/18
+ */
 #ifndef _WRAPPER_H_
 #define _WRAPPER_H_
 
@@ -18,23 +18,21 @@ struct ColliderRenderer;
 struct LightInfo;
 class Shader;
 class Font;
-//-----------------------------------------------------------------------------
-//	クラス定義
-//-----------------------------------------------------------------------------
+
 class Wrapper
 {
 protected:
-	MATRIX inverse_;		// viewの逆行列
+	MATRIX inverse_;		//! viewの逆行列
 
 public:	
-	static constexpr uint R_ERROR = UINT_MAX;		// エラー値
-	static constexpr uint S_NULL = UINT_MAX - 1;
+	static constexpr uint R_ERROR = UINT_MAX;		//! エラー値
+	static constexpr uint S_NULL  = UINT_MAX - 1;	//! 初期化時の値
 
-	// プリミティブの値
+	//! プリミティブの値
 	class PRIMITIVE
 	{
 	public:
-		// プリミティブの種類
+		//! @enum	プリミティブの種類
 		enum class TYPE
 		{
 			POINT = 0,
@@ -44,19 +42,19 @@ public:
 			TRIANGLE_STRIP,
 			TRIANGLE_FAN,
 		};
-		// 頂点数
+		//! 頂点数
 		class V
 		{
 		public:
-			static constexpr int CIRCUMFERENCE		= 100;          // 円周
-			static constexpr int POINT				= 1;			// 点
-			static constexpr int LINE				= 2;			// 線
-			static constexpr int RECT				= 5;			// 四角(くり抜き)
-			static constexpr int FILL_TRIANG		= 3;			// 三角
-			static constexpr int FILL_RECT			= 4;			// 四角
-			static constexpr int FILL_CIRCLE		= 102;			// 円
+			static constexpr int CIRCUMFERENCE		= 100;          //! 円周
+			static constexpr int POINT				= 1;			//! 点
+			static constexpr int LINE				= 2;			//! 線
+			static constexpr int RECT				= 5;			//! 四角(くり抜き)
+			static constexpr int FILL_TRIANG		= 3;			//! 三角
+			static constexpr int FILL_RECT			= 4;			//! 四角
+			static constexpr int FILL_CIRCLE		= 102;			//! 円
 
-			// 当たり判定描画に使用
+			//! 当たり判定描画に使用
 			static constexpr int COLLIDER_RECTANGLE = 5;
 			static constexpr int COLLIDER_CIRCLE	= CIRCUMFERENCE + 1;
 			static constexpr int COLLIDER_SEGMENT	= 2;
@@ -64,7 +62,7 @@ public:
 		};
 	};
 
-	// FVF
+	//! @enum	FVF
 	enum class FVF
 	{
 		VERTEX_2D = 0,
@@ -72,7 +70,7 @@ public:
 		VERTEX_POINT,
 		INDEX,
 	};
-	// アルファブレンド
+	//! @enum	アルファブレンド
 	enum class ALFA_BREND
 	{
 		DEF = 0,
@@ -80,88 +78,89 @@ public:
 		MAX
 	};
 
-	// テクスチャ情報
+	//! テクスチャ情報
 	struct TextureData
 	{
 		VECTOR2 size;
 	};
 
-	// コンストラクタ
+	/* @brief	コンストラクタ		*/
 	Wrapper(void) : font_(nullptr) { inverse_.Identity(); }
-	// デストラクタ
+	/* @brief	デストラクタ		*/
 	virtual ~Wrapper(void) {}
 
-	virtual void Init(void)   {}		// 初期化処理
-	virtual void Uninit(void) {}		// 後処理
+	/* @brief	初期化処理			*/
+	virtual HRESULT Init(void) = 0;
+	/* @brief	後処理				*/
+	virtual void	Uninit(void) {}
 
-	// 頂点バッファ生成
+	/* @brief	頂点バッファの作成処理			*/
 	virtual uint    CreateVertexBuffer(const void* v, uint size, uint vnum) = 0;
-	// インデックスバッファ生成
+	/* @brief	インデックスバッファの作成処理	*/
 	virtual uint    CreateIndexBuffer(const WORD* v, uint vnum)		 = 0;
-	// バッファの解放(頂点バッファ、インデックスバッファの判定は第二引数のFVF)
+	/* @brief	バッファの解放					*/
 	virtual void    ReleaseBuffer(uint number, FVF fvf)    = 0;
 
-	// 2D描画の開始
-	virtual void    BeginDrawCanvasRenderer(void) = 0;
-	// 2D描画の終了
-	virtual void    EndDrawCanvasRenderer(void)   = 0;
+	/* @brief	2D描画の開始処理				*/
+	virtual void    BeginDrawCanvasRenderer(void)	= 0;
+	/* @brief	3D描画の開始処理				*/
+	virtual void    BeginDrawObjectRenderer(void)	= 0;
+	/* @brief	描画の終了処理					*/
+	virtual void    EndDrawRenderer(void)			= 0;
 
-	// 3D描画の開始
-	virtual void    BeginDrawObjectRenderer(void) = 0;
-	// 3D描画の終了
-	virtual void    EndDrawObjectRenderer(void)   = 0;
-
-	// 描画テクスチャのセット
+	/* @brief	テクスチャの設定処理			*/
 	virtual void    SetTexture(int stage, int texNum = -1, int modelNum = -1) = 0;
 
-	// 描画処理
+	/* @brief	2D描画処理						*/
 	virtual void    Draw(const CanvasRenderer::Image*   obj, const Shader* shader) = 0;
+	/* @brief	板ポリゴン描画処理				*/
 	virtual void    Draw(const SpriteRenderer*   obj, const Shader* shader) = 0;
+	/* @brief	モデル描画処理					*/
 	virtual void    Draw(MeshRenderer*     obj, const Shader* shader) = 0;
+	/* @brief	パーティクル描画処理			*/
 	virtual void	Draw(const Particle*	     obj, const Shader* shader) = 0;
+	/* @brief	当たり判定描画処理				*/
 	virtual void    Draw(const ColliderRenderer* obj) = 0;
 
+	/* @brief	矩形描画処理					*/
 	virtual void DrawQuad(VECTOR2 position, VECTOR2 size, COLOR color = COLOR(1, 1, 1, 1)) = 0;
 
-	// テクスチャのロード
+	/* @brief	テクスチャの読み込み			*/
 	virtual HRESULT LoadTexture(string fileName, int texNum, int modelNum = -1) = 0;
-	// テクスチャの解放
+	/* @brief	テクスチャの解放				*/
 	virtual void    ReleaseTexture(int texNum, int modelNum = -1) = 0;
-	// テクスチャサイズの取得
+	/* @brief	テクスチャのサイズ取得			*/
 	virtual VECTOR2 GetTextureSize(int texNum) = 0;
 
-	// モデルの読み込み
+	/* @brief	モデルの読み込み				*/
 	virtual HRESULT LoadModel(string fileName, int modelNum) = 0;
-	// モデルアニメーションの読み込み
+	/* @brief	モデルアニメーションの読み込み	*/
 	virtual HRESULT LoadModelAnimation(string fileName, int parent) = 0;
-	// モデルの解放
+	/* @brief	モデルの解放					*/
 	virtual void    ReleaseModel(int modelNum) = 0;
 
-	// view行列の生成
-	virtual MATRIX  CreateViewMatrix(VECTOR3 position, VECTOR3 at, VECTOR3 up) = 0;
-	// projection行列の生成
-	virtual MATRIX  CreateProjectionMatrix(int fov, float aspect, float cnear, float cfar) = 0;
-
-	// 頂点シェーダーの生成
+	/* @brief	頂点シェーダーの作成			*/
 	virtual uint	CreateVertexShader(string fileName, string method, string version, void* t = nullptr, uint elemNum = 0) = 0;
-	// 頂点シェーダーのセット
+	/* @brief	頂点シェーダーの設定			*/
 	virtual HRESULT	SetVertexShader(uint number)		= 0;
-	// 頂点シェーダーの解放
+	/* @brief	頂点シェーダーの解放			*/
 	virtual void	ReleaseVertesShader(uint number)	= 0;
 
-	// ピクセルシェーダーの生成
+	/* @brief	ピクセルシェーダーの作成		*/
 	virtual uint	CreatePixelShader(string fileName, string method, string version) = 0;
-	// ピクセルシェーダーのセット
+	/* @brief	ピクセルシェーダーの設定		*/
 	virtual HRESULT	SetPixelShader(uint number)		= 0;
-	// ピクセルシェーダーの解放
+	/* @brief	ピクセルシェーダーの解放		*/
 	virtual void	ReleasePixelShader(uint number) = 0;
 
-	// ライトの設定
+	/* @brief	ライトの設定					*/
 	virtual void SetLight(LightInfo& light) = 0;
 
-	Font* GetFont(void) { return font_; }
+	/* @brief	文字描画クラスの取得			*/
+	inline Font* GetFont(void) { return font_; }
 
 protected:
+	//! 文字描画クラス
 	Font* font_;
 };
 

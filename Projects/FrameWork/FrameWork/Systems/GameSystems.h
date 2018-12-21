@@ -58,7 +58,7 @@ class Systems
 	static Systems* system_;
 public:
 	static Systems* Instance(void)		{ return system_;   }
-	Graphics*       GetRenderer(void)	{ return graphics_; }
+	Graphics*       GetGraphics(void)	{ return graphics_; }
 	Windows*        GetWindow(void)		{ return window_;   }
 
 	SceneManager*			 GetSceneManager(void)				{ return (SceneManager*)			manager_[(int)SystemsNum::SCENE];          }

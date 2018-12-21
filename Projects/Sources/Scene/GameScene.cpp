@@ -15,8 +15,7 @@
 #include "../Object/StaticObject/PaidGoodsBox.h"
 #include "../Object/StaticObject/WallA.h"
 
-/* @brief	コンストラクタ			*/
-GameScene::GameScene(SceneManager* manager) : BaseScene(manager), GUI(manager->GetSystems(), nullptr, "SceneGame")
+GameScene::GameScene(void) : GUI(Systems::Instance(), nullptr, "SceneGame")
 	, objectManager_(nullptr)
 	, sky_(nullptr)
 	, meshField_(nullptr)
@@ -24,14 +23,10 @@ GameScene::GameScene(SceneManager* manager) : BaseScene(manager), GUI(manager->G
 {
 }
 
-/* @brief	デストラクタ			*/
 GameScene::~GameScene(void)
 {
 }
 
-/* @brief	初期化処理
- * @param	なし
- * @return	なし					*/
 void GameScene::Init(void)
 {
 	light_		= new Light(systems_);
@@ -63,9 +58,6 @@ void GameScene::Init(void)
 	//	systems_->GetSound()->Play((int)Sound::Game::BGM_GAME);
 }
 
-/* @brief	後処理
- * @param	なし
- * @return	なし					*/
 void GameScene::Uninit(void)
 {
 	systems_->GetSound()->Stop((int)Sound::Game::BGM_GAME);
@@ -76,9 +68,6 @@ void GameScene::Uninit(void)
 	DeletePtr(light_);
 }
 
-/* @brief	更新処理
- * @param	なし
- * @return	シーン遷移番号			*/
 SceneList GameScene::Update(void)
 {
 	if (sky_) { sky_->Update(); }

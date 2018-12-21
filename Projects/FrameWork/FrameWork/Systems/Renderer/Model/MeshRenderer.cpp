@@ -31,7 +31,7 @@ void MeshRenderer::Init(Systems* systems, int modelNum, const Transform* transfo
 	modelNum_ = modelNum;
 	shader = Shader::ENUM::DEFAULT;
 
-	const auto& model = ((Dx11Wrapper*)systems->GetRenderer()->GetWrapper())->GetModel(modelNum);
+	const auto& model = ((Dx11Wrapper*)systems->GetGraphics()->GetWrapper())->GetModel(modelNum);
 	animationMax_.clear();
 	if(model.bone.size() > 0)
 	{
@@ -103,7 +103,7 @@ void MeshRenderer::Skinning(void)
 //	if (isSkinning_) { return; }
 	isSkinning_ = true;
 
-	Dx11Wrapper* dx11 = ((Dx11Wrapper*)systems_->GetRenderer()->GetWrapper());
+	Dx11Wrapper* dx11 = ((Dx11Wrapper*)systems_->GetGraphics()->GetWrapper());
 	const auto& context = dx11->GetContext();
 	auto& model = dx11->GetModel(modelNum_);
 

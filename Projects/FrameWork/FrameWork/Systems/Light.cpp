@@ -54,7 +54,7 @@ void Light::Update(void)
 
 void Light::SetLight(void)
 {
-	systems_->GetRenderer()->GetWrapper()->SetLight(light_);
+	systems_->GetGraphics()->GetWrapper()->SetLight(light_);
 }
 
 void Light::GuiUpdate(void)

@@ -50,7 +50,7 @@ HRESULT CircleGaugeShader::SetParam(const MATRIX& mtx, const COLOR& color, VECTO
 	UNREFERENCED_PARAMETER(texcoord);
 
 	const auto& systems = manager_->GetSystems();
-	const auto& dev = systems->GetRenderer()->GetWrapper();
+	const auto& dev = systems->GetGraphics()->GetWrapper();
 	const auto& window = systems->GetWindow();
 	const auto& type = window->GetGraphicsType();
 	if (type == Graphics::Type::DirectX9)

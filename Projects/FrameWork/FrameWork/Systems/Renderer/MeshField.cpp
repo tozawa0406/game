@@ -105,7 +105,7 @@ void MeshField::CreateVertex(int num)
 		}
 	}
 
-	vertexBuffer_ = systems_->GetRenderer()->GetWrapper()->CreateVertexBuffer(&outputVertex_[0], sizeof(outputVertex_[0]), num);
+	vertexBuffer_ = systems_->GetGraphics()->GetWrapper()->CreateVertexBuffer(&outputVertex_[0], sizeof(outputVertex_[0]), num);
 }
 
 void MeshField::CreateIndex(int num)
@@ -142,7 +142,7 @@ void MeshField::CreateIndex(int num)
 			}
 		}
 	}
-	indexBuffer_ = systems_->GetRenderer()->GetWrapper()->CreateIndexBuffer(&outputIndex_[0], num);
+	indexBuffer_ = systems_->GetGraphics()->GetWrapper()->CreateIndexBuffer(&outputIndex_[0], num);
 }
 
 void MeshField::GuiUpdate(void)

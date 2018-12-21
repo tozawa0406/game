@@ -33,7 +33,7 @@ public:
 	/* @brief	使用状況確認			*/
 	inline bool			GetEnable(void)			const  { return enable_;		}
 	/* @brief	描画タイプ確認			*/
-	inline RendererType GetRendererTypr(void)	const { return rendererType_;	}
+	inline RendererType GetGraphicsTypr(void)	const { return rendererType_;	}
 
 	/* @brief	使用状況設定			*/
 	inline void SetEnable(bool enable) { enable_ = enable;	}

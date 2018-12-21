@@ -145,10 +145,9 @@ void CameraManager::CreateMatrix(void)
 	if (main == nullptr) { return; }
 
 	// ビュー変換
-	const auto& dev = parent_->GetSystems()->GetRenderer()->GetWrapper();
-	mtxView_ = dev->CreateViewMatrix(main->GetPos(), main->GetAt(), main->GetUp());
+	mtxView_ = CreateViewMatrix(main->GetPos(), main->GetAt(), main->GetUp());
 	//プロジェクション行列の作成
-	mtxProj_ = dev->CreateProjectionMatrix(Camera::FOV, (float)Graphics::WIDTH / Graphics::HEIGHT, Camera::C_NEAR, Camera::C_FAR);
+	mtxProj_ = CreateProjectionMatrix(Camera::FOV, (float)Graphics::WIDTH / Graphics::HEIGHT, Camera::C_NEAR, Camera::C_FAR);
 }
 
 // 追従カメラの作成

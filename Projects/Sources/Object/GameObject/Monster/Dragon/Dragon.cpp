@@ -240,7 +240,7 @@ void Dragon::CreateCollision(void)
 {
 	if (const auto& systems = Systems::Instance())
 	{
-		if (const auto& renderer = systems->GetRenderer())
+		if (const auto& renderer = systems->GetGraphics())
 		{
 			if (Dx11Wrapper* wrapper = static_cast<Dx11Wrapper*>(renderer->GetWrapper()))
 			{

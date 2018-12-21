@@ -8,13 +8,33 @@
 #include "../Systems/GameSystems.h"
 #include "SceneManager.h"
 
-BaseScene::BaseScene(SceneManager* manager)
+BaseScene::BaseScene(void) : 
+	manager_(nullptr)
+	, systems_(nullptr)
+{
+}
+
+BaseScene::~BaseScene(void)
+{
+}
+
+void BaseScene::SetManager(SceneManager* manager)
 {
 	manager_ = manager;
-	systems_ = manager->GetSystems();
+	if (manager)
+	{
+		systems_ = manager->GetSystems();
+	}
 }
 
 Controller* BaseScene::GetCtrl(int i)
 {
-	return systems_->GetInput()->GetCtrl(i);
+	if (systems_)
+	{
+		if (const auto& input = systems_->GetInput())
+		{
+			return input->GetCtrl(i);
+		}
+	}
+	return nullptr;
 }

@@ -17,18 +17,31 @@
 
 #include <FrameWork/Object/ObjectManager.h>
 
-//-----------------------------------------------------------------------------
-//	クラス宣言
-//-----------------------------------------------------------------------------
 class Light;
 class GameScene : public BaseScene, public GUI
 {
 public:
-	GameScene(SceneManager* manager);
+	/* @brief	コンストラクタ		*/
+	GameScene(void);
+	/* @brief	デストラクタ		*/
 	~GameScene(void);
 
+
+
+	/* @brief	初期化処理
+	 * @param	なし
+	 * @return	なし				*/
 	void Init(void)   override;
+	
+	/* @brief	後処理
+	 * @param	なし
+	 * @return	なし					*/
 	void Uninit(void) override;
+	
+	/* @brief	更新処理
+	 * @param	なし
+	 * @return	シーン遷移番号			*/
+	SceneList Update(void) override;
 
 	/* @brief	フィールド取得関数
 	 * @return	フィールドのポインタ		*/
@@ -38,8 +51,6 @@ public:
 	Light*			GetLight(void)			{ return light_;     }
 
 private:
-	SceneList Update(void) override;
-
 	//! オブジェクトのマネージャー
 	ObjectManager*	objectManager_;
 

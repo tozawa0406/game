@@ -25,12 +25,33 @@ class BaseScene;
 class EachScene
 {
 public:
+	/* @brief	コンストラクタ		*/
 	EachScene(void);
+	/* @brief	デストラクタ		*/
 	~EachScene(void);
 
+
+
+	/* @brief	シーン管理の変数の値を変更する
+	 * @param	(sceneChange)	シーン遷移フラグ
+	 * @param	(sceneNum)		シーン管理番号
+	 * @return	なし					*/
 	void		ChangeScene(SceneList sceneChange, SceneList& sceneNum);
+
+		/* @brief	ポーズ終了時のコマンド
+	 * @param	(returnPause)		ポーズの返り値
+	 * @return	他のシーンに移る場合は0以外				*/
 	int 		ChangePause(int returnPause);
+
+	/* @brief	シーンのnew処理
+	 * @param	(sceneNum)		シーン管理番号
+	 * @return	シーン番号に応じたシーンのnew処理		*/
 	BaseScene*  CreateScene(SceneManager* manager, SceneList sceneNum);
+	
+	/* @fn		CreatePause
+	 * @brief	ポーズシーンのnew処理
+	 * @param	(sceneNum)		シーン管理番号
+	 * @return	ポーズのnew処理、使わない場合はnullptr		*/
 	BaseScene*	CreatePause(SceneManager* manager, SceneList sceneNum);
 };
 

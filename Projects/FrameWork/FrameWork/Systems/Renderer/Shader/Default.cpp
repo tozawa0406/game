@@ -62,7 +62,7 @@ HRESULT DefaultShader::Init(void)
 HRESULT DefaultShader::SetParam(const MATRIX& mtx, const COLOR& color, VECTOR4 texcoord) const
 {
 	const auto& systems = manager_->GetSystems();
-	const auto& dev = systems->GetRenderer()->GetWrapper();
+	const auto& dev = systems->GetGraphics()->GetWrapper();
 	const auto& window = systems->GetWindow();
 	const auto& type = window->GetGraphicsType();
 	if (type == Graphics::Type::DirectX9)
