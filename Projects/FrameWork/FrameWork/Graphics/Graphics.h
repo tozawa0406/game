@@ -42,6 +42,9 @@ public:
 	/* @brief	後処理		*/
 	virtual void	Uninit(void) = 0;
 
+	/* @brief	Guiの更新処理		*/
+	virtual void GuiUpdate(void) {}
+
 protected:
 	/* @brief	コンストラクタ		*/
 	Graphics(void) : window_(nullptr) {}

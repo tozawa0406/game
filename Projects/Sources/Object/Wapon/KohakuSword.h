@@ -12,17 +12,42 @@
 class KohakuSword : public Wapon, public GUI
 {
 public:
+	/* @brief	コンストラクタ		*/
 	KohakuSword(void);
+	/* @brief	デストラクタ		*/
 	~KohakuSword(void);
 
-	void Init(void)   override;
-	void Uninit(void) override;
-	void Update(void) override;
 
+
+	/* @brief	初期化処理
+	 * @param	なし
+	 * @return	なし	　			*/
+	void Init(void)   override;
+	
+	/* @brief	後処理
+	 * @param	なし
+	 * @return	なし				*/
+	void Uninit(void) override;
+	
+	/* @brief	更新処理
+	 * @param	なし
+	 * @return	なし				*/
+	void Update(void) override;
+	
+	/* @brief	Guiの更新処理
+	 * @param	なし
+	 * @return	なし				*/
 	void GuiUpdate(void) override;
 
 private:
+	/* @brief	納刀処理
+	 * @param	なし
+	 * @return	なし				*/
 	void PaidSword(void)  override;
+
+	/* @brief	抜刀処理
+	　* @param	なし
+	　* @return	なし				*/
 	void DrawnSword(void) override;
 
 	bool debug_hit_;		//! デバッグ用

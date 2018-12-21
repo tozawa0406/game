@@ -13,10 +13,21 @@
 class PaidGoodsBox : public Object
 {
 public:
+	/* @brief	コンストラクタ		*/
 	PaidGoodsBox(void);
+	/* @brief	デストラクタ		*/
 	~PaidGoodsBox(void);
 
+
+	
+	/* @brief	初期化処理
+	 * @param	なし
+	 * @return	なし				*/
 	void Init(void) override;
+	
+	/* @brief	後処理
+	 * @param	なし
+	 * @return	なし						*/
 	void Uninit(void) override;
 
 	/* @brief	更新処理(動かないためなし)		*/

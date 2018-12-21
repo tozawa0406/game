@@ -283,6 +283,41 @@ void Dx11RenderTarget::EndMultiRendererTarget(void)
 	wrapper->DrawQuad(VECTOR2((float)Half(Graphics::WIDTH), (float)Half(Graphics::HEIGHT)), VECTOR2((float)Windows::WIDTH, (float)Windows::HEIGHT));
 }
 
+/* @brief	シャドウマップの描画開始
+ * @param	なし
+ * @return	なし						*/
+void Dx11RenderTarget::BeginDrawShadow(int i)
+{
+	const auto& context = directX11_->GetDeviceContext();
+	if (!context) { return; }
+
+	if (i == 0) { cascade_->ComputeShadowMatrixPSSM(); }
+
+	ID3D11RenderTargetView* pRTV = nullptr;
+	context->OMSetRenderTargets(1, &pRTV, shadowState_.pDSV[i]);
+
+	context->ClearDepthStencilView(shadowState_.pDSV[i], D3D11_CLEAR_DEPTH, 1.0f, 0);
+
+	context->RSSetViewports(1, &shadowState_.viewport);
+}
+
+/* @brief	シャドウマップの描画終了
+ * @param	なし
+ * @return	なし						*/
+void Dx11RenderTarget::EndDrawShadow(void)
+{
+	const auto& context = directX11_->GetDeviceContext();
+	if (!context) { return; }
+
+	ID3D11RenderTargetView * nullRTV = nullptr;
+	context->OMSetRenderTargets(1, &nullRTV, 0);
+	context->RSSetViewports(1, &directX11_->GetViewport());
+	context->OMSetRenderTargets(1, &renderTargetView_[static_cast<int>(List::DEFAULT)], depthStencilView_);
+
+	context->PSSetSamplers(3, 1, &shadowState_.pSmp);	
+	context->PSSetShaderResources(3, 4, shadowState_.pDepthSRV);
+}
+
 /* @brief	レンダーターゲットの描画
  * @param	(num)	レンダーターゲットの種類
  * @return	なし						*/
@@ -355,37 +390,15 @@ void Dx11RenderTarget::CreateScreenshot(const string& filename)
 	DirectX::CreateWICTextureFromFile(directX11_->GetDevice(), name.c_str(), &descOriginal, &shaderResourceView_[n]);
 }
 
-/* @brief	シャドウマップの描画開始
- * @param	なし
- * @return	なし						*/
-void Dx11RenderTarget::BeginDrawShadow(int i)
+void Dx11RenderTarget::GuiUpdate(void)
 {
-	const auto& context = directX11_->GetDeviceContext();
-	if (!context) { return; }
+	if (cascade_) { cascade_->GuiUpdate(); }
 
-	if (i == 0) { cascade_->ComputeShadowMatrixPSSM(); }
-
-	ID3D11RenderTargetView* pRTV = nullptr;
-	context->OMSetRenderTargets(1, &pRTV, shadowState_.pDSV[i]);
-
-	context->ClearDepthStencilView(shadowState_.pDSV[i], D3D11_CLEAR_DEPTH, 1.0f, 0);
-
-	context->RSSetViewports(1, &shadowState_.viewport);
-}
-
-/* @brief	シャドウマップの描画終了
- * @param	なし
- * @return	なし						*/
-void Dx11RenderTarget::EndDrawShadow(void)
-{
-	const auto& context = directX11_->GetDeviceContext();
-	if (!context) { return; }
-
-	ID3D11RenderTargetView * nullRTV = nullptr;
-	context->OMSetRenderTargets(1, &nullRTV, 0);
-	context->RSSetViewports(1, &directX11_->GetViewport());
-	context->OMSetRenderTargets(1, &renderTargetView_[static_cast<int>(List::DEFAULT)], depthStencilView_);
-
-	context->PSSetSamplers(3, 1, &shadowState_.pSmp);	
-	context->PSSetShaderResources(3, 4, shadowState_.pDepthSRV);
+	if (ImGui::Button("def")) { SetDebugDraw(RenderTarget::List::MAX); }
+	ImGui::SameLine();
+	if (ImGui::Button("clr")) { SetDebugDraw(RenderTarget::List::COLOR); }
+	ImGui::SameLine();
+	if (ImGui::Button("pos")) { SetDebugDraw(RenderTarget::List::POSITION); }
+	ImGui::SameLine();
+	if (ImGui::Button("nrm")) { SetDebugDraw(RenderTarget::List::NORMAL); }
 }

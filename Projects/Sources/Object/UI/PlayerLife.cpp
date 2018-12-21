@@ -23,7 +23,7 @@ static const	 float ONE_LIFE  = SIZE_BAR.x / 150;
 static const     float ONE_RANGE = 355.0f / 150.0f;
 
 /* @brief	コンストラクタ			*/
-PlayerLife::PlayerLife(void) : Object(Object::Tag::UI)
+PlayerLife::PlayerLife(void) : Object(ObjectTag::UI)
 	, player_(nullptr)
 {
 }

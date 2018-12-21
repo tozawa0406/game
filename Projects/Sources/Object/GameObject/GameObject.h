@@ -21,7 +21,7 @@ struct MESH_ANIMATION
 class GameObject : public Object
 {
 public:
-	GameObject(Object::Tag tag);
+	GameObject(ObjectTag tag);
 	virtual ~GameObject(void);
 
 	virtual void Hit(int damage) = 0;

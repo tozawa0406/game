@@ -2,6 +2,7 @@
 #define _CASCADE_MANAGER_H_
 
 #include "../../Define/Define.h"
+#include "../../Systems/DebugSetting/GUI.h"
 
 class Camera;
 struct BOX

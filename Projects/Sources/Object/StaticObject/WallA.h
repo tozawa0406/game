@@ -14,10 +14,23 @@ class WallA : public Object
 {
 	static constexpr int MESH_NUM = 2;
 public:
+	/* @brief	コンストラクタ
+	 * @param	(position)		初期位置
+	 * @param	(rotation)		初期回転角		*/
 	WallA(const VECTOR3& position, const VECTOR3& rotation);
+	/* @brief	デストラクタ		*/
 	~WallA(void);
+	
 
+
+	/* @brief	初期化処理
+	 * @param	なし
+	 * @return	なし				*/
 	void Init(void) override;
+	
+	/* @brief	後処理
+	 * @param	なし
+	 * @return	なし				*/
 	void Uninit(void) override;
 
 	/* @brief	更新処理(動かないためなし)		*/

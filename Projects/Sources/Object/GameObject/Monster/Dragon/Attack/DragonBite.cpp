@@ -135,7 +135,7 @@ bool DragonBite::Update(void)
 	const auto& hits = collider_->Hit();
 	for (auto& hit : hits)
 	{
-		if (hit->GetTag() == Object::Tag::PLAYER)
+		if (hit->GetTag() == ObjectTag::PLAYER)
 		{
 			static_cast<GameObject*>(hit)->Hit(30);
 		}

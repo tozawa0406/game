@@ -117,21 +117,17 @@ void GuiManager::GuiUpdate(void)
 		return;
 	}
 
-	if (const auto& graphics = window->GetGraphics())
+	const auto& graphics = window->GetGraphics();
+	if (!graphics) { return; }
+	graphics->GuiUpdate();
+	if (const auto& wrapper = graphics->GetWrapper())
 	{
-		if (const auto& target = graphics->GetRenderTarget())
-		{
-			if (ImGui::Button("def")) { target->SetDebugDraw(RenderTarget::List::MAX); }
-			ImGui::SameLine();
-			if (ImGui::Button("clr")) { target->SetDebugDraw(RenderTarget::List::COLOR); }
-			ImGui::SameLine();
-			if (ImGui::Button("pos")) { target->SetDebugDraw(RenderTarget::List::POSITION); }
-			ImGui::SameLine();
-			if (ImGui::Button("nrm")) { target->SetDebugDraw(RenderTarget::List::NORMAL); }
-		}
+		wrapper->GuiUpdate();
 	}
-
-
+	if (const auto& target = graphics->GetRenderTarget())
+	{
+		target->GuiUpdate();
+	}
 
 	if (ImGui::BeginMenu("Menu"))
 	{
@@ -336,30 +332,24 @@ void GuiManager::Draw(void)
 	if (draw_) { return; }
 	draw_ = true;
 
-	if (debug_)
-	{
-		if (const auto& systems = debug_->GetSystems())
-		{
-			if (const auto& window = systems->GetWindow())
-			{
-				if (const auto& graphics = window->GetGraphics())
-				{
-					if (const auto& target = graphics->GetRenderTarget())
-					{
-						VECTOR2 size = VECTOR2(RenderTarget::SIZE_X, RenderTarget::SIZE_Y);
-						VECTOR2 pos  = VECTOR2(Half(size.x) + 450, Half(size.y) + 50);
+	if (!systems_) { return; }
+	const auto& window = systems_->GetWindow();
+	if (!window) { return; }
 
-						target->Draw(RenderTarget::List::COLOR	 , VECTOR2(pos.x + (size.x * 0), pos.y + (size.y * 0)), size);
-						target->Draw(RenderTarget::List::POSITION, VECTOR2(pos.x + (size.x * 1), pos.y + (size.y * 0)), size);
-						target->Draw(RenderTarget::List::NORMAL	 , VECTOR2(pos.x + (size.x * 0), pos.y + (size.y * 1)), size);
-						target->DrawShadowMap();
-					}
-				}
-			}
+	if (const auto& graphics = window->GetGraphics())
+	{
+		if (const auto& target = graphics->GetRenderTarget())
+		{
+			VECTOR2 size = VECTOR2(RenderTarget::SIZE_X, RenderTarget::SIZE_Y);
+			VECTOR2 pos  = VECTOR2(Half(size.x) + 450, Half(size.y) + 50);
+
+			target->Draw(RenderTarget::List::COLOR	 , VECTOR2(pos.x + (size.x * 0), pos.y + (size.y * 0)), size);
+			target->Draw(RenderTarget::List::POSITION, VECTOR2(pos.x + (size.x * 1), pos.y + (size.y * 0)), size);
+			target->Draw(RenderTarget::List::NORMAL	 , VECTOR2(pos.x + (size.x * 0), pos.y + (size.y * 1)), size);
+			target->DrawShadowMap();
 		}
 	}
 
-	const auto& window = systems_->GetWindow();
 	const auto& type = window->GetGraphicsType();
 	if (type == Graphics::Type::DirectX9 ||
 		type == Graphics::Type::DirectX11)

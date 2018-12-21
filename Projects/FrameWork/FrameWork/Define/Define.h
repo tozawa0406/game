@@ -29,6 +29,7 @@ namespace Define
 	static const string ResourceDirectoryName = "./Resource/";
 };
 
+typedef char int8;
 typedef unsigned char uint8;
 typedef unsigned int  uint;
 

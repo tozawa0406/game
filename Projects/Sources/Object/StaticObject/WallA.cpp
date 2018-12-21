@@ -15,22 +15,17 @@ static const VECTOR3 COLLIDER_OFFSET = VECTOR3(0, 0, 10);
 //! @def	当たり判定の法線
 static const VECTOR3 COLLIDER_NORMAL = VECTOR3(0, 0, 1);
 
-/* @brief	コンストラクタ			*/
-WallA::WallA(const VECTOR3& position, const VECTOR3& rotation) : Object(Object::Tag::STATIC)
+WallA::WallA(const VECTOR3& position, const VECTOR3& rotation) : Object(ObjectTag::STATIC)
 	, collider_(nullptr)
 {
 	transform_ = Transform(position, rotation, SCALE);
 	for (auto& t : transformMesh_) { t = Transform(VECTOR3(0), VECTOR3(0), VECTOR3(1)); }
 }
 
-/* @brief	デストラクタ			*/
 WallA::~WallA(void)
 {
 }
 
-/* @brief	初期化処理
- * @param	なし
- * @return	なし					*/
 void WallA::Init(void)
 {
 	transformMesh_[0].position.x = -ADJUST_MESH_POSITION;
@@ -51,9 +46,6 @@ void WallA::Init(void)
 	}
 }
 
-/* @brief	後処理
- * @param	なし
- * @return	なし					*/
 void WallA::Uninit(void)
 {
 	DeletePtr(collider_);

@@ -286,5 +286,8 @@
     <ClInclude Include="Sources\Object\StaticObject\WallA.h">
       <Filter>Source\Object\StaticObject</Filter>
     </ClInclude>
+    <ClInclude Include="Sources\Object\ObjectTag.h">
+      <Filter>Source\Object</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

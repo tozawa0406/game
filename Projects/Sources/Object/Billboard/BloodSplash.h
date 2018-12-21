@@ -14,11 +14,28 @@
 class BloodSplash : public Object
 {
 public:
+	/* @brief	コンストラクタ
+	 * @param	(position)		初期位置
+	 * @param	(rotation)		初期回転角		*/
 	BloodSplash(VECTOR3 position, float rotation);
+	/* @brief	デストラクタ		*/
 	~BloodSplash(void);
 
+
+	
+	/* @brief	初期化処理
+	 * @param	なし
+	 * @return	なし				*/
 	void Init(void)   override;
+	
+	/* @brief	後処理
+	 * @param	なし
+	 * @return	なし				*/
 	void Uninit(void) override;
+	
+	/* @brief	後処理
+	 * @param	なし
+	 * @return	なし				*/
 	void Update(void) override;
 
 private:

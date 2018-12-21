@@ -13,20 +13,15 @@ static const VECTOR3 DRAWN_POSITION = VECTOR3(6, 0, 0);
 //! @def	抜刀回転
 static const VECTOR3 DRAWN_ROTATION = VECTOR3(-1.2f, 1.35f, 3.14f);
 
-/* @brief	コンストラクタ			*/
 KohakuSword::KohakuSword(void) : GUI(Systems::Instance(), this, "Sword")
 	, debug_hit_(false)
 {
 }
 
-/* @brief	デストラクタ			*/
 KohakuSword::~KohakuSword(void)
 {
 }
 
-/* @brief	初期化処理
- * @param	なし
- * @return	なし	　				*/
 void KohakuSword::Init(void)
 {
 	// メッシュ
@@ -43,17 +38,11 @@ void KohakuSword::Init(void)
 	}
 }
 
-/* @brief	後処理
- * @param	なし
- * @return	なし					*/
 void KohakuSword::Uninit(void)
 {
 	DeletePtr(collider_);
 }
 
-/* @brief	更新処理
- * @param	なし
- * @return	なし					*/
 void KohakuSword::Update(void)
 {
 	if (collider_)
@@ -63,7 +52,7 @@ void KohakuSword::Update(void)
 
 		for (auto& o : object)
 		{
-			if (o->GetTag() == Object::Tag::ENEMY)
+			if (o->GetTag() == ObjectTag::ENEMY)
 			{
 				debug_hit_ = true;
 
@@ -79,9 +68,6 @@ void KohakuSword::Update(void)
 	}
 }
 
-/* @brief	納刀処理
- * @param	なし
- * @return	なし					*/
 void KohakuSword::PaidSword(void)
 {
 	// 姿勢の調整
@@ -91,9 +77,6 @@ void KohakuSword::PaidSword(void)
 	transform_.parentMtx = body_;
 }
 
-/* @brief	抜刀処理
- * @param	なし
- * @return	なし					*/
 void KohakuSword::DrawnSword(void)
 {
 	// 姿勢の調整
@@ -103,9 +86,6 @@ void KohakuSword::DrawnSword(void)
 	transform_.parentMtx = hand_;
 }
 
-/* @brief	Guiの更新処理
- * @param	なし
- * @return	なし					*/
 void KohakuSword::GuiUpdate(void)
 {
 	ImGui::Text("effect : %.2f", effectRotation_);

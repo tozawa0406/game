@@ -164,7 +164,7 @@ bool DragonWingAttack::Update(void)
 		const auto& hits = collider->Hit();
 		for (auto& hit : hits)
 		{
-			if (hit->GetTag() == Object::Tag::PLAYER)
+			if (hit->GetTag() == ObjectTag::PLAYER)
 			{
 				static_cast<GameObject*>(hit)->Hit(40);
 			}

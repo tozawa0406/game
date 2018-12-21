@@ -31,7 +31,7 @@ static constexpr int MOVE_LIST = ITEM_RANGE / CHANGE_FRAME;
 static const	 VECTOR2 ITEM_SIZE_DIFF = VECTOR2(SIZE_ITEM_BACK.x - SIZE_ITEM_BACK_LIST.x, SIZE_ITEM_BACK.y - SIZE_ITEM_BACK_LIST.y) * 0.1f;
 
 /* @brief	コンストラクタ			*/
-ItemList::ItemList(void) : Object(Object::Tag::UI), GUI(Systems::Instance(), this, "ItemList")
+ItemList::ItemList(void) : Object(ObjectTag::UI), GUI(Systems::Instance(), this, "ItemList")
 	, player_(nullptr)
 	, flag_(0)
 	, cnt_(0)

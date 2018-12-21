@@ -156,6 +156,9 @@ public:
 	/* @brief	ライトの設定					*/
 	virtual void SetLight(LightInfo& light) = 0;
 
+	/* @brief	Guiの更新処理		*/
+	virtual void GuiUpdate(void) {}
+
 	/* @brief	文字描画クラスの取得			*/
 	inline Font* GetFont(void) { return font_; }
 

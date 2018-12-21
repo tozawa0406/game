@@ -52,6 +52,9 @@ public:
 	/* @brief	マルチレンダーターゲットの描画終了		*/
 	virtual void EndMultiRendererTarget(void)	= 0;
 
+	/* @brief	Guiの更新処理		*/
+	virtual void GuiUpdate(void) {}
+
 	/* @brief	デバッグ用描画処理	*/
 	virtual void Draw(List num, VECTOR2 position, VECTOR2 size) = 0;
 	/* @brief	デバッグ用描画処理	*/

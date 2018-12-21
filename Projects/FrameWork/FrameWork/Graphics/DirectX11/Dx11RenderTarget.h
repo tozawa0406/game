@@ -30,13 +30,15 @@ public:
 	void BeginMultiRendererTarget(void) override;
 	void EndMultiRendererTarget(void)	override;
 
+	void BeginDrawShadow(int i) override;
+	void EndDrawShadow(void)    override;
+
+	void GuiUpdate(void) override;
+
 	void Draw(List num, VECTOR2 position, VECTOR2 size) override;
 	void DrawShadowMap(void) override;
 
 	void CreateScreenshot(const string& filename) override;
-
-	void BeginDrawShadow(int i) override;
-	void EndDrawShadow(void)   override;
 
 	CascadeManager* GetCascadeManager(void) { return cascade_; }
 

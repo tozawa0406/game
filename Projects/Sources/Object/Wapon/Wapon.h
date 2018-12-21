@@ -13,7 +13,7 @@
 class Wapon : public Object
 {
 public:
-	Wapon(void) : Object(Object::Tag::WAPON), collider_(nullptr), body_(nullptr), hand_(nullptr), isHit_(false), effectRotation_(0) {}
+	Wapon(void) : Object(ObjectTag::WAPON), collider_(nullptr), body_(nullptr), hand_(nullptr), isHit_(false), effectRotation_(0) {}
 	virtual ~Wapon(void) {}
 
 	/* @brief	”²“”[“ˆ—			*/

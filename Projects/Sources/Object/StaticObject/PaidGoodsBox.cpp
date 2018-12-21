@@ -15,20 +15,15 @@ static const VECTOR3 COLLIDER_SIZE = VECTOR3(15, 12.5f, 31);
 //! @def	当たり判定のオフセット
 static const VECTOR3 COLLIDER_OFFSET = VECTOR3(0, -2, 1);
 
-/* @brief	コンストラクタ			*/
-PaidGoodsBox::PaidGoodsBox(void) : Object(Object::Tag::STATIC)
+PaidGoodsBox::PaidGoodsBox(void) : Object(ObjectTag::STATIC)
 	, collider_(nullptr)
 {
 }
 
-/* @brief	デストラクタ			*/
 PaidGoodsBox::~PaidGoodsBox(void)
 {
 }
 
-/* @brief	初期化処理
- * @param	なし
- * @return	なし					*/
 void PaidGoodsBox::Init(void)
 {
 	// 初期姿勢の設定
@@ -48,9 +43,6 @@ void PaidGoodsBox::Init(void)
 	}
 }
 
-/* @brief	後処理
- * @param	なし
- * @return	なし						*/
 void PaidGoodsBox::Uninit(void)
 {
 	DeletePtr(collider_);

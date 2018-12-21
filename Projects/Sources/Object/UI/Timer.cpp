@@ -60,7 +60,7 @@ static constexpr uint8	 CLIP_PATTERN = 5;
 
 
 /* @brief	コンストラクタ			*/
-Timer::Timer(void) : Object(Object::Tag::UI), GUI(Systems::Instance(), this, "Timer")
+Timer::Timer(void) : Object(ObjectTag::UI), GUI(Systems::Instance(), this, "Timer")
 	, frame_(0)
 	, time_(START_TIME)
 	, second_(0)

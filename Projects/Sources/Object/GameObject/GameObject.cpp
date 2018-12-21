@@ -2,7 +2,7 @@
 #include "../../Scene/GameScene.h"
 
 /* @brief	コンストラクタ			*/
-GameObject::GameObject(Object::Tag tag) : Object(tag)
+GameObject::GameObject(ObjectTag tag) : Object(tag)
 	, life_(0)
 	, ded_(false)
 	, isEndAnim_(false)

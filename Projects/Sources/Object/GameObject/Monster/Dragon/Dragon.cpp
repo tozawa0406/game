@@ -41,7 +41,7 @@ static const     string BONE_WING_L_CLAW = "WingClaw2_L";
 static const	 Transform COLLISION_OFFSET_WING_L_CLAW = Transform(VECTOR3(0, -3, -4), VECTOR3(0, -2, 0), VECTOR3(7, 2, 2));
 
 /* @brief	コンストラクタ			*/
-Dragon::Dragon(void) : GameObject(Object::Tag::ENEMY), GUI(Systems::Instance(), this, "dragon")
+Dragon::Dragon(void) : GameObject(ObjectTag::ENEMY), GUI(Systems::Instance(), this, "dragon")
 	, flag_(0)
 	, debugMove_(false)
 	, currentAttack_(nullptr)
@@ -117,7 +117,7 @@ void Dragon::Init(void)
 		auto objects = manager_->Get();
 		for (auto object : objects)
 		{
-			if (object->GetTag() == Object::Tag::PLAYER)
+			if (object->GetTag() == ObjectTag::PLAYER)
 			{
 				moveController_->SetTarget(static_cast<GameObject*>(object));
 				break;

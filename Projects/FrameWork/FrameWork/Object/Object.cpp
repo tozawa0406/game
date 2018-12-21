@@ -12,12 +12,13 @@
 
 #include "../Systems/Input/XInput.h"
 
-//コンストラクタ
-Object::Object(Tag tag) : manager_(nullptr), tag_(tag), destroy_(false)
+Object::Object(ObjectTag tag) : 
+	manager_(nullptr)
+	, tag_(tag)
+	, destroy_(false)
 {
 }
 
-//デストラクタ
 Object::~Object(void)
 {
 }

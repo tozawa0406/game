@@ -41,7 +41,7 @@ void Collision3DManager::Update(void)
 			// 同一の親
 			if (col1->object_ == col2->object_) { continue; }
 			// 動かないオブジェクト同士
-			if (col1->object_->GetTag() == Object::Tag::STATIC && col2->object_->GetTag() == Object::Tag::STATIC) { continue; }
+			if (col1->object_->GetTag() == ObjectTag::STATIC && col2->object_->GetTag() == ObjectTag::STATIC) { continue; }
 
 			// 球
 			if (col1->type_ == Collider3DBase::Type::SPHERE)

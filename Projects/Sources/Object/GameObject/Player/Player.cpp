@@ -25,7 +25,7 @@ static const     VECTOR3 COLLISION_OFFSET_POS = VECTOR3(0, 7.5f, 0);
 static const     VECTOR3 COLLISION_SIZE = VECTOR3(3, 15, 3);
 
 /* @brief	コンストラクタ			*/
-Player::Player(void) : GameObject(Object::Tag::PLAYER), GUI(Systems::Instance(), this, "player")
+Player::Player(void) : GameObject(ObjectTag::PLAYER), GUI(Systems::Instance(), this, "player")
 	, state_(nullptr)
 	, stamina_(150)
 	, isDraw_(false)
@@ -151,7 +151,7 @@ void Player::Update(void)
 	{
 		if (hit->GetGraphicsColor() == COLOR(1, 0, 0, 1))
 		{
-			if (hit->GetParent()->GetTag() == Object::Tag::ENEMY)
+			if (hit->GetParent()->GetTag() == ObjectTag::ENEMY)
 			{
 				c = COLOR(1, 0, 0, 1);
 			}
