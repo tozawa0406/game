@@ -1,88 +1,150 @@
-//-----------------------------------------------------------------------------
-//
-//	Windowの処理全般[Windows.h]
-//	Auther : 戸澤翔太
-//                                                                  2018/05/10
-//-----------------------------------------------------------------------------
+/*
+ * @file		Windows.h
+ * @brief		Windowの処理全般
+ * @author		戸澤翔太
+ * @data		2018/05/10
+ */
 #ifndef _WINDOWS_H_
 #define _WINDOWS_H_
 
 #include "../Define/Define.h"
 #include "../Graphics/Graphics.h"
 
-#include "Dialog.h"
-
 #pragma comment(lib, "winmm.lib")
 #pragma comment(lib, "dinput8.lib")
 #pragma comment(lib, "dxguid.lib")
 #pragma comment(lib, "Xinput.lib")
 
-//-----------------------------------------------------------------------------
-//	クラス定義
-//-----------------------------------------------------------------------------
 class Systems;
 class Windows
 {
-	// 定数定義
-	static constexpr char* CLASS_NAME   = "Game";			// ウインドウの名前
-	static constexpr char* WINDOW_NAME  = "Game";			// ウインドウの名前
-	static constexpr int   WINDOW_STYLE = WS_OVERLAPPEDWINDOW ^ WS_MAXIMIZEBOX;	// ウィンドウスタイル
+	//! @def	ウィンドウの名前
+	static constexpr char*	CLASS_NAME		= "Game";
+	//! @def	ウィンドウの名前
+	static constexpr char*	WINDOW_NAME		= "Game";
+	//! @def	ウィンドウスタイル
+	static constexpr int	WINDOW_STYLE	= WS_OVERLAPPEDWINDOW ^ WS_MAXIMIZEBOX;
+	//! グラフィックスのタイプ(ダイアログで指定(今回はしない))
+	Graphics::Type			graphicsType_	= Graphics::Type::DirectX11;
 
 public:
-	// 定数定義
-	static Graphics::Type GRAPHICS_TYPE;
+	//! @def	フルスクリーン設定
 	static constexpr bool FULL_SCREEN	= false;
-	static constexpr int  FPS			= 60;					// FPSの設定
-	// ウィンドウのサイズ
+	//! @def	FPSの設定
+	static constexpr int  FPS			= 60;
+	//! @def	ウィンドウ横サイズ
 	static constexpr int  WIDTH			= 1280;
+	//! @def	ウィンドウ縦サイズ
 	static constexpr int  HEIGHT		= 720;
 
+	/* @brief	コンストラクタ		*/
 	Windows(void);
-	~Windows(void) {}
+	/* @brief	デストラクタ		*/
+	~Windows(void);
 
-	// Getter
-	float     GetFps(void)        { return fps_;        }	// 実際のFPS
-	HWND      GetHWND(void)       { return hWnd_;       }	// HWND
-	MSG       GetMsg(void)        { return msg_;        }	// MSG
-	HINSTANCE GetHInstance(void)  { return hInstance_;  }	// HINSTANCE
+	/* @brief	FPSの取得処理		*/
+	inline float		GetFps(void)		const { return fps_;		}
+	/* @brief	HWNDの取得処理		*/
+	inline HWND			GetHWND(void)		const { return hWnd_;		}
+	/* @brief	MSGの取得処理		*/
+	inline MSG			GetMsg(void)		const { return msg_;		}
+	/* @brief	HINSTANCEの取得処理	*/
+	inline HINSTANCE	GetHInstance(void)	const { return hInstance_;	}
+	/* @brief	グラフィックスの種類取得	*/
+	inline Graphics::Type GetGraphicsType(void) const { return graphicsType_; }
 
-	Graphics* GetGraphics(void)   { return graphics_;   }	// 子
-	Systems*  GetSystems(void)    { return systems_;    }	// 子
+	/* @brief	Graphicsの取得処理	*/
+	inline Graphics*	GetGraphics(void)	{ return graphics_;	}
+	/* @brief	Systemsの取得処理	*/
+	inline Systems*		GetSystems(void)	{ return systems_;	}
 
-	// mainで呼び出される
-	HRESULT Init(HINSTANCE Instance, int cmdShow);		// 初期化処理
-	void    GameLoop(DWORD fps);						// ゲームループ
-	WPARAM  Uninit(void);								// 後処理
 
-	// エラーメッセージ
+
+	/* @brief	初期化処理
+	 * @sa		main()
+	 * @param	(Instancs)	HINSTANCE
+	 * @param	(cmdShow)	cmdShow
+	 * @return	成功失敗			*/
+	HRESULT Init(HINSTANCE Instance, int cmdShow);
+
+	/* @brief	ゲームループ処理
+	 * @sa		main()
+	 * @param	(fps)	設定したいFPS
+	 * @return	なし				*/
+	void    GameLoop(DWORD fps);
+
+	/* @brief	後処理
+	 * @param	なし
+	 * @return	MSG.wParamの値		*/
+	WPARAM  Uninit(void);
+
+
+
+	/* @brief	エラーメッセージウィンドウの出力
+	 * @param	(message)	エラー内容
+	 * @param	(error)		ウィンドウ名(エラーのジャンル)
+	 * @param	(hr)		成功失敗の判定
+	 * @return	hrが失敗ならtrue：成功ならfalse		*/
 	bool ErrorMessage(const char* message, char* error, HRESULT hr);
 
 private:
-	void    SetWindowInfo(void);				// ウィンドウ情報の設定
-	void    SetWindow(int cmdShow);				// ウィンドウの生成
-	bool    MsgProcess(void);					// メッセージプロセス
-	bool    Update(void);						// 更新処理
-	void    Draw(void);							// 描画処理
-	bool	InitGame(Graphics::Type type);		// ゲーム系の初期化処理
+	/* @brief	ウィンドウ情報の設定
+	 * @sa		Init()
+	 * @param	なし
+	 * @return	なし				*/
+	void    SetWindowInfo(void);
 
+	/* @brief	ウィンドウの生成
+	 * @sa		Init()
+	 * @param	(cmdShow)	cmdShow
+	 * @return	なし				*/
+	void    SetWindow(int cmdShow);
+
+	/* @brief	メッセージプロセス
+	 * @sa		GameLoop()
+	 * @param	なし
+	 * @return	ウィンドウを閉じたらtrue	*/
+	bool    MsgProcess(void);
+
+	/* @brief	更新処理
+	 * @sa		GameLoop()
+	 * @param	なし
+	 * @return	GraphicsとSystemsの初期化に失敗したらtrue		*/
+	bool    Update(void);
+
+	/* @brief	描画処理
+	 * @sa		GameLoop()
+	 * @param	なし
+	 * @return	なし				*/
+	void    Draw(void);
+
+	/* @brief	ゲーム系の初期化処理
+	 * @param	(type)	グラフィックスの種類
+	 * @return	初期化に失敗したらtrue		*/
+	bool	InitGame(Graphics::Type type);
+
+	/* @brief	Windowsの中心を返す
+	 * @sa		SetWindow()
+	 * @param	(dr)	ウィンドウの右
+	 * @param	(wr)	調整位置の右
+	 * @return	中心				*/
 	inline LONG WindowCenter(LONG dr, LONG wr) { return Half(dr - wr) > 0 ? Half(dr - wr) : 0; }
 
-	Graphics*	graphics_;
-	Systems*	systems_;			// システム系
-	//Dialog*		dialog_;
+	Graphics*	graphics_;		//! グラフィックスAPI系の処理
+	Systems*	systems_;		//! システム系
 
 	HWND		hWnd_;
 	HINSTANCE	hInstance_;
 	MSG			msg_;
 	WNDCLASSEX	wcex_;
 
-	int			timeNow_;		//
-	int			timeOld_;		// 次フレーム以降に使う
-	int			timeFPS_;
-	int			fpsCnt_;
-	float		fps_;
+	int			timeNow_;		//! 現在時刻
+	int			timeOld_;		//! 前の時刻
+	int			timeFPS_;		//! FPSカウント時の時刻
+	int			fpsCnt_;		//! FPS計測カウンタ
+	float		fps_;			//! FPS
 
-	//ウィンドウプロシージャ
+	/* @brief	ウィンドウプロシージャ		*/
 	static LRESULT CALLBACK WndProc(HWND hWnd, uint uMsg, WPARAM wParam, LPARAM lParam);
 };
 

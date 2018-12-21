@@ -23,11 +23,11 @@ public:
 
 	inline const D3D11_VIEWPORT& GetViewport(void) { return viewport_; }
 
+	void    Uninit(void)    override;		// Œãˆ—
 private:
 	DirectX11(Windows* window);
 
 	HRESULT Init(void)      override;		// ‰Šú‰»ˆ—
-	void    Uninit(void)    override;		// Œãˆ—
 	HRESULT DrawBegin(void) override;		// •`‰æŠJn
 	void    DrawEnd(void)   override;		// •`‰æI—¹
 

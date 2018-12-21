@@ -38,11 +38,11 @@ public:
 	inline Wrapper*			GetWrapper(void)		{ return wrapper_; }		// ラッパークラスの受け渡し
 	inline RenderTarget*	GetRenderTarget(void)	{ return renderTarget_; }
 
+	virtual void	Uninit(void) = 0;	// 後処理
 protected:
 	Graphics(Windows* window) { window_ = window; }		// コンストラクタ
 
 	virtual HRESULT Init(void)      = 0;	// 初期化処理
-	virtual void	Uninit(void)	= 0;	// 後処理
 	virtual HRESULT DrawBegin(void)	= 0;	// 描画開始
 	virtual void	DrawEnd(void)	= 0;	// 描画終了
 

@@ -42,10 +42,10 @@ HRESULT GuiManager::Init(void)
 
 	ImGui::CreateContext();
 	if (!ImGui_ImplWin32_Init(window->GetHWND())) { return E_FAIL; }
-	if (Windows::GRAPHICS_TYPE == Graphics::Type::DirectX9)
+	if (window->GetGraphicsType() == Graphics::Type::DirectX9)
 	{
 	}
-	else if (Windows::GRAPHICS_TYPE == Graphics::Type::DirectX11)
+	else if (window->GetGraphicsType() == Graphics::Type::DirectX11)
 	{
 		DirectX11* directX = static_cast<DirectX11*>(window->GetGraphics());
 		if (!directX) { return E_FAIL; }
@@ -73,7 +73,8 @@ void GuiManager::Uninit(void)
 		RemoveVector(obj_, obj_[0]);
 	}
 
-	if (Windows::GRAPHICS_TYPE == Graphics::Type::DirectX11)
+	const auto& window = systems_->GetWindow();
+	if (window->GetGraphicsType() == Graphics::Type::DirectX11)
 	{
 		ImGui_ImplDX11_Shutdown();
 	}
@@ -89,6 +90,9 @@ void GuiManager::Uninit(void)
 void GuiManager::GuiUpdate(void)
 {
 	if (!systems_ || !debug_) { return; }
+	const auto& window = systems_->GetWindow();
+	if (!window) { return; }
+
 #ifdef _SELF_DEBUG
 	// 描画していないなら更新しない(ImGuiがエラーになる)
 	if (!draw_) { return; }
@@ -98,10 +102,10 @@ void GuiManager::GuiUpdate(void)
 	ImGui::SetNextWindowPos(ImVec2(30, 30));
 	ImGui::SetNextWindowSize(ImVec2(100, 200));
 
-	if (Windows::GRAPHICS_TYPE == Graphics::Type::DirectX9)
+	if (window->GetGraphicsType() == Graphics::Type::DirectX9)
 	{
 	}
-	else if (Windows::GRAPHICS_TYPE == Graphics::Type::DirectX11)
+	else if (window->GetGraphicsType() == Graphics::Type::DirectX11)
 	{
 		ImGui_ImplDX11_NewFrame();
 		ImGui_ImplWin32_NewFrame();
@@ -113,26 +117,17 @@ void GuiManager::GuiUpdate(void)
 		return;
 	}
 
-	if (debug_)
+	if (const auto& graphics = window->GetGraphics())
 	{
-		if (const auto& systems = debug_->GetSystems())
+		if (const auto& target = graphics->GetRenderTarget())
 		{
-			if (const auto& window = systems->GetWindow())
-			{
-				if (const auto& graphics = window->GetGraphics())
-				{
-					if (const auto& target = graphics->GetRenderTarget())
-					{
-						if (ImGui::Button("def")) { target->SetDebugDraw(RenderTarget::List::MAX); }
-						ImGui::SameLine();
-						if (ImGui::Button("clr")) { target->SetDebugDraw(RenderTarget::List::COLOR); }
-						ImGui::SameLine();
-						if (ImGui::Button("pos")) { target->SetDebugDraw(RenderTarget::List::POSITION); }
-						ImGui::SameLine();
-						if (ImGui::Button("nrm")) { target->SetDebugDraw(RenderTarget::List::NORMAL); }
-					}
-				}
-			}
+			if (ImGui::Button("def")) { target->SetDebugDraw(RenderTarget::List::MAX); }
+			ImGui::SameLine();
+			if (ImGui::Button("clr")) { target->SetDebugDraw(RenderTarget::List::COLOR); }
+			ImGui::SameLine();
+			if (ImGui::Button("pos")) { target->SetDebugDraw(RenderTarget::List::POSITION); }
+			ImGui::SameLine();
+			if (ImGui::Button("nrm")) { target->SetDebugDraw(RenderTarget::List::NORMAL); }
 		}
 	}
 
@@ -191,10 +186,7 @@ void GuiManager::GuiUpdate(void)
 	}
 
 	// FPS描画
-	if (const auto& window = systems_->GetWindow())
-	{
-		ImGui::Text("FPS : %.2f", window->GetFps());
-	}
+	ImGui::Text("FPS : %.2f", window->GetFps());
 	
 	// デバッグポーズ
 	if (ImGui::Button((!debug_->GetDebugPause()) ? "Pause" : "Reseume"))
@@ -367,8 +359,10 @@ void GuiManager::Draw(void)
 		}
 	}
 
-	if (Windows::GRAPHICS_TYPE == Graphics::Type::DirectX9 ||
-		Windows::GRAPHICS_TYPE == Graphics::Type::DirectX11)
+	const auto& window = systems_->GetWindow();
+	const auto& type = window->GetGraphicsType();
+	if (type == Graphics::Type::DirectX9 ||
+		type == Graphics::Type::DirectX11)
 	{
 		ImGui::Render();
 		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());

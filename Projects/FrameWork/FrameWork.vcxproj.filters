@@ -224,9 +224,6 @@
     <ClInclude Include="FrameWork\Systems\Score.h">
       <Filter>FrameWork\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="FrameWork\Windows\Dialog.h">
-      <Filter>FrameWork\Window</Filter>
-    </ClInclude>
     <ClInclude Include="FrameWork\Windows\resource.h">
       <Filter>FrameWork\Window</Filter>
     </ClInclude>
@@ -477,9 +474,6 @@
     </ClCompile>
     <ClCompile Include="FrameWork\Systems\Score.cpp">
       <Filter>FrameWork\Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="FrameWork\Windows\Dialog.cpp">
-      <Filter>FrameWork\Window</Filter>
     </ClCompile>
     <ClCompile Include="FrameWork\Windows\Windows.cpp">
       <Filter>FrameWork\Window</Filter>

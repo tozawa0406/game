@@ -10,7 +10,9 @@
 
 HRESULT CircleGaugeShader::Init(void)
 {
-	if (Windows::GRAPHICS_TYPE == Graphics::Type::DirectX11)
+	const auto& systems = manager_->GetSystems();
+	const auto& window = systems->GetWindow();
+	if (window->GetGraphicsType() == Graphics::Type::DirectX11)
 	{
 		vMethod_ = "VS_Main";
 		vVersion_ = "vs_5_0";
@@ -46,10 +48,15 @@ HRESULT CircleGaugeShader::SetParam(const MATRIX& mtx, const COLOR& color, VECTO
 {
 	UNREFERENCED_PARAMETER(color);
 	UNREFERENCED_PARAMETER(texcoord);
-	Systems* systems = manager_->GetSystems();
 
+	const auto& systems = manager_->GetSystems();
 	const auto& dev = systems->GetRenderer()->GetWrapper();
-	if (Windows::GRAPHICS_TYPE == Graphics::Type::DirectX11)
+	const auto& window = systems->GetWindow();
+	const auto& type = window->GetGraphicsType();
+	if (type == Graphics::Type::DirectX9)
+	{
+	}
+	else if (type == Graphics::Type::DirectX11)
 	{
 		const auto& dev11 = ((Dx11Wrapper*)dev);
 

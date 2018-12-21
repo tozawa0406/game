@@ -75,6 +75,7 @@ public:
 	ColliderRendererManager* GetColliderRendererManager(void)	{ return (ColliderRendererManager*) manager_[(int)SystemsNum::COLLISIONDRAW];  }
 	ParticleManager*		 GetParticleManager(void)			{ return (ParticleManager*)			manager_[(int)SystemsNum::PARTICLE];	   }
 
+	void    Uninit(void);
 private:
 	// 自分自身が使う
 	template<class T>
@@ -83,7 +84,6 @@ private:
 	// Windowsクラスのみが使用
 	Systems(Windows* window);
 	HRESULT Init(void);
-	void    Uninit(void);
 	void    Update(void);
 	void    Draw(void);
 

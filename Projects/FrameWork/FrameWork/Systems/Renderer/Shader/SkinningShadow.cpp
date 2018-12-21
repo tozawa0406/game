@@ -17,7 +17,9 @@
 
 HRESULT SkinningShadowShader::Init(void)
 {
-	if (Windows::GRAPHICS_TYPE == Graphics::Type::DirectX11)
+	const auto& systems = manager_->GetSystems();
+	const auto& window = systems->GetWindow();
+	if (window->GetGraphicsType() == Graphics::Type::DirectX11)
 	{
 		fileName_ = shaderDirectoryName + "SkinningShadow.hlsl";
 
@@ -60,13 +62,15 @@ HRESULT SkinningShadowShader::SetParam(const MATRIX& mtx, const COLOR& color, VE
 {
 	UNREFERENCED_PARAMETER(color);
 	UNREFERENCED_PARAMETER(texcoord);
-	Systems* systems = manager_->GetSystems();
 
+	const auto& systems = manager_->GetSystems();
 	const auto& dev = systems->GetRenderer()->GetWrapper();
-	if (Windows::GRAPHICS_TYPE == Graphics::Type::DirectX9)
+	const auto& window = systems->GetWindow();
+	const auto& type = window->GetGraphicsType();
+	if (type == Graphics::Type::DirectX9)
 	{
 	}
-	else if (Windows::GRAPHICS_TYPE == Graphics::Type::DirectX11)
+	else if (type == Graphics::Type::DirectX11)
 	{
 		const auto& dx11 = ((Dx11Wrapper*)dev);
 

@@ -106,7 +106,6 @@
     <ClInclude Include="FrameWork\Systems\Score.h" />
     <ClInclude Include="FrameWork\Systems\Screenshot.h" />
     <ClInclude Include="FrameWork\Systems\Sound\Sound.h" />
-    <ClInclude Include="FrameWork\Windows\Dialog.h" />
     <ClInclude Include="FrameWork\Windows\resource.h" />
     <ClInclude Include="FrameWork\Windows\Windows.h" />
   </ItemGroup>
@@ -182,7 +181,6 @@
     <ClCompile Include="FrameWork\Systems\Score.cpp" />
     <ClCompile Include="FrameWork\Systems\Screenshot.cpp" />
     <ClCompile Include="FrameWork\Systems\Sound\Sound.cpp" />
-    <ClCompile Include="FrameWork\Windows\Dialog.cpp" />
     <ClCompile Include="FrameWork\Windows\Windows.cpp" />
   </ItemGroup>
   <ItemGroup>

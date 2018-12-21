@@ -30,7 +30,9 @@ HRESULT CascadeShadow::Init(void)
 	vMethod_ = "VSFunc";
 	pMethod_ = "";
 
-	if (Windows::GRAPHICS_TYPE == Graphics::Type::DirectX11)
+	const auto& systems = manager_->GetSystems();
+	const auto& window = systems->GetWindow();
+	if (window->GetGraphicsType() == Graphics::Type::DirectX11)
 	{
 		fileName_ = shaderDirectoryName + "ShadowVS.hlsl";
 
@@ -88,10 +90,13 @@ HRESULT CascadeShadow::SetParam(const MATRIX& mtx, const COLOR& color, VECTOR4 t
 
 	const auto& dev = manager_->GetSystems()->GetRenderer()->GetWrapper();
 
-	if (Windows::GRAPHICS_TYPE == Graphics::Type::DirectX9)
+	const auto& systems = manager_->GetSystems();
+	const auto& window = systems->GetWindow();
+	const auto& type = window->GetGraphicsType();
+	if (type == Graphics::Type::DirectX9)
 	{
 	}
-	else if (Windows::GRAPHICS_TYPE == Graphics::Type::DirectX11)
+	else if (type == Graphics::Type::DirectX11)
 	{
 		const auto& dx11 = (Dx11Wrapper*)dev;
 

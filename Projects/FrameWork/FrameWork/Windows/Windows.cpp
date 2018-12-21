@@ -1,9 +1,3 @@
-//-----------------------------------------------------------------------------
-//
-//	Windowの処理全般[Windows.cpp]
-//	Auther : 戸澤翔太
-//                                                                  2018/05/10
-//-----------------------------------------------------------------------------
 #include "Windows.h"
 #include <Windows.h>
 #include "../Graphics/DirectX11/DirectX11.h"
@@ -13,16 +7,23 @@
 #include <time.h>
 #include <tchar.h>
 
-Graphics::Type Windows::GRAPHICS_TYPE = Graphics::Type::DirectX11;
-
-// コンストラクタ
-Windows::Windows(void) : graphics_(nullptr), systems_(nullptr)//, dialog_(nullptr)
-					   , hWnd_(nullptr), hInstance_(nullptr)
-					   , timeNow_(0), timeOld_(0), timeFPS_(0), fpsCnt_(0), fps_(0)
+Windows::Windows(void) : 
+	graphics_(nullptr)
+	, systems_(nullptr)
+	, hWnd_(nullptr)
+	, hInstance_(nullptr)
+	, timeNow_(0)
+	, timeOld_(0)
+	, timeFPS_(0)
+	, fpsCnt_(0)
+	, fps_(0)
 {
 }
 
-// 初期化処理
+Windows::~Windows(void)
+{
+}
+
 HRESULT Windows::Init(HINSTANCE Instance, int cmdShow)
 {
 	// メモリーリーク検出
@@ -36,35 +37,13 @@ HRESULT Windows::Init(HINSTANCE Instance, int cmdShow)
 	// ウィンドウの生成
 	SetWindow(cmdShow);
 
-	// ダイアログの生成
-	//dialog_ = new Dialog;
-	//dialog_->CreateStartUpDialog(hInstance_, hWnd_);
-
-	// レンダラー初期化
-	graphics_ = nullptr;
-
-	// ゲームシステムの初期化
-	systems_ = nullptr;
-
 	return S_OK;
 }
 
-// 後処理
 WPARAM Windows::Uninit(void)
 {
-	// システム系の後処理
-	if (systems_)
-	{
-		systems_->Uninit();
-	}
-	DeletePtr(systems_);
-
-	// グラフィックスAPIの後処理
-	if (graphics_)
-	{
-		graphics_->Uninit();
-	}
-	DeletePtr(graphics_);
+	UninitDeletePtr(systems_);
+	UninitDeletePtr(graphics_);
 
 	// ウィンドウクラスの登録を解除
 	UnregisterClass(CLASS_NAME, wcex_.hInstance);
@@ -72,23 +51,24 @@ WPARAM Windows::Uninit(void)
 	return msg_.wParam;
 }
 
-// 更新処理
 bool Windows::Update(void)
 {
-	if (graphics_ == nullptr) 
+	if (!graphics_)
 	{
-		return InitGame(GRAPHICS_TYPE/*dialog_->GetGraphicsType()*/);
+		// ダイアログがない場合は指定通りに生成
+		return InitGame(graphicsType_);
 	}
+
 	// システム系の更新処理
-	systems_->Update();
+	if (systems_) { systems_->Update(); }
 
 	return false;
 }
 
-// 描画処理
 void Windows::Draw(void)
 {
-	if (graphics_ == nullptr) { return; }
+	if (!graphics_ || !systems_) { return; }
+
 	if (SUCCEEDED(graphics_->DrawBegin()))
 	{
 		// システム系の描画
@@ -99,7 +79,6 @@ void Windows::Draw(void)
 }
 
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, uint msg, WPARAM wParam, LPARAM lParam);
-// WndProc
 LRESULT CALLBACK Windows::WndProc(HWND hWnd, uint uMsg, WPARAM wParam, LPARAM lParam)
 {
 	if (ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam)) { return true; }
@@ -128,6 +107,7 @@ LRESULT CALLBACK Windows::WndProc(HWND hWnd, uint uMsg, WPARAM wParam, LPARAM lP
 			break;
 		}
 		case VK_F1:
+			// 静的変数ではないのでこの形で
 			if (const auto& systems = Systems::Instance())
 			{
 				if (const auto& debug = systems->GetDebug())
@@ -137,6 +117,7 @@ LRESULT CALLBACK Windows::WndProc(HWND hWnd, uint uMsg, WPARAM wParam, LPARAM lP
 			}
 			break;
 		case VK_F3:
+			// 静的変数ではないのでこの形で
 			if (const auto& systems = Systems::Instance())
 			{
 				if (const auto& debug = systems->GetDebug())
@@ -155,7 +136,6 @@ LRESULT CALLBACK Windows::WndProc(HWND hWnd, uint uMsg, WPARAM wParam, LPARAM lP
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
 
-// エラーメッセージ
 bool Windows::ErrorMessage(const char* message, char* error, HRESULT hr)
 {
 	if (FAILED(hr))
@@ -166,7 +146,6 @@ bool Windows::ErrorMessage(const char* message, char* error, HRESULT hr)
 	return false;
 }
 
-// ウィンドウ情報の設定
 void Windows::SetWindowInfo(void)
 {
 	wcex_.cbSize        = sizeof(WNDCLASSEX);			// 構造体WNDCLASSEXの大きさ
@@ -188,7 +167,6 @@ void Windows::SetWindowInfo(void)
 	UnregisterClass(_T("ImGui Example"), wcex_.hInstance);
 }
 
-// ウィンドウの生成
 void Windows::SetWindow(int cmdShow)
 {
 	RECT dr;
@@ -196,13 +174,6 @@ void Windows::SetWindow(int cmdShow)
 
 	int w = WIDTH;
 	int h = HEIGHT;
-
-	//if (FULL_SCREEN)
-	//{
-	//	w = dr.right;
-	//	float aspect = (float)w / 16;
-	//	h = (int)(aspect * 9);
-	//}
 
 	RECT wr = { 0, 0, w, h };
 	AdjustWindowRect(&wr, WINDOW_STYLE, false);
@@ -212,12 +183,13 @@ void Windows::SetWindow(int cmdShow)
 	hWnd_ = CreateWindowEx(0, CLASS_NAME, WINDOW_NAME, WINDOW_STYLE, WindowCenter(dr.right, wr.right), WindowCenter(dr.bottom, wr.bottom),
 		nWidth, nHeight, NULL, NULL, hInstance_, NULL);
 
-	ShowWindow(hWnd_, cmdShow);		// ウィンドウ表示
+	// ウィンドウ表示
+	ShowWindow(hWnd_, cmdShow);
 
-	UpdateWindow(hWnd_);			// ウィンドウ更新
+	// ウィンドウ更新
+	UpdateWindow(hWnd_);
 }
 
-// メッセージプロセス
 bool Windows::MsgProcess(void)
 {
 	//ウィンドウを閉じた時
@@ -234,10 +206,10 @@ bool Windows::MsgProcess(void)
 	return false;
 }
 
-// ゲームループ
 void Windows::GameLoop(DWORD fps)
 {
-	timeBeginPeriod(1);				// timeGetTImeの精度を上げる
+	// timeGetTImeの精度を上げる
+	timeBeginPeriod(1);
 
 	for (;;)
 	{
@@ -249,7 +221,6 @@ void Windows::GameLoop(DWORD fps)
 		//ゲーム処理
 		else
 		{
-			// ゲーム更新処理
 			timeNow_ = timeGetTime();
 
 			if ((timeNow_ - timeFPS_) >= 500)
@@ -260,12 +231,12 @@ void Windows::GameLoop(DWORD fps)
 			}
 
 			if (((timeNow_ - timeOld_) * fps) >= 1000)
-			{// 更新、描画
-
-				if (this->Update()) { break; }
+			{
+				// 更新処理
+				if (Update()) { break; }
 
 				// 描画処理
-				this->Draw();
+				Draw();
 
 				timeOld_ = timeNow_;
 				fpsCnt_++;
@@ -276,28 +247,22 @@ void Windows::GameLoop(DWORD fps)
 	timeEndPeriod(1);
 }
 
-// ゲーム系の初期化処理
 bool Windows::InitGame(Graphics::Type type)
 {
 	if (type == Graphics::Type::UNKNOWN) { return false; }
-	else { GRAPHICS_TYPE = type; }
-
-	//string temp = WINDOW_NAME;
-	//if      (RENDERER_TYPE == Graphics::Type::DirectX9)  { temp += " DirectX9";  }
-	//else if (RENDERER_TYPE == Graphics::Type::DirectX11) { temp += " DirectX11"; }
-	//else if (RENDERER_TYPE == Graphics::Type::OpenGL)    { temp += " OpenGL";    }
-
-	// ウィンドウ名の変更
-	//SetWindowText(hWnd_, temp.c_str());
-
-	// ダイアログの消去
-	//DeletePtr(dialog_);
+	else { graphicsType_ = type; }
 
 	// グラフィックスAPIの生成
-	if(GRAPHICS_TYPE == Graphics::Type::DirectX11)
+	if(graphicsType_ == Graphics::Type::DirectX11)
 	{ 
 		graphics_ = new DirectX11(this);
 	}
+	else
+	{
+		ErrorMessage("このアプリケーションが対応していないグラフィックスAPIです。", "エラー", E_FAIL);
+		return true;
+	}
+	
 	if (FAILED(graphics_->Init())) { return true; }
 
 	// システム系の生成

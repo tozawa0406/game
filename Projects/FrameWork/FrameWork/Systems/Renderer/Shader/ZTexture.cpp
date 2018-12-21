@@ -27,7 +27,9 @@ HRESULT ZTexture::Init(void)
 	vMethod_ = "VS_ZBufferCalc";
 	pMethod_ = "PS_ZBufferPlot";
 
-	if (Windows::GRAPHICS_TYPE == Graphics::Type::DirectX11)
+	const auto& systems = manager_->GetSystems();
+	const auto& window = systems->GetWindow();
+	if (window->GetGraphicsType() == Graphics::Type::DirectX11)
 	{
 		fileName_ = shaderDirectoryName + "ZValue.hlsl";
 
@@ -93,10 +95,13 @@ HRESULT ZTexture::SetParam(const MATRIX& mtx, const COLOR& color, VECTOR4 texcoo
 
 	const auto& dev = manager_->GetSystems()->GetRenderer()->GetWrapper();
 
-	if (Windows::GRAPHICS_TYPE == Graphics::Type::DirectX9)
+	const auto& systems = manager_->GetSystems();
+	const auto& window = systems->GetWindow();
+	const auto& type = window->GetGraphicsType();
+	if (type == Graphics::Type::DirectX9)
 	{
 	}
-	else if (Windows::GRAPHICS_TYPE == Graphics::Type::DirectX11)
+	else if (type == Graphics::Type::DirectX11)
 	{
 		const auto& dx11 = (Dx11Wrapper*)dev;
 
