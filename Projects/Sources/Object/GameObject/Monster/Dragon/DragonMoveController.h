@@ -15,20 +15,37 @@ class Dragon;
 class DragonMoveController : public GUI
 {
 public:
+	/* @brief	コンストラクタ		*/
 	DragonMoveController(void);
+	/* @brief	デストラクタ		*/
 	~DragonMoveController(void);
 
+
+	
+	/* @brief	初期化
+	 * @param	(parent)	動かすもの
+	 * @return	なし				*/
 	void Init(Dragon* parent);
+	
+	/* @brief	後処理
+	 * @param	なし
+	 * @return	なし				*/
 	void Uninit(void);
-
-	void GuiUpdate(void) override;
-
+	
+	/* @brief	行動処理
+	 * @param	(act)	行動フラグ
+	 * @param	(flag)	状態フラグ
+	 * @return	なし				*/
+	void Action(int& act, uint& flag);
+	
 	/* @brief	標的の設定
 	 * @param	(target)	標的のポインタ	*/
 	inline void SetTarget(GameObject* target) { target_ = target; }
-
-	void Action(int& act, uint& flag);
-
+	
+	/* @brief	Guiの更新処理
+	 * @param	なし
+	 * @return	なし				*/
+	void GuiUpdate(void) override;
 
 private:
 	Dragon*			parent_;	//! 親のポインタ

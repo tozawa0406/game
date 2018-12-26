@@ -1,36 +1,25 @@
 #include "DragonTakeOff.h"
 #include "../Dragon.h"
 
-/* @brief	コンストラクタ			*/
-DragonTakeOff::DragonTakeOff(void) : fly_(false)
+DragonTakeOff::DragonTakeOff(void) : 
+	fly_(false)
 	, debug_velocity_(0)
 {
 }
 
-/* @brief	デストラクタ			*/
 DragonTakeOff::~DragonTakeOff(void)
 {
 }
 
-/* @brief	初期化処理
- * @param	(object)	このクラスでは使わない
- * @return	なし					*/
 void DragonTakeOff::Init(GameObject* monster)
 {
 	MonsterAttack::Init(monster);
 }
 
-/* @brief	後処理
- * @param	なし
- * @return	なし					*/
 void DragonTakeOff::Uninit(void)
 {
 }
 
-/* @brief	実行する準備
- * @param	なし
- * @return	なし
- * @detail	この攻撃特有のアニメーション、速度を設定する		*/
 void DragonTakeOff::SetMove(void)
 {
 	// 既に使用中なら重複防止
@@ -50,11 +39,6 @@ void DragonTakeOff::SetMove(void)
 	meshAnim.mesh.ChangeAnimation(meshAnim.animation, 15);
 }
 
-/* @brief	更新処理
- * @param	なし
- * @return	攻撃が終了したらtrue
- * @detail	姿勢変更はなし、移動しないよう速度は0に固定
-			一定時間経過後、アニメーションの速度を上げる、アニメーションが終了したら元に戻って終了		*/
 bool DragonTakeOff::Update(void)
 {
 	if (!monster_) { return true; }
@@ -85,17 +69,10 @@ bool DragonTakeOff::Update(void)
 	return false;
 }
 
-/* @brief	モーションの終了処理
- * @param	なし
- * @return	なし			*/
 void DragonTakeOff::EndMove(void)
 {
 }
 
-/* @brief	Guiの更新処理
- * @param	なし
- * @return	なし
- * @detail	攻撃元オブジェクトから呼ばれる		*/
 void DragonTakeOff::GuiUpdate(void)
 {
 	ImGui::Text("frame : %d", frame_);

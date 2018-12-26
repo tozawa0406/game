@@ -10,35 +10,23 @@ static constexpr float ANIM_SPEED = 0.55f;
 //! @def	移動を遅くする
 static constexpr float MOVE_DELAY = 0.75f;
 
-/* @brief	コンストラクタ			*/
 DrawnMoveState::DrawnMoveState(void)
 {
 }
 
-/* @brief	デストラクタ			*/
 DrawnMoveState::~DrawnMoveState(void)
 {
 }
 
-/* @brief	初期化処理
- * @param	(player)	プレイヤーへのポインタ
- * @param	(ctrl)		コントローラへのポインタ
- * @return	なし					*/
 void DrawnMoveState::Init(Player* player, Controller* ctrl)
 {
 	PlayerState::Init(player, ctrl);
 }
 
-/* @brief	後処理
- * @param	なし
- * @return	なし					*/
 void DrawnMoveState::Uninit(void)
 {
 }
 
-/* @brief	更新処理
- * @param	なし
- * @return	次のステート			*/
 PlayerState* DrawnMoveState::Update(void)
 {
 	if (!player_ || !ctrl_) { return nullptr; }
@@ -99,10 +87,6 @@ PlayerState* DrawnMoveState::Update(void)
 	return nullptr;
 }
 
-/* @brief	Guiの更新処理
- * @param	なし
- * @return	なし
- * @detail	プレイヤーから呼ばれる	*/
 void DrawnMoveState::GuiUpdate(void)
 {
 	ImGui::Text("DrawnMove");

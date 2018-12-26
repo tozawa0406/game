@@ -40,7 +40,6 @@ static const	 Transform COLLISION_OFFSET_NECK2 = Transform(VECTOR3(3, 1, 0), VEC
 static const     string BONE_WING_L_CLAW = "WingClaw2_L";
 static const	 Transform COLLISION_OFFSET_WING_L_CLAW = Transform(VECTOR3(0, -3, -4), VECTOR3(0, -2, 0), VECTOR3(7, 2, 2));
 
-/* @brief	コンストラクタ			*/
 Dragon::Dragon(void) : GameObject(ObjectTag::ENEMY), GUI(Systems::Instance(), this, "dragon")
 	, flag_(0)
 	, debugMove_(false)
@@ -53,27 +52,17 @@ Dragon::Dragon(void) : GameObject(ObjectTag::ENEMY), GUI(Systems::Instance(), th
 	meshAnim_.animation = static_cast<int>(Animation::WAIT1);
 	meshAnim_.animSpeed = 0;
 
-	for (auto& c : collision_)
-	{
-		c = nullptr;
-	}
+	for (auto& c : collision_) { c = nullptr; }
 
-	for (auto& a : attack_)
-	{
-		a = nullptr;
-	}
+	for (auto& a : attack_) { a = nullptr; }
 
 	life_ = MAX_LIFE;
 }
 
-/* @brief	デストラクタ			*/
 Dragon::~Dragon(void)
 {
 }
 
-/* @brief	初期化処理
- * @param	なし
- * @return	なし					*/
 void Dragon::Init(void)
 {
 	transform_.position		= VECTOR3(0, 0, 50);
@@ -152,9 +141,6 @@ void Dragon::Init(void)
 
 }
 
-/* @brief	後処理
- * @param	なし
- * @return	なし					*/
 void Dragon::Uninit(void)
 {
 	UninitDeletePtr(moveController_);
@@ -176,9 +162,6 @@ void Dragon::Uninit(void)
 	}
 }
 
-/* @brief	更新処理
- * @param	なし
- * @return	なし					*/
 void Dragon::Update(void)
 {
 	meshAnim_.mesh.material.diffuse = COLOR(1, 1, 1, 1);
@@ -232,10 +215,6 @@ void Dragon::Update(void)
 	}
 }
 
-/* @brief	当たり判定生成処理
- * @sa		Init
- * @param	なし
- * @return	なし					*/
 void Dragon::CreateCollision(void)
 {
 	if (const auto& systems = Systems::Instance())
@@ -256,12 +235,6 @@ void Dragon::CreateCollision(void)
 	}
 }
 
-/* @brief	コリジョンの設定
- * @param	(arrayNum)	生成するコリジョンの配列番号
- * @param	(boneName)	ボーンの名前
- * @param	(offset)	オフセット
- * @param	(model)		モデルデータ
- * @return	なし					*/
 void Dragon::SetCollision(int arrayNum, string boneName, const Transform& offset, const MODEL& model)
 {
 	collision_[arrayNum] = new Collider3D::OBB(this);
@@ -284,10 +257,6 @@ void Dragon::SetCollision(int arrayNum, string boneName, const Transform& offset
 
 }
 
-/* @brief	被ダメージ処理
- * @sa		Update()
- * @param	なし
- * @return	なし					*/
 bool Dragon::TakenDamage(void)
 {
 	// 死亡処理
@@ -348,19 +317,12 @@ bool Dragon::TakenDamage(void)
 	return false;
 }
 
-/* @brief	ダメージ処理
- * @param	(damage)	ダメージ
- * @return	なし					*/
 void Dragon::Hit(int damage)
 {
 	life_ -= damage; 
 	accumulation_ += damage;
 }
 
-/* @brief	デバッグ用操作
- * @sa		Update()
- * @param	なし
- * @return	実行したらtrue			*/
 bool Dragon::DebugInput(void)
 {
 	if (!debugMove_) { return false; }
@@ -493,9 +455,6 @@ bool Dragon::DebugInput(void)
 	return true;
 }
 
-/* @brief	Guiの更新処理
- * @param	なし
- * @return	なし					*/
 void Dragon::GuiUpdate(void)
 {
 	ImGui::Text("Life : %d", life_);

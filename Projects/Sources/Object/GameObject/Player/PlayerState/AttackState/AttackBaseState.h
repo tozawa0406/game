@@ -12,16 +12,37 @@
 class AttackBaseState : public PlayerState
 {
 public:
+	/* @brief	コンストラクタ		*/
 	AttackBaseState(void);
+	/* @brief	デストラクタ		*/
 	virtual ~AttackBaseState(void);
 
-	virtual void Init(Player* player, Controller* ctrl) override;
-	virtual void Uninit(void) override;
-	virtual PlayerState* Update(void) override;
 
+
+	/* @brief	初期化処理
+	 * @param	(player)	プレイヤーへのポインタ
+	 * @param	(ctrl)		コントローラへのポインタ
+	 * @return	なし				*/
+	virtual void Init(Player* player, Controller* ctrl) override;
+	
+	/* @brief	後処理
+	 * @param	なし
+	 * @return	なし				*/
+	virtual void Uninit(void) override;
+	
+	/* @breif	更新処理
+	 * @param	なし
+	 * @return	次のステート		*/
+	virtual PlayerState* Update(void) override;
+	
+	/* @brief	Guiの更新処理
+	 * @param	なし
+	 * @return	なし
+	 * @detail	プレイヤーから呼ばれる	*/
 	virtual void GuiUpdate(void) override;
 
 protected:
+	//! @def	アニメーション速度
 	static constexpr float ANIM_SPEED = 0.75f;
 
 	Player::Animation	animation_;		//! アニメーション

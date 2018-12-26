@@ -24,7 +24,6 @@ public:
 	//! @def	アニメーションの速度
 	static constexpr float ANIMATION_DEFAULT = 0.75f;
 
-
 	PlayerState(void) {}
 	virtual ~PlayerState(void) {};
 

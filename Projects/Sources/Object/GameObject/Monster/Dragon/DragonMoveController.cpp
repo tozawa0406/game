@@ -7,7 +7,6 @@ static constexpr int DASH_RANGE = 75;
 //! @def	攻撃のスパン
 static constexpr int ATTACK_RANGE = 90;
 
-/* @brief	コンストラクタ			*/
 DragonMoveController::DragonMoveController(void) : GUI(Systems::Instance(), nullptr, "DragonController")
 	, parent_(nullptr)
 	, target_(nullptr)
@@ -16,30 +15,19 @@ DragonMoveController::DragonMoveController(void) : GUI(Systems::Instance(), null
 {
 }
 
-/* @brief	デストラクタ			*/
 DragonMoveController::~DragonMoveController(void)
 {
 }
 
-/* @brief	初期化
- * @param	(parent)	動かすもの
- * @return	なし					*/
 void DragonMoveController::Init(Dragon* parent)
 {
 	parent_ = parent;
 }
 
-/* @brief	後処理
- * @param	なし
- * @return	なし					*/
 void DragonMoveController::Uninit(void)
 {
 }
 
-/* @brief	行動処理
- * @param	(act)	行動フラグ
- * @param	(flag)	状態フラグ
- * @return	なし					*/
 void DragonMoveController::Action(int& act, uint& flag)
 {
 	if (!parent_ || !target_) { return; }
@@ -122,9 +110,6 @@ void DragonMoveController::Action(int& act, uint& flag)
 
 }
 
-/* @brief	Guiの更新処理
- * @param	なし
- * @return	なし					*/
 void DragonMoveController::GuiUpdate(void)
 {
 	ImGui::Text("dir : %.2f,%.2f, %.2f", dir_.x, dir_.y, dir_.z);

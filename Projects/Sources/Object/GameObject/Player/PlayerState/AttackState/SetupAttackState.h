@@ -12,13 +12,33 @@
 class SetupAttackState : public AttackBaseState
 {
 public:
+	/* @brief	コンストラクタ		*/
 	SetupAttackState(void);
+	/* @brief	デストラクタ		*/
 	~SetupAttackState(void);
 
-	void Init(Player* player, Controller* ctrl) override;
-	void Uninit(void) override;
-	PlayerState* Update(void) override;
 
+	
+	/* @brief	初期化
+	 * @param	(player)	プレイヤーのポインタ
+	 * @param	(ctrl)		コントローラへのポインタ
+	 * @return	なし				*/
+	void Init(Player* player, Controller* ctrl) override;
+	
+	/* @brief	後処理
+	 * @param	なし
+	 * @return	なし				*/
+	void Uninit(void) override;
+	
+	/* @brief	更新処理
+	 * @param	なし
+	 * @return	次のステート		*/
+	PlayerState* Update(void) override;
+	
+	/* @brief	Guiの更新処理
+	 * @param	なし
+	 * @return	なし
+	 * @detail	プレイヤーから呼ばれる	*/
 	void GuiUpdate(void) override;
 
 private:

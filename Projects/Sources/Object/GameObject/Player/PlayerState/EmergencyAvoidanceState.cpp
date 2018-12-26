@@ -15,21 +15,16 @@ static constexpr float STANDUP_ANIM_SPEED = 2;
 //! @def	移動するフレーム
 static constexpr int   MOVE_FRAME = 75;
 
-/* @brief	コンストラクタ			*/
-EmergencyAvoidanceState::EmergencyAvoidanceState(void) : dir_(VECTOR3(0))
+EmergencyAvoidanceState::EmergencyAvoidanceState(void) : 
+	dir_(VECTOR3(0))
 	, cnt_(0)
 {
 }
 
-/* @brief	デストラクタ			*/
 EmergencyAvoidanceState::~EmergencyAvoidanceState(void)
 {
 }
 
-/* @brief	初期化処理
- * @param	(player)	プレイヤーへのポインタ
- * @param	(ctrl)		コントローラへのポインタ
- * @return	なし					*/
 void EmergencyAvoidanceState::Init(Player* player, Controller* ctrl)
 {
 	if (!player) { return; }
@@ -82,16 +77,10 @@ void EmergencyAvoidanceState::Init(Player* player, Controller* ctrl)
 	player->SetStamina(player->GetStamina() - DEC_STAMINA);
 }
 
-/* @brief	後処理
- * @param	なし
- * @return	なし					*/
 void EmergencyAvoidanceState::Uninit(void)
 {
 }
 
-/* @brief	更新処理
- * @param	なし
- * @return	次のステート			*/
 PlayerState* EmergencyAvoidanceState::Update(void)
 {
 	if (!player_) { return nullptr; }
@@ -150,10 +139,6 @@ PlayerState* EmergencyAvoidanceState::Update(void)
 	return nullptr;
 }
 
-/* @brief	Guiの更新処理
- * @param	なし
- * @return	なし
- * @detail	プレイヤーから呼ばれる	*/
 void EmergencyAvoidanceState::GuiUpdate(void)
 {
 	ImGui::Text("EmergencyAvoidance");

@@ -6,20 +6,14 @@
 #include "../SetupState.h"
 #include "../AttackState/Slash1AttackState.h"
 
-/* @brief	コンストラクタ			*/
 DrawnWaitState::DrawnWaitState(void)
 {
 }
 
-/* @brief	デストラクタ			*/
 DrawnWaitState::~DrawnWaitState(void)
 {
 }
 
-/* @brief	初期化処理
- * @param	(player)	プレイヤーへのポインタ
- * @param	(ctrl)		コントローラへのポインタ
- * @return	なし					*/
 void DrawnWaitState::Init(Player* player, Controller* ctrl)
 {
 	if (!player) { return; }
@@ -37,16 +31,10 @@ void DrawnWaitState::Init(Player* player, Controller* ctrl)
 	meshAnim.mesh.ChangeAnimation(meshAnim.animation, ANIMATION_CHANGE_FRAME30, true);
 }
 
-/* @brief	後処理
- * @param	なし
- * @return	なし					*/
 void DrawnWaitState::Uninit(void)
 {
 }
 
-/* @brief	更新処理
- * @param	なし
- * @return	次のステートへ			*/
 PlayerState* DrawnWaitState::Update(void)
 {
 #ifdef _SELF_DEBUG
@@ -83,10 +71,6 @@ PlayerState* DrawnWaitState::Update(void)
 	return nullptr;
 }
 
-/* @brief	Guiの更新処理
- * @param	なし
- * @return	なし
- * @detail	プレイヤーから呼ばれる	*/
 void DrawnWaitState::GuiUpdate(void)
 {
 	ImGui::Text("DrawnWait");

@@ -16,22 +16,17 @@ static constexpr int MOVE_START = 37;
 //! @def	移動終了
 static constexpr int MOVE_END = 42;
 
-/* @brief	コンストラクタ			*/
 Slash3AttackState::Slash3AttackState(void)
 {
 }
 
-/* @brief	デストラクタ			*/
 Slash3AttackState::~Slash3AttackState(void)
 {
 }
 
-/* @brief	初期化処理
- * @param	(player)	プレイヤーへのポインタ
- * @param	(ctrl)		コントローラへのポインタ
- * @return	なし					*/
 void Slash3AttackState::Init(Player* player, Controller* ctrl)
-{	if (!player) { return; }
+{	
+	if (!player) { return; }
 	
 	animSpeed_		= ANIM_SPEED;
 	animation_		= Player::Animation::Slash_3;
@@ -45,16 +40,10 @@ void Slash3AttackState::Init(Player* player, Controller* ctrl)
 	AttackBaseState::Init(player, ctrl);
 }
 
-/* @brief	後処理
- * @param	なし
- * @return	なし					*/
 void Slash3AttackState::Uninit(void)
 {
 }
 
-/* @breif	更新処理
- * @param	なし
- * @return	次のステート			*/
 PlayerState* Slash3AttackState::Update(void)
 {
 	if (!player_) { return nullptr; }
@@ -100,10 +89,6 @@ PlayerState* Slash3AttackState::Update(void)
 	return nullptr;
 }
 
-/* @brief	Guiの更新処理
- * @param	なし
- * @return	なし
- * @detail	プレイヤーから呼ばれる	*/
 void Slash3AttackState::GuiUpdate(void)
 {
 	ImGui::Text("Slash3Attack");

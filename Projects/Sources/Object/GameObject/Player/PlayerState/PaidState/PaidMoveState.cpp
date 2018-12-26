@@ -8,35 +8,23 @@
 //! @def	消費スタミナ
 static constexpr float DEC_STAMINA = 0.1f;
 
-/* @brief	コンストラクタ			*/
 PaidMoveState::PaidMoveState(void)
 {
 }
 
-/* @brief	デストラクタ			*/
 PaidMoveState::~PaidMoveState(void)
 {
 }
 
-/* @brief	初期化処理
- * @param	(player)	プレイヤーへのポインタ
- * @param	(ctrl)		コントローラへのポインタ
- * @return	なし					*/
 void PaidMoveState::Init(Player* player, Controller* ctrl)
 {
 	PlayerState::Init(player, ctrl);
 }
 
-/* @brief	後処理
- * @param	なし
- * @return	なし					*/
 void PaidMoveState::Uninit(void)
 {
 }
 
-/* @brief	更新処理
- * @param	なし
- * @return	次のステート			*/
 PlayerState* PaidMoveState::Update(void)
 {
 	if (!player_ || !ctrl_) { return nullptr; }
@@ -113,10 +101,6 @@ PlayerState* PaidMoveState::Update(void)
 	return nullptr;
 }
 
-/* @brief	Guiの更新処理
- * @param	なし
- * @return	なし
- * @detail	プレイヤーから呼ばれる	*/
 void PaidMoveState::GuiUpdate(void)
 {
 	ImGui::Text("PaidMove");

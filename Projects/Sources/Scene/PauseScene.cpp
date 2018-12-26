@@ -1,8 +1,9 @@
 #include "PauseScene.h"
 #include <FrameWork/Scene/SceneManager.h>
 
-// 定数定義
+/* @brief	選択肢の上限				*/
 static constexpr int PAUSE_SELECT_UP		= 0;
+/* @brief	選択してからの点滅時間		*/
 static constexpr int PADDING_TIME			= 30;
 
 Pause::Pause(void) : GUI(Systems::Instance(), nullptr, "ScenePause")

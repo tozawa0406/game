@@ -11,20 +11,15 @@ static constexpr float AVOIDANCE_SPEED = 2.75f;
 //! @def	回避アニメーションの終了フレーム
 static constexpr int   END_AVOIDANCE_ANIMATION = 30;
 
-/* @brief	コンストラクタ			*/
-AvoidanceState::AvoidanceState(void) : dir_(VECTOR3(0))
+AvoidanceState::AvoidanceState(void) : 
+	dir_(VECTOR3(0))
 {
 }
 
-/* @brief	デストラクタ			*/
 AvoidanceState::~AvoidanceState(void)
 {
 }
 
-/* @brief	初期化処理
- * @param	(player)	プレイヤーへのポインタ
- * @param	(ctrl)		コントローラへのポインタ
- * @return	なし					*/
 void AvoidanceState::Init(Player* player, Controller* ctrl)
 {
 	if (!player) { return; }
@@ -77,16 +72,10 @@ void AvoidanceState::Init(Player* player, Controller* ctrl)
 	player->SetStamina(player->GetStamina() - DEC_STAMINA);
 }
 
-/* @brief	後処理
- * @param	なし
- * @return	なし					*/
 void AvoidanceState::Uninit(void)
 {
 }
 
-/* @brief	更新処理
- * @param	なし
- * @return	次のステート			*/
 PlayerState* AvoidanceState::Update(void)
 {
 	if (!player_) { return nullptr; }
@@ -138,10 +127,6 @@ PlayerState* AvoidanceState::Update(void)
 	return nullptr;
 }
 
-/* @brief	Guiの更新処理
- * @param	なし
- * @return	なし
- * @detail	プレイヤーから呼ばれる	*/
 void AvoidanceState::GuiUpdate(void)
 {
 	ImGui::Text("Avoidance");

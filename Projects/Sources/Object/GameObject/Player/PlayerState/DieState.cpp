@@ -1,20 +1,14 @@
 #include "DieState.h"
 #include <random>
 
-/* @brief	コンストラクタ			*/
 DieState::DieState(void)
 {
 }
 
-/* @brief	デストラクタ			*/
 DieState::~DieState(void)
 {
 }
 
-/* @brief	初期化処理
- * @param	(player)	プレイヤーへのポインタ
- * @param	(ctrl)		コントローラへのポインタ
- * @return	なし					*/
 void DieState::Init(Player* player, Controller* ctrl)
 {
 	if (!player) { return; }
@@ -38,16 +32,10 @@ void DieState::Init(Player* player, Controller* ctrl)
 	}
 }
 
-/* @brief	後処理
- * @param	なし
- * @return	なし					*/
 void DieState::Uninit(void)
 {
 }
 
-/* @brief	更新処理
- * @param	なし
- * @return	次のステート			*/
 PlayerState* DieState::Update(void)
 {
 	if (!player_) { return nullptr; }
@@ -55,10 +43,6 @@ PlayerState* DieState::Update(void)
 	return nullptr;
 }
 
-/* @brief	Guiの更新処理
- * @param	なし
- * @return	なし
- * @detail	プレイヤーから呼ばれる	*/
 void DieState::GuiUpdate(void)
 {
 	ImGui::Text("Die");
