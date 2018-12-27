@@ -32,11 +32,11 @@ void WallA::Init(void)
 	float adjust1 = ADJUST_MESH_POSITION_1;
 	float adjust2 = ADJUST_MESH_POSITION_2;
 
-	if (transform_.rotation.y == 3.14f)
-	{
-		adjust2 *= 1.4f;
-		adjust1 *= 1.4f;
-	}
+	//if (transform_.rotation.y == 3.14f)
+	//{
+	//	adjust2 *= 1.4f;
+	//	adjust1 *= 1.4f;
+	//}
 
 	transformMesh_[0].position.x = adjust1;
 	transformMesh_[1].position.x = adjust2;

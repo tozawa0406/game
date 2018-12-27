@@ -111,7 +111,7 @@ private:
 	 * @sa		Update()
 	 * @param	なし
 	 * @return	死んでいたらtrue			*/
-	bool IsDed(void);
+	bool IsDedJudge(void);
 
 	PlayerState*	state_;				//! プレイヤーのステート
 	float			stamina_;			//! スタミナ

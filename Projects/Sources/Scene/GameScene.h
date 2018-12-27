@@ -16,8 +16,10 @@
 #include <FrameWork/Systems/Renderer/Sprite/SpriteRenderer.h>
 
 #include <FrameWork/Object/ObjectManager.h>
+#include "../Object/UI/ClearFailed.h"
 
 class Light;
+class GameObject;
 class GameScene : public BaseScene, public GUI
 {
 public:
@@ -53,6 +55,10 @@ public:
 private:
 	//! オブジェクトのマネージャー
 	ObjectManager*	objectManager_;
+	//! ゲーム判定のあるオブジェクト
+	GameObject*		gameObject_[2];
+	//! クリアUI
+	ClearFailed*	clearUI_;
 
 	//! 天球
 	SkyDome*		sky_;

@@ -12,15 +12,19 @@
 #include "../Object/UI/Timer.h"
 #include "../Object/Wapon/KohakuSword.h"
 
+#include "../Object/UI/ClearFailed.h"
+
 #include "../Object/StaticObject/PaidGoodsBox.h"
 #include "../Object/StaticObject/WallA.h"
 
 GameScene::GameScene(void) : GUI(Systems::Instance(), nullptr, "SceneGame")
 	, objectManager_(nullptr)
+	, clearUI_(nullptr)
 	, sky_(nullptr)
 	, meshField_(nullptr)
 	, light_(nullptr)
 {
+	for (auto& g : gameObject_) { g = nullptr; }
 }
 
 GameScene::~GameScene(void)
@@ -48,13 +52,17 @@ void GameScene::Init(void)
 	auto* player = objectManager_->Create<Player>();
 	auto* wapon  = objectManager_->Create<KohakuSword>();
 	player->SetWapon(wapon);
-//	objectManager_->Create<Dragon>();
 	objectManager_->Create<Timer>();
 	auto* life = objectManager_->Create<PlayerLife>();
 	life->SetPlayer(player);
 	auto* item = objectManager_->Create<ItemList>();
 	item->SetPlayer(player);
 
+	gameObject_[0] = player;
+	gameObject_[1] = objectManager_->Create<Dragon>();
+
+	clearUI_ = objectManager_->Create<ClearFailed>();
+	clearUI_->SetEnable(false);
 	//	systems_->GetSound()->Play((int)Sound::Game::BGM_GAME);
 }
 
@@ -73,6 +81,21 @@ SceneList GameScene::Update(void)
 	if (sky_) { sky_->Update(); }
 	if (objectManager_) { objectManager_->Update(); }
 	if (light_) { light_->Update(); }
+
+	// ”s–k
+	if (gameObject_[0] && gameObject_[0]->IsDed())
+	{
+		clearUI_->SetColor(COLOR(0, 0, 1, 1));
+		clearUI_->SetPattern(1);
+		clearUI_->SetEnable(true);
+	}
+	// Ÿ—˜
+	else if (gameObject_[1] && gameObject_[1]->IsDed())
+	{
+		clearUI_->SetColor(COLOR(1, 0, 0, 1));
+		clearUI_->SetPattern(0);
+		clearUI_->SetEnable(true);
+	}
 
 
 	if (systems_->GetInput()->GetCtrl(0)->Trigger(Input::GAMEPAD_START, DIK_P)) 

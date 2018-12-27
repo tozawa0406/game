@@ -45,8 +45,11 @@ public:
 	/* @brief	アニメーション終了フラグ		*/
 	inline bool IsEndAnim(void) { return isEndAnim_; }
 
-	/* @brief	現在ライフ*/
+	/* @brief	現在ライフ			*/
 	inline int  GetLife(void) { return life_; }
+
+	/* @brief	死亡判定			*/
+	inline bool IsDed(void) { return ded_; }
 
 private:
 	/* @brief	前ベクトルの生成

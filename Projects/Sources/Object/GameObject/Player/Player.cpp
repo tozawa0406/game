@@ -38,7 +38,7 @@ Player::Player(void) : GameObject(ObjectTag::PLAYER), GUI(Systems::Instance(), t
 	meshAnim_.animation = static_cast<int>(Animation::Wait);
 	meshAnim_.animSpeed = ANIMATION_DEFAULT;
 
-	life_ = 150;
+	life_ = 1;
 }
 
 Player::~Player(void)
@@ -129,7 +129,7 @@ void Player::Uninit(void)
 
 void Player::Update(void)
 {
-	if (IsDed()) { return; }
+	if (IsDedJudge()) { return; }
 
 	isEndAnim_ = meshAnim_.mesh.Animation(meshAnim_.animSpeed);
 
@@ -186,14 +186,17 @@ void Player::Hit(int damage)
 	}
 }
 
-bool Player::IsDed(void)
+bool Player::IsDedJudge(void)
 {
+	if (ded_) { return true; }
+
 	if (static_cast<Animation>(meshAnim_.animation) == Animation::Die)
 	{
 		int maxAnim = meshAnim_.mesh.GetMaxAnimation();
 		int pattern = static_cast<int>(meshAnim_.mesh.GetPattern());
-		if (pattern >= maxAnim - 1)
+		if (pattern >= maxAnim - 2)
 		{
+			ded_ = true;
 			return true;
 		}
 	}

@@ -73,7 +73,7 @@ void DragonBite::SetMove(void)
 	auto& meshAnim = monster_->GetMeshAnimation();
 
 	// 速度の設定
-	meshAnim.animSpeed	 = 0.4f;
+	meshAnim.animSpeed	 = 0.2f;
 	debug_speed_ = meshAnim.animSpeed;
 
 	// アニメーションの設定

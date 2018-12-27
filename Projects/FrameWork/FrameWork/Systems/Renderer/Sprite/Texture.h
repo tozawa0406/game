@@ -48,6 +48,8 @@ public:
 
 		TIMER_UI,
 
+		CLEAR_FAILED_UI,
+
 		MAX
 
 	};
@@ -80,8 +82,9 @@ private:
 
 		{ directoryName + "UI/game/hpbar.png"			},
 		{ directoryName + "UI/game/itemlist.png"		},
-
+		
 		{ directoryName + "UI/timer.png"				},
+		{ directoryName + "UI/clear_failed.png"			},
 	};
 
 	//const string resultFileName[(int)Result::MAX - (int)Base::MAX]
