@@ -17,9 +17,13 @@
 #include "../Object/StaticObject/PaidGoodsBox.h"
 #include "../Object/StaticObject/WallA.h"
 
+//! UI•\Ž¦‚µ‚Ä‚©‚çI—¹‚Ü‚Å‚ÌŽžŠÔ
+static constexpr int END_TIME = 120;
+
 GameScene::GameScene(void) : GUI(Systems::Instance(), nullptr, "SceneGame")
 	, objectManager_(nullptr)
 	, clearUI_(nullptr)
+	, endCnt_(0)
 	, sky_(nullptr)
 	, meshField_(nullptr)
 	, light_(nullptr)
@@ -88,6 +92,7 @@ SceneList GameScene::Update(void)
 		clearUI_->SetColor(COLOR(0, 0, 1, 1));
 		clearUI_->SetPattern(1);
 		clearUI_->SetEnable(true);
+		endCnt_++;
 	}
 	// Ÿ—˜
 	else if (gameObject_[1] && gameObject_[1]->IsDed())
@@ -95,6 +100,12 @@ SceneList GameScene::Update(void)
 		clearUI_->SetColor(COLOR(1, 0, 0, 1));
 		clearUI_->SetPattern(0);
 		clearUI_->SetEnable(true);
+		endCnt_++;
+	}
+
+	if (endCnt_ > END_TIME)
+	{
+		return SceneList::NEXT;
 	}
 
 

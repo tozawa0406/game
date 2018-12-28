@@ -59,6 +59,8 @@ private:
 	GameObject*		gameObject_[2];
 	//! クリアUI
 	ClearFailed*	clearUI_;
+	//! UI描画してからの経過時間
+	int				endCnt_;
 
 	//! 天球
 	SkyDome*		sky_;
