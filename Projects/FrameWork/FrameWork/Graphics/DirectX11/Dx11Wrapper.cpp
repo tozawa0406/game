@@ -5,6 +5,7 @@
 //
 //-----------------------------------------------------------------------------
 #include "Dx11Wrapper.h"
+#include <locale>
 #include "Dx11RenderTarget.h"
 #include "../../Windows/Windows.h"
 
@@ -1101,8 +1102,12 @@ ID3DBlob* Dx11Wrapper::CompiledShader(string fileName, string method, string ver
 	ID3DBlob* pCompiledShader	= nullptr;
 	ID3DBlob* pErrors			= nullptr;
 
+	setlocale(LC_ALL, "japanese");
+	size_t  len = 0;
+	WCHAR	wStr[256];
+	mbstowcs_s(&len, wStr, fileName.size() + 1, fileName.c_str(), _TRUNCATE);
 	//ブロブからバーテックスシェーダー作成
-	HRESULT hr = D3DX11CompileFromFile(fileName.c_str(), NULL, NULL, method.c_str(), version.c_str(), 0, 0, NULL, &pCompiledShader, &pErrors, NULL);
+	HRESULT hr = D3DCompileFromFile(wStr, NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, method.c_str(), version.c_str(), D3DCOMPILE_ENABLE_STRICTNESS, 0, &pCompiledShader, &pErrors);
 	if (directX11_->GetWindow()->ErrorMessage((fileName + method).c_str(), "エラー", hr))
 	{
 		OutputDebugStringA((const char*)pErrors->GetBufferPointer());

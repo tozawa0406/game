@@ -155,7 +155,7 @@ inline XMFLOAT4X4  XM4(const MATRIX& m)
 inline XMMATRIX    XM(const MATRIX&  m)
 {
 	XMMATRIX temp;
-	for (int i = 0; i < 4; ++i) { for (int j = 0; j < 4; ++j) { temp.m[i][j] = m.m[i][j]; } }
+	for (int i = 0; i < 4; ++i) { for (int j = 0; j < 4; ++j) { temp.r[i].m128_f32[j] = m.m[i][j]; } }
 	return temp;
 }
 inline XMVECTORF32 XM(const VECTOR3& v) { XMVECTORF32 temp = { v.x, v.y, v.z, 1 }; return temp; }
@@ -163,7 +163,7 @@ inline XMVECTORF32 XM(const VECTOR3& v) { XMVECTORF32 temp = { v.x, v.y, v.z, 1 
 inline MATRIX  V(const XMMATRIX&    m)
 {
 	MATRIX temp;
-	for (int i = 0; i < 4; ++i) { for (int j = 0; j < 4; ++j) { temp.m[i][j] = m.m[i][j]; } }
+	for (int i = 0; i < 4; ++i) { for (int j = 0; j < 4; ++j) { temp.m[i][j] = m.r[i].m128_f32[j]; } }
 	return temp;
 }
 inline VECTOR3 V(const XMVECTORF32& v) { return VECTOR3(v.f[0], v.f[1], v.f[2]); }

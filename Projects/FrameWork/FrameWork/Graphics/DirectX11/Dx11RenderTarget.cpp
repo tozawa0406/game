@@ -10,6 +10,14 @@
 #include "../../../../Sources/Scene/GameScene.h"
 #include "../../Systems/Camera/CameraManager.h"
 
+#include <d3dx11tex.h>
+
+#ifdef _DEBUG
+#pragma comment(lib, "d3dx11d.lib")
+#else
+#pragma comment(lib, "d3dx11.lib")
+#endif
+
 /* @biref	コンストラクタ
  * @param	(dx11)	親のポインタ		*/
 Dx11RenderTarget::Dx11RenderTarget(DirectX11* dx11) :

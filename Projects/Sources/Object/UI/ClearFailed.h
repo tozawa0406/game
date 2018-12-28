@@ -23,7 +23,7 @@ public:
 
 	inline void SetEnable(bool enable)	{ img_.SetEnable(enable);	}
 	inline void SetColor(COLOR color)	{ img_.SetColor(color);		}
-	inline void SetPattern(int pattern) { img_.SetPattern(pattern); }
+	inline void SetPattern(int pattern) { img_.SetPattern(static_cast<float>(pattern)); }
 
 private:
 	CanvasRenderer::Image img_;
