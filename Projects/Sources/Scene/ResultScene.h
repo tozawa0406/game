@@ -59,6 +59,8 @@ private:
 	CanvasRenderer::Text press_;
 	//! 「Enter」「〇」「X」
 	CanvasRenderer::Text button_;
+	//! 「Thank you for Playing!」
+	CanvasRenderer::Text thanks_;
 };
 
 #endif // _RESULT_SCENE_H_

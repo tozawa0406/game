@@ -38,7 +38,7 @@ Player::Player(void) : GameObject(ObjectTag::PLAYER), GUI(Systems::Instance(), t
 	meshAnim_.animation = static_cast<int>(Animation::Wait);
 	meshAnim_.animSpeed = ANIMATION_DEFAULT;
 
-	life_ = 150;
+	life_ = 1;
 }
 
 Player::~Player(void)

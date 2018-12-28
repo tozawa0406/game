@@ -26,7 +26,11 @@ ResultScene::~ResultScene(void)
 }
 
 void ResultScene::Init(void)
-{	
+{
+	thanks_.Init(UI_PRIORITY, "Thank you for Playing!", 70);
+	thanks_.SetPosition(VECTOR2(250, 300));
+	button_.SetColor(COLOR(0, 0, 0, 1));
+
 	// Åuplease pressÅv
 	press_.Init(UI_PRIORITY, "Please Press", UI_TEXT_SIZE);
 	press_.SetPosition(PRESS_POSITION);
@@ -36,11 +40,11 @@ void ResultScene::Init(void)
 	button_.Init(UI_PRIORITY, "Enter ÅZ B", UI_TEXT_SIZE);
 	button_.SetPosition(VECTOR2(PRESS_POSITION.x + ADJUST_POSITION_X, PRESS_POSITION.y));
 	button_.SetColor(COLOR(0, 0, 0, 1));
-
 }
 
 void ResultScene::Uninit(void)
 {
+	thanks_.Uninit();
 	button_.Uninit();
 	press_.Uninit();
 }

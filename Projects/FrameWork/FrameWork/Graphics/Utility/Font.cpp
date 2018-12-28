@@ -20,7 +20,7 @@ HRESULT Font::CreateStringData(const string& fonts, int fontSize)
 		auto& f = fonts[i];
 		if (f == ' ') { continue; }
 		if ((('a' <= f && f <= 'z') || ('A' <= f && f <= 'Z')) ||
-			('0' <= f && f <= '9'))
+			('0' <= f && f <= '9') || ('!' == f))
 		{
 			string s = { f };
 			char temp[2] = { f, 0 };
@@ -56,7 +56,7 @@ void Font::Draw(const string& fonts, VECTOR2 position, VECTOR2 size, COLOR color
 
 		auto& f = fonts[i];	
 		if ((('a' <= f && f <= 'z') || ('A' <= f && f <= 'Z')) ||
-			(('0' <= f && f <= '9') || (f == ' ')))
+			(('0' <= f && f <= '9') || ((f == ' ') || ('!' == f))))
 		{
 			string temp = { f };
 			if (faldBack)

@@ -27,6 +27,8 @@ public:
 
 private:
 	CanvasRenderer::Image img_;
+	//! 終了時の半透明の暗転
+	CanvasRenderer::Image brack_;
 
 	int  cnt_;			// カウンタ
 };
