@@ -7,7 +7,7 @@ static constexpr int PRIORITY		= 100;
 //! @def	à íu
 static const	 VECTOR2 POSITION = VECTOR2(Windows::WIDTH - 250.0f, Windows::HEIGHT - 100.0f);
 //! @def	îwåiï`âÊÉTÉCÉY
-static const	 VECTOR2 SIZE_BACK = VECTOR2(300, 100);
+static const	 VECTOR2 SIZE_BACK = VECTOR2(300, 70);
 //! @def	ëIëéûÇÃîwåiï`âÊÉTÉCÉY
 static const	 VECTOR2 SIZE_BACK_SELECT = VECTOR2(370, 100);
 //! @def	íÜâõÇÃÉAÉCÉeÉÄÇÃîwåi
@@ -49,14 +49,14 @@ void ItemList::Init(void)
 	back_.Init(PRIORITY, texNum);
 	back_.SetPosition(POSITION);
 	back_.SetSize(SIZE_BACK);
-	back_.SetSplit(VECTOR2(1, 3));
+	back_.SetSplit(VECTOR2(1, 4));
 
 	for (int i = 0; i < static_cast<int>(BackItem::MAX); ++i)
 	{
 		backItemBack_[i].Init(PRIORITY + 2, texNum);
 		float x = POSITION.x + ((ITEM_RANGE * 2) - (i * ITEM_RANGE));
 		backItemBack_[i].SetPosition(VECTOR2(x, POSITION.y));
-		backItemBack_[i].SetSplit(VECTOR2(2, 3));
+		backItemBack_[i].SetSplit(VECTOR2(2, 4));
 		backItemBack_[i].SetPattern(2);
 		backItemBack_[i].SetSize(SIZE_ITEM_BACK_LIST);
 	}
@@ -66,22 +66,22 @@ void ItemList::Init(void)
 	itemName_.Init(PRIORITY + 2, texNum);
 	itemName_.SetPosition(POSITION_ITEM_NAME);
 	itemName_.SetSize(SIZE_BACK);
-	itemName_.SetSplit(VECTOR2(1, 3));
-	itemName_.SetPattern(2);
+	itemName_.SetSplit(VECTOR2(1, 8));
+	itemName_.SetPattern(4);
 
 	// É{É^ÉìUI
 	int button = static_cast<int>(ButtonUI::L);
 	ui_[button].Init(PRIORITY + 1, texNum);
 	ui_[button].SetPosition(POSITION_L);
 	ui_[button].SetSize(SIZE_L);
-	ui_[button].SetSplit(VECTOR2(2, 6));
+	ui_[button].SetSplit(VECTOR2(2, 8));
 	ui_[button].SetPattern(5);
 
 	button = static_cast<int>(ButtonUI::MARU);
 	ui_[button].Init(PRIORITY + 5, texNum);
 	ui_[button].SetPosition(VECTOR2(POSITION.x + (ITEM_RANGE * 3), POSITION.y + 30));
 	ui_[button].SetSize(VECTOR2(60, 50));
-	ui_[button].SetSplit(VECTOR2(4, 6));
+	ui_[button].SetSplit(VECTOR2(4, 8));
 	ui_[button].SetPattern(15);
 	ui_[button].SetEnable(false);
 	
@@ -89,7 +89,7 @@ void ItemList::Init(void)
 	ui_[button].Init(PRIORITY + 5, texNum);
 	ui_[button].SetPosition(VECTOR2(POSITION.x - (ITEM_RANGE * 3), POSITION.y + 30));
 	ui_[button].SetSize(VECTOR2(60, 50));
-	ui_[button].SetSplit(VECTOR2(4, 6));
+	ui_[button].SetSplit(VECTOR2(4, 8));
 	ui_[button].SetPattern(14);
 	ui_[button].SetEnable(false);
 }
@@ -108,8 +108,10 @@ void ItemList::Update(void)
 	const auto& ctrl = GetCtrl(0);
 	if (!ctrl) { return; }
 
+	JudgeCtrl(*ctrl);
+
 	// Lâüâ∫
-	if (ctrl->Press(Input::GAMEPAD_L1, DIK_Z))
+	if (ctrl->Press(Input::GAMEPAD_L1, DIK_R))
 	{
 		// âüâ∫éûÇ…îwåiÇâ°Ç…à¯Ç´âÑÇŒÇ∑
 		back_.SetSize(SIZE_BACK_SELECT);
@@ -127,7 +129,7 @@ void ItemList::Update(void)
 		if (flag_ == 0)
 		{
 			// à⁄ìÆ
-			SetMove(*ctrl, Input::GAMEPAD_SQUARE, DIK_K, Input::GAMEPAD_CIRCLE, DIK_H);
+			SetMove(*ctrl, Input::GAMEPAD_SQUARE, DIK_T, Input::GAMEPAD_CIRCLE, DIK_Y);
 		}
 	}
 	// LîÒâüâ∫éû
@@ -156,7 +158,7 @@ void ItemList::Update(void)
 	if (flag_ == 0)
 	{
 		// à⁄ìÆ
-		if (SetMove(*ctrl, Input::GAMEPAD_LEFT, DIK_X, Input::GAMEPAD_RIGHT, DIK_C))
+		if (SetMove(*ctrl, Input::GAMEPAD_LEFT, DIK_Q, Input::GAMEPAD_RIGHT, DIK_E))
 		{
 			// îwåiÇâ°Ç…à¯Ç´âÑÇŒÇ∑
 			back_.SetSize(SIZE_BACK_SELECT);
@@ -248,9 +250,9 @@ void ItemList::SetItemBack(void)
 bool ItemList::SetMove(Controller& ctrl, WORD lpad, int lkey, WORD rpad, int rkey)
 {
 	// ÉLÅ[ì¸óÕ
-	int key = 0;
-	if (ctrl.Trigger(rpad, rkey))		{ key = 1;  }
-	else if (ctrl.Trigger(lpad, lkey))  { key = -1; }
+	int8 key = 0;
+	if (ctrl.Trigger(rpad, rkey))		{ key = -1; }
+	else if (ctrl.Trigger(lpad, lkey))  { key =  1; }
 
 	if (key)
 	{
@@ -264,6 +266,13 @@ bool ItemList::SetMove(Controller& ctrl, WORD lpad, int lkey, WORD rpad, int rke
 		cnt_	= 0;
 		flag_	= key;
 
+		if (lpad == Input::GAMEPAD_LEFT)
+		{
+			VECTOR2 p = (ctrl.GetCtrlNum() == Controller::CtrlNum::Key) ? VECTOR2(30, 31) : VECTOR2(28, 29);
+			ui_[static_cast<int>(ButtonUI::MARU)].SetPattern(p.y);
+			ui_[static_cast<int>(ButtonUI::SHIKAKU)].SetPattern(p.x);
+		}
+
 		return true;
 	}
 	return false;
@@ -274,6 +283,39 @@ void ItemList::SetButtonUIEnable(bool l, bool maru, bool shikaku)
 	ui_[static_cast<int>(ButtonUI::L)].SetEnable(l);
 	ui_[static_cast<int>(ButtonUI::MARU)].SetEnable(maru);
 	ui_[static_cast<int>(ButtonUI::SHIKAKU)].SetEnable(shikaku);
+}
+
+void ItemList::JudgeCtrl(Controller& ctrl)
+{
+	if (flag_) { return; }
+
+	const auto& type = ctrl.GetCtrlNum();
+	int button[] = { static_cast<int>(ButtonUI::L),  static_cast<int>(ButtonUI::MARU) , static_cast<int>(ButtonUI::SHIKAKU) };
+
+	if (type == Controller::CtrlNum::PS4)
+	{
+		if (ui_[button[1]].GetPattern() == 15) { return; }
+
+		ui_[button[0]].SetPattern(5);
+		ui_[button[1]].SetPattern(15);
+		ui_[button[2]].SetPattern(14);
+	}
+	else if (type == Controller::CtrlNum::X)
+	{
+		if (ui_[button[1]].GetPattern() == 25) { return; }
+
+		ui_[button[0]].SetPattern(10);
+		ui_[button[1]].SetPattern(25);
+		ui_[button[2]].SetPattern(24);
+	}
+	else if (type == Controller::CtrlNum::Key)
+	{
+		if (ui_[button[1]].GetPattern() == 27) { return; }
+
+		ui_[button[0]].SetPattern(11);
+		ui_[button[1]].SetPattern(27);
+		ui_[button[2]].SetPattern(26);
+	}
 }
 
 void ItemList::GuiUpdate(void)

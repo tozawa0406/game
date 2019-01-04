@@ -76,6 +76,7 @@ private:
 	
 	/* @brief	アイテム移動の開始
 	 * @sa		Update()
+	 * @param	(ctrl)	コントローラ情報
 	 * @param	(lpad)	左移動のゲームパッド
 	 * @param	(lkey)	左移動のキー
 	 * @param	(rpad)	右移動のゲームパッド
@@ -91,6 +92,12 @@ private:
 	 * @param	なし					*/
 	void SetButtonUIEnable(bool l, bool maru, bool shikaku);
 
+	/* @brief	コントローラの判別
+	 * @sa		Update()
+	 * @param	(ctrl)	コントローラ情報
+	 * @return	なし					*/
+	void JudgeCtrl(Controller& ctrl);
+
 	//! プレイヤーのポインタ
 	Player* player_;
 
@@ -104,7 +111,7 @@ private:
 	//! UI
 	CanvasRenderer::Image ui_[static_cast<int>(ButtonUI::MAX)];
 
-	int		flag_;		//! 左右フラグ
+	int8	flag_;		//! 左右フラグ
 	uint8	cnt_;		//! カウンタ
 };
 

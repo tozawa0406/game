@@ -93,7 +93,7 @@ SceneList Pause::Update(void)
 	}
 
 	//ã‰ºƒL[“ü—Í
-	if (GetCtrl(0)->Trigger(Input::AXIS_LY, DIK_S, true) < 0 || GetCtrl(0)->Trigger(Input::GAMEPAD_DOWN))
+	if (GetCtrl(0)->Trigger(Input::AXIS_LY, DIK_S, true) < 0 || GetCtrl(0)->Trigger(Input::GAMEPAD_DOWN, DIK_DOWN))
 	{
 		if (selectNum_ < SELECT_NUM - 1)
 		{
@@ -101,7 +101,7 @@ SceneList Pause::Update(void)
 			selectNum_++;
 		}
 	}
-	else if (GetCtrl(0)->Trigger(Input::AXIS_LY, DIK_W) > 0 || GetCtrl(0)->Trigger(Input::GAMEPAD_UP))
+	else if (GetCtrl(0)->Trigger(Input::AXIS_LY, DIK_W) > 0 || GetCtrl(0)->Trigger(Input::GAMEPAD_UP, DIK_UP))
 	{
 		if (selectNum_ > PAUSE_SELECT_UP)
 		{

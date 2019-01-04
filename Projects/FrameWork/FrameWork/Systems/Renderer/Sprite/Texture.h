@@ -81,7 +81,7 @@ private:
 		{ directoryName + "effect.jpg"					},
 
 		{ directoryName + "UI/game/hpbar.png"			},
-		{ directoryName + "UI/game/itemlist.png"		},
+		{ directoryName + "UI/game/itemlist2.png"		},
 		
 		{ directoryName + "UI/timer.png"				},
 		{ directoryName + "UI/clear_failed.png"			},

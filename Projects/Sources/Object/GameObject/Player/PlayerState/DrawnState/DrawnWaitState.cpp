@@ -59,7 +59,10 @@ PlayerState* DrawnWaitState::Update(void)
 		// 納刀コマンドで納刀ステート
 		if (ctrl_->Trigger(Input::GAMEPAD_SQUARE, DIK_H) || ctrl_->Trigger(Input::GAMEPAD_R1, DIK_H))
 		{
-			return new SetupState;
+			if (!ctrl_->Press(Input::GAMEPAD_L1, DIK_R))
+			{
+				return new SetupState;
+			}
 		}
 
 		// 攻撃コマンドで攻撃ステート
