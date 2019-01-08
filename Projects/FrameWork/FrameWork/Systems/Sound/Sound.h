@@ -27,15 +27,13 @@ public:
 		SE_SELECT = 0,
 		SE_ENTER,
 		SE_CANCEL,
-		BGM_WIN,
-		BGM_LOSE,
 
 		MAX
 	};
 
 	enum class Title : int
 	{
-		BGM_OP = (int)Base::MAX,
+		BGM_TITLE = (int)Base::MAX,
 
 		MAX
 	};
@@ -50,7 +48,9 @@ public:
 	};
 	enum class Result : int
 	{
-		MAX = (int)Base::MAX,
+		BGM_RESULT = (int)Base::MAX,
+
+		MAX
 	};
 
 private:
@@ -65,22 +65,22 @@ private:
 		{ SEDirectoryName + "select.wav"	, 0 },
 		{ SEDirectoryName + "enter.wav"	, 0 },
 		{ SEDirectoryName + "cancel.wav"	, 0 },
-
-		{ BGMDirectoryName + "Win/Goodbye_The_Fake_Band.wav"	, -1 },
-		{ BGMDirectoryName + "Lose/êVèhínâ∫ìπ.wav"				, -1 },
 	};
-	const SOUNDPARAM titleFileName[(int)Title::MAX]
+	const SOUNDPARAM titleFileName[(int)Title::MAX - (int)Base::MAX]
 	{
-		{ BGMDirectoryName + "OP/Easy_Days.wav", -1 },
+		{ BGMDirectoryName + "Title/bgm_maoudamashii_fantasy08.wav", -1 },
 	};
-	const SOUNDPARAM gameFileName[(int)Game::MAX]
+	const SOUNDPARAM gameFileName[(int)Game::MAX - (int)Base::MAX]
 	{
-		{ BGMDirectoryName + "Game/Thunderbolt.wav"	, -1 },
+		{ BGMDirectoryName + "Game/bgm_maoudamashii_orchestra24.wav"	, -1 },
 		{ SEDirectoryName + "shout.wav"			,  0 },
 		{ SEDirectoryName + "explosion.wav"		,  0 },
 		{ SEDirectoryName + "aleat.wav"			,  0 },
 	};
-//	const SOUNDPARAM resultFileName[(int)Result::MAX - (int)Base::MAX];
+	const SOUNDPARAM resultFileName[(int)Result::MAX - (int)Base::MAX]
+	{
+		{ BGMDirectoryName + "Result/bgm_maoudamashii_orchestra14.wav"	, -1 },
+	};
 
 public:
 	~Sound(void);

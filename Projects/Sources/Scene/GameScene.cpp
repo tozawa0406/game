@@ -54,26 +54,39 @@ void GameScene::Init(void)
 	objectManager_->Create<WallA>(VECTOR3(   0, 3,  100), VECTOR3(0,  3.14f, 0));
 
 	auto* player = objectManager_->Create<Player>();
+	assert(player);
 	auto* wapon  = objectManager_->Create<KohakuSword>();
 	player->SetWapon(wapon);
 	objectManager_->Create<Timer>();
-	auto* life = objectManager_->Create<PlayerLife>();
-	life->SetPlayer(player);
-	auto* item = objectManager_->Create<ItemList>();
-	item->SetPlayer(player);
+	if (auto* life = objectManager_->Create<PlayerLife>())
+	{
+		life->SetPlayer(player);
+	}
+	if (auto* item = objectManager_->Create<ItemList>())
+	{
+		item->SetPlayer(player);
+	}
 
 	gameObject_[0] = player;
 	gameObject_[1] = objectManager_->Create<Dragon>();
 
-	clearUI_ = objectManager_->Create<ClearFailed>();
-	clearUI_->SetEnable(false);
-	//	systems_->GetSound()->Play((int)Sound::Game::BGM_GAME);
+	if (clearUI_ = objectManager_->Create<ClearFailed>())
+	{
+		clearUI_->SetEnable(false);
+	}
+
+	if (systems_)
+	{
+		systems_->GetSound()->Play((int)Sound::Game::BGM_GAME);
+	}
 }
 
 void GameScene::Uninit(void)
 {
-	systems_->GetSound()->Stop((int)Sound::Game::BGM_GAME);
-
+	if (systems_)
+	{
+		systems_->GetSound()->Stop((int)Sound::Game::BGM_GAME);
+	}
 	UninitDeletePtr(objectManager_);
 	DeletePtr(meshField_);
 	DeletePtr(sky_);

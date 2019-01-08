@@ -46,7 +46,6 @@ HRESULT Sound::Init(void)
 		if (FAILED(hr)) { return E_FAIL; }
 	}
 
-
 	return S_OK;
 }
 
@@ -99,7 +98,7 @@ HRESULT Sound::Load(int sceneNum)
 		break;
 	case SceneList::RESULT:
 		size = (int)Result::MAX;
-//		fileName = &resultFileName[0];
+		fileName = &resultFileName[0];
 		break;
 	default: break;
 	}

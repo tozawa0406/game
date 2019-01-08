@@ -36,10 +36,19 @@ void TitleScene::Init(void)
 	button_.Init(UI_PRIORITY, "Enter Z B", UI_TEXT_SIZE);
 	button_.SetPosition(VECTOR2(PRESS_POSITION.x + ADJUST_POSITION_X, PRESS_POSITION.y));
 	button_.SetColor(COLOR(0, 0, 0, 1));
+
+	if (systems_)
+	{
+		systems_->GetSound()->Play((int)Sound::Title::BGM_TITLE);
+	}
 }
 
 void TitleScene::Uninit(void)
 {
+	if (systems_)
+	{
+		systems_->GetSound()->Stop((int)Sound::Title::BGM_TITLE);
+	}
 	button_.Uninit();
 	press_.Uninit();
 }

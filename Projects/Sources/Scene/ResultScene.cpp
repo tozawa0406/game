@@ -40,10 +40,19 @@ void ResultScene::Init(void)
 	button_.Init(UI_PRIORITY, "Enter Z B", UI_TEXT_SIZE);
 	button_.SetPosition(VECTOR2(PRESS_POSITION.x + ADJUST_POSITION_X, PRESS_POSITION.y));
 	button_.SetColor(COLOR(0, 0, 0, 1));
+
+	if (systems_)
+	{
+		systems_->GetSound()->Play((int)Sound::Result::BGM_RESULT);
+	}
 }
 
 void ResultScene::Uninit(void)
 {
+	if (systems_)
+	{
+		systems_->GetSound()->Stop((int)Sound::Result::BGM_RESULT);
+	}
 	thanks_.Uninit();
 	button_.Uninit();
 	press_.Uninit();
