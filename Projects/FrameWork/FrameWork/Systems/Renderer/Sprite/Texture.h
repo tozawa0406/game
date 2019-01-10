@@ -31,15 +31,12 @@ public:
 
 	enum class Title : int
 	{
-		TITLE = (int)Base::MAX,
-
-		MAX
+		MAX = (int)Base::MAX
 	};
 
 	enum class Game
 	{
 		FIELD = (int)Base::MAX,
-		EXPLOSION,
 		SLASH,
 		EFFECT,
 
@@ -68,15 +65,13 @@ private:
 		{ directoryName + "UI/load.png"					},
 	};
 
-	const string titleFileName[(int)Title::MAX - (int)Base::MAX]
-	{		  
-		{ directoryName + "UI/title_rogo.png"			},
-	};
+	//const string titleFileName[(int)Title::MAX - (int)Base::MAX]
+	//{		  
+	//};
 
 	const string gameFileName[(int)Game::MAX - (int)Base::MAX]
 	{
 		{ directoryName + "field.jpg"					},
-		{ directoryName + "explosion/explosion.png"		},
 		{ directoryName + "slash.jpg"					},
 		{ directoryName + "effect.jpg"					},
 

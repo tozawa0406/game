@@ -5,8 +5,12 @@
 static constexpr int UI_PRIORITY = 200;
 //! @def	UI文字サイズ
 static constexpr int UI_TEXT_SIZE = 40;
+//! @def	タイトルサイズ
+static constexpr int UI_TITLE_SIZE = 100;
+//! @def	タイトル位置
+static const VECTOR2 TITLE_POSITION = VECTOR2(Half(Windows::WIDTH) - 125, Half(Windows::HEIGHT) - 100);
 //! @def	press描画の位置
-static const VECTOR2 PRESS_POSITION = VECTOR2(Half(Windows::WIDTH) - 190, Windows::HEIGHT * 0.9f - UI_TEXT_SIZE);
+static const VECTOR2 PRESS_POSITION = VECTOR2(Half(Windows::WIDTH) - 165, Windows::HEIGHT * 0.9f - UI_TEXT_SIZE);
 //! @def	pree描画のサイズ
 static const VECTOR2 PRESS_SIZE = VECTOR2(Quarter(Windows::WIDTH), Half(Windows::HEIGHT * 0.1f));
 //! @def	UIボタンの描画位置調整
@@ -26,6 +30,11 @@ TitleScene::~TitleScene(void)
 
 void TitleScene::Init(void)
 {
+	// タイトル
+	title_.Init(UI_PRIORITY, "TITLE", UI_TITLE_SIZE);
+	title_.SetPosition(TITLE_POSITION);
+	title_.SetColor(COLOR(0, 0, 0));
+
 	// 「please press」
 	press_.Init(UI_PRIORITY, "Please Press", UI_TEXT_SIZE);
 	press_.SetPosition(PRESS_POSITION);
@@ -34,10 +43,13 @@ void TitleScene::Init(void)
 	// 各種ボタン
 	button_.Init(UI_PRIORITY, "Enter 〇 B", UI_TEXT_SIZE);
 	button_.SetPosition(VECTOR2(PRESS_POSITION.x + ADJUST_POSITION_X, PRESS_POSITION.y));
-	button_.SetColor(COLOR(0, 0, 0, 1));
+	button_.SetColor(COLOR(0, 0, 0));
 
 	// 背景
 	back_.Init(UI_PRIORITY - 1, static_cast<int>(Texture::Base::WHITE));
+	back_.SetPosition(VECTOR2(Half(Windows::WIDTH), Half(Windows::HEIGHT)));
+	back_.SetSize(VECTOR2(Windows::WIDTH, Windows::HEIGHT));
+	back_.SetColor(COLOR::RGBA(150, 150, 150));
 
 	if (const auto& sound = GetSound())
 	{
@@ -51,6 +63,7 @@ void TitleScene::Uninit(void)
 	{
 		sound->Stop((int)Sound::Title::BGM_TITLE);
 	}
+	title_.Uninit();
 	back_.Uninit();
 	button_.Uninit();
 	press_.Uninit();
@@ -107,7 +120,11 @@ SceneList TitleScene::EndScene(Controller& ctrl)
 {
 	// 入力
 	if (ctrl.Trigger(Input::GAMEPAD_CIRCLE, DIK_RETURN))
-	{
+	{		
+		if (const auto& sound = GetSound())
+		{
+			sound->Play(static_cast<int>(Sound::Base::SE_ENTER)); 
+		}
 		return SceneList::NEXT;
 	}
 

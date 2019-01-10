@@ -147,7 +147,7 @@ void CameraManager::CreateMatrix(void)
 	// ビュー変換
 	mtxView_ = CreateViewMatrix(main->GetPos(), main->GetAt(), main->GetUp());
 	//プロジェクション行列の作成
-	mtxProj_ = CreateProjectionMatrix(Camera::FOV, Windows::WIDTH / Windows::HEIGHT, Camera::C_NEAR, Camera::C_FAR);
+	mtxProj_ = CreateProjectionMatrix(Camera::FOV, Windows::WIDTH / (float)Windows::HEIGHT, Camera::C_NEAR, Camera::C_FAR);
 }
 
 // 追従カメラの作成

@@ -93,12 +93,15 @@ SceneList Pause::Update(void)
 		return SceneList::NOTCHANGE;
 	}
 
+	const auto& sound = GetSound();
+	if (!sound) { return SceneList::NOTCHANGE; }
+
 	//上下キー入力
 	if (GetCtrl(0)->Trigger(Input::AXIS_LY, DIK_S, true) < 0 || GetCtrl(0)->Trigger(Input::GAMEPAD_DOWN, DIK_DOWN))
 	{
 		if (selectNum_ < SELECT_NUM - 1)
 		{
-//			systems_->GetSound()->Play((int)Sound::Base::SE_SELECT);
+			sound->Play((int)Sound::Base::SE_SELECT);
 			selectNum_++;
 		}
 	}
@@ -106,7 +109,7 @@ SceneList Pause::Update(void)
 	{
 		if (selectNum_ > PAUSE_SELECT_UP)
 		{
-//			systems_->GetSound()->Play((int)Sound::Base::SE_SELECT);
+			sound->Play((int)Sound::Base::SE_SELECT);
 			selectNum_--;
 		}
 		
@@ -115,13 +118,13 @@ SceneList Pause::Update(void)
 	//決定キー
 	if (GetCtrl(0)->Press(Input::GAMEPAD_CIRCLE, DIK_RETURN))
 	{
-//		systems_->GetSound()->Play((int)Sound::Base::SE_ENTER);
+		sound->Play((int)Sound::Base::SE_ENTER);
 		paddingTimeCnt_++;
 	}
 
 	if (GetCtrl(0)->Trigger(Input::GAMEPAD_START, DIK_P))
 	{
-//		systems_->GetSound()->Play((int)Sound::Base::SE_SELECT);
+		sound->Play((int)Sound::Base::SE_SELECT);
 		selectNum_ = 0;
 		EnableUI(false);
 		manager_->SetPause(false);

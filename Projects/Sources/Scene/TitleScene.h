@@ -66,6 +66,8 @@ private:
 	CanvasRenderer::Text button_;
 	//! ”wŒi
 	CanvasRenderer::Image back_;
+	//! ƒ^ƒCƒgƒ‹
+	CanvasRenderer::Text title_;
 };
 
 #endif // _TITLE_SCENE_H_

@@ -55,6 +55,12 @@ struct COLOR
 		float inv = 1.0f / 255;
 		return COLOR(r * inv, g * inv, b * inv, a * inv);
 	}
+
+	static COLOR RGBA(byte r, byte g, byte b)
+	{
+		float inv = 1.0f / 255;
+		return COLOR(r * inv, g * inv, b * inv, 1);
+	}
 };
 
 #endif // _COLOR_H_

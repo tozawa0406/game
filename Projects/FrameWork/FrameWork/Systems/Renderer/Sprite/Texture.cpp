@@ -56,7 +56,7 @@ HRESULT Texture::Load(int sceneNum)
 	{
 	case SceneList::TITLE:
 		size = (int)Title::MAX;
-		fileName = &titleFileName[0];
+//		fileName = &titleFileName[0];
 		break;
 	case SceneList::GAME:
 		size = (int)Game::MAX;

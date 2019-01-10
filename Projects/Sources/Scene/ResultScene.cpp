@@ -114,6 +114,10 @@ SceneList ResultScene::EndScene(Controller& ctrl)
 	// “ü—Í
 	if (ctrl.Trigger(Input::GAMEPAD_CIRCLE, DIK_RETURN))
 	{
+		if (const auto& sound = GetSound())
+		{
+			sound->Play(static_cast<int>(Sound::Base::SE_ENTER));
+		}
 		return SceneList::NEXT;
 	}
 

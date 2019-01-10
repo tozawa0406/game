@@ -40,9 +40,6 @@ public:
 	enum class Game : int
 	{
 		BGM_GAME = (int)Base::MAX,
-		SE_SHOUT,
-		SE_EXPLOSION,
-		SE_ALEAT,
 
 		MAX
 	};
@@ -73,9 +70,6 @@ private:
 	const SOUNDPARAM gameFileName[(int)Game::MAX - (int)Base::MAX]
 	{
 		{ BGMDirectoryName + "Game/bgm_maoudamashii_orchestra24.wav"	, -1 },
-		{ SEDirectoryName + "shout.wav"			,  0 },
-		{ SEDirectoryName + "explosion.wav"		,  0 },
-		{ SEDirectoryName + "aleat.wav"			,  0 },
 	};
 	const SOUNDPARAM resultFileName[(int)Result::MAX - (int)Base::MAX]
 	{
