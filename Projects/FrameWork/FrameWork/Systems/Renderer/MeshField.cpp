@@ -92,7 +92,7 @@ void MeshField::CreateVertex(int num)
 			t.color		= COLOR(1, 1, 1, 1);
 			t.boneIndex = VECTOR4(0, 0, 0, 0);
 			t.weight	= VECTOR4(0, 0, 0, 0);
-			t.texcoord  = VECTOR2((float)(i % (int)(split_.x + 1)), (float)(int)(i / (split_.x + 1)));
+			t.texcoord  = VECTOR2((i % (int)(split_.x + 1)), (int)(i / (split_.x + 1)));
 
 			// •ªŠ„”‚ªŠï”‚Ì
 			if ((int)split_.x % 2 == 1)

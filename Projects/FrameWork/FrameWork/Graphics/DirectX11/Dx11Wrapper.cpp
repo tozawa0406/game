@@ -164,7 +164,7 @@ HRESULT Dx11Wrapper::Init(void)
 	VERTEX2D v[4];
 	for (int i = 0; i < 4; ++i)
 	{
-		v[i].position = VECTOR4((float)(i % 2), (float)(i / 2), 1, 1);
+		v[i].position = VECTOR4((i % 2), (i / 2), 1, 1);
 		v[i].color = COLOR(1, 1, 1, 1);
 		v[i].texcoord = VECTOR2(0, 0);
 	}
@@ -590,7 +590,7 @@ void Dx11Wrapper::Draw(MeshRenderer* obj, const Shader* shader)
 			COLOR c = obj->material.diffuse;
 			c.a = obj->GetRate();
 			c.b = (float)i;
-			shader->SetParam(tempMtx, c, VECTOR4((float)obj->GetAnimation(), (float)obj->GetAnimationOld(), (float)((int)obj->GetPattern()), (float((int)obj->GetPatternOld()))));
+			shader->SetParam(tempMtx, c, VECTOR4(obj->GetAnimation(), obj->GetAnimationOld(), ((int)obj->GetPattern()), ((int)obj->GetPatternOld())));
 
 			if (mesh.computeShader != R_ERROR)
 			{
@@ -776,7 +776,7 @@ void Dx11Wrapper::BeginDrawCanvasRenderer(void)
 
 	// スクリーン座標の設定
 	const auto& constant = constantBuffer_[shader_[0].constantBuffer[0]];
-	VECTOR4 screen = VECTOR4((float)Graphics::WIDTH, (float)Graphics::HEIGHT, 0, 0);
+	VECTOR4 screen = VECTOR4(Windows::WIDTH, Windows::HEIGHT, 0, 0);
 	pContext->UpdateSubresource(constant, 0, NULL, &screen, 0, 0);
 	pContext->VSSetConstantBuffers(0, 1, &constant);
 	pContext->GSSetShader(NULL, NULL, 0);

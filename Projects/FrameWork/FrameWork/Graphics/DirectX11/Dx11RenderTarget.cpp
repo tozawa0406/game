@@ -288,7 +288,7 @@ void Dx11RenderTarget::EndMultiRendererTarget(void)
 
 	int draw = static_cast<int>((debugDraw_ == List::MAX) ? List::COLOR : debugDraw_);
 	context->PSSetShaderResources(0, 1, &shaderResourceView_[draw]);
-	wrapper->DrawQuad(VECTOR2((float)Half(Graphics::WIDTH), (float)Half(Graphics::HEIGHT)), VECTOR2((float)Windows::WIDTH, (float)Windows::HEIGHT));
+	wrapper->DrawQuad(VECTOR2(Half(Windows::WIDTH), Half(Windows::HEIGHT)), VECTOR2(Windows::WIDTH, Windows::HEIGHT));
 }
 
 /* @brief	シャドウマップの描画開始

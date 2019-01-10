@@ -61,8 +61,8 @@ HRESULT CircleGaugeShader::SetParam(const MATRIX& mtx, const COLOR& color, VECTO
 		const auto& dev11 = ((Dx11Wrapper*)dev);
 
 		CONSTANT cbuf;
-		cbuf.screen.x = (float)Graphics::WIDTH;
-		cbuf.screen.y = (float)Graphics::HEIGHT;
+		cbuf.screen.x = Windows::WIDTH;
+		cbuf.screen.y = Windows::HEIGHT;
 		cbuf.screen.z = -3.14f + (6.28f - ( mtx._11 * 0.0628f));
 		cbuf.screen.w = 0;
 

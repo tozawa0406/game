@@ -95,8 +95,8 @@ bool DirectX11::SetDevice(void)
 	DXGI_SWAP_CHAIN_DESC sd;
 	ZeroMemory(&sd, sizeof(DXGI_SWAP_CHAIN_DESC));
 	sd.BufferCount					= 1;
-	sd.BufferDesc.Width				= Graphics::WIDTH;
-	sd.BufferDesc.Height			= Graphics::HEIGHT;
+	sd.BufferDesc.Width				= Windows::WIDTH;
+	sd.BufferDesc.Height			= Windows::HEIGHT;
 	sd.BufferDesc.Format			= DXGI_FORMAT_R8G8B8A8_UNORM;
 	sd.BufferDesc.ScanlineOrdering	= DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
 	sd.BufferDesc.Scaling			= DXGI_MODE_SCALING_UNSPECIFIED;
@@ -127,8 +127,8 @@ bool DirectX11::SetDevice(void)
 	ID3D11Texture2D* depthTexture = nullptr;
 	D3D11_TEXTURE2D_DESC txDesc;
 	ZeroMemory(&txDesc, sizeof(txDesc));
-	txDesc.Width				= Graphics::WIDTH;
-	txDesc.Height				= Graphics::HEIGHT;
+	txDesc.Width				= Windows::WIDTH;
+	txDesc.Height				= Windows::HEIGHT;
 	txDesc.MipLevels			= 1;
 	txDesc.ArraySize			= 1;
 	txDesc.Format				= DXGI_FORMAT_D32_FLOAT;
@@ -153,8 +153,8 @@ bool DirectX11::SetDevice(void)
 	pDeviceContext_->OMSetRenderTargets(1, &pRenderTargetView_, pDepthStencilView_);
 
 	//ビューポートの設定
-	viewport_.Width  = Graphics::WIDTH;
-	viewport_.Height = Graphics::HEIGHT;
+	viewport_.Width  = Windows::WIDTH;
+	viewport_.Height = Windows::HEIGHT;
 	viewport_.MinDepth = 0.0f;
 	viewport_.MaxDepth = 1.0f;
 	viewport_.TopLeftX = 0;

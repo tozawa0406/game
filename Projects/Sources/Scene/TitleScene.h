@@ -64,6 +64,8 @@ private:
 	CanvasRenderer::Text press_;
 	//! 「Enter」「〇」「X」
 	CanvasRenderer::Text button_;
+	//! 背景
+	CanvasRenderer::Image back_;
 };
 
 #endif // _TITLE_SCENE_H_

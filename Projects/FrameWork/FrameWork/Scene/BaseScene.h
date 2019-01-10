@@ -10,6 +10,7 @@
 #include "../Define/Define.h"
 #include "../../../Sources/Scene/EachScene.h"
 
+#include "../Windows/Windows.h"
 #include "../Systems/Renderer/CanvasRenderer/CanvasRendererImage.h"
 #include "../Systems/Renderer/CanvasRenderer/CanvasRendererText.h"
 #include "../Systems/Input/Controller.h"
@@ -44,12 +45,17 @@ public:
 	 * @return	なし				*/
 	void SetManager(SceneManager* manager);
 
+protected:	
 	/* @brief	コントローラの取得処理
 	 * @param	(i)		コントローラの番号
 	 * @return	コントローラのポインタ		*/
 	Controller* GetCtrl(int i);
 
-protected:
+	/* @brief	サウンド取得処理
+	 * @param	なし
+	 * @return	サウンドのポインタ			*/
+	Sound*		GetSound(void);
+
 	//! マネージャー
 	SceneManager* manager_;
 	//! システム系

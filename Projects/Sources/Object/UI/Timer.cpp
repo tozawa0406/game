@@ -7,7 +7,7 @@
 #endif
 
 //! @def	初期位置
-static const	 VECTOR2 POSITION	= VECTOR2(Graphics::WIDTH * 0.1f, Graphics::HEIGHT * 0.1f);
+static const	 VECTOR2 POSITION	= VECTOR2(Windows::WIDTH * 0.1f, Windows::HEIGHT * 0.1f);
 //! @def	描画順
 static constexpr uint8 LAYER		= 100;
 //! @def	全体のスケール

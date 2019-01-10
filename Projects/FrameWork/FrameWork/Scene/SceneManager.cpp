@@ -31,8 +31,8 @@ HRESULT SceneManager::Init(void)
 	displayMode_ = SceneList::TITLE;
 #endif
 	fade_.Init(250, (int)Texture::Base::WHITE);
-	fade_.SetPosition(VECTOR2((float)Half(Graphics::WIDTH), (float)Half(Graphics::HEIGHT)));
-	fade_.SetSize(VECTOR2((float)Graphics::WIDTH, (float)Graphics::HEIGHT));
+	fade_.SetPosition(VECTOR2(Half(Windows::WIDTH), Half(Windows::HEIGHT)));
+	fade_.SetSize(VECTOR2(Windows::WIDTH, Windows::HEIGHT));
 	fade_.SetColor(COLOR(0, 0, 0, 0));
 	fade_.SetEnable(false);
 

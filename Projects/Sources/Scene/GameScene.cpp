@@ -70,22 +70,23 @@ void GameScene::Init(void)
 	gameObject_[0] = player;
 	gameObject_[1] = objectManager_->Create<Dragon>();
 
-	if (clearUI_ = objectManager_->Create<ClearFailed>())
+	clearUI_ = objectManager_->Create<ClearFailed>();
+	if (clearUI_)
 	{
 		clearUI_->SetEnable(false);
 	}
 
-	if (systems_)
+	if(const auto& sound = GetSound())
 	{
-		systems_->GetSound()->Play((int)Sound::Game::BGM_GAME);
+		sound->Play((int)Sound::Game::BGM_GAME);
 	}
 }
 
 void GameScene::Uninit(void)
 {
-	if (systems_)
+	if (const auto& sound = GetSound())
 	{
-		systems_->GetSound()->Stop((int)Sound::Game::BGM_GAME);
+		sound->Stop((int)Sound::Game::BGM_GAME);
 	}
 	UninitDeletePtr(objectManager_);
 	DeletePtr(meshField_);

@@ -1,15 +1,14 @@
 #include "TitleScene.h"
 #include <FrameWork/Scene/SceneManager.h>
-#include <FrameWork/Windows/Windows.h>
 
 //! @def	UI描画準
 static constexpr int UI_PRIORITY = 200;
 //! @def	UI文字サイズ
 static constexpr int UI_TEXT_SIZE = 40;
 //! @def	press描画の位置
-static const VECTOR2 PRESS_POSITION = VECTOR2((float)Half(Windows::WIDTH) - 190, Windows::HEIGHT * 0.9f - UI_TEXT_SIZE);
+static const VECTOR2 PRESS_POSITION = VECTOR2(Half(Windows::WIDTH) - 190, Windows::HEIGHT * 0.9f - UI_TEXT_SIZE);
 //! @def	pree描画のサイズ
-static const VECTOR2 PRESS_SIZE = VECTOR2((float)Quarter(Windows::WIDTH), Half(Windows::HEIGHT * 0.1f));
+static const VECTOR2 PRESS_SIZE = VECTOR2(Quarter(Windows::WIDTH), Half(Windows::HEIGHT * 0.1f));
 //! @def	UIボタンの描画位置調整
 static constexpr float ADJUST_POSITION_X = 6 * UI_TEXT_SIZE + UI_TEXT_SIZE * 0.5f;
 
@@ -37,18 +36,22 @@ void TitleScene::Init(void)
 	button_.SetPosition(VECTOR2(PRESS_POSITION.x + ADJUST_POSITION_X, PRESS_POSITION.y));
 	button_.SetColor(COLOR(0, 0, 0, 1));
 
-	if (systems_)
+	// 背景
+	back_.Init(UI_PRIORITY - 1, static_cast<int>(Texture::Base::WHITE));
+
+	if (const auto& sound = GetSound())
 	{
-		systems_->GetSound()->Play((int)Sound::Title::BGM_TITLE);
+		sound->Play((int)Sound::Title::BGM_TITLE);
 	}
 }
 
 void TitleScene::Uninit(void)
 {
-	if (systems_)
+	if (const auto& sound = GetSound())
 	{
-		systems_->GetSound()->Stop((int)Sound::Title::BGM_TITLE);
+		sound->Stop((int)Sound::Title::BGM_TITLE);
 	}
+	back_.Uninit();
 	button_.Uninit();
 	press_.Uninit();
 }

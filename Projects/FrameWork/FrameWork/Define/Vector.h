@@ -26,11 +26,14 @@ public:
 	/* @brief	コンストラクタ
 	 * @param	(f)		初期化値	*/
 	VECTOR2(float f);
-
+	
 	/* @brief	コンストラクタ
 	 * @param	(x)		xの初期化値
 	 * @param	(y)		yの初期化値	*/
-	VECTOR2(float x, float y);
+	VECTOR2(float x, float y) :x(x), y(y) {}
+
+	template<class T1, class T2>
+	VECTOR2(const T1 x, const T2 y) : x(static_cast<float>(x)), y(static_cast<float>(y)) {}
 
 	// 演算子のオーバーロード
 	VECTOR2& operator = (const VECTOR3& v);
@@ -70,6 +73,9 @@ public:
 	 * @param	(y)		yの初期化値
 	 * @param	(z)		zの初期化値	*/
 	VECTOR3(const float x, const float y, const float z);
+
+	template<class T1, class T2, class T3>
+	VECTOR3(const T1 x, const T2 y, const T3 z) : x(static_cast<float>(x)), y(static_cast<float>(y)), z(static_cast<float>(z)) {}
 
 	// 演算子のオーバーロード
 	VECTOR3& operator = (const VECTOR2& v);
@@ -115,6 +121,10 @@ public:
 	 * @param	(z)		zの初期化値
 	 * @param	(w)		wの初期化値	*/
 	VECTOR4(float x, float y, float z, float w);
+
+	template<class T1, class T2, class T3, class T4>
+	VECTOR4(const T1 x, const T2 y, const T3 z, const T4 w) : x(static_cast<float>(x)), y(static_cast<float>(y))
+															, z(static_cast<float>(z)), w(static_cast<float>(w)) {}
 
 	// 演算子のオーバーロード
 	VECTOR4& operator += (const VECTOR4& v);

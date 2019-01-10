@@ -4,8 +4,6 @@ VECTOR2::VECTOR2(void) : x(0), y(0) {}
 
 VECTOR2::VECTOR2(float f) : x(f), y(f) {}
 
-VECTOR2::VECTOR2(float x, float y) : x(x), y(y) {}
-
 // 演算子のオーバーロード
 VECTOR2& VECTOR2::operator = (const VECTOR3& v)
 {

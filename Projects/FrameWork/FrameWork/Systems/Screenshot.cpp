@@ -69,7 +69,7 @@ void Screenshot::Draw(void)
 	if (screenUICnt_ > 0)
 	{
 		// UI‚Ì•`‰æ
-		float s = Graphics::HEIGHT * 0.1f;
+		float s = Windows::HEIGHT * 0.1f;
 		if (wrapper_)
 		{
 			wrapper_->SetTexture(0, static_cast<int>(Texture::Base::SSUI));

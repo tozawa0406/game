@@ -15,7 +15,7 @@ struct COLOR
 	float r, g, b, a;
 
 	/* @brief	コンストラクタ		*/
-	COLOR(void) {}
+	COLOR(void) : r(1), g(1), b(1), a(1) {}
 
 	/* @brief	コンストラクタ
 	 * @param	(f)		引数を全ての色要素に			*/
@@ -23,7 +23,7 @@ struct COLOR
 
 	/* @brief	コンストラクタ
 	 * @param	(r, g, b)	引数で色要素を指定[aは1]	*/
-	COLOR(float r, float g, float b) : r(r), g(g), b(b) {}
+	COLOR(float r, float g, float b) : r(r), g(g), b(b), a(1) {}
 
 	/* @brief	コンストラクタ
 	 * @param	(r, g, b, a)	引数で色要素を指定		*/

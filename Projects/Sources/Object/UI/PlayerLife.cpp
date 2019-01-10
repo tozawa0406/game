@@ -4,7 +4,7 @@
 //! @def	描画順
 static constexpr int PRIORITY		= 100;
 //! @def	描画位置
-static const	 VECTOR2 POSITION	= VECTOR2(580, (float)Windows::HEIGHT * 0.1f - 30);
+static const	 VECTOR2 POSITION	= VECTOR2(580, Windows::HEIGHT * 0.1f - 30);
 //! @def	描画サイズ
 static const	 VECTOR2 SIZE_DRAW	= VECTOR2(800, 80);
 //! @def	分割数

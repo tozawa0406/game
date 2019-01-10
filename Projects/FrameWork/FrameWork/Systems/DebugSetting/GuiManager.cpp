@@ -12,8 +12,8 @@
 
 static constexpr int   WINDOW_MARGIN_X = 20;
 static constexpr int   WINDOW_MARGIN_Y = 20;
-static constexpr float WINDOW_WIDTH = ((float)Windows::WIDTH - WINDOW_MARGIN_X * 6) / 5;
-static constexpr float WINDOW_HEIGHT = ((float)Windows::HEIGHT - WINDOW_MARGIN_Y * 6) / 5;
+static constexpr float WINDOW_WIDTH = (Windows::WIDTH - WINDOW_MARGIN_X * 6) / 5.0f;
+static constexpr float WINDOW_HEIGHT = (Windows::HEIGHT - WINDOW_MARGIN_Y * 6) / 5.0f;
 
 /* @fn		コンストラクタ
  * @brief	変数の初期化			*/

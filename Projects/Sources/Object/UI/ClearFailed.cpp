@@ -38,5 +38,5 @@ void ClearFailed::Update(void)
 	brack_.SetEnable(true);
 
 	VECTOR2 pos = img_.GetPosition();
-	img_.SetPosition(VECTOR2(pos.x, min((float)Half(Windows::HEIGHT), pos.y + 10)));
+	img_.SetPosition(VECTOR2(pos.x, min(Half(Windows::HEIGHT), pos.y + 10)));
 }

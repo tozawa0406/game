@@ -8,6 +8,7 @@
 #define _OBJECT_H_
 
 #include "../Define/Define.h"
+#include "../Windows/Windows.h"
 #include "../Systems/GameSystems.h"
 #include "../Systems/Renderer/CanvasRenderer/CanvasRendererImage.h"
 #include "../Systems/Renderer/Sprite/SpriteRenderer.h"

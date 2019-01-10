@@ -53,7 +53,7 @@ void CanvasRenderer::Image::CreateVertexBuffer(void)
 
 	for (int i = 0; i < 4; ++i)
 	{
-		v[i].position	= VECTOR4((float)(i % 2), (float)(i / 2), 1, 1);
+		v[i].position	= VECTOR4((i % 2), (i / 2), 1, 1);
 		v[i].color		= COLOR(1, 1, 1, 1);
 		v[i].texcoord	= VECTOR2(0, 0);
 	}

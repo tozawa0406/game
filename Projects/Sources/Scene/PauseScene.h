@@ -15,9 +15,9 @@ class Pause : public BaseScene, public GUI
 	static constexpr int SELECT_NUM = 3;
 public:
 	//! @def	選択肢の幅
-	static constexpr float PAUSE_W = (float)Graphics::WIDTH  / 3;
+	static constexpr float PAUSE_W = Windows::WIDTH  / 3.0f;
 	//! @def	選択肢の高
-	static constexpr float PAUSE_H = (float)Graphics::HEIGHT / 7;
+	static constexpr float PAUSE_H = Windows::HEIGHT / 7.0f;
 
 	/* @brief	コンストラクタ		*/
 	Pause(void);

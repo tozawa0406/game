@@ -1,5 +1,6 @@
 #include "PauseScene.h"
 #include <FrameWork/Scene/SceneManager.h>
+#include <FrameWork/Windows/Windows.h>
 
 /* @brief	選択肢の上限				*/
 static constexpr int PAUSE_SELECT_UP		= 0;
@@ -20,8 +21,8 @@ Pause::~Pause(void)
 void Pause::Init(void)
 {
 	 // 暗転
-	 back_.SetPosition(VECTOR2((float)Half(Graphics::WIDTH), (float)Half(Graphics::HEIGHT)));
-	 back_.SetSize(VECTOR2((float)Graphics::WIDTH, (float)Graphics::HEIGHT));
+	 back_.SetPosition(VECTOR2(Half(Windows::WIDTH), Half(Windows::HEIGHT)));
+	 back_.SetSize(VECTOR2(Windows::WIDTH, Windows::HEIGHT));
 	 back_.SetColor(COLOR::RGBA(0, 0, 0, 100));
 	 back_.Init(250, (int)Texture::Base::WHITE);
 
@@ -32,7 +33,7 @@ void Pause::Init(void)
 	 {
 		 // メニュー背景
 		 menuBack_[i].SetColor(COLOR(1, 1, 1, 1));
-		 menuBack_[i].SetPosition(VECTOR2((float)Half(Graphics::WIDTH), PAUSE_H * (1.0f + (2 * i)) + Half(PAUSE_H)));
+		 menuBack_[i].SetPosition(VECTOR2(Half(Windows::WIDTH), PAUSE_H * (1.0f + (2 * i)) + Half(PAUSE_H)));
 		 menuBack_[i].SetSize(VECTOR2(PAUSE_W, PAUSE_H));
 		 menuBack_[i].Init(252, (int)Texture::Base::WHITE);
 
@@ -46,7 +47,7 @@ void Pause::Init(void)
 		 {
 			 // 非選択オブジェクトを暗くするため
 			 notSelect_[i].Init(254, (int)Texture::Base::WHITE);
-			 notSelect_[i].SetPosition(VECTOR2((float)Half(Graphics::WIDTH), PAUSE_H * (1.0f + (2 * (i + 1))) + Half(PAUSE_H)));
+			 notSelect_[i].SetPosition(VECTOR2(Half(Windows::WIDTH), PAUSE_H * (1.0f + (2 * (i + 1))) + Half(PAUSE_H)));
 			 notSelect_[i].SetSize(menuBack_[i].GetSize());
 			 notSelect_[i].SetColor(COLOR::RGBA(0, 0, 0, 150));
 		 }

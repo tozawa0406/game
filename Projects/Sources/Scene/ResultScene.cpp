@@ -7,9 +7,9 @@ static constexpr int UI_PRIORITY = 200;
 //! @def	UI文字サイズ
 static constexpr int UI_TEXT_SIZE = 30;
 //! @def	press描画の位置
-static const VECTOR2 PRESS_POSITION = VECTOR2((float)Half(Windows::WIDTH) + 200, Windows::HEIGHT * 0.9f - UI_TEXT_SIZE);
+static const VECTOR2 PRESS_POSITION = VECTOR2(Half(Windows::WIDTH) + 200, Windows::HEIGHT * 0.9f - UI_TEXT_SIZE);
 //! @def	pree描画のサイズ
-static const VECTOR2 PRESS_SIZE = VECTOR2((float)Quarter(Windows::WIDTH), Half(Windows::HEIGHT * 0.1f));
+static const VECTOR2 PRESS_SIZE = VECTOR2(Quarter(Windows::WIDTH), Half(Windows::HEIGHT * 0.1f));
 //! @def	UIボタンの描画位置調整
 static constexpr float ADJUST_POSITION_X = 6 * UI_TEXT_SIZE + UI_TEXT_SIZE * 0.5f;
 
@@ -29,30 +29,34 @@ void ResultScene::Init(void)
 {
 	thanks_.Init(UI_PRIORITY, "Thank you for Playing!", 70);
 	thanks_.SetPosition(VECTOR2(250, 300));
-	button_.SetColor(COLOR(0, 0, 0, 1));
 
 	// 「please press」
 	press_.Init(UI_PRIORITY, "Please Press", UI_TEXT_SIZE);
 	press_.SetPosition(PRESS_POSITION);
-	press_.SetColor(COLOR(0, 0, 0, 1));
 
 	// 各種ボタン
 	button_.Init(UI_PRIORITY, "Enter 〇 B", UI_TEXT_SIZE);
 	button_.SetPosition(VECTOR2(PRESS_POSITION.x + ADJUST_POSITION_X, PRESS_POSITION.y));
-	button_.SetColor(COLOR(0, 0, 0, 1));
 
-	if (systems_)
+	// 背景
+	back_.Init(UI_PRIORITY - 1, static_cast<int>(Texture::Base::WHITE));
+	back_.SetPosition(VECTOR2(Half(Windows::WIDTH), Half(Windows::HEIGHT)));
+	back_.SetSize(VECTOR2(Windows::WIDTH, Windows::HEIGHT));
+	back_.SetColor(COLOR(0, 0, 0, 1));
+
+	if (const auto& sound = GetSound())
 	{
-		systems_->GetSound()->Play((int)Sound::Result::BGM_RESULT);
+		sound->Play((int)Sound::Result::BGM_RESULT);
 	}
 }
 
 void ResultScene::Uninit(void)
 {
-	if (systems_)
+	if (const auto& sound = GetSound())
 	{
-		systems_->GetSound()->Stop((int)Sound::Result::BGM_RESULT);
+		sound->Stop((int)Sound::Result::BGM_RESULT);
 	}
+	back_.Uninit();
 	thanks_.Uninit();
 	button_.Uninit();
 	press_.Uninit();

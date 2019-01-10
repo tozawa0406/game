@@ -32,3 +32,10 @@ Controller* BaseScene::GetCtrl(int i)
 	}
 	return nullptr;
 }
+
+Sound* BaseScene::GetSound(void)
+{
+	if (systems_) { return systems_->GetSound(); }
+
+	return nullptr;
+}

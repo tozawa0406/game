@@ -61,6 +61,8 @@ private:
 	CanvasRenderer::Text button_;
 	//! ÅuThank you for Playing!Åv
 	CanvasRenderer::Text thanks_;
+	//! îwåi
+	CanvasRenderer::Image back_;
 };
 
 #endif // _RESULT_SCENE_H_

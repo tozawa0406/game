@@ -22,22 +22,22 @@ Loading::~Loading(void)
 HRESULT Loading::Init(void)
 {
 	display_[0].Init(251, (int)Texture::Base::WHITE);
-	display_[0].SetPosition(VECTOR2(Half((float)Graphics::WIDTH), Half((float)Graphics::HEIGHT)));
-	display_[0].SetSize(VECTOR2((float)Graphics::WIDTH, (float)Graphics::HEIGHT));
+	display_[0].SetPosition(VECTOR2(Half(Windows::WIDTH), Half(Windows::HEIGHT)));
+	display_[0].SetSize(VECTOR2(Windows::WIDTH, Windows::HEIGHT));
 	display_[0].SetColor(COLOR(0, 0, 0, 0));
 	display_[0].SetEnable(false);
 
 	float c = 0.3f;
 	display_[1].Init(252, (int)Texture::Base::WHITE);
 	VECTOR2 adjust = { BAR_PADDING_X + Half(BAR_SIZE_X), BAR_PADDING_Y + Half(BAR_SIZE_Y) };
-	display_[1].SetPosition(VECTOR2(Graphics::WIDTH - adjust.x, Graphics::HEIGHT - adjust.y));
+	display_[1].SetPosition(VECTOR2(Windows::WIDTH - adjust.x, Windows::HEIGHT - adjust.y));
 	display_[1].SetSize(VECTOR2(BAR_SIZE_X, BAR_SIZE_Y));
 	display_[1].SetColor(COLOR(c, c, c, 1));
 	display_[1].SetEnable(false);
 
 	c = 0.7f;
 	display_[2].Init(253, (int)Texture::Base::WHITE);
-	display_[2].SetPosition(VECTOR2(Graphics::WIDTH - adjust.x, Graphics::HEIGHT - adjust.y));
+	display_[2].SetPosition(VECTOR2(Windows::WIDTH - adjust.x, Windows::HEIGHT - adjust.y));
 	display_[2].SetSize(VECTOR2(0, (float)BAR_SIZE_Y));
 	display_[2].SetColor(COLOR(c, c, c, 1));
 	display_[2].SetEnable(false);
@@ -77,10 +77,10 @@ void Loading::FadeAlpha(float a)
 		size.x = percent * BAR_SIZE_X;
 		display_[2].SetSize(size);
 		auto pos = display_[2].GetPosition();
-		pos.x = (float)Graphics::WIDTH - (BAR_PADDING_X + BAR_SIZE_X) + Half(size.x);
+		pos.x = Windows::WIDTH - (BAR_PADDING_X + BAR_SIZE_X) + Half(size.x);
 		display_[2].SetPosition(pos);
 		
-		pos = { Graphics::WIDTH - (BAR_PADDING_X + loadingPercent_->GetSize().x) , Graphics::HEIGHT - BAR_PADDING_Y * 1.3f + Half(BAR_SIZE_Y) };
+		pos = { Windows::WIDTH - (BAR_PADDING_X + loadingPercent_->GetSize().x) , Windows::HEIGHT - BAR_PADDING_Y * 1.3f + Half(BAR_SIZE_Y) };
 		loadingPercent_->Update(min((int)(percent * 100), 100), pos);
 	}
 
