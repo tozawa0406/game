@@ -41,8 +41,8 @@
 [Rr]elease/
 [Rr]eleases/
 [Ww]in32/
-x64/
-x86/
+x64/*
+x86/*
 bld/
 [Bb]in/
 [Oo]bj/
