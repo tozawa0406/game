@@ -170,6 +170,9 @@
     <ClCompile Include="Sources\Object\UI\ClearFailed.cpp">
       <Filter>Source\Object\UI</Filter>
     </ClCompile>
+    <ClCompile Include="Sources\Object\StaticObject\WallParts.cpp">
+      <Filter>Source\Object\StaticObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sources\Object\UI\Timer.h">
@@ -294,6 +297,9 @@
     </ClInclude>
     <ClInclude Include="Sources\Object\UI\ClearFailed.h">
       <Filter>Source\Object\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\StaticObject\WallParts.h">
+      <Filter>Source\Object\StaticObject</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

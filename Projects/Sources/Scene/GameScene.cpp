@@ -16,6 +16,7 @@
 
 #include "../Object/StaticObject/PaidGoodsBox.h"
 #include "../Object/StaticObject/WallA.h"
+#include "../Object/StaticObject/WallParts.h"
 
 //! UI表示してから終了までの時間
 static constexpr int END_TIME = 120;
@@ -37,21 +38,10 @@ GameScene::~GameScene(void)
 
 void GameScene::Init(void)
 {
-	light_		= new Light(systems_);
-	sky_		= new SkyDome(systems_);
-	meshField_	= new MeshField(systems_);
-	if (meshField_)
-	{
-		meshField_->Init(VECTOR2(50), VECTOR2(400));
-	}
-
 	objectManager_ = new ObjectManager(this);
 	assert(objectManager_);
-	objectManager_->Create<PaidGoodsBox>();
-	objectManager_->Create<WallA>(VECTOR3( 100, 3,    0), VECTOR3(0,  1.57f, 0));
-	objectManager_->Create<WallA>(VECTOR3(   0, 3, -100), VECTOR3(0,      0, 0));
-	objectManager_->Create<WallA>(VECTOR3(-100, 3,    0), VECTOR3(0, -1.57f, 0));
-	objectManager_->Create<WallA>(VECTOR3(   0, 3,  100), VECTOR3(0,  3.14f, 0));
+
+	CreateField();
 
 	auto* player = objectManager_->Create<Player>();
 	assert(player);
@@ -68,7 +58,7 @@ void GameScene::Init(void)
 	}
 
 	gameObject_[0] = player;
-	gameObject_[1] = objectManager_->Create<Dragon>();
+//	gameObject_[1] = objectManager_->Create<Dragon>();
 
 	clearUI_ = objectManager_->Create<ClearFailed>();
 	if (clearUI_)
@@ -130,4 +120,38 @@ SceneList GameScene::Update(void)
 	}
 
 	return SceneList::NOTCHANGE;
+}
+
+void GameScene::CreateField(void)
+{
+	light_		= new Light(systems_);
+	sky_		= new SkyDome(systems_);
+	meshField_	= new MeshField(systems_);
+	if (meshField_)
+	{
+		meshField_->Init(VECTOR2(50), VECTOR2(400));
+	}
+
+	objectManager_->Create<PaidGoodsBox>();
+	objectManager_->Create<WallA>(VECTOR3( 100, 3,    0), VECTOR3(0,  1.57f, 0));
+	objectManager_->Create<WallA>(VECTOR3(   0, 3, -100), VECTOR3(0,     0 , 0));
+	objectManager_->Create<WallA>(VECTOR3(-100, 3,    0), VECTOR3(0, -1.57f, 0));
+	objectManager_->Create<WallA>(VECTOR3(   0, 3,  100), VECTOR3(0,  3.14f, 0));
+
+	// 手前左
+	if (const auto& wallParts = objectManager_->Create<WallParts>())
+	{
+		wallParts->SetModelNum(Model::Game::ROCK_1);
+		wallParts->SetTransform(Transform(VECTOR3(-80, 0, -80), VECTOR3(0), VECTOR3(2)));
+		wallParts->SetColliderSize(VECTOR3(30, 30, 30));
+	}
+
+	// 手前正面
+	if (const auto& wallParts = objectManager_->Create<WallParts>())
+	{
+		wallParts->SetModelNum(Model::Game::ROCK_14);
+		wallParts->SetTransform(Transform(VECTOR3(0, -5, -90), VECTOR3(0.3f, 0, 0), VECTOR3(3)));
+		wallParts->SetColliderOffset(VECTOR3(-8.5f, 15, 0), VECTOR3(-0.9f, 0, 0));
+		wallParts->SetColliderSize(VECTOR3(45, 30, 25));
+	}
 }

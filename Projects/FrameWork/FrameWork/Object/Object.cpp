@@ -16,6 +16,7 @@ Object::Object(ObjectTag tag) :
 	manager_(nullptr)
 	, tag_(tag)
 	, destroy_(false)
+	, transform_(Transform(VECTOR3(0), VECTOR3(0), VECTOR3(1)))
 {
 }
 

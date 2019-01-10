@@ -12,6 +12,7 @@
 
 class WallA : public Object
 {
+	//! @def	1つの壁に2つのメッシュを使用
 	static constexpr int MESH_NUM = 2;
 public:
 	/* @brief	コンストラクタ
@@ -37,7 +38,8 @@ public:
 	void Update(void) override {}
 
 private:
-	Collider3D::Plane* collider_;	//! 当たり判定
+	Collider3D::Plane*	collider_;				//! 当たり判定
+	Collider3D::OBB*	entranceCollider_[2];	//! 入口用の当たり判定
 
 	//! メッシュ
 	MeshRenderer	mesh_[MESH_NUM];

@@ -83,7 +83,12 @@ public:
 		SWORD,
 		BOX,
 		DRAGON,
-		WALL_ROCKS_6,
+		ROCK_1,
+		ROCK_4,
+		ROCK_6,
+		ROCK_10,
+		ROCK_12,
+		ROCK_14,
 		MAX
 	};
 	enum class Result : int
@@ -164,7 +169,12 @@ private:
 		{ directoryName + "wapon/kohaku_sword/kohaku_sword_notangent.bmx"	},
 		{ directoryName + "box/TreasureChest_notangent.bmx"					},
 		{ directoryName + "terror_dragon/terror_dragon2.bmx"				},
-		{ directoryName + "wallRocks/Rock6/Rock6_LP.bmx"					}
+		{ directoryName + "wallRocks/Rock1/Rock1.bmx"						},
+		{ directoryName + "wallRocks/Rock4/Rock4.bmx"						},
+		{ directoryName + "wallRocks/Rock6/Rock6.bmx"						},
+		{ directoryName + "wallRocks/Rock10/Rock10.bmx"						},
+		{ directoryName + "wallRocks/Rock12/Rock12.bmx"						},
+		{ directoryName + "wallRocks/Rock14/Rock14.bmx"						}
 	};
 
 	const ANIMATION_INFO animationGameFileName[(int)Animation::Game::MAX]

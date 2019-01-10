@@ -53,6 +53,12 @@ public:
 	Light*			GetLight(void)			{ return light_;     }
 
 private:
+	/* @brief	フィールドの生成
+	 * @sa		Init()
+	 * @param	なし
+	 * @return	なし					*/
+	void CreateField(void);
+
 	//! オブジェクトのマネージャー
 	ObjectManager*	objectManager_;
 	//! ゲーム判定のあるオブジェクト

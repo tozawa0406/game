@@ -47,6 +47,7 @@
     <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\SetupState.cpp" />
     <ClCompile Include="Sources\Object\StaticObject\PaidGoodsBox.cpp" />
     <ClCompile Include="Sources\Object\StaticObject\WallA.cpp" />
+    <ClCompile Include="Sources\Object\StaticObject\WallParts.cpp" />
     <ClCompile Include="Sources\Object\UI\ClearFailed.cpp" />
     <ClCompile Include="Sources\Object\UI\ItemList.cpp" />
     <ClCompile Include="Sources\Object\UI\PlayerLife.cpp" />
@@ -89,6 +90,7 @@
     <ClInclude Include="Sources\Object\ObjectTag.h" />
     <ClInclude Include="Sources\Object\StaticObject\PaidGoodsBox.h" />
     <ClInclude Include="Sources\Object\StaticObject\WallA.h" />
+    <ClInclude Include="Sources\Object\StaticObject\WallParts.h" />
     <ClInclude Include="Sources\Object\UI\ClearFailed.h" />
     <ClInclude Include="Sources\Object\UI\ItemList.h" />
     <ClInclude Include="Sources\Object\UI\PlayerLife.h" />
