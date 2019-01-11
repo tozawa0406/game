@@ -89,6 +89,7 @@ public:
 		ROCK_10,
 		ROCK_12,
 		ROCK_14,
+		CART,
 		MAX
 	};
 	enum class Result : int
@@ -174,7 +175,8 @@ private:
 		{ directoryName + "wallRocks/Rock6/Rock6.bmx"						},
 		{ directoryName + "wallRocks/Rock10/Rock10.bmx"						},
 		{ directoryName + "wallRocks/Rock12/Rock12.bmx"						},
-		{ directoryName + "wallRocks/Rock14/Rock14.bmx"						}
+		{ directoryName + "wallRocks/Rock14/Rock14.bmx"						},
+		{ directoryName + "cart/cart.bmx"									},
 	};
 
 	const ANIMATION_INFO animationGameFileName[(int)Animation::Game::MAX]

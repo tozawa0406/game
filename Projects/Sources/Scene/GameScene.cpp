@@ -17,6 +17,7 @@
 #include "../Object/StaticObject/PaidGoodsBox.h"
 #include "../Object/StaticObject/WallA.h"
 #include "../Object/StaticObject/WallParts.h"
+#include "../Object/StaticObject/Cart.h"
 
 //! UI表示してから終了までの時間
 static constexpr int END_TIME = 120;
@@ -138,20 +139,11 @@ void GameScene::CreateField(void)
 	objectManager_->Create<WallA>(VECTOR3(-100, 3,    0), VECTOR3(0, -1.57f, 0));
 	objectManager_->Create<WallA>(VECTOR3(   0, 3,  100), VECTOR3(0,  3.14f, 0));
 
-	// 手前左
-	if (const auto& wallParts = objectManager_->Create<WallParts>())
-	{
-		wallParts->SetModelNum(Model::Game::ROCK_1);
-		wallParts->SetTransform(Transform(VECTOR3(-80, 0, -80), VECTOR3(0), VECTOR3(2)));
-		wallParts->SetColliderSize(VECTOR3(30, 30, 30));
-	}
+	objectManager_->Create<WallParts>(Model::Game::ROCK_1);
+	objectManager_->Create<WallParts>(Model::Game::ROCK_14);
+	objectManager_->Create<WallParts>(Model::Game::ROCK_12);
+	objectManager_->Create<WallParts>(Model::Game::ROCK_4);
+	objectManager_->Create<WallParts>(Model::Game::ROCK_10);
 
-	// 手前正面
-	if (const auto& wallParts = objectManager_->Create<WallParts>())
-	{
-		wallParts->SetModelNum(Model::Game::ROCK_14);
-		wallParts->SetTransform(Transform(VECTOR3(0, -5, -90), VECTOR3(0.3f, 0, 0), VECTOR3(3)));
-		wallParts->SetColliderOffset(VECTOR3(-8.5f, 15, 0), VECTOR3(-0.9f, 0, 0));
-		wallParts->SetColliderSize(VECTOR3(45, 30, 25));
-	}
+	objectManager_->Create<Cart>();
 }
