@@ -14,10 +14,10 @@
 
 #include "../Object/UI/ClearFailed.h"
 
+#include "../Object/StaticObject/Wall.h"
 #include "../Object/StaticObject/PaidGoodsBox.h"
-#include "../Object/StaticObject/WallA.h"
-#include "../Object/StaticObject/WallParts.h"
 #include "../Object/StaticObject/Cart.h"
+#include "../Object/StaticObject/Cannon.h"
 
 //! UI•\¦‚µ‚Ä‚©‚çI—¹‚Ü‚Å‚ÌŠÔ
 static constexpr int END_TIME = 120;
@@ -133,17 +133,8 @@ void GameScene::CreateField(void)
 		meshField_->Init(VECTOR2(50), VECTOR2(400));
 	}
 
+	objectManager_->Create<Wall>();
 	objectManager_->Create<PaidGoodsBox>();
-	objectManager_->Create<WallA>(VECTOR3( 100, 3,    0), VECTOR3(0,  1.57f, 0));
-	objectManager_->Create<WallA>(VECTOR3(   0, 3, -100), VECTOR3(0,     0 , 0));
-	objectManager_->Create<WallA>(VECTOR3(-100, 3,    0), VECTOR3(0, -1.57f, 0));
-	objectManager_->Create<WallA>(VECTOR3(   0, 3,  100), VECTOR3(0,  3.14f, 0));
-
-	objectManager_->Create<WallParts>(Model::Game::ROCK_1);
-	objectManager_->Create<WallParts>(Model::Game::ROCK_14);
-	objectManager_->Create<WallParts>(Model::Game::ROCK_12);
-	objectManager_->Create<WallParts>(Model::Game::ROCK_4);
-	objectManager_->Create<WallParts>(Model::Game::ROCK_10);
-
 	objectManager_->Create<Cart>();
+	objectManager_->Create<Cannon>();
 }

@@ -1,8 +1,8 @@
 /*
  * @file		WallParts.h
- * @brief		壁の小さなオブジェクト
+ * @brief		壁
  * @author		戸澤翔太
- * @data		2019/01/10
+ * @data		2018/11/27
  */
 #ifndef _WALL_PARTS_H_
 #define _WALL_PARTS_H_
@@ -12,11 +12,13 @@
 
 class WallParts : public Object
 {
+	//! @def	1つの壁に2つのメッシュを使用
+	static constexpr int MESH_NUM = 2;
 public:
 	/* @brief	コンストラクタ
-	 * @param	(transform)		初期姿勢
-	 * @param	(model)			モデル		*/
-	WallParts(Model::Game model);
+	 * @param	(position)		初期位置
+	 * @param	(rotation)		初期回転角		*/
+	WallParts(const VECTOR3& position, const VECTOR3& rotation);
 	/* @brief	デストラクタ		*/
 	~WallParts(void);
 	
@@ -36,12 +38,13 @@ public:
 	void Update(void) override {}
 
 private:
-	//! 当たり判定
-	Collider3D::OBB*	collider_;
+	Collider3D::Plane*	collider_;				//! 当たり判定
+	Collider3D::OBB*	entranceCollider_[2];	//! 入口用の当たり判定
+
 	//! メッシュ
-	MeshRenderer		mesh_;
-	//! モデル
-	Model::Game model_;
+	MeshRenderer	mesh_[MESH_NUM];
+	//! メッシュの姿勢
+	Transform		transformMesh_[MESH_NUM];
 };
 
-#endif // _WALL_A_H_
+#endif // _WALL_PARTS_H_

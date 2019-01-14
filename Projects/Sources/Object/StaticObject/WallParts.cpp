@@ -1,9 +1,29 @@
 #include "WallParts.h"
 
-WallParts::WallParts(Model::Game model) : Object(ObjectTag::STATIC)
+//! @def	初期スケール
+static const VECTOR3 SCALE = VECTOR3(10, 5, 5);
+
+//! @def	メッシュの調整位置
+static constexpr int ADJUST_MESH_POSITION_1 = -4;
+static constexpr int ADJUST_MESH_POSITION_2 =  6;
+
+//! @def	当たり判定のオフセット位置
+static const VECTOR3 COLLIDER_OFFSET = VECTOR3(0, 0, 11);
+//! @def	当たり判定の法線
+static const VECTOR3 COLLIDER_NORMAL = VECTOR3(0, 0, 1);
+//! @def	入口の当たり判定のオフセット調整位置1
+static constexpr float ENTRANCE_POSITION_ADJUST1 = 9.5f;
+//! @def	入口の当たり判定のオフセット調整位置2
+static constexpr float ENTRANCE_POSITION_ADJUST2 = 2;
+//! @def	入口の当たり判定の大きさ
+static const VECTOR3 ENTRANCE_COLLIDER_SIZE = VECTOR3(100, 80, 25);
+
+WallParts::WallParts(const VECTOR3& position, const VECTOR3& rotation) : Object(ObjectTag::STATIC)
 	, collider_(nullptr)
-	, model_(model)
 {
+	transform_ = Transform(position, rotation, SCALE);
+	for (auto& t : transformMesh_) { t = Transform(VECTOR3(0), VECTOR3(0), VECTOR3(1)); }
+	for (auto& c : entranceCollider_) { c = nullptr; }
 }
 
 WallParts::~WallParts(void)
@@ -12,43 +32,48 @@ WallParts::~WallParts(void)
 
 void WallParts::Init(void)
 {	
-	mesh_.Init(Systems::Instance(), static_cast<int>(model_), &transform_);
+	bool entrance = false;
+	float adjust1 = ADJUST_MESH_POSITION_1;
+	float adjust2 = ADJUST_MESH_POSITION_2;
 
-	collider_ = new Collider3D::OBB(this);
-	if (!collider_) { return; }
+	if (transform_.rotation.y == 3.14f)
+	{
+		entrance = true;
+		adjust2 *= 1.4f;
+		adjust1 *= 1.4f;
+	}
 
-	// 手前左
-	if (model_ == Model::Game::ROCK_1)
+	transformMesh_[0].position.x = adjust1;
+	transformMesh_[1].position.x = adjust2;
+
+	for (int i = 0; i < MESH_NUM; ++i)
 	{
-		transform_ = Transform(VECTOR3(-80, 0, -80), VECTOR3(0), VECTOR3(2));
-		collider_->SetSize(VECTOR3(30));
+		transformMesh_[i].parent = &transform_;
+		mesh_[i].Init(Systems::Instance(), (int)Model::Game::ROCK_6, &transformMesh_[i]);
 	}
-	// 手前正面
-	else if (model_ == Model::Game::ROCK_14)
+	transform_.position.y -= 5;
+
+	if (entrance)
 	{
-		transform_ = Transform(VECTOR3(0, -5, -90), VECTOR3(0.3f, 0, 0), VECTOR3(3));
-		collider_->SetOffsetPosition(VECTOR3(-8.5f, 15, 0));
-		collider_->SetOffsetRotation(VECTOR3(-0.9f, 0, 0));
-		collider_->SetSize(VECTOR3(45, 30, 25));
+		for (int i = 0; i < 2; ++i)
+		{
+			entranceCollider_[i] = new Collider3D::OBB(this);
+			if (entranceCollider_[i])
+			{
+				entranceCollider_[i]->SetOffsetPosition(transformMesh_[i].position * (ENTRANCE_POSITION_ADJUST1 - (i * ENTRANCE_POSITION_ADJUST2)));
+				entranceCollider_[i]->SetSize(ENTRANCE_COLLIDER_SIZE);
+			}
+		}
 	}
-	// 手前右
-	else if(model_ == Model::Game::ROCK_12)
+	else
 	{
-		transform_ = Transform(VECTOR3(80, 0, -80), VECTOR3(0, 1.57f, 0), VECTOR3(3));
-		collider_->SetSize(VECTOR3(20, 60, 30));
-	}
-	// 手前右真ん中
-	else if (model_ == Model::Game::ROCK_4)
-	{
-		transform_ = Transform(VECTOR3(80, 0, -60), VECTOR3(0, 3.14f, 0), VECTOR3(2.5f));
-		collider_->SetSize(VECTOR3(20));
-	}
-	// 手前右奥
-	else if (model_ == Model::Game::ROCK_10)
-	{
-		transform_ = Transform(VECTOR3(80, 0, -40), VECTOR3(0, 3.14f, 0), VECTOR3(2.5f));
-		collider_->SetOffsetPosition(VECTOR3(0, 0, 5));
-		collider_->SetSize(VECTOR3(15, 20, 15));
+		collider_ = new Collider3D::Plane(this);
+		if (collider_)
+		{
+			MATRIX temp = MATRIX().Identity().Translation(COLLIDER_OFFSET).Rotation(transform_.rotation);
+			collider_->SetOffsetPosition(VECTOR3(temp._41, temp._42, temp._43));
+			collider_->SetNormal(COLLIDER_NORMAL);
+		}
 	}
 }
 

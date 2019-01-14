@@ -161,19 +161,25 @@
     <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\AttackState\AttackBaseState.cpp">
       <Filter>Source\Object\GameObject\Player\PlayerState\AttackState</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Object\StaticObject\WallA.cpp">
-      <Filter>Source\Object\StaticObject</Filter>
-    </ClCompile>
     <ClCompile Include="Sources\main.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Sources\Object\UI\ClearFailed.cpp">
       <Filter>Source\Object\UI</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Object\StaticObject\WallParts.cpp">
+    <ClCompile Include="Sources\Object\StaticObject\Cart.cpp">
       <Filter>Source\Object\StaticObject</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Object\StaticObject\Cart.cpp">
+    <ClCompile Include="Sources\Object\StaticObject\Cannon.cpp">
+      <Filter>Source\Object\StaticObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Object\StaticObject\StaticObject.cpp">
+      <Filter>Source\Object\StaticObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Object\StaticObject\Wall.cpp">
+      <Filter>Source\Object\StaticObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Object\StaticObject\WallParts.cpp">
       <Filter>Source\Object\StaticObject</Filter>
     </ClCompile>
   </ItemGroup>
@@ -292,19 +298,25 @@
     <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\AttackState\AttackBaseState.h">
       <Filter>Source\Object\GameObject\Player\PlayerState\AttackState</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Object\StaticObject\WallA.h">
-      <Filter>Source\Object\StaticObject</Filter>
-    </ClInclude>
     <ClInclude Include="Sources\Object\ObjectTag.h">
       <Filter>Source\Object</Filter>
     </ClInclude>
     <ClInclude Include="Sources\Object\UI\ClearFailed.h">
       <Filter>Source\Object\UI</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Object\StaticObject\WallParts.h">
+    <ClInclude Include="Sources\Object\StaticObject\Cart.h">
       <Filter>Source\Object\StaticObject</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Object\StaticObject\Cart.h">
+    <ClInclude Include="Sources\Object\StaticObject\Cannon.h">
+      <Filter>Source\Object\StaticObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\StaticObject\StaticObject.h">
+      <Filter>Source\Object\StaticObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\StaticObject\Wall.h">
+      <Filter>Source\Object\StaticObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\StaticObject\WallParts.h">
       <Filter>Source\Object\StaticObject</Filter>
     </ClInclude>
   </ItemGroup>
