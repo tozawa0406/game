@@ -182,6 +182,9 @@
     <ClCompile Include="Sources\Object\StaticObject\WallParts.cpp">
       <Filter>Source\Object\StaticObject</Filter>
     </ClCompile>
+    <ClCompile Include="Sources\Object\StaticObject\Tent.cpp">
+      <Filter>Source\Object\StaticObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sources\Object\UI\Timer.h">
@@ -317,6 +320,9 @@
       <Filter>Source\Object\StaticObject</Filter>
     </ClInclude>
     <ClInclude Include="Sources\Object\StaticObject\WallParts.h">
+      <Filter>Source\Object\StaticObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\StaticObject\Tent.h">
       <Filter>Source\Object\StaticObject</Filter>
     </ClInclude>
   </ItemGroup>

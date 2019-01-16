@@ -18,6 +18,7 @@
 #include "../Object/StaticObject/PaidGoodsBox.h"
 #include "../Object/StaticObject/Cart.h"
 #include "../Object/StaticObject/Cannon.h"
+#include "../Object/StaticObject/Tent.h"
 
 //! UI•\¦‚µ‚Ä‚©‚çI—¹‚Ü‚Å‚ÌŠÔ
 static constexpr int END_TIME = 120;
@@ -136,5 +137,6 @@ void GameScene::CreateField(void)
 	objectManager_->Create<Wall>();
 	objectManager_->Create<PaidGoodsBox>();
 	objectManager_->Create<Cart>();
+	objectManager_->Create<Tent>();
 	objectManager_->Create<Cannon>();
 }

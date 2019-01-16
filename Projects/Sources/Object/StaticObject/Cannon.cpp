@@ -20,7 +20,7 @@ void Cannon::Init(void)
 	if (auto barrel = manager_->Create<StaticObject>(static_cast<uint8>(Model::Game::CANNON_BARREL)))
 	{
 		barrel->SetTransform(Transform(VECTOR3(-65, 2.5f, 20), VECTOR3(-0.03f, -1.3f,0), VECTOR3(2)));
-		barrel->SetColliderOffset(VECTOR3(0, 0, 10.5f), VECTOR3(0), VECTOR3(5, 5, 32.5f));
+		barrel->SetColliderOffset(VECTOR3(0, 0, 10.5f), VECTOR3(0), VECTOR3(10, 10, 32.5f));
 	}
 
 

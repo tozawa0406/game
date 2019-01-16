@@ -93,6 +93,7 @@ public:
 		CANNON,
 		CANNON_BARREL,
 		CANNON_BULLET,
+		TENT,
 		MAX
 	};
 	enum class Result : int
@@ -183,6 +184,7 @@ private:
 		{ directoryName + "cannon/cannon.bmx"								},
 		{ directoryName + "cannon/cannon_barrel.bmx"						},
 		{ directoryName + "cannon/cannon_bullet.bmx"						},
+		{ directoryName + "tent/tent.bmx"									},
 
 	};
 

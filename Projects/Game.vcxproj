@@ -49,6 +49,7 @@
     <ClCompile Include="Sources\Object\StaticObject\Cart.cpp" />
     <ClCompile Include="Sources\Object\StaticObject\PaidGoodsBox.cpp" />
     <ClCompile Include="Sources\Object\StaticObject\StaticObject.cpp" />
+    <ClCompile Include="Sources\Object\StaticObject\Tent.cpp" />
     <ClCompile Include="Sources\Object\StaticObject\Wall.cpp" />
     <ClCompile Include="Sources\Object\StaticObject\WallParts.cpp" />
     <ClCompile Include="Sources\Object\UI\ClearFailed.cpp" />
@@ -95,6 +96,7 @@
     <ClInclude Include="Sources\Object\StaticObject\Cart.h" />
     <ClInclude Include="Sources\Object\StaticObject\PaidGoodsBox.h" />
     <ClInclude Include="Sources\Object\StaticObject\StaticObject.h" />
+    <ClInclude Include="Sources\Object\StaticObject\Tent.h" />
     <ClInclude Include="Sources\Object\StaticObject\Wall.h" />
     <ClInclude Include="Sources\Object\StaticObject\WallParts.h" />
     <ClInclude Include="Sources\Object\UI\ClearFailed.h" />
