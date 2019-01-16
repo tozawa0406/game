@@ -9,7 +9,6 @@
 #include "../../../Windows/Windows.h"
 #include "../../Camera/CameraManager.h"
 #include "../../Light.h"
-#include "../../../../../Sources/Scene/GameScene.h"
 
 #include "../../../Graphics/DirectX11/Dx11Wrapper.h"
 #include "Default.h"
@@ -75,7 +74,7 @@ HRESULT ZTexture::BeginDraw(void)
 		const auto& scene = sceneManager->GetScene();
 		if (scene)
 		{
-			const auto& light = ((GameScene*)scene)->GetLight();
+			const auto& light = scene->GetLight();
 
 			if (light)
 			{

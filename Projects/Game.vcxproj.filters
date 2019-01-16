@@ -68,9 +68,6 @@
     <ClCompile Include="Sources\Scene\EachScene.cpp">
       <Filter>Source\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Scene\GameScene.cpp">
-      <Filter>Source\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Sources\Scene\PauseScene.cpp">
       <Filter>Source\Scene</Filter>
     </ClCompile>
@@ -185,6 +182,9 @@
     <ClCompile Include="Sources\Object\StaticObject\Tent.cpp">
       <Filter>Source\Object\StaticObject</Filter>
     </ClCompile>
+    <ClCompile Include="Sources\Scene\CampScene.cpp">
+      <Filter>Source\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sources\Object\UI\Timer.h">
@@ -200,9 +200,6 @@
       <Filter>Source\Object\Wapon</Filter>
     </ClInclude>
     <ClInclude Include="Sources\Scene\EachScene.h">
-      <Filter>Source\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\Scene\GameScene.h">
       <Filter>Source\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Sources\Scene\PauseScene.h">
@@ -324,6 +321,9 @@
     </ClInclude>
     <ClInclude Include="Sources\Object\StaticObject\Tent.h">
       <Filter>Source\Object\StaticObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Scene\CampScene.h">
+      <Filter>Source\Scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

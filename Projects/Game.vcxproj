@@ -58,7 +58,7 @@
     <ClCompile Include="Sources\Object\UI\Timer.cpp" />
     <ClCompile Include="Sources\Object\Wapon\KohakuSword.cpp" />
     <ClCompile Include="Sources\Scene\EachScene.cpp" />
-    <ClCompile Include="Sources\Scene\GameScene.cpp" />
+    <ClCompile Include="Sources\Scene\CampScene.cpp" />
     <ClCompile Include="Sources\Scene\PauseScene.cpp" />
     <ClCompile Include="Sources\Scene\ResultScene.cpp" />
     <ClCompile Include="Sources\Scene\TitleScene.cpp" />
@@ -106,7 +106,7 @@
     <ClInclude Include="Sources\Object\Wapon\KohakuSword.h" />
     <ClInclude Include="Sources\Object\Wapon\Wapon.h" />
     <ClInclude Include="Sources\Scene\EachScene.h" />
-    <ClInclude Include="Sources\Scene\GameScene.h" />
+    <ClInclude Include="Sources\Scene\CampScene.h" />
     <ClInclude Include="Sources\Scene\PauseScene.h" />
     <ClInclude Include="Sources\Scene\ResultScene.h" />
     <ClInclude Include="Sources\Scene\TitleScene.h" />

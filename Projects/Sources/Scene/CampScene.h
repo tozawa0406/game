@@ -1,5 +1,5 @@
 /*
- * @file		GameScene.h
+ * @file		CampScene.h
  * @brief		ゲームシーン
  * @author		戸澤翔太
  * @data		2018/08/18
@@ -18,15 +18,14 @@
 #include <FrameWork/Object/ObjectManager.h>
 #include "../Object/UI/ClearFailed.h"
 
-class Light;
 class GameObject;
-class GameScene : public BaseScene, public GUI
+class CampScene : public BaseScene, public GUI
 {
 public:
 	/* @brief	コンストラクタ		*/
-	GameScene(void);
+	CampScene(void);
 	/* @brief	デストラクタ		*/
-	~GameScene(void);
+	~CampScene(void);
 
 
 
@@ -44,13 +43,6 @@ public:
 	 * @param	なし
 	 * @return	シーン遷移番号			*/
 	SceneList Update(void) override;
-
-	/* @brief	フィールド取得関数
-	 * @return	フィールドのポインタ		*/
-	MeshField*		GetMeshField(void)		{ return meshField_; }
-	/* @brief	ライト取得処理
-	 * @return	ライトのポインタ			*/
-	Light*			GetLight(void)			{ return light_;     }
 
 private:
 	/* @brief	フィールドの生成
@@ -70,10 +62,6 @@ private:
 
 	//! 天球
 	SkyDome*		sky_;
-	//! フィールド
-	MeshField*		meshField_;
-	//! ライト
-	Light*			light_;
 };
 
 #endif // _GAME_SCENE_H_

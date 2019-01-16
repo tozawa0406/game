@@ -2,7 +2,7 @@
 #include <FrameWork/Scene/SceneManager.h>
 
 #include "TitleScene.h"
-#include "GameScene.h"
+#include "CampScene.h"
 #include "PauseScene.h"
 #include "ResultScene.h"
 
@@ -58,10 +58,10 @@ BaseScene* EachScene::CreateScene(SceneManager* manager, SceneList sceneNum)
 		temp = new TitleScene;
 		break;
 	case SceneList::CAMP:
-		temp = new GameScene;
+		temp = new CampScene;
 		break;
 	case SceneList::BUTTLE:
-		temp = new GameScene;
+		temp = new CampScene;
 		break;
 	case SceneList::RESULT:
 		temp = new ResultScene;

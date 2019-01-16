@@ -9,7 +9,6 @@
 #include "../../../Windows/Windows.h"
 #include "../../Camera/CameraManager.h"
 #include "../../Light.h"
-#include "../../../../../Sources/Scene/GameScene.h"
 
 #include "../../../Graphics/DirectX11/Dx11Wrapper.h"
 #include "../../../Graphics/DirectX11/Dx11RenderTarget.h"

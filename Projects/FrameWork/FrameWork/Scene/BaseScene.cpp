@@ -2,9 +2,11 @@
 #include "../Systems/GameSystems.h"
 #include "SceneManager.h"
 
-BaseScene::BaseScene(void) : 
+BaseScene::BaseScene(void) :
 	manager_(nullptr)
 	, systems_(nullptr)
+	, light_(nullptr)
+	, meshField_(nullptr)
 {
 }
 

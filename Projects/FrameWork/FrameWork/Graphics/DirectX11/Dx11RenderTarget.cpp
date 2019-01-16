@@ -7,7 +7,6 @@
 #include "../../Systems/Renderer/Shader/ZTexture.h"
 #include "../../Scene/SceneManager.h"
 #include "../../Systems/Light.h"
-#include "../../../../Sources/Scene/GameScene.h"
 #include "../../Systems/Camera/CameraManager.h"
 
 #include <d3dx11tex.h>

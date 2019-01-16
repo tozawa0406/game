@@ -1,5 +1,5 @@
 #include "GameObject.h"
-#include "../../Scene/GameScene.h"
+#include "../../Scene/CampScene.h"
 
 GameObject::GameObject(ObjectTag tag) : Object(tag)
 	, life_(0)
@@ -71,7 +71,7 @@ void GameObject::OnGround(void)
 {
 	if (manager_)
 	{
-		if (const auto& scene = static_cast<GameScene*>(manager_->GetScene()))
+		if (const auto& scene = manager_->GetScene())
 		{
 			if (const auto& meshfield = scene->GetMeshField())
 			{

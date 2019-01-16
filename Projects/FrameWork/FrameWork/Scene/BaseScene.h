@@ -19,6 +19,8 @@
 #include "../Systems/DebugSetting/Debug.h"
 
 class SceneManager;
+class Light;
+class MeshField;
 class BaseScene
 {
 public:
@@ -45,6 +47,12 @@ public:
 	 * @return	なし				*/
 	void SetManager(SceneManager* manager);
 
+	/* @brief	ライト取得処理		*/
+	inline Light*		GetLight(void)		{ return light_;		}
+
+	/* @brief	メッシュフィールド取得処理		*/
+	inline MeshField*	GetMeshField(void)	{ return meshField_;	}
+
 protected:	
 	/* @brief	コントローラの取得処理
 	 * @param	(i)		コントローラの番号
@@ -57,9 +65,13 @@ protected:
 	Sound*		GetSound(void);
 
 	//! マネージャー
-	SceneManager* manager_;
+	SceneManager*	manager_;
 	//! システム系
-	Systems*      systems_;
+	Systems*		systems_;
+	//! ライト
+	Light*			light_;
+	//! メッシュフィールド
+	MeshField*		meshField_;
 };
 
 #endif // _BASE_SCENE_H_

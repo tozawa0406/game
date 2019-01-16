@@ -1,4 +1,4 @@
-#include "GameScene.h"
+#include "CampScene.h"
 #include <FrameWork/Windows/Windows.h>
 
 #include <FrameWork/Systems/Renderer/MeshField.h>
@@ -23,22 +23,20 @@
 //! UI•\Ž¦‚µ‚Ä‚©‚çI—¹‚Ü‚Å‚ÌŽžŠÔ
 static constexpr int END_TIME = 120;
 
-GameScene::GameScene(void) : GUI(Systems::Instance(), nullptr, "SceneGame")
+CampScene::CampScene(void) : GUI(Systems::Instance(), nullptr, "SceneGame")
 	, objectManager_(nullptr)
 	, clearUI_(nullptr)
 	, endCnt_(0)
 	, sky_(nullptr)
-	, meshField_(nullptr)
-	, light_(nullptr)
 {
 	for (auto& g : gameObject_) { g = nullptr; }
 }
 
-GameScene::~GameScene(void)
+CampScene::~CampScene(void)
 {
 }
 
-void GameScene::Init(void)
+void CampScene::Init(void)
 {
 	objectManager_ = new ObjectManager(this);
 	assert(objectManager_);
@@ -74,7 +72,7 @@ void GameScene::Init(void)
 	}
 }
 
-void GameScene::Uninit(void)
+void CampScene::Uninit(void)
 {
 	if (const auto& sound = GetSound())
 	{
@@ -86,7 +84,7 @@ void GameScene::Uninit(void)
 	DeletePtr(light_);
 }
 
-SceneList GameScene::Update(void)
+SceneList CampScene::Update(void)
 {
 	if (sky_) { sky_->Update(); }
 	if (objectManager_) { objectManager_->Update(); }
@@ -124,11 +122,11 @@ SceneList GameScene::Update(void)
 	return SceneList::NOTCHANGE;
 }
 
-void GameScene::CreateField(void)
+void CampScene::CreateField(void)
 {
 	light_		= new Light(systems_);
+	meshField_  = new MeshField(systems_);
 	sky_		= new SkyDome(systems_);
-	meshField_	= new MeshField(systems_);
 	if (meshField_)
 	{
 		meshField_->Init(VECTOR2(50), VECTOR2(400), static_cast<int>(Texture::Camp::FIELD));

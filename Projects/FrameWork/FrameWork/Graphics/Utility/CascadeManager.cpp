@@ -3,7 +3,6 @@
 #include "../../Systems/Light.h"
 
 #include "../../Scene/SceneManager.h"
-#include "../../../../Sources/Scene/GameScene.h"
 #include "../../Systems/Camera/CameraManager.h"
 
 CascadeManager::CascadeManager(void) : 
@@ -45,9 +44,9 @@ void CascadeManager::ComputeShadowMatrixPSSM(void)
 			SceneList n = sceneManager->GetSceneNum();
 			if (n == SceneList::CAMP || n == SceneList::BUTTLE)
 			{
-				if (const auto& game = static_cast<GameScene*>(sceneManager->GetScene()))
+				if (const auto& scene = sceneManager->GetScene())
 				{
-					if (const auto& light = game->GetLight())
+					if (const auto& light = scene->GetLight())
 					{
 						info = light->GetLightInfo();
 					}

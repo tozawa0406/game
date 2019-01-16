@@ -1,6 +1,6 @@
 #include "Player.h"
 #include <FrameWork/Systems/Input/Controller.h>
-#include "../../../Scene/GameScene.h"
+#include "../../../Scene/CampScene.h"
 #include <FrameWork/Scene/SceneManager.h>
 #include <FrameWork/Object/ObjectManager.h>
 #include <random>
