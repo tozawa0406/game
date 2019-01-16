@@ -4,8 +4,8 @@
  * @author		ŒËàVãÄ‘¾
  * @data		2018/08/18
  */
-#ifndef _GAME_SCENE_H_
-#define _GAME_SCENE_H_
+#ifndef _CAMP_SCENE_H_
+#define _CAMP_SCENE_H_
 
 #include <FrameWork/Scene/BaseScene.h>
 
@@ -64,4 +64,4 @@ private:
 	SkyDome*		sky_;
 };
 
-#endif // _GAME_SCENE_H_
+#endif // _CAMP_SCENE_H_

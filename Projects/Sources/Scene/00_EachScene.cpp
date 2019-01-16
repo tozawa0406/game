@@ -1,10 +1,11 @@
-#include "EachScene.h"
+#include "00_EachScene.h"
 #include <FrameWork/Scene/SceneManager.h>
 
-#include "TitleScene.h"
-#include "CampScene.h"
-#include "PauseScene.h"
-#include "ResultScene.h"
+#include "01_TitleScene.h"
+#include "02_CampScene.h"
+#include "03_ButtleScene.h"
+#include "04_PauseScene.h"
+#include "05_ResultScene.h"
 
 EachScene::EachScene(void)
 {
@@ -61,7 +62,7 @@ BaseScene* EachScene::CreateScene(SceneManager* manager, SceneList sceneNum)
 		temp = new CampScene;
 		break;
 	case SceneList::BUTTLE:
-		temp = new CampScene;
+		temp = new ButtleScene;
 		break;
 	case SceneList::RESULT:
 		temp = new ResultScene;

@@ -1,5 +1,7 @@
 #include "GameObject.h"
-#include "../../Scene/CampScene.h"
+#include <FrameWork/Object/ObjectManager.h>
+#include <FrameWork/Systems/Renderer/MeshField.h>
+
 
 GameObject::GameObject(ObjectTag tag) : Object(tag)
 	, life_(0)

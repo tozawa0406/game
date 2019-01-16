@@ -9,9 +9,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source\Scene">
-      <UniqueIdentifier>{873cc807-033a-4495-a3aa-e761cccd77f0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Object">
       <UniqueIdentifier>{42e8fc0f-778c-4c7a-b8f1-f890c767e261}</UniqueIdentifier>
     </Filter>
@@ -54,6 +51,9 @@
     <Filter Include="Source\Object\GameObject\Player\PlayerState\AttackState">
       <UniqueIdentifier>{b960fede-5d59-4fe9-9b9a-cce5cae2bc94}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Scene">
+      <UniqueIdentifier>{3c00dc18-912c-462f-9a47-13fac996df8f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sources\Object\UI\Timer.cpp">
@@ -64,18 +64,6 @@
     </ClCompile>
     <ClCompile Include="Sources\Object\Wapon\KohakuSword.cpp">
       <Filter>Source\Object\Wapon</Filter>
-    </ClCompile>
-    <ClCompile Include="Sources\Scene\EachScene.cpp">
-      <Filter>Source\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Sources\Scene\PauseScene.cpp">
-      <Filter>Source\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Sources\Scene\ResultScene.cpp">
-      <Filter>Source\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Sources\Scene\TitleScene.cpp">
-      <Filter>Source\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Sources\Object\GameObject\GameObject.cpp">
       <Filter>Source\Object\GameObject</Filter>
@@ -182,7 +170,25 @@
     <ClCompile Include="Sources\Object\StaticObject\Tent.cpp">
       <Filter>Source\Object\StaticObject</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Scene\CampScene.cpp">
+    <ClCompile Include="Sources\Scene\00_EachScene.cpp">
+      <Filter>Source\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Scene\01_TitleScene.cpp">
+      <Filter>Source\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Scene\02_CampScene.cpp">
+      <Filter>Source\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Scene\03_ButtleScene.cpp">
+      <Filter>Source\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Scene\04_PauseScene.cpp">
+      <Filter>Source\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Scene\05_ResultScene.cpp">
+      <Filter>Source\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Scene\ResourceInfoManager.cpp">
       <Filter>Source\Scene</Filter>
     </ClCompile>
   </ItemGroup>
@@ -198,18 +204,6 @@
     </ClInclude>
     <ClInclude Include="Sources\Object\Wapon\KohakuSword.h">
       <Filter>Source\Object\Wapon</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\Scene\EachScene.h">
-      <Filter>Source\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\Scene\PauseScene.h">
-      <Filter>Source\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\Scene\ResultScene.h">
-      <Filter>Source\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\Scene\TitleScene.h">
-      <Filter>Source\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Sources\Object\GameObject\GameObject.h">
       <Filter>Source\Object\GameObject</Filter>
@@ -322,7 +316,28 @@
     <ClInclude Include="Sources\Object\StaticObject\Tent.h">
       <Filter>Source\Object\StaticObject</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Scene\CampScene.h">
+    <ClInclude Include="Sources\Scene\00_EachScene.h">
+      <Filter>Source\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Scene\01_TitleScene.h">
+      <Filter>Source\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Scene\02_CampScene.h">
+      <Filter>Source\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Scene\03_ButtleScene.h">
+      <Filter>Source\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Scene\04_PauseScene.h">
+      <Filter>Source\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Scene\05_ResultScene.h">
+      <Filter>Source\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Scene\Resources.h">
+      <Filter>Source\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Scene\ResourceInfoManager.h">
       <Filter>Source\Scene</Filter>
     </ClInclude>
   </ItemGroup>

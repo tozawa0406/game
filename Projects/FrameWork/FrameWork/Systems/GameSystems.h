@@ -25,6 +25,7 @@
 #include "Particle/ParticleManager.h"
 
 #include "BaseManager.h"
+#include <Scene/ResourceInfoManager.h>
 
 //-----------------------------------------------------------------------------
 //	クラス宣言
@@ -75,6 +76,8 @@ public:
 	ColliderRendererManager* GetColliderRendererManager(void)	{ return (ColliderRendererManager*) manager_[(int)SystemsNum::COLLISIONDRAW];  }
 	ParticleManager*		 GetParticleManager(void)			{ return (ParticleManager*)			manager_[(int)SystemsNum::PARTICLE];	   }
 
+	const ResourceInfoManager& GetResource(void)const { return resources_; }
+
 	void    Uninit(void);
 private:
 	// 自分自身が使う
@@ -91,6 +94,7 @@ private:
 	Windows*   window_;
 	// インスタンス
 	Interface* manager_[(int)SystemsNum::MAX];
+	ResourceInfoManager resources_;
 };
 
 #endif // _SYSTEMS_H_

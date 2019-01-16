@@ -9,6 +9,7 @@
 #include "../../Define/Define.h"
 #include <xAudio2.h>
 #include "../BaseManager.h"
+#include <Scene/Resources.h>
 
 //-----------------------------------------------------------------------------
 //	クラス宣言
@@ -17,75 +18,6 @@ class Loading;
 class Sound : public Interface
 {
 	friend class Systems;
-	const string directoryName		= Define::ResourceDirectoryName + "Sound/";
-	const string BGMDirectoryName	= directoryName + "BGM/";
-	const string SEDirectoryName	= directoryName + "SE/";
-public:
-	enum class Base : int
-	{
-		UNOWN = -1, 
-		SE_SELECT = 0,
-		SE_ENTER,
-		SE_CANCEL,
-
-		MAX
-	};
-
-	enum class Title : int
-	{
-		BGM_TITLE = (int)Base::MAX,
-
-		MAX
-	};
-	enum class Camp : int
-	{
-		BGM_GAME = (int)Base::MAX,
-
-		MAX
-	};
-	enum class Buttle : int
-	{
-		BGM_GAME = (int)Base::MAX,
-
-		MAX
-	};
-	enum class Result : int
-	{
-		BGM_RESULT = (int)Base::MAX,
-
-		MAX
-	};
-
-private:
-	struct SOUNDPARAM
-	{
-		string pFilename;	// ファイル名
-		int cntLoop;		// ループカウント
-	};
-
-	const SOUNDPARAM baseFileName[(int)Base::MAX]
-	{
-		{ SEDirectoryName + "select.wav"	, 0 },
-		{ SEDirectoryName + "enter.wav"	, 0 },
-		{ SEDirectoryName + "cancel.wav"	, 0 },
-	};
-	const SOUNDPARAM titleFileName[(int)Title::MAX - (int)Base::MAX]
-	{
-		{ BGMDirectoryName + "Title/bgm_maoudamashii_fantasy08.wav", -1 },
-	};
-	const SOUNDPARAM campFileName[(int)Camp::MAX - (int)Base::MAX]
-	{
-		{ BGMDirectoryName + "Game/bgm_maoudamashii_orchestra24.wav"	, -1 },
-	};
-	const SOUNDPARAM buttleFileName[(int)Buttle::MAX - (int)Base::MAX]
-	{
-		{ BGMDirectoryName + "Game/bgm_maoudamashii_orchestra24.wav"	, -1 },
-	};
-	const SOUNDPARAM resultFileName[(int)Result::MAX - (int)Base::MAX]
-	{
-		{ BGMDirectoryName + "Result/bgm_maoudamashii_orchestra14.wav"	, -1 },
-	};
-
 public:
 	~Sound(void);
 
@@ -98,7 +30,6 @@ public:
 	void    Stop(void)      const;
 
 private:
-
 	struct SOUNDDATA
 	{
 		IXAudio2SourceVoice*	sourceVoice;	// ソースボイス

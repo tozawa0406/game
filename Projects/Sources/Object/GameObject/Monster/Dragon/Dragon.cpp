@@ -1,13 +1,8 @@
-//-----------------------------------------------------------------------------
-//
-//	Auther : ŒËàVãÄ‘¾
-//-----------------------------------------------------------------------------
 #include "Dragon.h"
 #include <FrameWork/Object/ObjectManager.h>
 #include <FrameWork/Scene/SceneManager.h>
 #include <FrameWork/Systems/Input/Controller.h>
 #include <FrameWork/Graphics/DirectX11/Dx11Wrapper.h>
-#include "../../../../Scene/CampScene.h"
 
 #include "Attack/DragonScream.h"
 #include "Attack/DragonBite.h"

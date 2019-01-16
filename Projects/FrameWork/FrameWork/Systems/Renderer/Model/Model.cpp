@@ -10,7 +10,7 @@
 #include "../../../Graphics/Wrapper.h"
 #include "../../../Scene/BaseScene.h"
 #include "../../Loading.h"
-#include "../../../../../Sources/Scene/EachScene.h"
+#include "../../../../../Sources/Scene/00_EachScene.h"
 
 Model::Model(Systems* systems) : Interface(systems)
 {

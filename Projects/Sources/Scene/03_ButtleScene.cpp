@@ -1,4 +1,4 @@
-#include "CampScene.h"
+#include "03_ButtleScene.h"
 #include <FrameWork/Windows/Windows.h>
 
 #include <FrameWork/Systems/Renderer/MeshField.h>
@@ -23,7 +23,7 @@
 //! UI•\Ž¦‚µ‚Ä‚©‚çI—¹‚Ü‚Å‚ÌŽžŠÔ
 static constexpr int END_TIME = 120;
 
-CampScene::CampScene(void) : GUI(Systems::Instance(), nullptr, "SceneGame")
+ButtleScene::ButtleScene(void) : GUI(Systems::Instance(), nullptr, "SceneGame")
 	, objectManager_(nullptr)
 	, clearUI_(nullptr)
 	, endCnt_(0)
@@ -32,11 +32,11 @@ CampScene::CampScene(void) : GUI(Systems::Instance(), nullptr, "SceneGame")
 	for (auto& g : gameObject_) { g = nullptr; }
 }
 
-CampScene::~CampScene(void)
+ButtleScene::~ButtleScene(void)
 {
 }
 
-void CampScene::Init(void)
+void ButtleScene::Init(void)
 {
 	objectManager_ = new ObjectManager(this);
 	assert(objectManager_);
@@ -68,15 +68,15 @@ void CampScene::Init(void)
 
 	if(const auto& sound = GetSound())
 	{
-		sound->Play((int)Sound::Camp::BGM_GAME);
+		sound->Play((int)Resources::Sound::Camp::BGM_GAME);
 	}
 }
 
-void CampScene::Uninit(void)
+void ButtleScene::Uninit(void)
 {
 	if (const auto& sound = GetSound())
 	{
-		sound->Stop((int)Sound::Camp::BGM_GAME);
+		sound->Stop((int)Resources::Sound::Camp::BGM_GAME);
 	}
 	UninitDeletePtr(objectManager_);
 	DeletePtr(meshField_);
@@ -84,7 +84,7 @@ void CampScene::Uninit(void)
 	DeletePtr(light_);
 }
 
-SceneList CampScene::Update(void)
+SceneList ButtleScene::Update(void)
 {
 	if (sky_) { sky_->Update(); }
 	if (objectManager_) { objectManager_->Update(); }
@@ -115,14 +115,14 @@ SceneList CampScene::Update(void)
 
 	if (systems_->GetInput()->GetCtrl(0)->Trigger(Input::GAMEPAD_START, DIK_P)) 
 	{
-		systems_->GetSound()->Play((int)Sound::Base::SE_SELECT);
+		systems_->GetSound()->Play((int)Resources::Sound::Base::SE_SELECT);
 		manager_->SetPause(true);
 	}
 
 	return SceneList::NOTCHANGE;
 }
 
-void CampScene::CreateField(void)
+void ButtleScene::CreateField(void)
 {
 	light_		= new Light(systems_);
 	meshField_  = new MeshField(systems_);

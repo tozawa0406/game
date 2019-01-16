@@ -1,4 +1,4 @@
-#include "PauseScene.h"
+#include "04_PauseScene.h"
 #include <FrameWork/Scene/SceneManager.h>
 #include <FrameWork/Windows/Windows.h>
 
@@ -101,7 +101,7 @@ SceneList Pause::Update(void)
 	{
 		if (selectNum_ < SELECT_NUM - 1)
 		{
-			sound->Play((int)Sound::Base::SE_SELECT);
+			sound->Play((int)Resources::Sound::Base::SE_SELECT);
 			selectNum_++;
 		}
 	}
@@ -109,7 +109,7 @@ SceneList Pause::Update(void)
 	{
 		if (selectNum_ > PAUSE_SELECT_UP)
 		{
-			sound->Play((int)Sound::Base::SE_SELECT);
+			sound->Play((int)Resources::Sound::Base::SE_SELECT);
 			selectNum_--;
 		}
 		
@@ -118,13 +118,13 @@ SceneList Pause::Update(void)
 	//Œˆ’èƒL[
 	if (GetCtrl(0)->Press(Input::GAMEPAD_CIRCLE, DIK_RETURN))
 	{
-		sound->Play((int)Sound::Base::SE_ENTER);
+		sound->Play((int)Resources::Sound::Base::SE_ENTER);
 		paddingTimeCnt_++;
 	}
 
 	if (GetCtrl(0)->Trigger(Input::GAMEPAD_START, DIK_P))
 	{
-		sound->Play((int)Sound::Base::SE_SELECT);
+		sound->Play((int)Resources::Sound::Base::SE_SELECT);
 		selectNum_ = 0;
 		EnableUI(false);
 		manager_->SetPause(false);

@@ -7,11 +7,13 @@
 #include "../GameSystems.h"
 #include "../../Windows/Windows.h"
 #include "../../Scene/BaseScene.h"
+#include "../../Scene/SceneManager.h"
 #include "../Loading.h"
 
 // ‰Šú‰»ˆ—
 HRESULT Sound::Init(void)
 {
+	if (!systems_) { return E_FAIL; }
 	Windows* windows = systems_->GetWindow();
 	HRESULT hr;
 
@@ -39,10 +41,13 @@ HRESULT Sound::Init(void)
 
 		return E_FAIL;
 	}
-	int size = (int)Base::MAX;
+
+	const ResourceInfoManager& resource = systems_->GetResource();
+	int size = 0, max = 0;
+	const auto& fileName = resource.LoadSound(SceneList::MAX, size, max);
 	for (int i = 0; i < size; ++i)
 	{
-		hr = LoadSound(baseFileName[i], i);
+		hr = LoadSound(fileName[i], i);
 		if (FAILED(hr)) { return E_FAIL; }
 	}
 
@@ -68,52 +73,28 @@ int	Sound::SetUpLoading(Loading* loading, int sceneNum)
 {
 	loading_ = loading;
 
-	switch ((SceneList)sceneNum)
-	{
-	case SceneList::TITLE:
-		return (int)Title::MAX - (int)Base::MAX;
-	case SceneList::CAMP:
-		return (int)Camp::MAX - (int)Base::MAX;
-	case SceneList::BUTTLE:
-		return (int)Buttle::MAX - (int)Base::MAX;
-	case SceneList::RESULT:
-		return (int)Result::MAX - (int)Base::MAX;
-	default: break;
-	}
-	return 0;
+	if (!systems_) { return 0; }
+	const ResourceInfoManager& resource = systems_->GetResource();
+	int size = 0, max = 0;	
+	resource.LoadSound(static_cast<SceneList>(sceneNum), size, max);
+
+	return size;
 }
 
 HRESULT Sound::Load(int sceneNum)
 {
 	sceneNum_ = sceneNum;
-	int size = 0;
-	const SOUNDPARAM* fileName = nullptr;
-	switch ((SceneList)sceneNum)
-	{
-	case SceneList::TITLE:
-		size = (int)Title::MAX;
-		fileName = &titleFileName[0];
-		break;
-	case SceneList::CAMP:
-		size = (int)Camp::MAX;
-		fileName = &campFileName[0];
-		break;
-	case SceneList::BUTTLE:
-		size = (int)Buttle::MAX;
-		fileName = &buttleFileName[0];
-		break;
-	case SceneList::RESULT:
-		size = (int)Result::MAX;
-		fileName = &resultFileName[0];
-		break;
-	default: break;
-	}
+
+	if (!systems_) { return E_FAIL; }
+	const ResourceInfoManager& resource = systems_->GetResource();
+	int size = 0, max = 0;
+	const auto& fileName = resource.LoadSound(static_cast<SceneList>(sceneNum), size, max);
 
 	if (!fileName) { return E_FAIL; }
-	for (int i = 0; i < size; ++i)
+	for (int i = 0; i < max; ++i)
 	{
-		if (i < (int)Base::MAX) { continue; }
-		HRESULT hr = LoadSound(fileName[i - (int)Base::MAX], i);
+		if (i < static_cast<int>(Resources::Sound::Base::MAX)) { continue; }
+		HRESULT hr = LoadSound(fileName[i - static_cast<int>(Resources::Sound::Base::MAX)], i);
 		if (FAILED(hr)) { return E_FAIL; }
 		loading_->AddLoading();
 	}
@@ -121,7 +102,7 @@ HRESULT Sound::Load(int sceneNum)
 	return S_OK;
 }
 
-HRESULT Sound::LoadSound(Sound::SOUNDPARAM param, int i)
+HRESULT Sound::LoadSound(SOUNDPARAM param, int i)
 {
 	UNREFERENCED_PARAMETER(i);
 
@@ -226,27 +207,14 @@ HRESULT Sound::LoadSound(Sound::SOUNDPARAM param, int i)
 
 void Sound::Release(bool uninit)
 {
-	int size = 0;
-	switch ((SceneList)sceneNum_)
-	{
-	case SceneList::TITLE:
-		size = (int)Title::MAX;
-		break;
-	case SceneList::CAMP:
-		size = (int)Camp::MAX;
-		break;
-	case SceneList::BUTTLE:
-		size = (int)Buttle::MAX;
-		break;
-	case SceneList::RESULT:
-		size = (int)Result::MAX;
-		break;
-	default: break;
-	}
+	if (!systems_) { return; }
+	const ResourceInfoManager& resource = systems_->GetResource();
+	int size = 0, max = 0;
+	resource.LoadSound(static_cast<SceneList>(sceneNum_), size, max);
 
-	int max = (int)Base::MAX;
-	if (uninit) { max = 0; }
-	for (int i = size - 1; i >= max; --i)
+	int baseMax = static_cast<int>(Resources::Sound::Base::MAX);
+	if (uninit) { baseMax = 0; }
+	for (int i = max - 1; i >= baseMax; --i)
 	{
 		ReleaseSound(i);
 	}
@@ -254,7 +222,7 @@ void Sound::Release(bool uninit)
 
 void Sound::ReleaseSound(int i)
 {
-	if (i >= (int)sound_.size()) { return; }
+	if (i >= static_cast<int>(sound_.size())) { return; }
 	auto& sound = sound_[i];
 
 	if (sound.sourceVoice)
@@ -342,26 +310,13 @@ void Sound::Stop(int label) const
 // ƒZƒOƒƒ“ƒg’âŽ~(‘S‚Ä)
 void Sound::Stop(void) const
 {
-	int size = 0;
-	switch ((SceneList)sceneNum_)
-	{
-	case SceneList::TITLE:
-		size = (int)Title::MAX;
-		break;
-	case SceneList::CAMP:
-		size = (int)Camp::MAX;
-		break;
-	case SceneList::BUTTLE:
-		size = (int)Buttle::MAX;
-		break;
-	case SceneList::RESULT:
-		size = (int)Result::MAX;
-		break;
-	default: break;
-	}
+	if (!systems_) { return; }
+	const ResourceInfoManager& resource = systems_->GetResource();
+	int size = 0, max = 0;
+	resource.LoadSound(static_cast<SceneList>(sceneNum_), size, max);
 
 	// ˆêŽž’âŽ~
-	for(int i = 0; i < size; ++i)
+	for(int i = 0; i < max; ++i)
 	{
 		if(sound_[i].sourceVoice)
 		{

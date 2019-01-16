@@ -8,7 +8,7 @@
 #define _BASE_SCENE_H_
 
 #include "../Define/Define.h"
-#include "../../../Sources/Scene/EachScene.h"
+#include "../../../Sources/Scene/00_EachScene.h"
 
 #include "../Windows/Windows.h"
 #include "../Systems/Renderer/CanvasRenderer/CanvasRendererImage.h"
