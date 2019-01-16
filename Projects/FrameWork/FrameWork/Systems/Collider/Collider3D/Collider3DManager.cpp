@@ -273,15 +273,29 @@ bool Collision3DManager::HitTubes(Segment s1, float r1, Segment s2, float r2)
 // 球と球の当たり判定
 bool Collision3DManager::HitSpheres(const Collider3DBase* s1, const Collider3DBase* s2)
 {
-	Point diff = Float3(s2->transform_.position.x - s1->transform_.position.x, s2->transform_.position.y - s1->transform_.position.y, s2->transform_.position.z - s1->transform_.position.z);
+	VECTOR3 diff = s2->GetTransform().position - s1->GetTransform().position;
 	float r = Half(s1->size_.x) + Half(s2->size_.x);
 
-	return (diff.lengthSq() <= r * r) ? true : false;
+	return (VecLengthSq(diff) <= r * r) ? true : false;
 }
 
 // OBB同士の当たり判定
 bool Collision3DManager::HitOBBs(const Collider3D::OBB& obb1, const Collider3D::OBB& obb2)
 {
+	// 一番長い辺を半径とし、球の当たり判定を行い負荷を減らす
+	VECTOR3 diff = obb1.transform_.position - obb2.transform_.position;
+	float size[2] = { 0, 0 };
+	for (int i = 0; i < 3; ++i)
+	{
+		float len = obb1.GetLen(i);
+		if (len > size[0]) { size[0] = len; }
+
+		len = obb2.GetLen(i);
+		if (len > size[1]) { size[1] = len; }
+	}
+	float r = size[0] + size[1];
+	if (VecLengthSq(diff) > r * r) { return false; }
+
 	// 各方向ベクトルの確保
 	VECTOR3 NAe[3], NBe[3], Ae[3], Be[3];
 	for (int i = 0; i < 3; ++i)
@@ -291,7 +305,7 @@ bool Collision3DManager::HitOBBs(const Collider3D::OBB& obb1, const Collider3D::
 		NBe[i] = obb2.GetDirect(i);
 		Be[i]  = NBe[i] * obb2.GetLen(i);
 	}
-	VECTOR3 interval = obb1.transform_.position - obb2.transform_.position;
+	VECTOR3 interval = diff;
 
 	for (int i = 0; i < 3; ++i)
 	{
