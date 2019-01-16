@@ -69,7 +69,8 @@ HRESULT ZTexture::BeginDraw(void)
 	VECTOR3 up = camera->GetUp();
 
 	const auto& sceneManager = manager_->GetSystems()->GetSceneManager();
-	if (sceneManager->GetSceneNum() == SceneList::GAME)
+	const auto& sceneNum = sceneManager->GetSceneNum();
+	if (sceneNum == SceneList::CAMP || sceneNum == SceneList::BUTTLE)
 	{
 		const auto& scene = sceneManager->GetScene();
 		if (scene)

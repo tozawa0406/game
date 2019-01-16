@@ -71,7 +71,7 @@ void Dragon::Init(void)
 
 	meshAnim_.animSpeed = 0.75f;
 
-	meshAnim_.mesh.Init(Systems::Instance(), (int)Model::Game::DRAGON, &transform_);
+	meshAnim_.mesh.Init(Systems::Instance(), (int)Model::Camp::DRAGON, &transform_);
 
 	CreateCollision();
 	

@@ -43,7 +43,7 @@ ItemList::~ItemList(void)
 
 void ItemList::Init(void)
 {
-	int texNum = static_cast<int>(Texture::Game::ITEM_UI);
+	int texNum = static_cast<int>(Texture::Camp::ITEM_UI);
 
 	// îwåi
 	back_.Init(PRIORITY, texNum);

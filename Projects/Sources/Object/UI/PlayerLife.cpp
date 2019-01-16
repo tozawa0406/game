@@ -33,7 +33,7 @@ PlayerLife::~PlayerLife(void)
 
 void PlayerLife::Init(void)
 {
-	int texNum = static_cast<int>(Texture::Game::HP_BAR);
+	int texNum = static_cast<int>(Texture::Camp::HP_BAR);
 
 	// îwåi
 	back_.Init(PRIORITY, texNum);

@@ -14,7 +14,7 @@ void ClearFailed::Init(void)
 {
 	VECTOR2 w = VECTOR2(static_cast<float>(Windows::WIDTH), static_cast<float>(Windows::HEIGHT));
 
-	img_.Init(240, static_cast<int>(Texture::Game::CLEAR_FAILED_UI));
+	img_.Init(240, static_cast<int>(Texture::Camp::CLEAR_FAILED_UI));
 	img_.SetPosition(VECTOR2(Half(w.x), 0));
 	img_.SetSize(VECTOR2(760, 400));
 	img_.SetSplit(VECTOR2(1, 2));

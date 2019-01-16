@@ -42,7 +42,8 @@ void CascadeManager::ComputeShadowMatrixPSSM(void)
 	{
 		if (const auto& sceneManager = systems->GetSceneManager())
 		{
-			if (sceneManager->GetSceneNum() == SceneList::GAME)
+			SceneList n = sceneManager->GetSceneNum();
+			if (n == SceneList::CAMP || n == SceneList::BUTTLE)
 			{
 				if (const auto& game = static_cast<GameScene*>(sceneManager->GetScene()))
 				{

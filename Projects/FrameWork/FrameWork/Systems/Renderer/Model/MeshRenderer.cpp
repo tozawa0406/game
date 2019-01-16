@@ -26,6 +26,7 @@ MeshRenderer::~MeshRenderer(void)
 
 void MeshRenderer::Init(Systems* systems, int modelNum, const Transform* transform)
 {
+	assert(modelNum != static_cast<int>(Model::Base::UNOWN));
 	ObjectRenderer::Init(systems, transform);
 
 	modelNum_ = modelNum;

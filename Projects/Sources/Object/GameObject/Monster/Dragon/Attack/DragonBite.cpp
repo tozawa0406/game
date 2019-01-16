@@ -34,7 +34,7 @@ void DragonBite::Init(GameObject* monster)
 		{
 			if (Dx11Wrapper* wrapper = static_cast<Dx11Wrapper*>(renderer->GetWrapper()))
 			{
-				const auto& model = wrapper->GetModel(static_cast<int>(Model::Game::DRAGON));
+				const auto& model = wrapper->GetModel(static_cast<int>(Model::Camp::DRAGON));
 
 				collider_ = new Collider3D::OBB(monster);
 				if (collider_)

@@ -34,7 +34,7 @@ public:
 		MAX = (int)Base::MAX
 	};
 
-	enum class Game
+	enum class Camp
 	{
 		FIELD = (int)Base::MAX,
 		SLASH,
@@ -48,7 +48,22 @@ public:
 		CLEAR_FAILED_UI,
 
 		MAX
+	};
 
+	enum class Buttle
+	{
+		FIELD = (int)Base::MAX,
+		SLASH,
+		EFFECT,
+
+		HP_BAR,
+		ITEM_UI,
+
+		TIMER_UI,
+
+		CLEAR_FAILED_UI,
+
+		MAX
 	};
 
 	enum class Result
@@ -69,7 +84,20 @@ private:
 	//{		  
 	//};
 
-	const string gameFileName[(int)Game::MAX - (int)Base::MAX]
+	const string campFileName[(int)Camp::MAX - (int)Base::MAX]
+	{
+		{ directoryName + "field.jpg"					},
+		{ directoryName + "slash.jpg"					},
+		{ directoryName + "effect.jpg"					},
+
+		{ directoryName + "UI/game/hpbar.png"			},
+		{ directoryName + "UI/game/itemlist.png"		},
+
+		{ directoryName + "UI/timer.png"				},
+		{ directoryName + "UI/clear_failed.png"			},
+	};
+
+	const string buttleFileName[(int)Buttle::MAX - (int)Base::MAX]
 	{
 		{ directoryName + "field.jpg"					},
 		{ directoryName + "slash.jpg"					},

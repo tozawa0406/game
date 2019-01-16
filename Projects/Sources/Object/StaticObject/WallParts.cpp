@@ -49,7 +49,7 @@ void WallParts::Init(void)
 	for (int i = 0; i < MESH_NUM; ++i)
 	{
 		transformMesh_[i].parent = &transform_;
-		mesh_[i].Init(Systems::Instance(), (int)Model::Game::ROCK_6, &transformMesh_[i]);
+		mesh_[i].Init(Systems::Instance(), (int)Model::Camp::ROCK_6, &transformMesh_[i]);
 	}
 	transform_.position.y -= 5;
 
@@ -80,4 +80,5 @@ void WallParts::Init(void)
 void WallParts::Uninit(void)
 {
 	DeletePtr(collider_);
+	for (auto& c : entranceCollider_) { DeletePtr(c); }
 }

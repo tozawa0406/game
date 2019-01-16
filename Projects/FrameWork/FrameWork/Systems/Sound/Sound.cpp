@@ -72,8 +72,10 @@ int	Sound::SetUpLoading(Loading* loading, int sceneNum)
 	{
 	case SceneList::TITLE:
 		return (int)Title::MAX - (int)Base::MAX;
-	case SceneList::GAME:
-		return (int)Game::MAX - (int)Base::MAX;
+	case SceneList::CAMP:
+		return (int)Camp::MAX - (int)Base::MAX;
+	case SceneList::BUTTLE:
+		return (int)Buttle::MAX - (int)Base::MAX;
 	case SceneList::RESULT:
 		return (int)Result::MAX - (int)Base::MAX;
 	default: break;
@@ -92,9 +94,13 @@ HRESULT Sound::Load(int sceneNum)
 		size = (int)Title::MAX;
 		fileName = &titleFileName[0];
 		break;
-	case SceneList::GAME:
-		size = (int)Game::MAX;
-		fileName = &gameFileName[0];
+	case SceneList::CAMP:
+		size = (int)Camp::MAX;
+		fileName = &campFileName[0];
+		break;
+	case SceneList::BUTTLE:
+		size = (int)Buttle::MAX;
+		fileName = &buttleFileName[0];
 		break;
 	case SceneList::RESULT:
 		size = (int)Result::MAX;
@@ -226,8 +232,11 @@ void Sound::Release(bool uninit)
 	case SceneList::TITLE:
 		size = (int)Title::MAX;
 		break;
-	case SceneList::GAME:
-		size = (int)Game::MAX;
+	case SceneList::CAMP:
+		size = (int)Camp::MAX;
+		break;
+	case SceneList::BUTTLE:
+		size = (int)Buttle::MAX;
 		break;
 	case SceneList::RESULT:
 		size = (int)Result::MAX;
@@ -334,20 +343,19 @@ void Sound::Stop(int label) const
 void Sound::Stop(void) const
 {
 	int size = 0;
-//	const SOUNDPARAM* fileName = nullptr;
 	switch ((SceneList)sceneNum_)
 	{
 	case SceneList::TITLE:
 		size = (int)Title::MAX;
-//		fileName = &titleFileName[0];
 		break;
-	case SceneList::GAME:
-		size = (int)Game::MAX;
-//		fileName = &gameFileName[0];
+	case SceneList::CAMP:
+		size = (int)Camp::MAX;
+		break;
+	case SceneList::BUTTLE:
+		size = (int)Buttle::MAX;
 		break;
 	case SceneList::RESULT:
 		size = (int)Result::MAX;
-		//		fileName = &resultFileName[0];
 		break;
 	default: break;
 	}

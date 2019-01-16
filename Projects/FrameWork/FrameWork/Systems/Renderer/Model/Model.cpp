@@ -21,9 +21,8 @@ HRESULT Model::Init(void)
 	int size = (int)Base::MAX;
 	for (int i = 0; i < size; ++i)
 	{
-		// 現状は存在しないのでコメントアウト
-//		HRESULT hr = systems_->GetGraphics()->GetWrapper()->LoadModel(baseFileName[i], i);
-//		if (FAILED(hr)) { return E_FAIL; }
+		HRESULT hr = systems_->GetGraphics()->GetWrapper()->LoadModel(baseFileName[i], i);
+		if (FAILED(hr)) { return E_FAIL; }
 	}
 
 	return S_OK;
@@ -45,8 +44,11 @@ int	Model::SetUpLoading(Loading* loading, int sceneNum)
 	case SceneList::TITLE:
 		size = (int)Title::MAX - (int)Base::MAX;
 		break;
-	case SceneList::GAME:
-		size = (int)Game::MAX - (int)Base::MAX;
+	case SceneList::CAMP:
+		size = (int)Camp::MAX - (int)Base::MAX;
+		break;
+	case SceneList::BUTTLE:
+		size = (int)Buttle::MAX - (int)Base::MAX;
 		break;
 	case SceneList::RESULT:
 		size = (int)Result::MAX - (int)Base::MAX;
@@ -59,8 +61,11 @@ int	Model::SetUpLoading(Loading* loading, int sceneNum)
 	case SceneList::TITLE:
 		size += (int)Animation::Title::MAX - (int)Animation::Base::MAX;
 		break;
-	case SceneList::GAME:
-		size += (int)Animation::Game::MAX - (int)Animation::Base::MAX;
+	case SceneList::CAMP:
+		size += (int)Animation::Camp::MAX - (int)Animation::Base::MAX;
+		break;
+	case SceneList::BUTTLE:
+		size += (int)Animation::Buttle::MAX - (int)Animation::Base::MAX;
 		break;
 	case SceneList::RESULT:
 		size += (int)Animation::Result::MAX - (int)Animation::Base::MAX;
@@ -82,9 +87,13 @@ HRESULT Model::Load(int sceneNum)
 		size = (int)Title::MAX;
 //		fileName = &titleFileName[0];
 		break;
-	case SceneList::GAME:
-		size = (int)Game::MAX;
-		fileName = &gameFileName[0];
+	case SceneList::CAMP:
+		size = (int)Camp::MAX;
+		fileName = &campFileName[0];
+		break;
+	case SceneList::BUTTLE:
+		size = (int)Buttle::MAX;
+		fileName = &buttleFileName[0];
 		break;
 	case SceneList::RESULT:
 		size = (int)Result::MAX;
@@ -111,9 +120,13 @@ HRESULT Model::Load(int sceneNum)
 		size = (int)Animation::Title::MAX;
 		//		fileName = &titleFileName[0];
 		break;
-	case SceneList::GAME:
-		size = (int)Animation::Game::MAX;
-		info = &animationGameFileName[0];
+	case SceneList::CAMP:
+		size = (int)Animation::Camp::MAX;
+		info = &animationCampFileName[0];
+		break;
+	case SceneList::BUTTLE:
+		size = (int)Animation::Buttle::MAX;
+		info = &animationButtleFileName[0];
 		break;
 	case SceneList::RESULT:
 		size = (int)Animation::Result::MAX;
@@ -144,8 +157,11 @@ void Model::Release(bool uninit)
 	case SceneList::TITLE:
 		size = (int)Title::MAX;
 		break;
-	case SceneList::GAME:
-		size = (int)Game::MAX;
+	case SceneList::CAMP:
+		size = (int)Camp::MAX;
+		break;
+	case SceneList::BUTTLE:
+		size = (int)Buttle::MAX;
 		break;
 	case SceneList::RESULT:
 		size = (int)Result::MAX;

@@ -70,7 +70,7 @@ void GameScene::Init(void)
 
 	if(const auto& sound = GetSound())
 	{
-		sound->Play((int)Sound::Game::BGM_GAME);
+		sound->Play((int)Sound::Camp::BGM_GAME);
 	}
 }
 
@@ -78,7 +78,7 @@ void GameScene::Uninit(void)
 {
 	if (const auto& sound = GetSound())
 	{
-		sound->Stop((int)Sound::Game::BGM_GAME);
+		sound->Stop((int)Sound::Camp::BGM_GAME);
 	}
 	UninitDeletePtr(objectManager_);
 	DeletePtr(meshField_);
@@ -131,7 +131,7 @@ void GameScene::CreateField(void)
 	meshField_	= new MeshField(systems_);
 	if (meshField_)
 	{
-		meshField_->Init(VECTOR2(50), VECTOR2(400));
+		meshField_->Init(VECTOR2(50), VECTOR2(400), static_cast<int>(Texture::Camp::FIELD));
 	}
 
 	objectManager_->Create<Wall>();

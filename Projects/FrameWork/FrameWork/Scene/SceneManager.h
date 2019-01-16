@@ -63,6 +63,8 @@ public:
 	 * @return	なし						*/
 	void    Change(SceneList scene = SceneList::NEXT);
 
+	/* @brief	シーン情報管理クラスの取得	*/
+	inline EachScene*		GetEachSceneInfo(void) { return eachScene_;		}
 	/* @brief	現在シーンの番号取得		*/
 	inline SceneList		GetSceneNum(void)      { return displayMode_;	}
 	/* @brief	現在のシーンのポインタ取得	*/

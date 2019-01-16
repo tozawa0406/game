@@ -31,7 +31,7 @@ public:
 
 	VECTOR3 Hit(const VECTOR3& position, VECTOR3& velocity);
 
-	HRESULT Init(VECTOR2 split = { SPLIT, SPLIT }, VECTOR2 size = { SIZE, SIZE });			//‰Šú‰»ˆ—
+	HRESULT Init(VECTOR2 split = { SPLIT, SPLIT }, VECTOR2 size = { SIZE, SIZE }, int textureNum = 0);			//‰Šú‰»ˆ—
 
 	void GuiUpdate(void) override;
 
@@ -57,6 +57,8 @@ private:
 
 	Transform	   transform_;
 	SpriteRenderer renderer_;
+
+	int				texNum_;
 
 	VECTOR3 ttttt;
 	VECTOR3 ttt;

@@ -13,11 +13,12 @@
 #include "../Camera/CameraManager.h"
 #include "../DebugSetting/GuiManager.h"
 
-HRESULT MeshField::Init(VECTOR2 split, VECTOR2 size)
+HRESULT MeshField::Init(VECTOR2 split, VECTOR2 size, int textureNum)
 {
 	split_ = split;
 	size_  = size;
 
+	texNum_ = textureNum;
 	InputData();
 	return CreateMeshField();
 }
@@ -50,7 +51,7 @@ HRESULT MeshField::CreateMeshField(void)
 
 	CreateIndex(indexNum);
 
-	renderer_.Init(systems_, (int)Texture::Game::FIELD, &transform_);
+	renderer_.Init(systems_, texNum_, &transform_);
 	renderer_.SetVertex(vertexBuffer_, vertexNum);
 	renderer_.SetIndex(indexBuffer_, indexNum);
 	renderer_.shader = Shader::ENUM::DEPTH_SHADOW;

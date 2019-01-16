@@ -37,7 +37,13 @@ public:
 
 		MAX
 	};
-	enum class Game : int
+	enum class Camp : int
+	{
+		BGM_GAME = (int)Base::MAX,
+
+		MAX
+	};
+	enum class Buttle : int
 	{
 		BGM_GAME = (int)Base::MAX,
 
@@ -67,7 +73,11 @@ private:
 	{
 		{ BGMDirectoryName + "Title/bgm_maoudamashii_fantasy08.wav", -1 },
 	};
-	const SOUNDPARAM gameFileName[(int)Game::MAX - (int)Base::MAX]
+	const SOUNDPARAM campFileName[(int)Camp::MAX - (int)Base::MAX]
+	{
+		{ BGMDirectoryName + "Game/bgm_maoudamashii_orchestra24.wav"	, -1 },
+	};
+	const SOUNDPARAM buttleFileName[(int)Buttle::MAX - (int)Base::MAX]
 	{
 		{ BGMDirectoryName + "Game/bgm_maoudamashii_orchestra24.wav"	, -1 },
 	};

@@ -25,7 +25,7 @@ KohakuSword::~KohakuSword(void)
 void KohakuSword::Init(void)
 {
 	// ƒƒbƒVƒ…
-	mesh_.Init(Systems::Instance(), (int)Model::Game::SWORD, &transform_);
+	mesh_.Init(Systems::Instance(), (int)Model::Camp::SWORD, &transform_);
 
 	// “–‚½‚è”»’è
 	collider_ = new Collider3D::OBB(this);

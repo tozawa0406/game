@@ -19,7 +19,7 @@ BloodSplash::~BloodSplash(void)
 
 void BloodSplash::Init(void)
 {
-	renderer_.Init(Systems::Instance(), static_cast<int>(Texture::Game::SLASH), &transform_);
+	renderer_.Init(Systems::Instance(), static_cast<int>(Texture::Camp::SLASH), &transform_);
 	renderer_.billbord	= true;
 	renderer_.shadow	= false;
 	renderer_.shader	= Shader::ENUM::BILLBOARD;

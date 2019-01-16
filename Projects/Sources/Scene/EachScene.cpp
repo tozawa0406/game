@@ -40,7 +40,7 @@ int EachScene::ChangePause(int returnPause)
 	case 1:
 		return 0;
 	case 2:
-		return static_cast<int>(SceneList::GAME);
+		return static_cast<int>(SceneList::CAMP);
 	case 3:
 		return static_cast<int>(SceneList::TITLE);
 	}
@@ -57,7 +57,10 @@ BaseScene* EachScene::CreateScene(SceneManager* manager, SceneList sceneNum)
 	case SceneList::TITLE:
 		temp = new TitleScene;
 		break;
-	case SceneList::GAME:
+	case SceneList::CAMP:
+		temp = new GameScene;
+		break;
+	case SceneList::BUTTLE:
 		temp = new GameScene;
 		break;
 	case SceneList::RESULT:
@@ -82,7 +85,8 @@ BaseScene* EachScene::CreatePause(SceneManager* manager, SceneList sceneNum)
 
 	switch (sceneNum)
 	{
-	case SceneList::GAME:
+	case SceneList::CAMP:
+	case SceneList::BUTTLE:
 		temp = new Pause;
 		break;
 	default:

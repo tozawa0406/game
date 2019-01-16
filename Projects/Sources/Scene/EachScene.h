@@ -15,7 +15,8 @@ enum class SceneList : uint8
 	NEXT		= 255,	// 次のシーン
 	NOTCHANGE	= 0,	// 遷移なし
 	TITLE,				// タイトル
-	GAME,				// ゲーム
+	CAMP,				// キャンプ
+	BUTTLE,				// 戦闘
 	RESULT,				// リザルト
 	MAX
 };
