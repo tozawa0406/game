@@ -29,7 +29,7 @@ void Tent::Init(void)
 	transform_ = Transform(POSITION, ROTATION, SCALE);
 
 	// ƒƒbƒVƒ…
-	mesh_.Init(Systems::Instance(), static_cast<int>(Model::Camp::TENT), &transform_);
+	mesh_.Init(Systems::Instance(), static_cast<int>(Resources::Model::Camp::TENT), &transform_);
 
 	// “–‚½‚è”»’è
 	collider_ = new Collider3D::OBB(this);

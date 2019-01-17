@@ -39,7 +39,7 @@ void ResultScene::Init(void)
 	button_.SetPosition(VECTOR2(PRESS_POSITION.x + ADJUST_POSITION_X, PRESS_POSITION.y));
 
 	// îwåi
-	back_.Init(UI_PRIORITY - 1, static_cast<int>(Texture::Base::WHITE));
+	back_.Init(UI_PRIORITY - 1, static_cast<int>(Resources::Texture::Base::WHITE));
 	back_.SetPosition(VECTOR2(Half(Windows::WIDTH), Half(Windows::HEIGHT)));
 	back_.SetSize(VECTOR2(Windows::WIDTH, Windows::HEIGHT));
 	back_.SetColor(COLOR(0, 0, 0, 1));

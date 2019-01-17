@@ -21,14 +21,14 @@ Loading::~Loading(void)
 
 HRESULT Loading::Init(void)
 {
-	display_[0].Init(251, (int)Texture::Base::WHITE);
+	display_[0].Init(251, (int)Resources::Texture::Base::WHITE);
 	display_[0].SetPosition(VECTOR2(Half(Windows::WIDTH), Half(Windows::HEIGHT)));
 	display_[0].SetSize(VECTOR2(Windows::WIDTH, Windows::HEIGHT));
 	display_[0].SetColor(COLOR(0, 0, 0, 0));
 	display_[0].SetEnable(false);
 
 	float c = 0.3f;
-	display_[1].Init(252, (int)Texture::Base::WHITE);
+	display_[1].Init(252, (int)Resources::Texture::Base::WHITE);
 	VECTOR2 adjust = { BAR_PADDING_X + Half(BAR_SIZE_X), BAR_PADDING_Y + Half(BAR_SIZE_Y) };
 	display_[1].SetPosition(VECTOR2(Windows::WIDTH - adjust.x, Windows::HEIGHT - adjust.y));
 	display_[1].SetSize(VECTOR2(BAR_SIZE_X, BAR_SIZE_Y));
@@ -36,13 +36,13 @@ HRESULT Loading::Init(void)
 	display_[1].SetEnable(false);
 
 	c = 0.7f;
-	display_[2].Init(253, (int)Texture::Base::WHITE);
+	display_[2].Init(253, (int)Resources::Texture::Base::WHITE);
 	display_[2].SetPosition(VECTOR2(Windows::WIDTH - adjust.x, Windows::HEIGHT - adjust.y));
 	display_[2].SetSize(VECTOR2(0, (float)BAR_SIZE_Y));
 	display_[2].SetColor(COLOR(c, c, c, 1));
 	display_[2].SetEnable(false);
 
-	display_[3].Init(253, (int)Texture::Base::LOAD);
+	display_[3].Init(253, (int)Resources::Texture::Base::LOAD);
 	auto p = display_[0].GetPosition();
 	p.y -= 100;
 	display_[3].SetPosition(p);

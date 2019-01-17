@@ -1,11 +1,11 @@
 /*
- * @file		Resources.h
+ * @file		ResourcesSound.h
  * @brief		リソース管理ファイル
  * @author		戸澤翔太
  * @data		2018/01/17
  */
-#ifndef _RESOURCES_H_
-#define _RESOURCES_H_
+#ifndef _RESOURCES_SOUND_H_
+#define _RESOURCES_SOUND_H_
 
 #include <FrameWork/Define/Define.h>
 
@@ -17,19 +17,6 @@ struct SOUNDPARAM
 
 namespace Resources
 {
-	namespace Testure
-	{
-
-	}
-
-	namespace Model
-	{
-		namespace Animation
-		{
-
-		}
-	}
-
 	class Sound
 	{
 		const string directoryName = Define::ResourceDirectoryName + "Sound/";
@@ -99,4 +86,4 @@ namespace Resources
 	};
 }
 
-#endif // _RESOURCES_
+#endif // _RESOURCES_SOUND_H_

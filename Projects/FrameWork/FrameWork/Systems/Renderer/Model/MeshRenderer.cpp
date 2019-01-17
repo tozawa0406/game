@@ -15,7 +15,7 @@
 #include "../../Camera/CameraManager.h"
 
 MeshRenderer::MeshRenderer(void) : ObjectRenderer(ObjectRenderer::RendererType::MODEL)
-								 , modelNum_((int)Model::Base::UNOWN), pattern_(0), patternOld_(0), animation_(0), animationOld_(-1)
+								 , modelNum_((int)Resources::Model::Base::UNOWN), pattern_(0), patternOld_(0), animation_(0), animationOld_(-1)
 								 , rate_(0), addRate_(0), isSkinning_(false)
 {
 }
@@ -26,7 +26,7 @@ MeshRenderer::~MeshRenderer(void)
 
 void MeshRenderer::Init(Systems* systems, int modelNum, const Transform* transform)
 {
-	assert(modelNum != static_cast<int>(Model::Base::UNOWN));
+	assert(modelNum != static_cast<int>(Resources::Model::Base::UNOWN));
 	ObjectRenderer::Init(systems, transform);
 
 	modelNum_ = modelNum;

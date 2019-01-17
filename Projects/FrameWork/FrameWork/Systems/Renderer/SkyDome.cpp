@@ -18,7 +18,7 @@ SkyDome::SkyDome(Systems* systems)
 	transform_.rotation = VECTOR3(0, 0, 0);
 	transform_.scale    = VECTOR3(5, 5, 5);
 
-	mesh_.Init(systems, static_cast<int>(Model::Base::SKY), &transform_);
+	mesh_.Init(systems, static_cast<int>(Resources::Model::Base::SKY), &transform_);
 	mesh_.sort   = false;
 	mesh_.shadow = false;
 	mesh_.shader = Shader::ENUM::UNKOUWN;

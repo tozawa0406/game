@@ -9,7 +9,7 @@
 #include "../../Define/Define.h"
 #include <xAudio2.h>
 #include "../BaseManager.h"
-#include <Scene/Resources.h>
+#include <Scene/ResourcesSound.h>
 
 //-----------------------------------------------------------------------------
 //	ƒNƒ‰ƒXéŒ¾

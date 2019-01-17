@@ -74,9 +74,8 @@ int	Sound::SetUpLoading(Loading* loading, int sceneNum)
 	loading_ = loading;
 
 	if (!systems_) { return 0; }
-	const ResourceInfoManager& resource = systems_->GetResource();
 	int size = 0, max = 0;	
-	resource.LoadSound(static_cast<SceneList>(sceneNum), size, max);
+	systems_->GetResource().LoadSound(static_cast<SceneList>(sceneNum), size, max);
 
 	return size;
 }
@@ -86,9 +85,8 @@ HRESULT Sound::Load(int sceneNum)
 	sceneNum_ = sceneNum;
 
 	if (!systems_) { return E_FAIL; }
-	const ResourceInfoManager& resource = systems_->GetResource();
 	int size = 0, max = 0;
-	const auto& fileName = resource.LoadSound(static_cast<SceneList>(sceneNum), size, max);
+	const auto& fileName = systems_->GetResource().LoadSound(static_cast<SceneList>(sceneNum), size, max);
 
 	if (!fileName) { return E_FAIL; }
 	for (int i = 0; i < max; ++i)
@@ -208,9 +206,8 @@ HRESULT Sound::LoadSound(SOUNDPARAM param, int i)
 void Sound::Release(bool uninit)
 {
 	if (!systems_) { return; }
-	const ResourceInfoManager& resource = systems_->GetResource();
 	int size = 0, max = 0;
-	resource.LoadSound(static_cast<SceneList>(sceneNum_), size, max);
+	systems_->GetResource().LoadSound(static_cast<SceneList>(sceneNum_), size, max);
 
 	int baseMax = static_cast<int>(Resources::Sound::Base::MAX);
 	if (uninit) { baseMax = 0; }

@@ -114,7 +114,9 @@
     <ClInclude Include="Sources\Scene\04_PauseScene.h" />
     <ClInclude Include="Sources\Scene\05_ResultScene.h" />
     <ClInclude Include="Sources\Scene\ResourceInfoManager.h" />
-    <ClInclude Include="Sources\Scene\Resources.h" />
+    <ClInclude Include="Sources\Scene\ResourcesModel.h" />
+    <ClInclude Include="Sources\Scene\ResourcesSound.h" />
+    <ClInclude Include="Sources\Scene\ResourcesTexture.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="FrameWork\FrameWork.vcxproj">

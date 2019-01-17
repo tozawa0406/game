@@ -40,7 +40,7 @@ void DragonWingAttack::Init(GameObject* monster)
 		{
 			if (Dx11Wrapper* wrapper = static_cast<Dx11Wrapper*>(renderer->GetWrapper()))
 			{
-				const auto& model = wrapper->GetModel(static_cast<int>(Model::Camp::DRAGON));
+				const auto& model = wrapper->GetModel(static_cast<int>(Resources::Model::Camp::DRAGON));
 
 				int num = static_cast<int>(Wing::CLAW_L);
 				collider_[num] = new Collider3D::OBB(monster);

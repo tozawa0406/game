@@ -18,12 +18,24 @@ Model::Model(Systems* systems) : Interface(systems)
 
 HRESULT Model::Init(void)
 {
-	int size = (int)Base::MAX;
-	for (int i = 0; i < size; ++i)
+	if (!systems_) { return E_FAIL; }
+
+	int size = 0, max = 0;
+	const string* fileName = systems_->GetResource().LoadModel(SceneList::MAX, size, max);
+
+	if (const auto& graphics = systems_->GetGraphics())
 	{
-		HRESULT hr = systems_->GetGraphics()->GetWrapper()->LoadModel(baseFileName[i], i);
-		if (FAILED(hr)) { return E_FAIL; }
+		if (const auto& wrapper = graphics->GetWrapper())
+		{
+			for (int i = 0; i < max; ++i)
+			{
+				HRESULT hr = wrapper->LoadModel(fileName[i], i);
+				if (FAILED(hr)) { return E_FAIL; }
+			}
+		}
+		else { return E_FAIL; }
 	}
+	else { return E_FAIL; }
 
 	return S_OK;
 }
@@ -37,142 +49,80 @@ int	Model::SetUpLoading(Loading* loading, int sceneNum)
 {
 	loading_ = loading;
 
-	int size = 0;
+	if (!systems_) { return 0; }
+	int size = 0, max = 0;
+	systems_->GetResource().LoadModel(static_cast<SceneList>(sceneNum), size, max);
 
-	switch ((SceneList)sceneNum)
-	{
-	case SceneList::TITLE:
-		size = (int)Title::MAX - (int)Base::MAX;
-		break;
-	case SceneList::CAMP:
-		size = (int)Camp::MAX - (int)Base::MAX;
-		break;
-	case SceneList::BUTTLE:
-		size = (int)Buttle::MAX - (int)Base::MAX;
-		break;
-	case SceneList::RESULT:
-		size = (int)Result::MAX - (int)Base::MAX;
-		break;
-	default: break;
-	}
+	int animSize = 0;
+	systems_->GetResource().LoadModelAnimation(static_cast<SceneList>(sceneNum), animSize, max);
 
-	switch ((SceneList)sceneNum)
-	{
-	case SceneList::TITLE:
-		size += (int)Animation::Title::MAX - (int)Animation::Base::MAX;
-		break;
-	case SceneList::CAMP:
-		size += (int)Animation::Camp::MAX - (int)Animation::Base::MAX;
-		break;
-	case SceneList::BUTTLE:
-		size += (int)Animation::Buttle::MAX - (int)Animation::Base::MAX;
-		break;
-	case SceneList::RESULT:
-		size += (int)Animation::Result::MAX - (int)Animation::Base::MAX;
-		break;
-	default: break;
-	}
-
-	return size;
+	return size + animSize;
 }
 
 HRESULT Model::Load(int sceneNum)
 {
 	sceneNum_ = sceneNum;
-	int size = 0;
-	const string* fileName = nullptr;
-	switch ((SceneList)sceneNum)
-	{
-	case SceneList::TITLE:
-		size = (int)Title::MAX;
-//		fileName = &titleFileName[0];
-		break;
-	case SceneList::CAMP:
-		size = (int)Camp::MAX;
-		fileName = &campFileName[0];
-		break;
-	case SceneList::BUTTLE:
-		size = (int)Buttle::MAX;
-		fileName = &buttleFileName[0];
-		break;
-	case SceneList::RESULT:
-		size = (int)Result::MAX;
-//		fileName = &resultFileName[0];
-		break;
-	default: break;
-	}
 
-	if (size > 0 && !fileName) { return E_FAIL; }
-	for (int i = 0; i < size; ++i)
+	if (!systems_) { return E_FAIL; }
+	int size = 0, max = 0;
+	const auto& fileName = systems_->GetResource().LoadModel(static_cast<SceneList>(sceneNum), size, max);
+
+	if (const auto& graphics = systems_->GetGraphics())
 	{
-		if (i < (int)Base::MAX) { continue; }
-		HRESULT hr = systems_->GetGraphics()->GetWrapper()->LoadModel(fileName[i - (int)Base::MAX], i);
-		if (FAILED(hr)) { return E_FAIL; }
-		loading_->AddLoading();
+		if (const auto& wrapper = graphics->GetWrapper())
+		{
+			for (int i = 0; i < max; ++i)
+			{
+				if (i < static_cast<int>(Resources::Model::Base::MAX)) { continue; }
+				HRESULT hr = wrapper->LoadModel(fileName[i - static_cast<int>(Resources::Model::Base::MAX)], i);
+				if (FAILED(hr)) { return E_FAIL; }
+				loading_->AddLoading();
+			}
+		}
+		else { return E_FAIL; }
 	}
+	else { return E_FAIL; }
 
 	// アニメーション
-	size = 0;
-	const ANIMATION_INFO* info = nullptr;
-	switch ((SceneList)sceneNum)
-	{
-	case SceneList::TITLE:
-		size = (int)Animation::Title::MAX;
-		//		fileName = &titleFileName[0];
-		break;
-	case SceneList::CAMP:
-		size = (int)Animation::Camp::MAX;
-		info = &animationCampFileName[0];
-		break;
-	case SceneList::BUTTLE:
-		size = (int)Animation::Buttle::MAX;
-		info = &animationButtleFileName[0];
-		break;
-	case SceneList::RESULT:
-		size = (int)Animation::Result::MAX;
-		//		fileName = &resultFileName[0];
-		break;
-	default: break;
-	}
+	const auto& animFileName = systems_->GetResource().LoadModelAnimation(static_cast<SceneList>(sceneNum), size, max);
 
-	if (size > 0 && !info) { return E_FAIL; }
-	for (int i = 0; i < size; ++i)
+	if (const auto& graphics = systems_->GetGraphics())
 	{
-		if (i < (int)Animation::Base::MAX) { continue; }
-		const auto& temp = info[i - (int)Animation::Base::MAX];
-		HRESULT hr = systems_->GetGraphics()->GetWrapper()->LoadModelAnimation(temp.fileName, temp.parent);
-		if (FAILED(hr)) { return E_FAIL; }
-		loading_->AddLoading();
+		if (const auto& wrapper = graphics->GetWrapper())
+		{
+			for (int i = 0; i < max; ++i)
+			{
+				if (i < static_cast<int>(Resources::Model::Animation::Base::MAX)) { continue; }
+				auto anim = animFileName[i - static_cast<int>(Resources::Model::Animation::Base::MAX)];
+				HRESULT hr = wrapper->LoadModelAnimation(anim.fileName, anim.parent);
+				if (FAILED(hr)) { return E_FAIL; }
+				loading_->AddLoading();
+			}
+		}
+		else { return E_FAIL; }
 	}
-
+	else { return E_FAIL; }
 
 	return S_OK;
 }
 
 void Model::Release(bool uninit)
 {
-	int size = 0;
-	switch ((SceneList)sceneNum_)
-	{
-	case SceneList::TITLE:
-		size = (int)Title::MAX;
-		break;
-	case SceneList::CAMP:
-		size = (int)Camp::MAX;
-		break;
-	case SceneList::BUTTLE:
-		size = (int)Buttle::MAX;
-		break;
-	case SceneList::RESULT:
-		size = (int)Result::MAX;
-		break;
-	default: break;
-	}
+	if (!systems_) { return; }
+	int size = 0, max = 0;
+	systems_->GetResource().LoadModel(static_cast<SceneList>(sceneNum_), size, max);
 
-	int max = (int)Base::MAX;
-	if (uninit) { max = 0; }
-	for (int i = size - 1; i >= max; --i)
+	int baseMax = static_cast<int>(Resources::Model::Base::MAX);
+	if (uninit) { baseMax = 0; }
+
+	if (const auto& graphics = systems_->GetGraphics())
 	{
-		systems_->GetGraphics()->GetWrapper()->ReleaseModel(i);
+		if (const auto& wrapper = graphics->GetWrapper())
+		{
+			for (int i = max - 1; i >= baseMax; --i)
+			{
+				wrapper->ReleaseModel(i);
+			}
+		}
 	}
 }

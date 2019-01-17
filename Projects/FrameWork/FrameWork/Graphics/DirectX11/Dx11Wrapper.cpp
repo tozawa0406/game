@@ -371,7 +371,7 @@ void Dx11Wrapper::Draw(const CanvasRenderer::Image *obj, const Shader* shader)
 
 	int pixelNum = 0;
 	// テクスチャを使用しない場合
-	if (obj->GetTexNum() < (int)Texture::Base::WHITE) { pixelNum = 1; }
+	if (obj->GetTexNum() < (int)Resources::Texture::Base::WHITE) { pixelNum = 1; }
 
 	ID3D11VertexShader* vertex = nullptr;
 	ID3D11PixelShader*  pixel = nullptr;
@@ -728,7 +728,7 @@ void Dx11Wrapper::Draw(const ColliderRenderer* obj)
 	dev->VSSetConstantBuffers(0, 1, &constantBuffer_[shader_[1].constantBuffer[0]]);
 	dev->VSSetConstantBuffers(1, 1, &constant);	// cbufferを使うVSに設定
 
-	SetTexture(0, (int)Texture::Base::WHITE);
+	SetTexture(0, (int)Resources::Texture::Base::WHITE);
 	dev->VSSetShader(vertex, NULL, 0);
 	dev->PSSetShader(pixel, NULL, 0);
 	dev->GSSetShader(NULL, NULL, 0);
@@ -1013,7 +1013,7 @@ HRESULT Dx11Wrapper::LoadModel(string fileName, int modelNum)
 			{
 				if (j == 0)
 				{
-					string temp = Systems::Instance()->GetTexture()->GetWhiteTextureFileName();
+					const string& temp = Systems::Instance()->GetResource().GetWhiteTextureName();
 					LoadTexture(temp, texNum, modelNum);
 					mesh.material.texture[j] = texNum;
 					texNum++;

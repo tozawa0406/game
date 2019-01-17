@@ -49,7 +49,7 @@ void WallParts::Init(void)
 	for (int i = 0; i < MESH_NUM; ++i)
 	{
 		transformMesh_[i].parent = &transform_;
-		mesh_[i].Init(Systems::Instance(), (int)Model::Camp::ROCK_6, &transformMesh_[i]);
+		mesh_[i].Init(Systems::Instance(), (int)Resources::Model::Camp::ROCK_6, &transformMesh_[i]);
 	}
 	transform_.position.y -= 5;
 

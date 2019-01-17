@@ -30,7 +30,7 @@ void PaidGoodsBox::Init(void)
 	transform_ = Transform(POSITION, ROTATION, SCALE);
 
 	// ƒƒbƒVƒ…
-	mesh_.Init(Systems::Instance(), (int)Model::Camp::BOX, &transform_);
+	mesh_.Init(Systems::Instance(), (int)Resources::Model::Camp::BOX, &transform_);
 	mesh_.material.diffuse = MESH_COLOR;
 
 	// “–‚½‚è”»’è

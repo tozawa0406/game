@@ -50,7 +50,7 @@ void Player::Init(void)
 	if (!systems) { return; }
 
 	// メッシュ
-	meshAnim_.mesh.Init(systems, static_cast<int>(Model::Camp::UNITY_CHAN), &transform_);
+	meshAnim_.mesh.Init(systems, static_cast<int>(Resources::Model::Camp::UNITY_CHAN), &transform_);
 	meshAnim_.mesh.shader = Shader::ENUM::DEFAULT;
 
 	// スケールの設定

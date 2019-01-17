@@ -10,7 +10,7 @@
 
 #include "../Shader/Default.h"
 
-SpriteRenderer::SpriteRenderer(void) : ObjectRenderer(ObjectRenderer::RendererType::SPRITE), texNum((int)Texture::Base::UNOWN)
+SpriteRenderer::SpriteRenderer(void) : ObjectRenderer(ObjectRenderer::RendererType::SPRITE), texNum((int)Resources::Texture::Base::UNOWN)
 									 , vertexBuffer(0), indexBuffer(0), vertexNum(4), indexNum(6), pattern(0), split(1), billbord(false), xBillbord(false)
 {
 	texcoord = VECTOR4(0, 0, 1, 1);

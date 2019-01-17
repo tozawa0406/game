@@ -334,10 +334,16 @@
     <ClInclude Include="Sources\Scene\05_ResultScene.h">
       <Filter>Source\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Scene\Resources.h">
+    <ClInclude Include="Sources\Scene\ResourceInfoManager.h">
       <Filter>Source\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Scene\ResourceInfoManager.h">
+    <ClInclude Include="Sources\Scene\ResourcesSound.h">
+      <Filter>Source\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Scene\ResourcesTexture.h">
+      <Filter>Source\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Scene\ResourcesModel.h">
       <Filter>Source\Scene</Filter>
     </ClInclude>
   </ItemGroup>

@@ -129,7 +129,7 @@ void ButtleScene::CreateField(void)
 	sky_		= new SkyDome(systems_);
 	if (meshField_)
 	{
-		meshField_->Init(VECTOR2(50), VECTOR2(400), static_cast<int>(Texture::Camp::FIELD));
+		meshField_->Init(VECTOR2(50), VECTOR2(400), static_cast<int>(Resources::Texture::Camp::FIELD));
 	}
 
 	objectManager_->Create<Wall>();

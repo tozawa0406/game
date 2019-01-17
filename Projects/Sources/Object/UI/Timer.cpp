@@ -75,7 +75,7 @@ void Timer::Init(void)
 	VECTOR2 pos = VECTOR2(POSITION.x, POSITION.y);
 
 	// îwåi
-	back_.Init(LAYER - 1, static_cast<int>(Texture::Camp::TIMER_UI));
+	back_.Init(LAYER - 1, static_cast<int>(Resources::Texture::Camp::TIMER_UI));
 	back_.SetPosition(VECTOR2(pos.x - ADJUST_BACK_POSITION, pos.y));
 	back_.SetSize(VECTOR2(BACK_SIZE));
 	back_.SetColor(COLOR(1, 1, 1, 1 * ALPHA));
@@ -85,7 +85,7 @@ void Timer::Init(void)
 	back_.SetPattern(0);
 
 	// ÉQÅ[ÉWÇÃèâä˙âª
-	circleGauge_.Init(LAYER, static_cast<int>(Texture::Base::WHITE));
+	circleGauge_.Init(LAYER, static_cast<int>(Resources::Texture::Base::WHITE));
 	circleGauge_.SetSize(VECTOR2(GAUGE_SIZE));
 	circleGauge_.SetPosition(pos);
 	circleGauge_.SetColor(COLOR(1, 1, 1, 0.5f * ALPHA));
@@ -95,7 +95,7 @@ void Timer::Init(void)
 	circleGauge_.SetAngle((float)time_ / TIME * MAX_PERCENT);
 
 	// èIóπà íuêjèâä˙âª
-	handEnd_.Init(LAYER + 2, static_cast<int>(Texture::Camp::TIMER_UI));
+	handEnd_.Init(LAYER + 2, static_cast<int>(Resources::Texture::Camp::TIMER_UI));
 	handEnd_.SetSize(HAND_SIZE);
 	handEnd_.SetPosition(VECTOR2(pos.x + ADJUST_HANDEND_POSITION, pos.y - Half(handEnd_.GetSize().y * SCALE)));
 	handEnd_.SetColor(COLOR(1, 1, 1, ALPHA));
@@ -106,7 +106,7 @@ void Timer::Init(void)
 	handEnd_.SetPattern(HANDEND_PATTERN);
 
 	// åªç›à íuêjèâä˙âª
-	handNow_.Init(LAYER + 1, (int)Texture::Camp::TIMER_UI);
+	handNow_.Init(LAYER + 1, (int)Resources::Texture::Camp::TIMER_UI);
 	handNow_.SetSize(HAND_SIZE);
 	handNow_.SetPosition(VECTOR2(pos.x + ADJUST_HANDNOW_POSITION, pos.y - Half(handNow_.GetSize().y * SCALE)));
 	handNow_.SetColor(COLOR(1, 0, 0, ALPHA));
@@ -118,7 +118,7 @@ void Timer::Init(void)
 	handNow_.SetPattern(HANDNOW_PATTERN);
 
 	// éûåvíÜâõ
-	clip_.Init(LAYER + 4, (int)Texture::Camp::TIMER_UI);
+	clip_.Init(LAYER + 4, (int)Resources::Texture::Camp::TIMER_UI);
 	clip_.SetSize(CLIP_SIZE);
 	clip_.SetPosition(VECTOR2(pos.x + ADJUST_CLIP_POSITION, pos.y));
 	clip_.SetColor(COLOR(1, 1, 1, 1 * ALPHA));

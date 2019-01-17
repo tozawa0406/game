@@ -25,11 +25,8 @@ static constexpr int END_TIME = 120;
 
 CampScene::CampScene(void) : GUI(Systems::Instance(), nullptr, "SceneGame")
 	, objectManager_(nullptr)
-	, clearUI_(nullptr)
-	, endCnt_(0)
 	, sky_(nullptr)
 {
-	for (auto& g : gameObject_) { g = nullptr; }
 }
 
 CampScene::~CampScene(void)
@@ -57,15 +54,6 @@ void CampScene::Init(void)
 		item->SetPlayer(player);
 	}
 
-	gameObject_[0] = player;
-//	gameObject_[1] = objectManager_->Create<Dragon>();
-
-	clearUI_ = objectManager_->Create<ClearFailed>();
-	if (clearUI_)
-	{
-		clearUI_->SetEnable(false);
-	}
-
 	if(const auto& sound = GetSound())
 	{
 		sound->Play((int)Resources::Sound::Camp::BGM_GAME);
@@ -90,29 +78,6 @@ SceneList CampScene::Update(void)
 	if (objectManager_) { objectManager_->Update(); }
 	if (light_) { light_->Update(); }
 
-	// ”s–k
-	if (gameObject_[0] && gameObject_[0]->IsDed())
-	{
-		clearUI_->SetColor(COLOR(0, 0, 1, 1));
-		clearUI_->SetPattern(1);
-		clearUI_->SetEnable(true);
-		endCnt_++;
-	}
-	// Ÿ—˜
-	else if (gameObject_[1] && gameObject_[1]->IsDed())
-	{
-		clearUI_->SetColor(COLOR(1, 0, 0, 1));
-		clearUI_->SetPattern(0);
-		clearUI_->SetEnable(true);
-		endCnt_++;
-	}
-
-	if (endCnt_ > END_TIME)
-	{
-		return SceneList::NEXT;
-	}
-
-
 	if (systems_->GetInput()->GetCtrl(0)->Trigger(Input::GAMEPAD_START, DIK_P)) 
 	{
 		systems_->GetSound()->Play((int)Resources::Sound::Base::SE_SELECT);
@@ -129,7 +94,7 @@ void CampScene::CreateField(void)
 	sky_		= new SkyDome(systems_);
 	if (meshField_)
 	{
-		meshField_->Init(VECTOR2(50), VECTOR2(400), static_cast<int>(Texture::Camp::FIELD));
+		meshField_->Init(VECTOR2(50), VECTOR2(400), static_cast<int>(Resources::Texture::Camp::FIELD));
 	}
 
 	objectManager_->Create<Wall>();

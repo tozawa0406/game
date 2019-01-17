@@ -16,12 +16,25 @@ Texture::Texture(Systems* systems) : Interface(systems), sceneNum_(-1)
 
 HRESULT Texture::Init(void)
 {
-	int size = (int)Texture::Base::MAX;
-	for (int i = 0;i < size; ++i)
+	if (!systems_) { return E_FAIL; }
+
+	int size = 0, max = 0;
+	const string* fileName = systems_->GetResource().LoadTexture(SceneList::MAX, size, max);
+
+	if (const auto& graphics = systems_->GetGraphics())
 	{
-		HRESULT hr = systems_->GetGraphics()->GetWrapper()->LoadTexture(baseFileName[i], i);
-		if (FAILED(hr)) { return E_FAIL; }
+		if (const auto& wrapper = graphics->GetWrapper())
+		{
+			for (int i = 0; i < max; ++i)
+			{
+				HRESULT hr = wrapper->LoadTexture(fileName[i], i);
+				if (FAILED(hr)) { return E_FAIL; }
+			}
+		}
+		else { return E_FAIL; }
 	}
+	else { return E_FAIL; }
+
 	return S_OK;
 }
 
@@ -34,84 +47,59 @@ int Texture::SetUpLoading(Loading* loading, int sceneNum)
 {
 	loading_ = loading;
 
-	switch ((SceneList)sceneNum)
-	{
-	case SceneList::TITLE:
-		return (int)Title::MAX - (int)Base::MAX;
-	case SceneList::CAMP:
-		return (int)Camp::MAX - (int)Base::MAX;
-	case SceneList::BUTTLE:
-		return (int)Buttle::MAX - (int)Base::MAX;
-	case SceneList::RESULT:
-		return (int)Result::MAX - (int)Base::MAX;
-	default: break;
-	}
-	return 0;
+	if (!systems_) { return 0; }
+	int size = 0, max = 0;
+	systems_->GetResource().LoadTexture(static_cast<SceneList>(sceneNum), size, max);
+
+	return size;
 }
 
 HRESULT Texture::Load(int sceneNum)
 {
 	sceneNum_ = sceneNum;
-	int size = 0;
-	const string* fileName = nullptr;
-	switch ((SceneList)sceneNum)
-	{
-	case SceneList::TITLE:
-		size = (int)Title::MAX;
-//		fileName = &titleFileName[0];
-		break;
-	case SceneList::CAMP:
-		size = (int)Camp::MAX;
-		fileName = &campFileName[0];
-		break;
-	case SceneList::BUTTLE:
-		size = (int)Buttle::MAX;
-		fileName = &buttleFileName[0];
-		break;
-	case SceneList::RESULT:
-		size = (int)Result::MAX;
-	//	fileName = &resultFileName[0];
-		break;
-	default: break;
-	}
 
-	if (!fileName && size != (int)Base::MAX) { return E_FAIL; }
-	for (int i = 0; i < size; ++i)
+	if (!systems_) { return E_FAIL; }
+	int size = 0, max = 0;
+	const auto& fileName = systems_->GetResource().LoadTexture(static_cast<SceneList>(sceneNum), size, max);
+
+	if (const auto& graphics = systems_->GetGraphics())
 	{
-		if (i < (int)Base::MAX) { continue; }
-		HRESULT hr = systems_->GetGraphics()->GetWrapper()->LoadTexture(fileName[i - (int)Base::MAX], i);
-		if (FAILED(hr)) { return E_FAIL; }
-		loading_->AddLoading();
+		if (const auto& wrapper = graphics->GetWrapper())
+		{
+			for (int i = 0; i < max; ++i)
+			{
+				if (i < static_cast<int>(Resources::Texture::Base::MAX)) { continue; }
+				HRESULT hr = wrapper->LoadTexture(fileName[i - static_cast<int>(Resources::Texture::Base::MAX)], i);
+				if (FAILED(hr)) { 
+					return E_FAIL; }
+				loading_->AddLoading();
+			}
+		}
+		else { return E_FAIL; }
 	}
+	else { return E_FAIL; }
 
 	return S_OK;
 }
 
 void Texture::Release(bool uninit)
 {
-	int size = 0;
-	switch ((SceneList)sceneNum_)
-	{
-	case SceneList::TITLE:
-		size = (int)Title::MAX;
-		break;
-	case SceneList::CAMP:
-		size = (int)Camp::MAX;
-		break;
-	case SceneList::BUTTLE:
-		size = (int)Buttle::MAX;
-		break;
-	case SceneList::RESULT:
-		size = (int)Result::MAX;
-		break;
-	default: break;
-	}
+	if (!systems_) { return; }
+	int size = 0, max = 0;
+	systems_->GetResource().LoadTexture(static_cast<SceneList>(sceneNum_), size, max);
 
-	int max = (int)Base::MAX;
-	if (uninit) { max = 0; }
-	for (int i = size - 1; i >= max; --i)
+	int baseMax = static_cast<int>(Resources::Texture::Base::MAX);
+	if (uninit) { baseMax = 0; }
+
+	if (const auto& graphics = systems_->GetGraphics())
 	{
-		systems_->GetGraphics()->GetWrapper()->ReleaseTexture(i);
+		if (const auto& wrapper = graphics->GetWrapper())
+		{
+			for (int i = max - 1; i >= baseMax; --i)
+			{
+				wrapper->ReleaseTexture(i);
+			}
+		}
 	}
 }
 

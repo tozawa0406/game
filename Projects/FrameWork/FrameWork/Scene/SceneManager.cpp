@@ -30,7 +30,7 @@ HRESULT SceneManager::Init(void)
 #ifdef _DEBUG
 	displayMode_ = SceneList::TITLE;
 #endif
-	fade_.Init(250, (int)Texture::Base::WHITE);
+	fade_.Init(250, (int)Resources::Texture::Base::WHITE);
 	fade_.SetPosition(VECTOR2(Half(Windows::WIDTH), Half(Windows::HEIGHT)));
 	fade_.SetSize(VECTOR2(Windows::WIDTH, Windows::HEIGHT));
 	fade_.SetColor(COLOR(0, 0, 0, 0));

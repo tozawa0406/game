@@ -7,7 +7,7 @@
 #include "Particle.h"
 #include "ParticleManager.h"
 
-Particle::Particle(ParticleManager* manager, PARTICLE_DATA data) : texNum_((int)Texture::Base::WHITE), destroy_(false), frame_(0), data_(data)
+Particle::Particle(ParticleManager* manager, PARTICLE_DATA data) : texNum_((int)Resources::Texture::Base::WHITE), destroy_(false), frame_(0), data_(data)
 																 , vertexBuffer_(0), manager_(manager), systems_(manager->GetSystems())
 {
 	transform_.position = data.vertex.position;

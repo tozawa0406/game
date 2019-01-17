@@ -72,7 +72,7 @@ void Screenshot::Draw(void)
 		float s = Windows::HEIGHT * 0.1f;
 		if (wrapper_)
 		{
-			wrapper_->SetTexture(0, static_cast<int>(Texture::Base::SSUI));
+			wrapper_->SetTexture(0, static_cast<int>(Resources::Texture::Base::SSUI));
 			wrapper_->DrawQuad(VECTOR2(s * 3, s), VECTOR2(s * 6, s));
 		}
 

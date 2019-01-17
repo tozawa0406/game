@@ -24,7 +24,7 @@ void Pause::Init(void)
 	 back_.SetPosition(VECTOR2(Half(Windows::WIDTH), Half(Windows::HEIGHT)));
 	 back_.SetSize(VECTOR2(Windows::WIDTH, Windows::HEIGHT));
 	 back_.SetColor(COLOR::RGBA(0, 0, 0, 100));
-	 back_.Init(250, (int)Texture::Base::WHITE);
+	 back_.Init(250, (int)Resources::Texture::Base::WHITE);
 
 	 string temp[3] = { "戻る", "やり直す", "タイトルへ" };
 	 float  adjust[3] = { 1, 2, 2.5f };
@@ -35,7 +35,7 @@ void Pause::Init(void)
 		 menuBack_[i].SetColor(COLOR(1, 1, 1, 1));
 		 menuBack_[i].SetPosition(VECTOR2(Half(Windows::WIDTH), PAUSE_H * (1.0f + (2 * i)) + Half(PAUSE_H)));
 		 menuBack_[i].SetSize(VECTOR2(PAUSE_W, PAUSE_H));
-		 menuBack_[i].Init(252, (int)Texture::Base::WHITE);
+		 menuBack_[i].Init(252, (int)Resources::Texture::Base::WHITE);
 
 		 // 
 		 menu_[i].SetPosition(menuBack_[i].GetPosition() - VECTOR2(70 * adjust[i], 35));
@@ -46,7 +46,7 @@ void Pause::Init(void)
 		 if (i < 2)
 		 {
 			 // 非選択オブジェクトを暗くするため
-			 notSelect_[i].Init(254, (int)Texture::Base::WHITE);
+			 notSelect_[i].Init(254, (int)Resources::Texture::Base::WHITE);
 			 notSelect_[i].SetPosition(VECTOR2(Half(Windows::WIDTH), PAUSE_H * (1.0f + (2 * (i + 1))) + Half(PAUSE_H)));
 			 notSelect_[i].SetSize(menuBack_[i].GetSize());
 			 notSelect_[i].SetColor(COLOR::RGBA(0, 0, 0, 150));

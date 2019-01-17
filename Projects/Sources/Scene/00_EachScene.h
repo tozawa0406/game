@@ -8,7 +8,6 @@
 #define _EACH_SCENE_H_
 
 #include <FrameWork/Define/Define.h>
-#include "Resources.h"
 
 //! @enum	シーン遷移フラグ
 enum class SceneList : uint8

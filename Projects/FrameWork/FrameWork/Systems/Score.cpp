@@ -23,7 +23,7 @@ Score::Score(SceneManager* parent, bool bZero, int dig) : systems_(Systems::Inst
 		SCORE_MAX_ += 9;
 	}
 
-	const auto& temp = systems_->GetTexture()->GetTextureSize((int)Texture::Base::NUMBER);
+	const auto& temp = systems_->GetTexture()->GetTextureSize((int)Resources::Texture::Base::NUMBER);
 	VECTOR2 textureSize;
 	textureSize.x = temp.x / 5;
 	textureSize.y = temp.y / 2;
@@ -32,7 +32,7 @@ Score::Score(SceneManager* parent, bool bZero, int dig) : systems_(Systems::Inst
 
 	for (int i = 0; i < dig; ++i)
 	{
-		(texture_ + i)->Init(240, (int)Texture::Base::NUMBER);
+		(texture_ + i)->Init(240, (int)Resources::Texture::Base::NUMBER);
 		(texture_ + i)->SetSplit(VECTOR2(5, 2));
 		(texture_ + i)->SetSize(textureSize);
 		(texture_ + i)->SetEnable(true);
@@ -146,7 +146,7 @@ NumBoard::NumBoard(BaseScene* parent, VECTOR2 pos, float scale)
 	VECTOR2 p = position_;
 	p.x += size.x * 2 - 5;
 
-	back_.Init(230, (int)Texture::Base::WHITE);
+	back_.Init(230, (int)Resources::Texture::Base::WHITE);
 	back_.SetColor(COLOR::RGBA(0, 0, 100, 200));
 	back_.SetPosition(p);
 	back_.SetSize(VECTOR2(120, 30));
