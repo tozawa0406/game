@@ -14,16 +14,13 @@
 
 #include "../Object/UI/ClearFailed.h"
 
-#include "../Object/StaticObject/Wall.h"
+#include "../Object/StaticObject/CampWall.h"
 #include "../Object/StaticObject/PaidGoodsBox.h"
 #include "../Object/StaticObject/Cart.h"
 #include "../Object/StaticObject/Cannon.h"
 #include "../Object/StaticObject/Tent.h"
 
-//! UI•\Ž¦‚µ‚Ä‚©‚çI—¹‚Ü‚Å‚ÌŽžŠÔ
-static constexpr int END_TIME = 120;
-
-CampScene::CampScene(void) : GUI(Systems::Instance(), nullptr, "SceneGame")
+CampScene::CampScene(void) : GUI(Systems::Instance(), nullptr, "SceneCamp")
 	, objectManager_(nullptr)
 	, sky_(nullptr)
 {
@@ -35,6 +32,20 @@ CampScene::~CampScene(void)
 
 void CampScene::Init(void)
 {
+	if (systems_)
+	{
+		if (const auto& graphics = systems_->GetGraphics())
+		{
+			if (const auto& renderTatget = graphics->GetRenderTarget())
+			{
+				if (const auto& cascadeManager = renderTatget->GetCascadeManager())
+				{
+					cascadeManager->SetFieldSize(600);
+				}
+			}
+		}
+	}
+
 	objectManager_ = new ObjectManager(this);
 	assert(objectManager_);
 
@@ -97,7 +108,7 @@ void CampScene::CreateField(void)
 		meshField_->Init(VECTOR2(50), VECTOR2(400), static_cast<int>(Resources::Texture::Camp::FIELD));
 	}
 
-	objectManager_->Create<Wall>();
+	objectManager_->Create<CampWall>();
 	objectManager_->Create<PaidGoodsBox>();
 	objectManager_->Create<Cart>();
 	objectManager_->Create<Tent>();

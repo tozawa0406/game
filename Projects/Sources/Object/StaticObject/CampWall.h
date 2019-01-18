@@ -1,6 +1,6 @@
 /*
- * @file		Wall.h
- * @brief		壁のオブジェクト生成管理
+ * @file		CampWall.h
+ * @brief		キャンプの壁のオブジェクト生成管理
  * @author		戸澤翔太
  * @data		2019/01/15
  */
@@ -10,13 +10,13 @@
 #include <FrameWork/Define/Define.h>
 #include <FrameWork/Object/Object.h>
 
-class Wall : public Object
+class CampWall : public Object
 {
 public:
 	/* @brief	コンストラクタ		*/
-	Wall(void);
+	CampWall(void);
 	/* @brief	デストラクタ		*/
-	~Wall(void);
+	~CampWall(void);
 	
 
 

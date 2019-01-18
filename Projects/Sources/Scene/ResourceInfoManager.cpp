@@ -9,17 +9,6 @@ ResourceInfoManager::~ResourceInfoManager(void)
 {
 }
 
-HRESULT ResourceInfoManager::Init(Windows* window)
-{
-	int size = sizeof(texture_.baseFileName) / sizeof(texture_.baseFileName[0]);
-	if (static_cast<int>(Resources::Texture::Base::MAX) != size)
-	{
-		return E_FAIL;
-	}
-
-	return S_OK;
-}
-
 const string* ResourceInfoManager::LoadTexture(SceneList state, int& size, int& max) const
 {
 	int baseMax = static_cast<int>(Resources::Texture::Base::MAX);

@@ -28,8 +28,11 @@ HRESULT SceneManager::Init(void)
 	assert(camera_);
 
 #ifdef _DEBUG
-	displayMode_ = SceneList::TITLE;
+	int scene = static_cast<int>(EachScene::DEBUG_START_SCENE) - 1;
+	if (scene < 0) { scene = static_cast<int>(SceneList::MAX); }
+	displayMode_ = static_cast<SceneList>(scene);
 #endif
+
 	fade_.Init(250, (int)Resources::Texture::Base::WHITE);
 	fade_.SetPosition(VECTOR2(Half(Windows::WIDTH), Half(Windows::HEIGHT)));
 	fade_.SetSize(VECTOR2(Windows::WIDTH, Windows::HEIGHT));

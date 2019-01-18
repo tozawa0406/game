@@ -2,7 +2,6 @@
 #define _CASCADE_MANAGER_H_
 
 #include "../../Define/Define.h"
-#include "../../Systems/DebugSetting/GUI.h"
 
 class Camera;
 struct BOX
@@ -78,6 +77,9 @@ public:
 	/* @brief	カスケードに色は付けるか	*/
 	inline bool IsCascadeColor(void) { return isCascadeColor_; }
 
+	/* @brief	フィールドの大きさを設定	*/
+	inline void SetFieldSize(float fieldSize) { fieldSize_ = fieldSize; }
+
 private:
 	/* @brief	単位キューブクリップ行列を求める
 	 * @param	(box)	箱
@@ -122,6 +124,7 @@ private:
 
 	bool	isSoft_;			//! ソフトシャドウか
 	bool	isCascadeColor_;	//! カスケードに色は付けるか
+	float	fieldSize_;			//! フィールドの大きさ
 };
 
 #endif // _CASCADE_MANAGER_H_

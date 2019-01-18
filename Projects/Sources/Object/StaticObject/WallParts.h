@@ -1,6 +1,6 @@
 /*
  * @file		WallParts.h
- * @brief		壁
+ * @brief		壁の一面
  * @author		戸澤翔太
  * @data		2018/11/27
  */
@@ -38,13 +38,15 @@ public:
 	void Update(void) override {}
 
 private:
-	Collider3D::Plane*	collider_;				//! 当たり判定
-	Collider3D::OBB*	entranceCollider_[2];	//! 入口用の当たり判定
-
 	//! メッシュ
-	MeshRenderer	mesh_[MESH_NUM];
+	MeshRenderer		mesh_[MESH_NUM];
+
+protected:
+	//! 当たり判定
+	Collider3D::Plane*	collider_;
+
 	//! メッシュの姿勢
-	Transform		transformMesh_[MESH_NUM];
+	Transform			transformMesh_[MESH_NUM];
 };
 
 #endif // _WALL_PARTS_H_

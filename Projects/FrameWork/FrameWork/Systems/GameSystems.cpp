@@ -26,8 +26,6 @@ HRESULT Systems::Init(void)
 		i = nullptr;
 	}
 
-	if (FAILED(resources_.Init(window_))) { return E_FAIL; }
-
 	// インスタンス生成 & 初期化
 	if (!Create<Debug>					 ((int)SystemsNum::DEBUG          , "デバッグ機能"		)) { return E_FAIL; }
 	if (!Create<Input>					 ((int)SystemsNum::INPUT          , "入力"              )) { return E_FAIL; }

@@ -1,23 +1,23 @@
-#include "Wall.h"
+#include "CampWall.h"
 #include <FrameWork/Object/ObjectManager.h>
-#include "WallParts.h"
+#include "CampWallParts.h"
 #include "StaticObject.h"
 
-Wall::Wall(void) : Object(ObjectTag::STATIC)
+CampWall::CampWall(void) : Object(ObjectTag::STATIC)
 {
 }
 
-Wall::~Wall(void)
+CampWall::~CampWall(void)
 {
 }
 
-void Wall::Init(void)
+void CampWall::Init(void)
 {
 	// •Ç
-	manager_->Create<WallParts>(VECTOR3( 100, 3,    0), VECTOR3(0,  1.57f, 0));
-	manager_->Create<WallParts>(VECTOR3(   0, 3, -100), VECTOR3(0,     0 , 0));
-	manager_->Create<WallParts>(VECTOR3(-100, 3,    0), VECTOR3(0, -1.57f, 0));
-	manager_->Create<WallParts>(VECTOR3(   0, 3,  100), VECTOR3(0,  3.14f, 0));
+	manager_->Create<CampWallParts>(VECTOR3( 100, 3,    0), VECTOR3(0,  1.57f, 0));
+	manager_->Create<CampWallParts>(VECTOR3(   0, 3, -100), VECTOR3(0,     0 , 0));
+	manager_->Create<CampWallParts>(VECTOR3(-100, 3,    0), VECTOR3(0, -1.57f, 0));
+	manager_->Create<CampWallParts>(VECTOR3(   0, 3,  100), VECTOR3(0,  3.14f, 0));
 
 	// Žè‘O¶
 	if (auto stone = manager_->Create<StaticObject>(static_cast<uint8>(Resources::Model::Camp::ROCK_1)))
@@ -51,6 +51,6 @@ void Wall::Init(void)
 	}
 }
 
-void Wall::Uninit(void)
+void CampWall::Uninit(void)
 {
 }

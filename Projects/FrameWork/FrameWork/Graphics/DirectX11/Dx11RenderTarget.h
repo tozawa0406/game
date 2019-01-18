@@ -40,8 +40,6 @@ public:
 
 	void CreateScreenshot(const string& filename) override;
 
-	CascadeManager* GetCascadeManager(void) { return cascade_; }
-
 	inline ID3D11ShaderResourceView*	GetShaderResourceView(List num) { return shaderResourceView_[static_cast<int>(num)]; }
 
 private:
@@ -60,8 +58,7 @@ private:
 
 	SHADOWSTATE shadowState_;
 
-	DirectX11*		directX11_;
-	CascadeManager* cascade_;
+	DirectX11*	directX11_;
 
 };
 

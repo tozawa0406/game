@@ -9,6 +9,7 @@
 #define _RENDER_TARGET_H_
 
 #include "../Define/Define.h"
+#include "Utility/CascadeManager.h"
 
 class RenderTarget
 {
@@ -30,7 +31,7 @@ public:
 	static constexpr float SIZE_Y = 135;
 
 	/* @brief	コンストラクタ		*/
-	RenderTarget(void) : debugDraw_(List::MAX) {}
+	RenderTarget(void) : debugDraw_(List::MAX), cascade_(nullptr) {}
 	/* @brief	デストラクタ		*/
 	virtual ~RenderTarget(void) {}
 
@@ -68,9 +69,16 @@ public:
 	 * @return	なし				*/
 	inline void SetDebugDraw(List num) { debugDraw_ = num; }
 
+	/* @brief	カスケードマネージャーの取得
+	 * @param	なし
+	 * @return	カスケードマネージャー		*/
+	inline CascadeManager* GetCascadeManager(void) { return cascade_; }
+
 protected:
 	//! デバッグで画面に描画するレンダーターゲットの種類
 	List debugDraw_;
+	//! カスケードのマネージャー
+	CascadeManager* cascade_;
 };
 
 #endif // _RENDER_TARGET_H_

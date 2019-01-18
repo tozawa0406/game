@@ -14,16 +14,12 @@
 
 #include "../Object/UI/ClearFailed.h"
 
-#include "../Object/StaticObject/Wall.h"
-#include "../Object/StaticObject/PaidGoodsBox.h"
-#include "../Object/StaticObject/Cart.h"
-#include "../Object/StaticObject/Cannon.h"
-#include "../Object/StaticObject/Tent.h"
+#include "../Object/StaticObject/WallParts.h"
 
 //! UI•\Ž¦‚µ‚Ä‚©‚çI—¹‚Ü‚Å‚ÌŽžŠÔ
 static constexpr int END_TIME = 120;
 
-ButtleScene::ButtleScene(void) : GUI(Systems::Instance(), nullptr, "SceneGame")
+ButtleScene::ButtleScene(void) : GUI(Systems::Instance(), nullptr, "SceneButtle")
 	, objectManager_(nullptr)
 	, clearUI_(nullptr)
 	, endCnt_(0)
@@ -38,6 +34,20 @@ ButtleScene::~ButtleScene(void)
 
 void ButtleScene::Init(void)
 {
+	if (systems_)
+	{
+		if (const auto& graphics = systems_->GetGraphics())
+		{
+			if (const auto& renderTatget = graphics->GetRenderTarget())
+			{
+				if (const auto& cascadeManager = renderTatget->GetCascadeManager())
+				{
+					cascadeManager->SetFieldSize(1600);
+				}
+			}
+		}
+	}
+
 	objectManager_ = new ObjectManager(this);
 	assert(objectManager_);
 
@@ -58,7 +68,7 @@ void ButtleScene::Init(void)
 	}
 
 	gameObject_[0] = player;
-//	gameObject_[1] = objectManager_->Create<Dragon>();
+	gameObject_[1] = objectManager_->Create<Dragon>();
 
 	clearUI_ = objectManager_->Create<ClearFailed>();
 	if (clearUI_)
@@ -129,12 +139,16 @@ void ButtleScene::CreateField(void)
 	sky_		= new SkyDome(systems_);
 	if (meshField_)
 	{
-		meshField_->Init(VECTOR2(50), VECTOR2(400), static_cast<int>(Resources::Texture::Camp::FIELD));
+		meshField_->Init(VECTOR2(40), VECTOR2(600), static_cast<int>(Resources::Texture::Buttle::FIELD));
 	}
 
-	objectManager_->Create<Wall>();
-	objectManager_->Create<PaidGoodsBox>();
-	objectManager_->Create<Cart>();
-	objectManager_->Create<Tent>();
-	objectManager_->Create<Cannon>();
+	// •Ç
+	objectManager_->Create<WallParts>(VECTOR3( 200, 3, -100), VECTOR3(0,  1.57f, 0));
+	objectManager_->Create<WallParts>(VECTOR3( 200, 3,  100), VECTOR3(0,  1.57f, 0));
+	objectManager_->Create<WallParts>(VECTOR3(-100, 3, -200), VECTOR3(0,     0 , 0));
+	objectManager_->Create<WallParts>(VECTOR3( 100, 3, -200), VECTOR3(0,     0 , 0));
+	objectManager_->Create<WallParts>(VECTOR3(-200, 3, -100), VECTOR3(0, -1.57f, 0));
+	objectManager_->Create<WallParts>(VECTOR3(-200, 3,  100), VECTOR3(0, -1.57f, 0));
+	objectManager_->Create<WallParts>(VECTOR3(-100, 3,  200), VECTOR3(0,  3.14f, 0));
+	objectManager_->Create<WallParts>(VECTOR3( 100, 3,  200), VECTOR3(0,  3.14f, 0));
 }

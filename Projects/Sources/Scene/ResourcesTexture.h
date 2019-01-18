@@ -15,7 +15,7 @@ namespace Resources
 	{
 		const string directoryName = Define::ResourceDirectoryName + "Texture/";
 	public:
-		enum class Base : int
+		enum class Base : int8
 		{
 			UNOWN = -1,
 
@@ -27,12 +27,12 @@ namespace Resources
 			MAX
 		};
 
-		enum class Title : int
+		enum class Title : int8
 		{
 			MAX = (int)Base::MAX
 		};
 
-		enum class Camp
+		enum class Camp : int8
 		{
 			FIELD = (int)Base::MAX,
 			SLASH,
@@ -46,7 +46,7 @@ namespace Resources
 			MAX
 		};
 
-		enum class Buttle
+		enum class Buttle : int8
 		{
 			FIELD = (int)Base::MAX,
 			SLASH,
@@ -62,7 +62,7 @@ namespace Resources
 			MAX
 		};
 
-		enum class Result
+		enum class Result : int8
 		{
 			MAX = (int)Base::MAX
 		};

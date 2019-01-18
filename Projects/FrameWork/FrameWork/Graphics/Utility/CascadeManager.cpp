@@ -10,6 +10,7 @@ CascadeManager::CascadeManager(void) :
 	, lightDirection_(VECTOR3(0))
 	, isSoft_(true)
 	, isCascadeColor_(false)
+	, fieldSize_(0)
 {
 	for (auto& m : shadowMatrix_) { m.Identity(); }
 	for (auto& s : splitShadowMap_) 
@@ -78,6 +79,7 @@ void CascadeManager::ComputeShadowMatrixPSSM(void)
 	for (int j = 0; j < MAX_CASCADE; ++j)
 	{
 		float aria = oneAria * (1 + j);
+		if (j == MAX_CASCADE - 1) { aria = fieldSize_; }
 		// 凸包
 		VECTOR3 convexHull[8];
 		convexHull[0] = VECTOR3(-aria, -aria, -aria);

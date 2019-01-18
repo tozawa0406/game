@@ -161,9 +161,6 @@
     <ClCompile Include="Sources\Object\StaticObject\StaticObject.cpp">
       <Filter>Source\Object\StaticObject</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Object\StaticObject\Wall.cpp">
-      <Filter>Source\Object\StaticObject</Filter>
-    </ClCompile>
     <ClCompile Include="Sources\Object\StaticObject\WallParts.cpp">
       <Filter>Source\Object\StaticObject</Filter>
     </ClCompile>
@@ -190,6 +187,12 @@
     </ClCompile>
     <ClCompile Include="Sources\Scene\ResourceInfoManager.cpp">
       <Filter>Source\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Object\StaticObject\CampWall.cpp">
+      <Filter>Source\Object\StaticObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Object\StaticObject\CampWallParts.cpp">
+      <Filter>Source\Object\StaticObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -307,9 +310,6 @@
     <ClInclude Include="Sources\Object\StaticObject\StaticObject.h">
       <Filter>Source\Object\StaticObject</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Object\StaticObject\Wall.h">
-      <Filter>Source\Object\StaticObject</Filter>
-    </ClInclude>
     <ClInclude Include="Sources\Object\StaticObject\WallParts.h">
       <Filter>Source\Object\StaticObject</Filter>
     </ClInclude>
@@ -345,6 +345,12 @@
     </ClInclude>
     <ClInclude Include="Sources\Scene\ResourcesModel.h">
       <Filter>Source\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\StaticObject\CampWall.h">
+      <Filter>Source\Object\StaticObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\StaticObject\CampWallParts.h">
+      <Filter>Source\Object\StaticObject</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

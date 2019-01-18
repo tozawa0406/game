@@ -31,6 +31,8 @@ public:
 	/* @brief	デストラクタ		*/
 	~EachScene(void);
 
+	static const SceneList DEBUG_START_SCENE = SceneList::BUTTLE;
+
 
 
 	/* @brief	シーン管理の変数の値を変更する

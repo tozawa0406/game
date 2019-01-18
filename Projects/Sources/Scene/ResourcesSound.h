@@ -23,7 +23,7 @@ namespace Resources
 		const string BGMDirectoryName = directoryName + "BGM/";
 		const string SEDirectoryName = directoryName + "SE/";
 	public:
-		enum class Base : int
+		enum class Base : int8
 		{
 			UNOWN = -1,
 			SE_SELECT = 0,
@@ -33,28 +33,28 @@ namespace Resources
 			MAX
 		};
 
-		enum class Title : int
+		enum class Title : int8
 		{
 			BGM_TITLE = (int)Base::MAX,
 
 			MAX
 		};
 
-		enum class Camp : int
+		enum class Camp : int8
 		{
 			BGM_GAME = (int)Base::MAX,
 
 			MAX
 		};
 
-		enum class Buttle : int
+		enum class Buttle : int8
 		{
 			BGM_GAME = (int)Base::MAX,
 
 			MAX
 		};
 
-		enum class Result : int
+		enum class Result : int8
 		{
 			BGM_RESULT = (int)Base::MAX,
 

@@ -21,7 +21,6 @@
  * @param	(dx11)	親のポインタ		*/
 Dx11RenderTarget::Dx11RenderTarget(DirectX11* dx11) :
 	directX11_(dx11)
-	, cascade_(nullptr)
 {
 	for (auto& r : renderTargetView_)	{ r = nullptr; }
 	for (auto& s : shaderResourceView_) { s = nullptr; }
