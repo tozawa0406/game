@@ -19,6 +19,7 @@ enum class ObjectTag : int8
 	STATIC,
 	ENEMY,
 	WAPON,
+	EVENT,
 	MAX
 };
 

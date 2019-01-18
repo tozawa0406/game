@@ -23,7 +23,7 @@ static const     VECTOR3 COLLISION_OFFSET_POS = VECTOR3(0, 7.5f, 0);
 //! @def	“–‚½‚è”»’è‚ÌƒTƒCƒY
 static const     VECTOR3 COLLISION_SIZE = VECTOR3(3, 15, 3);
 
-Player::Player(void) : GameObject(ObjectTag::PLAYER), GUI(Systems::Instance(), this, "player")
+Player::Player(const VECTOR3& position) : GameObject(ObjectTag::PLAYER), GUI(Systems::Instance(), this, "player")
 	, state_(nullptr)
 	, stamina_(150)
 	, isDraw_(false)
@@ -34,6 +34,8 @@ Player::Player(void) : GameObject(ObjectTag::PLAYER), GUI(Systems::Instance(), t
 	, wapon_(nullptr)
 	, collider_(nullptr)
 {
+	transform_.position = position;
+
 	meshAnim_.animation = static_cast<int>(Animation::Wait);
 	meshAnim_.animSpeed = ANIMATION_DEFAULT;
 

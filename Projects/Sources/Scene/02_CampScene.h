@@ -16,9 +16,8 @@
 #include <FrameWork/Systems/Renderer/Sprite/SpriteRenderer.h>
 
 #include <FrameWork/Object/ObjectManager.h>
-#include "../Object/UI/ClearFailed.h"
+#include "../Object/StaticObject/Goal.h"
 
-class GameObject;
 class CampScene : public BaseScene, public GUI
 {
 public:
@@ -53,6 +52,8 @@ private:
 
 	//! オブジェクトのマネージャー
 	ObjectManager*	objectManager_;
+	//! 遷移位置
+	Goal*			goal_;
 
 	//! 天球
 	SkyDome*		sky_;

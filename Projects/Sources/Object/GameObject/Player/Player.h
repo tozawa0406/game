@@ -47,7 +47,7 @@ public:
 	static constexpr float ADD_STAMINA = 0.2f;
 
 	/* @brief	コンストラクタ		*/
-	Player(void);
+	Player(const VECTOR3& position);
 	/* @brief	デストラクタ		*/
 	virtual ~Player(void);
 

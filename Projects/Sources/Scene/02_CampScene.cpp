@@ -23,6 +23,7 @@
 CampScene::CampScene(void) : GUI(Systems::Instance(), nullptr, "SceneCamp")
 	, objectManager_(nullptr)
 	, sky_(nullptr)
+	, goal_(nullptr)
 {
 }
 
@@ -51,7 +52,7 @@ void CampScene::Init(void)
 
 	CreateField();
 
-	auto* player = objectManager_->Create<Player>();
+	auto* player = objectManager_->Create<Player>(VECTOR3(0));
 	assert(player);
 	auto* wapon  = objectManager_->Create<KohakuSword>();
 	player->SetWapon(wapon);
@@ -95,6 +96,8 @@ SceneList CampScene::Update(void)
 		manager_->SetPause(true);
 	}
 
+	if (goal_ && goal_->IsChange()) { return SceneList::NEXT; }
+
 	return SceneList::NOTCHANGE;
 }
 
@@ -113,4 +116,8 @@ void CampScene::CreateField(void)
 	objectManager_->Create<Cart>();
 	objectManager_->Create<Tent>();
 	objectManager_->Create<Cannon>();
+	objectManager_->Create<Goal>();
+
+	goal_ = objectManager_->Create<Goal>();
+	assert(goal_);
 }

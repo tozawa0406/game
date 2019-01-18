@@ -22,11 +22,6 @@ public:
 	/* @brief	デストラクタ		*/
 	~ResourceInfoManager(void);
 
-	/* @brief	初期化処理
-	 * @param	なし
-	 * @return	成功失敗			*/
-	HRESULT Init(Windows* window);
-
 	/* @brief	テクスチャのロード情報の取得
 	 * @param	(state)		シーン
 	 * @param	(size)		そのシーン分のサイズ

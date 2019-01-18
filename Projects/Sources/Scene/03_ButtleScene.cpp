@@ -53,7 +53,7 @@ void ButtleScene::Init(void)
 
 	CreateField();
 
-	auto* player = objectManager_->Create<Player>();
+	auto* player = objectManager_->Create<Player>(VECTOR3(0, 0, -180));
 	assert(player);
 	auto* wapon  = objectManager_->Create<KohakuSword>();
 	player->SetWapon(wapon);

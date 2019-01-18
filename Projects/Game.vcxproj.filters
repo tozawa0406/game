@@ -194,6 +194,9 @@
     <ClCompile Include="Sources\Object\StaticObject\CampWallParts.cpp">
       <Filter>Source\Object\StaticObject</Filter>
     </ClCompile>
+    <ClCompile Include="Sources\Object\StaticObject\Goal.cpp">
+      <Filter>Source\Object\StaticObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sources\Object\UI\Timer.h">
@@ -350,6 +353,9 @@
       <Filter>Source\Object\StaticObject</Filter>
     </ClInclude>
     <ClInclude Include="Sources\Object\StaticObject\CampWallParts.h">
+      <Filter>Source\Object\StaticObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\StaticObject\Goal.h">
       <Filter>Source\Object\StaticObject</Filter>
     </ClInclude>
   </ItemGroup>
