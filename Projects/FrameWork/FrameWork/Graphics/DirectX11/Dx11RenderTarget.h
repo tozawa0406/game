@@ -57,6 +57,7 @@ private:
 	ID3D11DepthStencilView*		depthStencilView_;
 
 	SHADOWSTATE shadowState_;
+	bool		drawShadowMap_;
 
 	DirectX11*	directX11_;
 

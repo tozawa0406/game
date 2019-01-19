@@ -336,20 +336,6 @@ void GuiManager::Draw(void)
 	const auto& window = systems_->GetWindow();
 	if (!window) { return; }
 
-	if (const auto& graphics = window->GetGraphics())
-	{
-		if (const auto& target = graphics->GetRenderTarget())
-		{
-			VECTOR2 size = VECTOR2(RenderTarget::SIZE_X, RenderTarget::SIZE_Y);
-			VECTOR2 pos  = VECTOR2(Half(size.x) + 450, Half(size.y) + 50);
-
-			target->Draw(RenderTarget::List::COLOR	 , VECTOR2(pos.x + (size.x * 0), pos.y + (size.y * 0)), size);
-			target->Draw(RenderTarget::List::POSITION, VECTOR2(pos.x + (size.x * 1), pos.y + (size.y * 0)), size);
-			target->Draw(RenderTarget::List::NORMAL	 , VECTOR2(pos.x + (size.x * 0), pos.y + (size.y * 1)), size);
-			target->DrawShadowMap();
-		}
-	}
-
 	const auto& type = window->GetGraphicsType();
 	if (type == Graphics::Type::DirectX9 ||
 		type == Graphics::Type::DirectX11)

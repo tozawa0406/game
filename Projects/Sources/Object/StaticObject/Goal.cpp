@@ -1,7 +1,7 @@
 #include "Goal.h"
 
 //! @def	初期位置
-static const VECTOR3 POSITION = VECTOR3(-4, 20, 115);
+static const VECTOR3 POSITION = VECTOR3(-4, 20, 100);
 //! @def	初期回転
 static const VECTOR3 ROTATION = VECTOR3(0);
 //! @def	初期スケール

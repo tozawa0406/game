@@ -8,6 +8,7 @@
 #define _DRAGON_SCREAM_H_
 
 #include "../../MonsterAttack.h"
+#include <FrameWork/Systems/Collider/Collider3D/Collider3DSphere.h>
 
 class DragonScream : public MonsterAttack
 {
@@ -44,6 +45,12 @@ public:
 	 * @param	‚È‚µ
 	 * @return	‚È‚µ				*/
 	void EndMove(void) override;	
+
+private:
+	//! “–‚½‚è”»’è
+	Collider3D::Sphere* collider_;
+	//! ‘O‰ñ‚ÌUŒ‚ID‚ğŠ
+	uint8 attack_;
 };
 
 #endif // _DRAGON_SCREAM_H_

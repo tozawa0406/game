@@ -90,6 +90,17 @@ void Collision3DManager::Update(void)
 						col1->colliderList_.emplace_back(col2);
 					}
 				}
+				else if (col2->type_ == Collider3DBase::Type::SPHERE)
+				{
+					Collider3D::Sphere* s = static_cast<Collider3D::Sphere*>(col2);
+					if (HitOBBSphere(*obb1, *s))
+					{
+						col2->list_.emplace_back(col1->object_);
+						col2->colliderList_.emplace_back(col1);
+						col1->list_.emplace_back(col2->object_);
+						col1->colliderList_.emplace_back(col2);
+					}
+				}
 			}
 		}
 	}
@@ -340,6 +351,25 @@ bool Collision3DManager::HitOBBs(const Collider3D::OBB& obb1, const Collider3D::
 	return true;
 }
 
+bool Collision3DManager::HitOBBSphere(const Collider3D::OBB& obb1, const Collider3D::Sphere& s2)
+{
+	VECTOR3 vec = VECTOR3(0);
+								
+	// 各軸についてはみ出た部分のベクトルを算出
+	for (int i = 0; i < 3; ++i)
+	{
+		float l = obb1.GetLen(i);
+		if (l <= 0) { continue; }
+		float s = VecDot(s2.GetTransform().position - obb1.GetTransform().position, obb1.GetDirect(i)) / l;
+
+		// sの値から、はみ出した部分があればそのベクトルを加算
+		s = fabs(s);
+		if (s > 1) { vec += obb1.GetDirect(i) * ((1 - s)*l); }
+	}
+
+	return (VecLength(vec) <= Half(s2.size_.x)) ? true : false;
+}
+
 // OBBと平面の当たり判定
 bool Collision3DManager::HitOBBPlane(const Collider3D::OBB& obb, const Collider3D::Plane& plane, VECTOR3& length)
 {
@@ -390,32 +420,7 @@ float Collision3DManager::LenAABBToPoint(AABB &box, Point &p)
 {
 	return sqrt(LenSqAABBToPoint(box, p));
 }
-/*
-float Collision3DManager::LenSqOBBToPoint(OBB &obb, Point &p)
-{
-	Vector3 vec(0, 0, 0);
 
-	for (int i = 0; i < 3; i++)	// 各軸についてはみ出た部分のベクトルを算出
-	{
-		FLOAT L = obb.GetLen(i);
-		if (L <= 0) { continue; }  // L=0は計算できない
-		float s = Vector3(p - obb.GetPos()).dot(obb.GetDirect(i)) / L;
-
-		// sの値から、はみ出した部分があればそのベクトルを加算
-		s = fabs(s);
-		if (s > 1)
-		{
-			vec = vec + (1 - s) * L * obb.GetDirect(i);   // はみ出した部分のベクトル算出
-		}
-	}
-	return vec.lengthSq();
-}
-
-float Collision3DManager::LenOBBToPoint(OBB &obb, Point &p)
-{
-	return sqrt(LenSqOBBToPoint(obb, p));
-}
-*/
 // 分離軸に投影された軸成分から投影線分長を算出
 float Collision3DManager::LenSegOnSeparateAxis(VECTOR3& Sep, VECTOR3& e1, VECTOR3& e2, VECTOR3* e3)
 {

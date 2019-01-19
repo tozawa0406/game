@@ -32,6 +32,7 @@ public:
 		KnockBack,
 		KnockOut,
 		Die,
+		Earplug,
 		Standup,
 		WalkSetup,
 		Setup,
@@ -77,6 +78,11 @@ public:
 	 * @param	(damage)	ダメージ
 	 * @return	なし				*/
 	void Hit(int damage) override;
+
+	/* @brief	耳栓移行処理
+	 * @param	なし
+	 * @return	なし				*/
+	void Earplug(uint8 attack);
 
 	/* @brief	武器の設定
 	 * @param	(wapon)		武器			*/
@@ -125,6 +131,8 @@ private:
 
 	const MATRIX*	body_;				//! 体のボーン行列
 	const MATRIX*	hand_;				//! 右手のボーン行列
+
+	uint8			hitAttack_;			//! 受けた攻撃を2度受けないように
 };
 
 #endif // _PLAYER_H_

@@ -377,7 +377,7 @@ bool Dragon::DebugInput(void)
 	if (currentAttack_) { return true; }
 
 	// ™ôšK
-	if (ctrl->Trigger(Input::GAMEPAD_L2, DIK_T))
+	if (ctrl->Trigger(Input::GAMEPAD_L2, DIK_N))
 	{
 		currentAttack_ = attack_[static_cast<int>(AttackPattern::SCREAM)];
 		if (currentAttack_) 
@@ -386,7 +386,7 @@ bool Dragon::DebugInput(void)
 		}
 	}
 
-	// ™ôšK
+	// ƒ_ƒbƒVƒ…
 	if (ctrl->Trigger(Input::GAMEPAD_CROSS, DIK_K))
 	{
 		currentAttack_ = attack_[static_cast<int>(AttackPattern::RUSH)];

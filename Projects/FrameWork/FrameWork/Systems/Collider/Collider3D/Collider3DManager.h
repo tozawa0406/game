@@ -342,6 +342,8 @@ private:
 	bool HitSpheres(const Collider3DBase* s1, const Collider3DBase* s2);
 	// OBB“¯Žm‚Ì“–‚½‚è”»’è
 	bool HitOBBs(const Collider3D::OBB& obb1, const Collider3D::OBB& obb2);
+	// OBB‚Æ‹…‚Ì“–‚½‚è”»’è
+	bool HitOBBSphere(const Collider3D::OBB& obb1, const Collider3D::Sphere& s2);
 	// OBB‚Æ–³ŒÀ•½–Ê‚Ì“–‚½‚è”»’è
 	bool HitOBBPlane(const Collider3D::OBB& obb, const Collider3D::Plane& plane, VECTOR3& length);
 

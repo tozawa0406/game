@@ -21,6 +21,7 @@
  * @param	(dx11)	親のポインタ		*/
 Dx11RenderTarget::Dx11RenderTarget(DirectX11* dx11) :
 	directX11_(dx11)
+	, drawShadowMap_(false)
 {
 	for (auto& r : renderTargetView_)	{ r = nullptr; }
 	for (auto& s : shaderResourceView_) { s = nullptr; }
@@ -344,6 +345,8 @@ void Dx11RenderTarget::Draw(List num, VECTOR2 position, VECTOR2 size)
 
 void Dx11RenderTarget::DrawShadowMap(void)
 {
+	if (!drawShadowMap_) { return; }
+
 	if (!directX11_) { return; }
 	const auto& context = directX11_->GetDeviceContext();
 	if (!context) { return; }
@@ -398,13 +401,18 @@ void Dx11RenderTarget::CreateScreenshot(const string& filename)
 
 void Dx11RenderTarget::GuiUpdate(void)
 {
+	if (ImGui::Button("shadowMap"))
+	{
+		drawShadowMap_ = !drawShadowMap_;
+	}
+
 	if (cascade_) { cascade_->GuiUpdate(); }
 
-	if (ImGui::Button("def")) { SetDebugDraw(RenderTarget::List::MAX); }
-	ImGui::SameLine();
-	if (ImGui::Button("clr")) { SetDebugDraw(RenderTarget::List::COLOR); }
-	ImGui::SameLine();
-	if (ImGui::Button("pos")) { SetDebugDraw(RenderTarget::List::POSITION); }
-	ImGui::SameLine();
-	if (ImGui::Button("nrm")) { SetDebugDraw(RenderTarget::List::NORMAL); }
+	//if (ImGui::Button("def")) { SetDebugDraw(RenderTarget::List::MAX); }
+	//ImGui::SameLine();
+	//if (ImGui::Button("clr")) { SetDebugDraw(RenderTarget::List::COLOR); }
+	//ImGui::SameLine();
+	//if (ImGui::Button("pos")) { SetDebugDraw(RenderTarget::List::POSITION); }
+	//ImGui::SameLine();
+	//if (ImGui::Button("nrm")) { SetDebugDraw(RenderTarget::List::NORMAL); }
 }

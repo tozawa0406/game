@@ -8,6 +8,7 @@
 #include "PlayerState/PlayerState.h"
 #include "PlayerState/PaidState/PaidWaitState.h"
 
+#include "PlayerState/EarplugState.h"
 #include "PlayerState/KnockBackState.h"
 #include "PlayerState/DieState.h"
 
@@ -160,7 +161,6 @@ void Player::Update(void)
 			state_ = temp;
 		}
 	}
-
 	stamina_ = min(stamina_ + ADD_STAMINA, 150);
 
 	transform_.position.y = 0;
@@ -183,6 +183,19 @@ void Player::Hit(int damage)
 		{
 			state_ = new DieState;
 		}
+		state_->Init(this, GetCtrl(0));
+	}
+}
+
+void Player::Earplug(uint8 attack)
+{
+	if (hitAttack_ == attack) { return; }
+
+	hitAttack_ = attack;
+	UninitDeletePtr(state_);
+	state_ = new EarplugState;
+	if (state_)
+	{
 		state_->Init(this, GetCtrl(0));
 	}
 }

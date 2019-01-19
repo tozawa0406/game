@@ -40,6 +40,7 @@
     <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\DieState.cpp" />
     <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\DrawnState\DrawnMoveState.cpp" />
     <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\DrawnState\DrawnWaitState.cpp" />
+    <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\EarplugState.cpp" />
     <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\EmergencyAvoidanceState.cpp" />
     <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\KnockBackState.cpp" />
     <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\PaidState\PaidMoveState.cpp" />
@@ -89,6 +90,7 @@
     <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\DieState.h" />
     <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\DrawnState\DrawnMoveState.h" />
     <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\DrawnState\DrawnWaitState.h" />
+    <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\EarplugState.h" />
     <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\EmergencyAvoidanceState.h" />
     <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\KnockBackState.h" />
     <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\PaidState\PaidMoveState.h" />

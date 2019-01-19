@@ -192,6 +192,10 @@ HRESULT DirectX11::DrawBegin(void)
 // •`‰æI—¹
 void DirectX11::DrawEnd(void)
 {
+	if (renderTarget_)
+	{
+		renderTarget_->DrawShadowMap();
+	}
 	HRESULT h = pSwapChain_->Present(1, 0);
 	if (h == DXGI_ERROR_DRIVER_INTERNAL_ERROR)
 	{
