@@ -197,6 +197,7 @@ void DirectX11::DrawEnd(void)
 		renderTarget_->DrawShadowMap();
 	}
 	HRESULT h = pSwapChain_->Present(1, 0);
+
 	if (h == DXGI_ERROR_DRIVER_INTERNAL_ERROR)
 	{
 		__debugbreak();

@@ -49,7 +49,9 @@ public:
 	VECTOR2 operator + (const VECTOR2& v) const;
 	VECTOR2 operator - (const VECTOR2& v) const;
 	VECTOR2 operator * (float f) const;
+	VECTOR2 operator * (const VECTOR2& v) const;
 	VECTOR2 operator / (float f) const;
+	VECTOR2 operator / (const VECTOR2& v) const;
 
 	bool operator == (const VECTOR2& v);
 	bool operator != (float f);

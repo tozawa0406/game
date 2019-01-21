@@ -46,6 +46,8 @@ public:
 	 * @return	‚È‚µ				*/
 	void EndMove(void) override;	
 
+	void GuiUpdate(void) override;
+
 private:
 	//! “–‚½‚è”»’è
 	Collider3D::Sphere* collider_;

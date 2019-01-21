@@ -52,11 +52,6 @@ void DragonScream::SetMove(void)
 		attack_ = attack;
 		break;
 	}
-
-	if (collider_)
-	{
-		collider_->SetEnable(true);
-	}
 }
 
 bool DragonScream::Update(void)
@@ -78,9 +73,37 @@ bool DragonScream::Update(void)
 		}
 	}
 
+	RenderTarget* rtv = nullptr;
+	if (const auto& sys = Systems::Instance())
+	{
+		if (const auto& gra = sys->GetGraphics())
+		{
+			rtv = gra->GetRenderTarget();
+		}
+	}
+
+	if (!rtv) { return false; }
+
+	auto& meshAnim = monster_->GetMeshAnimation();
+	float pattern = meshAnim.mesh.GetPattern();
+	if (pattern > 80)
+	{
+		rtv->FeedbackBlur(false);
+	}
+	else if (pattern > 20)
+	{
+		rtv->FeedbackBlur(true);
+		if (collider_)
+		{
+			collider_->SetEnable(true);
+		}
+
+		meshAnim.animSpeed = 0.5f;
+	}
+
 	if (monster_->IsEndAnim())
 	{
-		auto& meshAnim = monster_->GetMeshAnimation();
+		rtv->FeedbackBlur(false);
 
 		meshAnim.animSpeed = 0.75f;
 		meshAnim.animation = static_cast<int>(Dragon::Animation::WAIT1);
@@ -98,3 +121,13 @@ void DragonScream::EndMove(void)
 		collider_->SetEnable(false);
 	}
 }
+
+void DragonScream::GuiUpdate(void)
+{
+	if (!monster_) { return; }
+	auto& meshAnim = monster_->GetMeshAnimation();
+	ImGui::Text("pattern : %.2f", meshAnim.mesh.GetPattern());
+
+	MonsterAttack::GuiUpdate();
+}
+

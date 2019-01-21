@@ -167,6 +167,7 @@ void Player::Update(void)
 	Move();
 
 	transform_.position += collider_->GetBack();
+
 }
 
 void Player::Hit(int damage)

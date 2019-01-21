@@ -53,11 +53,14 @@ HRESULT Dx11RenderTarget::Init(void)
 
 	HRESULT hr;
 	hr = CreateNormalRenderTarget(List::COLOR);
-	if (window->ErrorMessage("カラーの初期化に失敗しました。"		 , "エラー", hr)) { return hr; }
+	if (window->ErrorMessage("カラーの初期化に失敗しました。"		, "エラー", hr)) { return hr; }
 	hr = CreateNormalRenderTarget(List::POSITION);					 
-	if (window->ErrorMessage("ポジションの初期化に失敗しました。"	 , "エラー", hr)) { return hr; }
+	if (window->ErrorMessage("ポジションの初期化に失敗しました。"	, "エラー", hr)) { return hr; }
 	hr = CreateNormalRenderTarget(List::NORMAL);
-	if (window->ErrorMessage("ノーマルの初期化に失敗しました。", "エラー", hr)) { return hr; }
+	if (window->ErrorMessage("ノーマルの初期化に失敗しました。"		, "エラー", hr)) { return hr; }
+	hr = CreateNormalRenderTarget(List::BLUR);
+	if (window->ErrorMessage("ブラーの初期化に失敗しました。", "エラー", hr)) { return hr; }
+
 	hr = CreateShadowmapRenderTarget();
 	if (window->ErrorMessage("シャドウマップの初期化に失敗しました。", "エラー", hr)) { return hr; }
 
@@ -280,14 +283,28 @@ void Dx11RenderTarget::EndMultiRendererTarget(void)
 	const auto& wrapper = directX11_->GetWrapper();
 	if (!wrapper) { return; }
 
+	int def = static_cast<int>(List::DEFAULT);
 	ID3D11RenderTargetView* nullRTV = nullptr;
 	context->OMSetRenderTargets(1, &nullRTV, 0);
-	context->OMSetRenderTargets(1, &renderTargetView_[static_cast<int>(List::DEFAULT)], depthStencilView_);
+	context->OMSetRenderTargets(1, &renderTargetView_[def], depthStencilView_);
 	ClearRendererTarget(List::DEFAULT, COLOR::RGBA(32, 100, 92, 255));
 
 	int draw = static_cast<int>((debugDraw_ == List::MAX) ? List::COLOR : debugDraw_);
 	context->PSSetShaderResources(0, 1, &shaderResourceView_[draw]);
 	wrapper->DrawQuad(VECTOR2(Half(Windows::WIDTH), Half(Windows::HEIGHT)), VECTOR2(Windows::WIDTH, Windows::HEIGHT));
+
+	if (feedbackBlur_)
+	{
+		int blur = static_cast<int>(List::BLUR);
+		context->PSSetShaderResources(0, 1, &shaderResourceView_[blur]);
+		for (int i = 0; i < 5; ++i)
+		{
+			float magnification = 1 + (0.025f + (0.025f * i));
+			wrapper->DrawQuad(VECTOR2(Half(Windows::WIDTH), Half(Windows::HEIGHT)), VECTOR2(Windows::WIDTH, Windows::HEIGHT) * magnification, COLOR(1, 1, 1, 0.1f));
+		}
+		shaderResourceView_[blur] = shaderResourceView_[draw];
+		renderTargetView_[blur] = renderTargetView_[draw];
+	}
 }
 
 /* @brief	シャドウマップの描画開始
@@ -339,6 +356,7 @@ void Dx11RenderTarget::Draw(List num, VECTOR2 position, VECTOR2 size)
 	int listNum = static_cast<int>(num);
 	context->PSSetShaderResources(0, 1, &shaderResourceView_[listNum]);
 	wrapper->DrawQuad(position, size);
+
 	ID3D11ShaderResourceView* temp = nullptr;
 	context->PSSetShaderResources(0, 1, &temp);
 }

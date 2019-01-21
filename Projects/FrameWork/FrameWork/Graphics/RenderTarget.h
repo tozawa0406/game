@@ -22,6 +22,7 @@ public:
 		COLOR,
 		POSITION,
 		NORMAL,
+		BLUR,
 		MAX
 	};
 
@@ -31,7 +32,7 @@ public:
 	static constexpr float SIZE_Y = 135;
 
 	/* @brief	コンストラクタ		*/
-	RenderTarget(void) : debugDraw_(List::MAX), cascade_(nullptr) {}
+	RenderTarget(void) : debugDraw_(List::MAX), cascade_(nullptr), feedbackBlur_(false) {}
 	/* @brief	デストラクタ		*/
 	virtual ~RenderTarget(void) {}
 
@@ -52,6 +53,7 @@ public:
 	virtual void BeginMultiRendererTarget(void) = 0;
 	/* @brief	マルチレンダーターゲットの描画終了		*/
 	virtual void EndMultiRendererTarget(void)	= 0;
+
 
 	/* @brief	Guiの更新処理		*/
 	virtual void GuiUpdate(void) {}
@@ -74,11 +76,19 @@ public:
 	 * @return	カスケードマネージャー		*/
 	inline CascadeManager* GetCascadeManager(void) { return cascade_; }
 
+	/* @brief	ブラーテクスチャ
+	 * @param	(blur)	true時にブラー処理
+	 * @return	なし				*/
+	inline void FeedbackBlur(bool blur) { feedbackBlur_ = blur; }
+
+
 protected:
 	//! デバッグで画面に描画するレンダーターゲットの種類
 	List debugDraw_;
 	//! カスケードのマネージャー
 	CascadeManager* cascade_;
+	//! フィードバックブラーフラグ
+	bool feedbackBlur_;
 };
 
 #endif // _RENDER_TARGET_H_
