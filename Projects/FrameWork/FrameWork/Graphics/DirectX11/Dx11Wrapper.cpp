@@ -125,8 +125,8 @@ HRESULT Dx11Wrapper::Init(void)
 		BlendDesc.RenderTarget[i].SrcBlend       = D3D11_BLEND_SRC_ALPHA;
 		BlendDesc.RenderTarget[i].DestBlend      = D3D11_BLEND_INV_SRC_ALPHA;
 		BlendDesc.RenderTarget[i].BlendOp        = D3D11_BLEND_OP_ADD;
-		BlendDesc.RenderTarget[i].SrcBlendAlpha  = D3D11_BLEND_ONE;
-		BlendDesc.RenderTarget[i].DestBlendAlpha = D3D11_BLEND_ZERO;
+		BlendDesc.RenderTarget[i].SrcBlendAlpha  = D3D11_BLEND_SRC_ALPHA;
+		BlendDesc.RenderTarget[i].DestBlendAlpha = D3D11_BLEND_ONE;
 		BlendDesc.RenderTarget[i].BlendOpAlpha   = D3D11_BLEND_OP_ADD;
 		BlendDesc.RenderTarget[i].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 	}
@@ -139,8 +139,8 @@ HRESULT Dx11Wrapper::Init(void)
 		BlendDesc.RenderTarget[i].SrcBlend       = D3D11_BLEND_SRC_ALPHA;
 		BlendDesc.RenderTarget[i].DestBlend      = D3D11_BLEND_ONE;
 		BlendDesc.RenderTarget[i].BlendOp        = D3D11_BLEND_OP_ADD;
-		BlendDesc.RenderTarget[i].SrcBlendAlpha  = D3D11_BLEND_ONE;
-		BlendDesc.RenderTarget[i].DestBlendAlpha = D3D11_BLEND_ZERO;
+		BlendDesc.RenderTarget[i].SrcBlendAlpha  = D3D11_BLEND_SRC_ALPHA;
+		BlendDesc.RenderTarget[i].DestBlendAlpha = D3D11_BLEND_ONE;
 		BlendDesc.RenderTarget[i].BlendOpAlpha   = D3D11_BLEND_OP_ADD;
 		BlendDesc.RenderTarget[i].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 	}

@@ -58,8 +58,11 @@ HRESULT Dx11RenderTarget::Init(void)
 	if (window->ErrorMessage("ポジションの初期化に失敗しました。"	, "エラー", hr)) { return hr; }
 	hr = CreateNormalRenderTarget(List::NORMAL);
 	if (window->ErrorMessage("ノーマルの初期化に失敗しました。"		, "エラー", hr)) { return hr; }
-	hr = CreateNormalRenderTarget(List::BLUR);
+	hr = CreateNormalRenderTarget(List::BLUR1);
 	if (window->ErrorMessage("ブラーの初期化に失敗しました。", "エラー", hr)) { return hr; }
+	hr = CreateNormalRenderTarget(List::BLUR2);
+	if (window->ErrorMessage("ブラーの初期化に失敗しました。", "エラー", hr)) { return hr; }
+
 
 	hr = CreateShadowmapRenderTarget();
 	if (window->ErrorMessage("シャドウマップの初期化に失敗しました。", "エラー", hr)) { return hr; }
@@ -283,11 +286,8 @@ void Dx11RenderTarget::EndMultiRendererTarget(void)
 	const auto& wrapper = directX11_->GetWrapper();
 	if (!wrapper) { return; }
 
-	int def = static_cast<int>(List::DEFAULT);
-	ID3D11RenderTargetView* nullRTV = nullptr;
-	context->OMSetRenderTargets(1, &nullRTV, 0);
-	context->OMSetRenderTargets(1, &renderTargetView_[def], depthStencilView_);
-	ClearRendererTarget(List::DEFAULT, COLOR::RGBA(32, 100, 92, 255));
+	int rtvNum = static_cast<int>((feedbackBlur_) ? List::BLUR1 : List::DEFAULT);
+	context->OMSetRenderTargets(1, &renderTargetView_[rtvNum], depthStencilView_);
 
 	int draw = static_cast<int>((debugDraw_ == List::MAX) ? List::COLOR : debugDraw_);
 	context->PSSetShaderResources(0, 1, &shaderResourceView_[draw]);
@@ -295,15 +295,33 @@ void Dx11RenderTarget::EndMultiRendererTarget(void)
 
 	if (feedbackBlur_)
 	{
-		int blur = static_cast<int>(List::BLUR);
-		context->PSSetShaderResources(0, 1, &shaderResourceView_[blur]);
-		for (int i = 0; i < 5; ++i)
+		float magnification = (feedbackBlur_ < 0) ? 1.025f : 1 + (coefficientBlur_ * feedbackBlur_);
+
+		int def = static_cast<int>(List::DEFAULT);
+		int blur1 = static_cast<int>(List::BLUR1);
+		int blur2 = static_cast<int>(List::BLUR2);
+		context->PSSetShaderResources(0, 1, &shaderResourceView_[blur2]);
+		wrapper->DrawQuad(VECTOR2(Half(Windows::WIDTH), Half(Windows::HEIGHT)), VECTOR2(Windows::WIDTH, Windows::HEIGHT) * magnification, COLOR(1, 1, 1, 0.8f));
+		context->OMSetRenderTargets(1, &renderTargetView_[def], depthStencilView_);
+		ClearRendererTarget(List::DEFAULT, COLOR::RGBA(32, 100, 92, 255));
+
+		context->PSSetShaderResources(0, 1, &shaderResourceView_[blur1]);
+		wrapper->DrawQuad(VECTOR2(Half(Windows::WIDTH), Half(Windows::HEIGHT)), VECTOR2(Windows::WIDTH, Windows::HEIGHT));
+
+		auto tempSRV = shaderResourceView_[blur1];
+		shaderResourceView_[blur1] = shaderResourceView_[blur2];
+		shaderResourceView_[blur2] = tempSRV;
+
+		auto tempRTV = renderTargetView_[blur1];
+		renderTargetView_[blur1] = renderTargetView_[blur2];
+		renderTargetView_[blur2] = tempRTV;
+
+		feedbackBlur_--;
+		if (feedbackBlur_ == 0)
 		{
-			float magnification = 1 + (0.025f + (0.025f * i));
-			wrapper->DrawQuad(VECTOR2(Half(Windows::WIDTH), Half(Windows::HEIGHT)), VECTOR2(Windows::WIDTH, Windows::HEIGHT) * magnification, COLOR(1, 1, 1, 0.1f));
+			ClearRendererTarget(List::BLUR1, COLOR(0));
+			ClearRendererTarget(List::BLUR2, COLOR(0));
 		}
-		shaderResourceView_[blur] = shaderResourceView_[draw];
-		renderTargetView_[blur] = renderTargetView_[draw];
 	}
 }
 

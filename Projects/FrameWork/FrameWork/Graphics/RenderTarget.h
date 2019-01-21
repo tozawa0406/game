@@ -22,7 +22,8 @@ public:
 		COLOR,
 		POSITION,
 		NORMAL,
-		BLUR,
+		BLUR1,
+		BLUR2,
 		MAX
 	};
 
@@ -32,7 +33,7 @@ public:
 	static constexpr float SIZE_Y = 135;
 
 	/* @brief	コンストラクタ		*/
-	RenderTarget(void) : debugDraw_(List::MAX), cascade_(nullptr), feedbackBlur_(false) {}
+	RenderTarget(void) : debugDraw_(List::MAX), cascade_(nullptr), feedbackBlur_(0), coefficientBlur_(0) {}
 	/* @brief	デストラクタ		*/
 	virtual ~RenderTarget(void) {}
 
@@ -79,7 +80,12 @@ public:
 	/* @brief	ブラーテクスチャ
 	 * @param	(blur)	true時にブラー処理
 	 * @return	なし				*/
-	inline void FeedbackBlur(bool blur) { feedbackBlur_ = blur; }
+	inline void FeedbackBlur(int8 blur) { feedbackBlur_ = blur; coefficientBlur_ = 0.025f / blur; }
+
+	/* @brief	ブラーの確認処理
+	 * @param	なし
+	 * @return	ブラーしてるかどうか	*/
+	inline bool IsFeedbackBlur(void) { return (feedbackBlur_ < 0) ? true : false; }
 
 
 protected:
@@ -88,7 +94,9 @@ protected:
 	//! カスケードのマネージャー
 	CascadeManager* cascade_;
 	//! フィードバックブラーフラグ
-	bool feedbackBlur_;
+	int8 feedbackBlur_;
+	//! フィードバックブラー終了フェード
+	float coefficientBlur_;
 };
 
 #endif // _RENDER_TARGET_H_

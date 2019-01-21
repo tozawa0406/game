@@ -86,13 +86,16 @@ bool DragonScream::Update(void)
 
 	auto& meshAnim = monster_->GetMeshAnimation();
 	float pattern = meshAnim.mesh.GetPattern();
-	if (pattern > 80)
+	if (pattern > 70)
 	{
-		rtv->FeedbackBlur(false);
+		if (rtv->IsFeedbackBlur())
+		{
+			rtv->FeedbackBlur(30);
+		}
 	}
 	else if (pattern > 20)
 	{
-		rtv->FeedbackBlur(true);
+		rtv->FeedbackBlur(-1);
 		if (collider_)
 		{
 			collider_->SetEnable(true);
@@ -103,8 +106,6 @@ bool DragonScream::Update(void)
 
 	if (monster_->IsEndAnim())
 	{
-		rtv->FeedbackBlur(false);
-
 		meshAnim.animSpeed = 0.75f;
 		meshAnim.animation = static_cast<int>(Dragon::Animation::WAIT1);
 		enable_ = false;
