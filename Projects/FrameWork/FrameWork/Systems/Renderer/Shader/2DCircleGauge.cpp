@@ -10,36 +10,15 @@
 
 HRESULT CircleGaugeShader::Init(void)
 {
-	const auto& systems = manager_->GetSystems();
-	const auto& window = systems->GetWindow();
-	if (window->GetGraphicsType() == Graphics::Type::DirectX11)
-	{
-		vMethod_ = "VS_Main";
-		vVersion_ = "vs_5_0";
+	vMethod_ = "VS_Main";
+	vVersion_ = "vs_5_0";
 
-		pMethod_ = "PS_Main";
-		pVersion_ = "ps_5_0";
+	pMethod_ = "PS_Main";
+	pVersion_ = "ps_5_0";
 
-		//頂点インプットレイアウトを定義	
-		D3D11_INPUT_ELEMENT_DESC layout[] =
-		{
-			{ "POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0,  0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-			{ "COLOR"   , 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 16, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-			{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT      , 0, 32, D3D11_INPUT_PER_VERTEX_DATA, 0 }
-		};
+	if (FAILED(Shader::Init())) { return E_FAIL; }
 
-		layout_ = &layout[0];
-		layoutSize_ = sizeof(layout) / sizeof(layout[0]);
-
-		if (FAILED(Shader::Init())) { return E_FAIL; }
-
-		const auto& dx11 = (Dx11Wrapper*)dev_;
-		constantBuffer_.emplace_back(dx11->CreateConstantBuffer(sizeof(CONSTANT)));
-	}
-	else
-	{
-		if (FAILED(Shader::Init())) { return E_FAIL; }
-	}
+	constantBuffer_.emplace_back(dev_->CreateConstantBuffer(sizeof(CONSTANT)));
 
 	return S_OK;
 }
@@ -49,29 +28,17 @@ HRESULT CircleGaugeShader::SetParam(const MATRIX& mtx, const COLOR& color, VECTO
 	UNREFERENCED_PARAMETER(color);
 	UNREFERENCED_PARAMETER(texcoord);
 
-	const auto& systems = manager_->GetSystems();
-	const auto& dev = systems->GetGraphics()->GetWrapper();
-	const auto& window = systems->GetWindow();
-	const auto& type = window->GetGraphicsType();
-	if (type == Graphics::Type::DirectX9)
-	{
-	}
-	else if (type == Graphics::Type::DirectX11)
-	{
-		const auto& dev11 = ((Dx11Wrapper*)dev);
+	CONSTANT cbuf;
+	cbuf.screen.x = Windows::WIDTH;
+	cbuf.screen.y = Windows::HEIGHT;
+	cbuf.screen.z = -3.14f + (6.28f - ( mtx._11 * 0.0628f));
+	cbuf.screen.w = 0;
 
-		CONSTANT cbuf;
-		cbuf.screen.x = Windows::WIDTH;
-		cbuf.screen.y = Windows::HEIGHT;
-		cbuf.screen.z = -3.14f + (6.28f - ( mtx._11 * 0.0628f));
-		cbuf.screen.w = 0;
-
-		const auto& context = dev11->GetContext();
-		const auto& constant = dev11->GetConstantBuffer(constantBuffer_[0]);
-		context->UpdateSubresource(constant, 0, NULL, &cbuf, 0, 0);
-		context->VSSetConstantBuffers(0, 1, &constant);
-		context->PSSetConstantBuffers(0, 1, &constant);
-	}
+	string temp = "";
+	int size = sizeof(VECTOR4);
+	dev_->SetShaderValue(constantBuffer_[0], 1, &temp, &size, &cbuf);
+	dev_->SetConstantBuffer(Wrapper::ShaderType::Vertex, 0, 1, constantBuffer_[0]);
+	dev_->SetConstantBuffer(Wrapper::ShaderType::Pixel, 0, 1, constantBuffer_[0]);
 
 	return S_OK;
 }

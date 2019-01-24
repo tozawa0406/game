@@ -27,8 +27,6 @@ public:
 
 		VECTOR4 texcoord;
 		VECTOR4 diffuse;
-//		VECTOR4 eyePos;
-//		VECTOR4 lightPos;			// ŒõŒ¹‚ÌˆÊ’u(ƒ‚ƒfƒ‹À•W)
 		MATRIX  lightView;
 		MATRIX  lightProj;
 	};

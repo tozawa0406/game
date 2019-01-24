@@ -105,7 +105,6 @@ void MeshRenderer::Skinning(void)
 	isSkinning_ = true;
 
 	Dx11Wrapper* dx11 = ((Dx11Wrapper*)systems_->GetGraphics()->GetWrapper());
-	const auto& context = dx11->GetContext();
 	auto& model = dx11->GetModel(modelNum_);
 
 	MATRIX rootMtx;
@@ -126,9 +125,6 @@ void MeshRenderer::Skinning(void)
 	cbuf.lightProj = depth->GetLightProj();
 
 	DefaultShader* defShader = ((DefaultShader*)systems_->GetShader()->GetShader(Shader::ENUM::DEFAULT));
-	const auto& constant = dx11->GetConstantBuffer(defShader->GetConstantBuffer(0));
-
-	const auto& constant1 = dx11->GetConstantBuffer(defShader->GetConstantBuffer(1));
 
 	DefaultShader::CONSTANT_BONE cbuf1;
 	ZeroMemory(&cbuf1, sizeof(DefaultShader::CONSTANT_BONE));
@@ -179,44 +175,9 @@ void MeshRenderer::Skinning(void)
 			}
 		}
 	}
-	context->UpdateSubresource(constant1, 0, NULL, &cbuf1, 0, 0);
 
-	context->VSSetConstantBuffers(1, 1, &constant1);
-
-
-	for (auto& mesh : model.mesh)
-	{
-		if (mesh.computeShader != Wrapper::R_ERROR)
-		{
-//			const auto& cs = dx11->GetComputeShader(mesh.computeShader);
-
-			MATRIX mtx = mtx.Identity();
-			// モデル行列
-			if (rootFrameTransformMatrix) { mtx *= rootMtx; }
-			if (mesh.transMtx != 0) { mtx *= mesh.transMtx; }
-			// ワールド行列
-			mtx.Create(transform_);
-
-			memcpy_s(&cbuf.world, sizeof(MATRIX), &mtx, sizeof(MATRIX));
-
-			context->UpdateSubresource(constant, 0, NULL, &cbuf, 0, 0);
-
-			//context->CSSetShader(cs.shader, NULL, 1);
-			//context->CSSetConstantBuffers(0, 1, &constant);
-			//context->CSSetConstantBuffers(1, 1, &constant1);
-			//context->CSSetShaderResources(0, 1, &cs.shaderResource);
-			//context->CSSetUnorderedAccessViews(0, 1, &cs.unorderedAcces, nullptr);
-
-			//context->Dispatch(mesh.vertex.size(), 1, 1);
-
-			//ID3D11ShaderResourceView*  view   = nullptr;
-			//ID3D11UnorderedAccessView* access = nullptr;
-			//ID3D11Buffer* cons = nullptr;
-			//context->CSSetShader(NULL, NULL, 1);
-			//context->CSSetShaderResources(0, 1, &view);
-			//context->CSSetUnorderedAccessViews(0, 1, &access, nullptr);
-			//context->CSSetConstantBuffers(0, 1, &cons);
-			//context->CSSetConstantBuffers(1, 1, &cons);
-		}
-	}
+	string temp = "";
+	int size[512] = { sizeof(MATRIX),  };
+	dx11->SetShaderValue(defShader->GetConstantBuffer(1), s, &temp, size, &cbuf1);
+	dx11->SetConstantBuffer(Wrapper::ShaderType::Vertex, 1, 1, defShader->GetConstantBuffer(1));
 }

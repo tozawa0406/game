@@ -47,12 +47,10 @@ public:
 
 	virtual HRESULT SetParam(const MATRIX& mtx, const COLOR& color, VECTOR4 texcoord) const = 0;
 
-	virtual ~Shader(void) { if (dev_) { dev_->ReleaseVertesShader(vertexShader_); dev_->ReleasePixelShader(pixelShader_); } }
-
 protected:
 	Shader(ShaderManager* manager, string fileName) : manager_(manager), fileName_(fileName), vMethod_("VS_Main"), vVersion_("vs_2_0")
 													, pMethod_("PS_Main"), pVersion_("ps_2_0"), techName_("Tech"), dev_(nullptr)
-													, layout_(nullptr), layoutSize_(0), constantBuffer_(0) {}
+													, constantBuffer_(0) {}
 
 	uint				vertexShader_;
 	uint				pixelShader_;
@@ -67,9 +65,6 @@ protected:
 	string			techName_;
 	ShaderManager*	manager_;
 	Wrapper*		dev_;
-
-	void*			layout_;
-	uint			layoutSize_;
 
 	virtual HRESULT Init(void);
 };

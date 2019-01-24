@@ -86,7 +86,8 @@ HRESULT Dx11Wrapper::Init(void)
 			{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT      , 0, 32, D3D11_INPUT_PER_VERTEX_DATA, 0 }
 		};
 
-		shader_[0].vertexShader.emplace_back(this->CreateVertexShader(directoryHlsl, "VS_Main", "vs_5_0", &layout[0], sizeof(layout) / sizeof(layout[0])));
+		CreateInputLayout(layout, sizeof(layout) / sizeof(layout[0]), directoryHlsl);
+		shader_[0].vertexShader.emplace_back(this->CreateVertexShader(directoryHlsl, "VS_Main", "vs_5_0"));
 		shader_[0].pixelShader.emplace_back(this->CreatePixelShader(directoryHlsl, "PS_Main", "ps_5_0"));
 		shader_[0].pixelShader.emplace_back(this->CreatePixelShader(directoryHlsl, "PS_NotTexture", "ps_5_0"));
 		shader_[0].constantBuffer.emplace_back(this->CreateConstantBuffer(sizeof(VECTOR4)));
@@ -107,8 +108,9 @@ HRESULT Dx11Wrapper::Init(void)
 			{ "TEXCOORD", 2, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 76, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 		};
 
-		shader_[1].vertexShader.emplace_back(this->CreateVertexShader(directoryHlsl, "VS_MeshMain", "vs_5_0", &layout[0], sizeof(layout) / sizeof(layout[0])));
-		shader_[1].vertexShader.emplace_back(this->CreateVertexShader(directoryHlsl, "VS_SpriteMain", "vs_5_0", &layout[0], sizeof(layout) / sizeof(layout[0])));
+		CreateInputLayout(layout, sizeof(layout) / sizeof(layout[0]), directoryHlsl);
+		shader_[1].vertexShader.emplace_back(this->CreateVertexShader(directoryHlsl, "VS_Main", "vs_5_0"));
+		shader_[1].vertexShader.emplace_back(this->CreateVertexShader(directoryHlsl, "VS_SpriteMain", "vs_5_0"));
 		shader_[1].pixelShader.emplace_back(this->CreatePixelShader(directoryHlsl, "PS_Main", "ps_5_0"));
 		shader_[1].constantBuffer.emplace_back(this->CreateConstantBuffer(sizeof(SHADER_DEFAULT_SCENE)));
 		shader_[1].constantBuffer.emplace_back(this->CreateConstantBuffer(sizeof(SHADER_DEFAULT_OBJECT)));
@@ -164,9 +166,9 @@ HRESULT Dx11Wrapper::Init(void)
 	VERTEX2D v[4];
 	for (int i = 0; i < 4; ++i)
 	{
-		v[i].position = VECTOR4((i % 2), (i / 2), 1, 1);
-		v[i].color = COLOR(1, 1, 1, 1);
-		v[i].texcoord = VECTOR2(0, 0);
+		v[i].position	= VECTOR4((i % 2), (i / 2), 1, 1);
+		v[i].color		= COLOR(1, 1, 1, 1);
+		v[i].texcoord	= VECTOR2(0, 0);
 	}
 	CreateVertexBuffer(v, sizeof(VERTEX2D), 4);
 
@@ -216,9 +218,13 @@ void Dx11Wrapper::Uninit(void)
 
 	for (auto& v : vertexShader_)
 	{
-		ReleasePtr(v.shader);
-		ReleasePtr(v.layout);
+		ReleasePtr(v);
 	}
+	for (auto& i : inputLayout_)
+	{
+		ReleasePtr(i);
+	}
+
 	for(auto& p : pixelShader_)
 	{
 		ReleasePtr(p.shader);
@@ -378,7 +384,7 @@ void Dx11Wrapper::Draw(const CanvasRenderer::Image *obj, const Shader* shader)
 	ID3D11SamplerState* sampler = nullptr;
 	if (!shader)
 	{
-		vertex  = vertexShader_[shader_[0].vertexShader[0]].shader;			    
+		vertex  = vertexShader_[shader_[0].vertexShader[0]];
 		pixel   = pixelShader_[shader_[0].pixelShader[pixelNum]].shader;
 		sampler = pixelShader_[shader_[0].pixelShader[pixelNum]].sampler;
 
@@ -387,7 +393,7 @@ void Dx11Wrapper::Draw(const CanvasRenderer::Image *obj, const Shader* shader)
 	}
 	else
 	{
-		vertex = vertexShader_[shader->GetVertexShader()].shader;
+		vertex = vertexShader_[shader->GetVertexShader()];
 		pixel  = pixelShader_[shader->GetPixelShader()].shader;
 	}
 
@@ -434,7 +440,7 @@ void Dx11Wrapper::Draw(const SpriteRenderer* obj, const Shader* shader)
 	if (!shader || (shader->GetVertexShader() == 0 && shader->GetPixelShader() == 0))
 	{
 		constant = constantBuffer_[shader_[1].constantBuffer[1]];
-		vertex   = vertexShader_[shader_[1].vertexShader[1]].shader;
+		vertex   = vertexShader_[shader_[1].vertexShader[1]];
 		pixel    = pixelShader_[shader_[1].pixelShader[0]].shader;
 		sampler  = pixelShader_[shader_[1].pixelShader[0]].sampler;
 
@@ -451,7 +457,7 @@ void Dx11Wrapper::Draw(const SpriteRenderer* obj, const Shader* shader)
 	{
 		uint vertexShaderNum = shader->GetVertexShader();
 		if (vertexShaderNum == S_NULL) { vertex = nullptr; }
-		else { vertex = vertexShader_[vertexShaderNum].shader; }
+		else { vertex = vertexShader_[vertexShaderNum]; }
 
 		uint pixelShaderNum = shader->GetPixelShader();
 		if (pixelShaderNum == S_NULL) 
@@ -506,14 +512,14 @@ void Dx11Wrapper::Draw(MeshRenderer* obj, const Shader* shader)
 	obj->Skinning();
 
 	ID3D11Buffer*       constant = nullptr;
-	VertexShader*		vertex   = nullptr;
+	ID3D11VertexShader*	vertex   = nullptr;
 	ID3D11PixelShader*  pixel    = nullptr;
 	ID3D11SamplerState* sampler  = nullptr;
 	bool isShader = true;
 	int buf = 0;
 	if (!shader || shader->GetVertexShader() == 0 && shader->GetPixelShader() == 0)
 	{
-		vertex   = &vertexShader_[shader_[1].vertexShader[0]];
+		vertex   = vertexShader_[shader_[1].vertexShader[0]];
 		pixel    = pixelShader_[shader_[1].pixelShader[0]].shader;
 		sampler  = pixelShader_[shader_[1].pixelShader[0]].sampler;
 		constant = constantBuffer_[shader_[1].constantBuffer[1]];
@@ -524,7 +530,7 @@ void Dx11Wrapper::Draw(MeshRenderer* obj, const Shader* shader)
 	{
 		uint vertexShaderNum = shader->GetVertexShader();
 		if (vertexShaderNum == S_NULL) { vertex = nullptr; }
-		else { vertex = &vertexShader_[vertexShaderNum]; }
+		else { vertex = vertexShader_[vertexShaderNum]; }
 
 		uint pixelShaderNum = shader->GetPixelShader();
 		if (pixelShaderNum == S_NULL)
@@ -543,8 +549,6 @@ void Dx11Wrapper::Draw(MeshRenderer* obj, const Shader* shader)
 
 	// コンスタントバッファの設定
 	pContext->VSSetConstantBuffers(buf, 1, &constant);
-
-	pContext->IASetInputLayout(vertex->layout);
 
 	// テクスチャサンプラステートのセット
 	pContext->PSSetSamplers(0, 1, &sampler);
@@ -606,7 +610,7 @@ void Dx11Wrapper::Draw(MeshRenderer* obj, const Shader* shader)
 			SetTexture(2, mesh.material.texture[1], modelNum);
 		}
 		// シェーダーの設定
-		pContext->VSSetShader(vertex->shader, NULL, 0);
+		pContext->VSSetShader(vertex, NULL, 0);
 		pContext->PSSetShader(pixel, NULL, 0);
 		pContext->GSSetShader(NULL, NULL, 0);
 
@@ -639,11 +643,8 @@ void Dx11Wrapper::Draw(const Particle* obj, const Shader* shader)
 	// テクスチャサンプラの設定
 	pContext->PSSetSamplers(0, 1, &sampler);
 
-	//頂点インプットレイアウトをセット
-	pContext->IASetInputLayout(vertex.layout);
-
 	// シェーダーの設定
-	pContext->VSSetShader(vertex.shader, NULL, 0);
+	pContext->VSSetShader(vertex, NULL, 0);
 	pContext->PSSetShader(pixel, NULL, 0);
 	pContext->GSSetShader(geometryShader_[0], NULL, 0);
 
@@ -667,7 +668,7 @@ void Dx11Wrapper::Draw(const ColliderRenderer* obj)
 	if (!dev) { return; }
 
 	const auto& constant = constantBuffer_[shader_[1].constantBuffer[1]];
-	const auto& vertex   = vertexShader_[shader_[1].vertexShader[1]].shader;
+	const auto& vertex   = vertexShader_[shader_[1].vertexShader[1]];
 	const auto& pixel	 = pixelShader_[shader_[1].pixelShader[0]].shader;
 
 	MATRIX mtx = mtx.Identity();
@@ -763,7 +764,7 @@ void Dx11Wrapper::BeginDrawCanvasRenderer(void)
 	}
 
 	//頂点インプットレイアウトをセット
-	pContext->IASetInputLayout(vertexShader_[0].layout);
+	pContext->IASetInputLayout(inputLayout_[0]);
 
 	pContext->RSSetState(rasterizerState_);
 
@@ -788,7 +789,7 @@ void Dx11Wrapper::BeginDrawObjectRenderer(void)
 	if (!pContext) { return; }
 
 	//頂点インプットレイアウトをセット
-	pContext->IASetInputLayout(vertexShader_[1].layout);
+	pContext->IASetInputLayout(inputLayout_[1]);
 	pContext->RSSetState(rasterizerState_);
 	// アルファブレンドのセット
 	float blendFactor[] = { 0.0f, 0.0f, 0.0f, 0.0f };
@@ -1136,30 +1137,26 @@ long Dx11Wrapper::ReadShader(string csoName, byte** b)
 	return size;
 }
 
-uint Dx11Wrapper::CreateVertexShader(string fileName, string method, string version, void* t, uint elemNum)
+uint Dx11Wrapper::CreateVertexShader(string fileName, string method, string version)
 {
 	if (version != "vs_5_0") { return 0; }
 
 	const auto& dev = directX11_->GetDevice();
 	HRESULT hr;
-	VertexShader tempVertexShader;
+	ID3D11VertexShader* tempVertexShader;
 
 	ID3DBlob* pCompiledShader = CompiledShader(fileName, method, version);
 	if (!pCompiledShader) { return R_ERROR; }
 
-	hr = dev->CreateVertexShader(pCompiledShader->GetBufferPointer(), pCompiledShader->GetBufferSize(), NULL, &tempVertexShader.shader);
+	hr = dev->CreateVertexShader(pCompiledShader->GetBufferPointer(), pCompiledShader->GetBufferSize(), NULL, &tempVertexShader);
 	if (directX11_->GetWindow()->ErrorMessage(string(fileName + "バーテックスシェーダー作成失敗").c_str(), "エラー", hr))
 	{
 		__debugbreak();
 		ReleasePtr(pCompiledShader);
 		return R_ERROR;
 	}
-
-	hr = dev->CreateInputLayout((D3D11_INPUT_ELEMENT_DESC*)t, elemNum, pCompiledShader->GetBufferPointer(), pCompiledShader->GetBufferSize(), &tempVertexShader.layout);
-	if (directX11_->GetWindow()->ErrorMessage(string(fileName + "頂点インプットレイアウトの作成に失敗").c_str(), "エラー", hr)) { return R_ERROR; }
-
+	ReleasePtr(pCompiledShader);
 	vertexShader_.emplace_back(tempVertexShader);
-	
 	return (uint)vertexShader_.size() - 1;
 }
 
@@ -1315,6 +1312,26 @@ uint Dx11Wrapper::CreateConstantBuffer(uint size)
 	return (uint)constantBuffer_.size() - 1;
 }
 
+void Dx11Wrapper::CreateInputLayout(D3D11_INPUT_ELEMENT_DESC* elem, int size, string fileName)
+{
+	const auto& dev = directX11_->GetDevice();
+	HRESULT hr;
+	ID3DBlob* pCompiledShader = CompiledShader(fileName, "VS_Main", "vs_5_0");
+	if (!pCompiledShader) { return; }
+
+	ID3D11InputLayout* tempInputLayout;
+	hr = dev->CreateInputLayout(elem, size, pCompiledShader->GetBufferPointer(), pCompiledShader->GetBufferSize(), &tempInputLayout);
+	if (directX11_->GetWindow()->ErrorMessage(string(fileName + "頂点インプットレイアウトの作成に失敗").c_str(), "エラー", hr)) 
+	{
+		__debugbreak();
+		ReleasePtr(pCompiledShader);
+		return;
+	}
+	ReleasePtr(pCompiledShader);
+
+	inputLayout_.emplace_back(tempInputLayout);
+}
+
 void Dx11Wrapper::DrawQuad(VECTOR2 position, VECTOR2 size, COLOR color)
 {
 	BeginDrawCanvasRenderer();
@@ -1323,7 +1340,7 @@ void Dx11Wrapper::DrawQuad(VECTOR2 position, VECTOR2 size, COLOR color)
 	if (!pContext) { return; }
 
 	int pixelNum = 0;
-	const auto& vertex = vertexShader_[shader_[0].vertexShader[0]].shader;
+	const auto& vertex = vertexShader_[shader_[0].vertexShader[0]];
 	const auto& pixel = pixelShader_[shader_[0].pixelShader[pixelNum]].shader;
 	const auto& sampler = pixelShader_[shader_[0].pixelShader[pixelNum]].sampler;
 
@@ -1354,4 +1371,46 @@ void Dx11Wrapper::DrawQuad(VECTOR2 position, VECTOR2 size, COLOR color)
 	pContext->Draw(2 * 2, 0);
 
 	EndDrawRenderer();
+}
+
+void Dx11Wrapper::SetShaderValue(const int buffer, const int valueNum, const string* nameArray, const int* valueSizeArray, const void* valueArray)
+{
+	UNREFERENCED_PARAMETER(valueNum);
+	UNREFERENCED_PARAMETER(nameArray);
+	UNREFERENCED_PARAMETER(valueSizeArray);
+
+	const auto& context = directX11_->GetDeviceContext();
+	const auto& constant = constantBuffer_[buffer];
+	context->UpdateSubresource(constant, 0, NULL, valueArray, 0, 0);
+
+	/* OpenGL用メモ
+	const char* value = (char*)valueArray;
+	int bit = 0;
+	for (int i = 0; i < valueNum; ++i)
+	{
+		int size = valueSizeArray[i];
+		char* temp = new char[size];
+		memcpy_s(temp, size, &value[bit], size);
+		if (size == 64)
+		{
+			MATRIX* check = (MATRIX*)temp;
+			MATRIX checkValue;
+			for (int j = 0; j < 16; ++j) { checkValue.m[j / 4][j % 4] = check->m[j / 4][j % 4]; }
+		}
+		bit += size;
+	}*/
+}
+
+void Dx11Wrapper::SetConstantBuffer(ShaderType type, int startSrot, int numBuffers, int constantBuffer)
+{
+	const auto& context = directX11_->GetDeviceContext();
+
+	if (type == ShaderType::Vertex)
+	{
+		context->VSSetConstantBuffers(startSrot, numBuffers, &constantBuffer_[constantBuffer]);
+	}
+	else if (type == ShaderType::Pixel)
+	{
+		context->PSSetConstantBuffers(startSrot, numBuffers, &constantBuffer_[constantBuffer]);
+	}
 }

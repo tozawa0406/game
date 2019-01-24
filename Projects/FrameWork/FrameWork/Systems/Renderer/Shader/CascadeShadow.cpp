@@ -29,42 +29,18 @@ HRESULT CascadeShadow::Init(void)
 	vMethod_ = "VSFunc";
 	pMethod_ = "";
 
-	const auto& systems = manager_->GetSystems();
-	const auto& window = systems->GetWindow();
-	if (window->GetGraphicsType() == Graphics::Type::DirectX11)
-	{
-		fileName_ = shaderDirectoryName + "ShadowVS.hlsl";
+	fileName_ = shaderDirectoryName + "ShadowVS.hlsl";
 
-		vVersion_ = "vs_5_0";
-		pVersion_ = "ps_5_0";
+	vVersion_ = "vs_5_0";
+	pVersion_ = "ps_5_0";
 
-		//頂点インプットレイアウトを定義	
-		D3D11_INPUT_ELEMENT_DESC layout[] =
-		{
-			{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT   , 0,  0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-			{ "NORMAL"  , 0, DXGI_FORMAT_R32G32B32_FLOAT   , 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-			{ "TANGENT" , 0, DXGI_FORMAT_R32G32B32_FLOAT   , 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-			{ "COLOR"   , 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 36, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-			{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT      , 0, 52, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-			{ "TEXCOORD", 1, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 60, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-			{ "TEXCOORD", 2, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 76, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		};
-		layout_ = &layout[0];
-		layoutSize_ = sizeof(layout) / sizeof(layout[0]);
+	if (FAILED(Shader::Init())) { return E_FAIL; }
 
-		if (FAILED(Shader::Init())) { return E_FAIL; }
-
-		const auto& dx11 = (Dx11Wrapper*)dev_;
-		constantBuffer_.emplace_back(dx11->CreateConstantBuffer(sizeof(CONSTANT)));
-		constantBuffer_.emplace_back(dx11->CreateConstantBuffer(sizeof(CONSTANT_DRAW)));
-	}
-	else
-	{
-		if (FAILED(Shader::Init())) { return E_FAIL; }
-	}
+	constantBuffer_.emplace_back(dev_->CreateConstantBuffer(sizeof(CONSTANT)));
+	constantBuffer_.emplace_back(dev_->CreateConstantBuffer(sizeof(CONSTANT_DRAW)));
 
 	const auto& graphics = manager_->GetSystems()->GetGraphics();
-	const auto& renderTarget = static_cast<Dx11RenderTarget*>(graphics->GetRenderTarget());
+	const auto& renderTarget = graphics->GetRenderTarget();
 
 	cascade_ = renderTarget->GetCascadeManager();
 
@@ -87,27 +63,14 @@ HRESULT CascadeShadow::SetParam(const MATRIX& mtx, const COLOR& color, VECTOR4 t
 	UNREFERENCED_PARAMETER(texcoord);
 	UNREFERENCED_PARAMETER(color);
 
-	const auto& dev = manager_->GetSystems()->GetGraphics()->GetWrapper();
+	CONSTANT cbuf;
+	cbuf.world = mtx;
+	cbuf.world._44 = 1;
+	cbuf.shadowViewProj = cascade_->GetShadowMatrix(drawNum_);
 
-	const auto& systems = manager_->GetSystems();
-	const auto& window = systems->GetWindow();
-	const auto& type = window->GetGraphicsType();
-	if (type == Graphics::Type::DirectX9)
-	{
-	}
-	else if (type == Graphics::Type::DirectX11)
-	{
-		const auto& dx11 = (Dx11Wrapper*)dev;
-
-		CONSTANT cbuf;
-		cbuf.world = mtx;
-		cbuf.world._44 = 1;
-		cbuf.shadowViewProj = cascade_->GetShadowMatrix(drawNum_);
-
-		const auto& context  = dx11->GetContext();
-		const auto& constant = dx11->GetConstantBuffer(constantBuffer_[0]);
-		context->UpdateSubresource(constant, 0, nullptr, &cbuf, 0, 0);
-	}
+	string temp = "";
+	int size[2] = { sizeof(MATRIX),sizeof(MATRIX) };		
+	dev_->SetShaderValue(constantBuffer_[0], 2, &temp, size, &cbuf);
 
 	return S_OK;
 }
@@ -115,10 +78,6 @@ HRESULT CascadeShadow::SetParam(const MATRIX& mtx, const COLOR& color, VECTOR4 t
 HRESULT CascadeShadow::EndDraw(void)
 {
 	manager_->GetSystems()->GetGraphics()->GetRenderTarget()->EndDrawShadow();
-
-	const auto& directX11 = static_cast<DirectX11*>(Systems::Instance()->GetGraphics());
-	const auto& context = directX11->GetDeviceContext();
-	const auto& wrapper = static_cast<Dx11Wrapper*>(directX11->GetWrapper());
 
 	//　定数バッファ更新.
 	CONSTANT_DRAW cbuf;
@@ -153,9 +112,11 @@ HRESULT CascadeShadow::EndDraw(void)
 		cbuf.splitPosXMin[i] = split.xMin;
 	}
 
-	const auto& constant = wrapper->GetConstantBuffer(constantBuffer_[1]);
-	context->UpdateSubresource(constant, 0, nullptr, &cbuf, 0, 0);
-	context->VSSetConstantBuffers(2, 1, &constant);
+	string temp = "";
+	int splitSize = sizeof(float) * CascadeManager::MAX_CASCADE;
+	int size[7] = { sizeof(VECTOR4),sizeof(VECTOR4),sizeof(VECTOR4), splitSize,splitSize, splitSize, sizeof(MATRIX) * CascadeManager::MAX_CASCADE };
+	dev_->SetShaderValue(constantBuffer_[1], 7, &temp, size, &cbuf);
+	dev_->SetConstantBuffer(Wrapper::ShaderType::Vertex, 2, 1, constantBuffer_[1]);
 
 	return S_OK;
 }

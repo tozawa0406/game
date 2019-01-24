@@ -17,7 +17,7 @@ HRESULT Shader::Init(void)
 	if (dev_ == nullptr) { return E_FAIL; }
 	if (vMethod_ != "")
 	{
-		vertexShader_ = dev_->CreateVertexShader(fileName_, vMethod_, vVersion_, layout_, layoutSize_);
+		vertexShader_ = dev_->CreateVertexShader(fileName_, vMethod_, vVersion_);
 		if (vertexShader_ == Wrapper::R_ERROR) { return E_FAIL; }
 	}
 	else

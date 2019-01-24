@@ -26,35 +26,14 @@ HRESULT ZTexture::Init(void)
 	vMethod_ = "VS_ZBufferCalc";
 	pMethod_ = "PS_ZBufferPlot";
 
-	const auto& systems = manager_->GetSystems();
-	const auto& window = systems->GetWindow();
-	if (window->GetGraphicsType() == Graphics::Type::DirectX11)
-	{
-		fileName_ = shaderDirectoryName + "ZValue.hlsl";
+	fileName_ = shaderDirectoryName + "ZValue.hlsl";
 
-		vVersion_ = "vs_5_0";
-		pVersion_ = "ps_5_0";
+	vVersion_ = "vs_5_0";
+	pVersion_ = "ps_5_0";
 
-		//頂点インプットレイアウトを定義	
-		D3D11_INPUT_ELEMENT_DESC layout[] =
-		{
-			{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT   , 0,  0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-			{ "NORMAL"  , 0, DXGI_FORMAT_R32G32B32_FLOAT   , 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-			{ "COLOR"   , 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-			{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT      , 0, 40, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		};
-		layout_ = &layout[0];
-		layoutSize_ = sizeof(layout) / sizeof(layout[0]);
+	if (FAILED(Shader::Init())) { return E_FAIL; }
 
-		if (FAILED(Shader::Init())) { return E_FAIL; }
-
-		const auto& dx11 = (Dx11Wrapper*)dev_;
-		constantBuffer_.emplace_back(dx11->CreateConstantBuffer(sizeof(CONSTANT)));
-	}
-	else
-	{
-		if (FAILED(Shader::Init())) { return E_FAIL; }
-	}
+	constantBuffer_.emplace_back(dev_->CreateConstantBuffer(sizeof(CONSTANT)));
 
 	return S_OK;
 }
@@ -92,29 +71,16 @@ HRESULT ZTexture::SetParam(const MATRIX& mtx, const COLOR& color, VECTOR4 texcoo
 {
 	UNREFERENCED_PARAMETER(color);
 
-	const auto& dev = manager_->GetSystems()->GetGraphics()->GetWrapper();
+	CONSTANT cbuf;
+	cbuf.world = mtx;
+	cbuf.world._44 = 1;
+	cbuf.view  = view_;
+	cbuf.proj  = proj_;
+	cbuf.texcoord = texcoord;
 
-	const auto& systems = manager_->GetSystems();
-	const auto& window = systems->GetWindow();
-	const auto& type = window->GetGraphicsType();
-	if (type == Graphics::Type::DirectX9)
-	{
-	}
-	else if (type == Graphics::Type::DirectX11)
-	{
-		const auto& dx11 = (Dx11Wrapper*)dev;
-
-		CONSTANT cbuf;
-		cbuf.world = mtx;
-		cbuf.world._44 = 1;
-		cbuf.view  = view_;
-		cbuf.proj  = proj_;
-		cbuf.texcoord = texcoord;
-
-		const auto& context  = dx11->GetContext();
-		const auto& constant = dx11->GetConstantBuffer(constantBuffer_[0]);
-		context->UpdateSubresource(constant, 0, nullptr, &cbuf, 0, 0);
-	}
+	string temp = "";
+	int size[4] = { sizeof(MATRIX),sizeof(MATRIX), sizeof(MATRIX), sizeof(VECTOR4) };
+	dev_->SetShaderValue(constantBuffer_[0], 4, &temp, size, &cbuf);
 
 	return S_OK;
 }

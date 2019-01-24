@@ -78,6 +78,13 @@ public:
 		MAX
 	};
 
+	enum class ShaderType
+	{
+		Vertex,
+		Pixel,
+		MAX
+	};
+
 	//! テクスチャ情報
 	struct TextureData
 	{
@@ -140,18 +147,16 @@ public:
 	virtual void    ReleaseModel(int modelNum) = 0;
 
 	/* @brief	頂点シェーダーの作成			*/
-	virtual uint	CreateVertexShader(string fileName, string method, string version, void* t = nullptr, uint elemNum = 0) = 0;
-	/* @brief	頂点シェーダーの設定			*/
-	virtual HRESULT	SetVertexShader(uint number)		= 0;
-	/* @brief	頂点シェーダーの解放			*/
-	virtual void	ReleaseVertesShader(uint number)	= 0;
-
+	virtual uint	CreateVertexShader(string fileName, string method, string version) = 0;
 	/* @brief	ピクセルシェーダーの作成		*/
 	virtual uint	CreatePixelShader(string fileName, string method, string version) = 0;
-	/* @brief	ピクセルシェーダーの設定		*/
-	virtual HRESULT	SetPixelShader(uint number)		= 0;
-	/* @brief	ピクセルシェーダーの解放		*/
-	virtual void	ReleasePixelShader(uint number) = 0;
+
+	/* @brief	コンスタントバッファの作成		*/
+	virtual uint	CreateConstantBuffer(uint size) = 0;
+	/* @brief	シェーダーに値を設定			*/
+	virtual void	SetShaderValue(const int buffer, const int valueNum, const string* nameArray, const int* valueSizeArray, const void* valueArray) = 0;
+	/* @brief	コンスタントバッファの設定		*/
+	virtual void	SetConstantBuffer(ShaderType type, int startSrot, int numBuffers, int constantBuffer) = 0;
 
 	/* @brief	ライトの設定					*/
 	virtual void SetLight(LightInfo& light) = 0;

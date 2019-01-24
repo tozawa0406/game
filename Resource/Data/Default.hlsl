@@ -42,7 +42,7 @@ struct OUT_PS
 };
 
 //バーテックスシェーダー
-OUT_VS VS_MeshMain(IN_VS In)
+OUT_VS VS_Main(IN_VS In)
 {   
 	OUT_VS Out = (OUT_VS)0;
 

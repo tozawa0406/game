@@ -45,20 +45,15 @@ public:
 	HRESULT LoadModelAnimation(string fileName, int parent)		override;
 	void    ReleaseModel(int modelNum)							override;
 
-	uint	CreateVertexShader(string fileName, string method, string version, void* t, uint elemNum) override;
-	HRESULT	SetVertexShader(uint number)	 override {	UNREFERENCED_PARAMETER(number); return S_OK; }
-	void	ReleaseVertesShader(uint number) override { UNREFERENCED_PARAMETER(number); }
-
+	uint	CreateVertexShader(string fileName, string method, string version) override;
 	uint	CreatePixelShader(string fileName, string method, string version) override;
-	HRESULT	SetPixelShader(uint number)		override { UNREFERENCED_PARAMETER(number); return S_OK; }
-	void	ReleasePixelShader(uint number) override { UNREFERENCED_PARAMETER(number); }
+
+	uint	CreateConstantBuffer(uint size) override;
+	void	SetShaderValue(const int buffer, const int valueNum, const string* nameArray, const int* valueSizeArray, const void* valueArray) override;
+	void	SetConstantBuffer(ShaderType type, int startSrot, int numBuffers, int constantBuffer) override;
 
 	uint    CreateGeometryShader(string fileName, string method, string version);
 	uint	CreateComputeShader(string fileName, string method, string version, const void* v, uint size, uint num);
-	uint	CreateConstantBuffer(uint size);
-
-	ID3D11DeviceContext* GetContext(void) { return directX11_->GetDeviceContext(); }
-	ID3D11Buffer*        GetConstantBuffer(uint num) { return constantBuffer_[num]; }
 
 	MODEL&	GetModel(int i) { return model_[i]; }
 
@@ -68,6 +63,7 @@ public:
 	void DrawQuad(VECTOR2 position, VECTOR2 size, COLOR color = COLOR(1, 1, 1, 1)) override;
 
 private:
+	void		CreateInputLayout(D3D11_INPUT_ELEMENT_DESC* elem, int size, string fileName);
 	ID3DBlob*	CompiledShader(string fileName, string method, string version);
 	long		ReadShader(string csoName, byte** b);
 
@@ -82,12 +78,6 @@ private:
 		ID3D11Buffer* buffer;
 		uint stride;
 		uint offset;
-	};
-	// DirectX11の頂点シェーダー
-	struct VertexShader
-	{
-		ID3D11VertexShader* shader;
-		ID3D11InputLayout*  layout;
 	};
 	// DirectX11のピクセルシェーダー
 	struct PixelShader
@@ -132,7 +122,8 @@ private:
 	ID3D11DepthStencilState*   depthState_;
 	ID3D11RasterizerState*     rasterizerState_;
 
-	std::vector<VertexShader>			vertexShader_;
+	std::vector<ID3D11VertexShader*>	vertexShader_;
+	std::vector<ID3D11InputLayout*>		inputLayout_;
 	std::vector<PixelShader>			pixelShader_;
 	std::vector<ID3D11GeometryShader*>	geometryShader_;
 	std::vector<ComputeShader>			computeShader_;
