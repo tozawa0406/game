@@ -43,6 +43,7 @@
     <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\EarplugState.cpp" />
     <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\EmergencyAvoidanceState.cpp" />
     <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\KnockBackState.cpp" />
+    <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\PaidState\HealState.cpp" />
     <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\PaidState\PaidMoveState.cpp" />
     <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\PaidState\PaidWaitState.cpp" />
     <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\SetupState.cpp" />
@@ -93,6 +94,7 @@
     <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\EarplugState.h" />
     <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\EmergencyAvoidanceState.h" />
     <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\KnockBackState.h" />
+    <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\PaidState\HealState.h" />
     <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\PaidState\PaidMoveState.h" />
     <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\PaidState\PaidWaitState.h" />
     <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\PlayerState.h" />

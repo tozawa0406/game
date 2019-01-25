@@ -4,6 +4,7 @@
 #include "../AvoidanceState.h"
 #include "../EmergencyAvoidanceState.h"
 #include "../AttackState/SetupAttackState.h"
+#include "HealState.h"
 
 //! @def	消費スタミナ
 static constexpr float DEC_STAMINA = 0.1f;
@@ -97,6 +98,12 @@ PlayerState* PaidMoveState::Update(void)
 	if (ctrl_->Trigger(Input::GAMEPAD_TRIANGLE, DIK_U))
 	{
 		return new SetupAttackState;
+	}
+
+	// アイテム使用
+	if (ctrl_->Trigger(Input::GAMEPAD_SQUARE, DIK_H))
+	{
+		return new HealState;
 	}
 	
 	return nullptr;

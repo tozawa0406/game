@@ -4,6 +4,7 @@
 #include "PaidMoveState.h"
 #include "../AvoidanceState.h"
 #include "../SetupState.h"
+#include "HealState.h"
 
 //! @def	待機モーションの再生待ち時間
 static constexpr int    ANIMATION_WAIT_FRAME = 180;
@@ -91,6 +92,12 @@ PlayerState* PaidWaitState::Update(void)
 		if (ctrl_->Trigger(Input::GAMEPAD_TRIANGLE, DIK_U))
 		{
 			return new SetupState;
+		}
+
+		// アイテム使用
+		if (ctrl_->Trigger(Input::GAMEPAD_SQUARE, DIK_H))
+		{
+			return new HealState;
 		}
 	}
 

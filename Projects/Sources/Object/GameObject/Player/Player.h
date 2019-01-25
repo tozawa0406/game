@@ -34,6 +34,7 @@ public:
 		Die,
 		Earplug,
 		Standup,
+		Heal,
 		WalkSetup,
 		Setup,
 		SetupDrawn,

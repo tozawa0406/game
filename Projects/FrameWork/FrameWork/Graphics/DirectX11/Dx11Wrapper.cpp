@@ -109,11 +109,26 @@ HRESULT Dx11Wrapper::Init(void)
 		};
 
 		CreateInputLayout(layout, sizeof(layout) / sizeof(layout[0]), directoryHlsl);
+
 		shader_[1].vertexShader.emplace_back(this->CreateVertexShader(directoryHlsl, "VS_Main", "vs_5_0"));
 		shader_[1].vertexShader.emplace_back(this->CreateVertexShader(directoryHlsl, "VS_SpriteMain", "vs_5_0"));
 		shader_[1].pixelShader.emplace_back(this->CreatePixelShader(directoryHlsl, "PS_Main", "ps_5_0"));
 		shader_[1].constantBuffer.emplace_back(this->CreateConstantBuffer(sizeof(SHADER_DEFAULT_SCENE)));
 		shader_[1].constantBuffer.emplace_back(this->CreateConstantBuffer(sizeof(SHADER_DEFAULT_OBJECT)));
+	}
+	{
+		directoryHlsl = Define::ResourceDirectoryName + "Data/PointSprite.hlsl";
+
+		//頂点インプットレイアウトを定義	
+		D3D11_INPUT_ELEMENT_DESC layout[] =
+		{
+			{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT   , 0,  0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+			{ "PSIZE"	, 0, DXGI_FORMAT_R32_FLOAT		   , 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+			{ "COLOR"   , 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 16, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		};
+
+		CreateInputLayout(layout, sizeof(layout) / sizeof(layout[0]), directoryHlsl);
+
 	}
 	// アルファブレンドの生成
 	// 加算合成
@@ -639,6 +654,7 @@ void Dx11Wrapper::Draw(const Particle* obj, const Shader* shader)
 	pContext->OMSetBlendState(blendState_[(int)ALFA_BREND::ADD], blendFactor, 0xffffff);
 	// 深度ステンシルの設定
 	pContext->OMSetDepthStencilState(depthState_, 1);
+	pContext->IASetInputLayout(inputLayout_[2]);
 
 	// テクスチャサンプラの設定
 	pContext->PSSetSamplers(0, 1, &sampler);
@@ -660,6 +676,8 @@ void Dx11Wrapper::Draw(const Particle* obj, const Shader* shader)
 	// プリミティブトポロジーを設定
 	pContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
 	pContext->Draw(1, 0);
+
+	pContext->OMSetDepthStencilState(NULL, 1);
 }
 
 void Dx11Wrapper::Draw(const ColliderRenderer* obj)
