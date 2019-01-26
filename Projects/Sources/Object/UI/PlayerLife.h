@@ -15,6 +15,9 @@
 class PlayerLife : public Object
 {
 public:
+	//! @def	最大値
+	static constexpr float MAX_LIFE = 150;
+
 	/* @brief	コンストラクタ		*/
 	PlayerLife(void);
 	/* @brief	デストラクタ		*/
@@ -42,11 +45,13 @@ public:
 	inline void SetPlayer(Player* player) { player_ = player; }
 
 private:
-	void MoveBar(CanvasRenderer::Image& bar, float value, const VECTOR2& offset, const float weight);
+	void MoveBar(CanvasRenderer::Image& bar, float value, const VECTOR2& offset, const float weight, CanvasRenderer::Image* ornament);
 
 	//! プレイヤーのポインタ
 	Player* player_;
 
+	//! バーの両端の装飾
+	CanvasRenderer::Image ornament_[4];
 	//! ライフ背景
 	CanvasRenderer::Image backLife_;
 	//! スタミナ背景

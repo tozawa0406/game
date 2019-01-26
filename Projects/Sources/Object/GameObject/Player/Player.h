@@ -117,6 +117,9 @@ public:
 	 * @return	x:ライフ y:スタミナ			*/
 	inline VECTOR2 GetMaxLifeStamina(void) { return VECTOR2(maxLife_, maxStamina_); }
 
+	inline void AddMaxLife(void)	{ maxLife_		= min(150, maxLife_	   + 25); }
+	inline void AddMaxStamina(void) { maxStamina_	= min(150, maxStamina_ + 25); }
+
 private:
 	/* @brief	死亡判定
 	 * @sa		Update()

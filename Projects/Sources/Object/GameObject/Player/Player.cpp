@@ -26,9 +26,9 @@ static const     VECTOR3 COLLISION_SIZE = VECTOR3(3, 15, 3);
 
 Player::Player(const VECTOR3& position) : GameObject(ObjectTag::PLAYER), GUI(Systems::Instance(), this, "player")
 	, state_(nullptr)
-	, stamina_(100)
+	, stamina_(150)
 	, maxLife_(100)
-	, maxStamina_(100)
+	, maxStamina_(25)
 	, isDraw_(false)
 	, body_(nullptr)
 	, hand_(nullptr)

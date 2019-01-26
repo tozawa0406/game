@@ -5,7 +5,7 @@
 #include <FrameWork/Systems/Particle/Particle.h>
 #include <random>
 
-HealState::HealState(void)
+HealState::HealState(void) : heal_(false)
 {
 }
 
@@ -42,6 +42,13 @@ PlayerState* HealState::Update(void)
 	const auto& pattern = meshAnim.mesh.GetPattern();
 	if (40 < pattern && pattern < 85)
 	{
+		COLOR c = COLOR(1, 1, 0);
+		if (!heal_) 
+		{
+			heal_ = true;
+			player_->AddMaxStamina();
+		}
+
 		if (const auto& systems = Systems::Instance())
 		{
 			VECTOR2 v = VecCircle(360) * 0.1f;
@@ -49,7 +56,7 @@ PlayerState* HealState::Update(void)
 			p.y += 10;
 			std::random_device rdev;
 			float r = (rdev() % 10) * 0.15f;
-			PARTICLE_DATA data = PARTICLE_DATA(p, r, 30, COLOR(0, 1, 0), VECTOR3(v.x, v.y, v.x));
+			PARTICLE_DATA data = PARTICLE_DATA(p, r, 30, c, VECTOR3(v.x, v.y, v.x));
 			const auto& particle = new Particle(systems->GetParticleManager(), data);
 			particle->SetTexture(static_cast<int>(Resources::Texture::Camp::EFFECT));
 		}

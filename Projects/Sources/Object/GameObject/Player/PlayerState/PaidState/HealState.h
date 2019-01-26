@@ -40,6 +40,9 @@ public:
 	 * @return	なし
 	 * @detail	プレイヤーから呼び出される	*/
 	void GuiUpdate(void) override;	
+
+private:
+	bool heal_;
 };
 
 #endif // _HEAL_STATE_H_
