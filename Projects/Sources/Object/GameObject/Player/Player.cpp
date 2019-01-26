@@ -26,7 +26,9 @@ static const     VECTOR3 COLLISION_SIZE = VECTOR3(3, 15, 3);
 
 Player::Player(const VECTOR3& position) : GameObject(ObjectTag::PLAYER), GUI(Systems::Instance(), this, "player")
 	, state_(nullptr)
-	, stamina_(150)
+	, stamina_(100)
+	, maxLife_(100)
+	, maxStamina_(100)
 	, isDraw_(false)
 	, body_(nullptr)
 	, hand_(nullptr)
@@ -40,7 +42,7 @@ Player::Player(const VECTOR3& position) : GameObject(ObjectTag::PLAYER), GUI(Sys
 	meshAnim_.animation = static_cast<int>(Animation::Wait);
 	meshAnim_.animSpeed = ANIMATION_DEFAULT;
 
-	life_ = 150;
+	life_ = min(100, maxLife_);
 }
 
 Player::~Player(void)
@@ -135,22 +137,6 @@ void Player::Update(void)
 
 	isEndAnim_ = meshAnim_.mesh.Animation(meshAnim_.animSpeed);
 
-#ifdef _SELF_DEBUG	
-	COLOR c = COLOR(1, 1, 1, 1);
-	const auto& hits = collider_->HitCollider();
-	for (auto& hit : hits)
-	{
-		if (hit->GetGraphicsColor() == COLOR(1, 0, 0, 1))
-		{
-			if (hit->GetParent()->GetTag() == ObjectTag::ENEMY)
-			{
-				c = COLOR(1, 0, 0, 1);
-			}
-		}
-	}
-//	meshAnim_.mesh.material.diffuse = c;
-#endif
-
 	if (state_)
 	{
 		const auto& temp = state_->Update();
@@ -161,7 +147,7 @@ void Player::Update(void)
 			state_ = temp;
 		}
 	}
-	stamina_ = min(stamina_ + ADD_STAMINA, 150);
+	stamina_ = min(stamina_ + ADD_STAMINA, maxStamina_);
 
 	transform_.position.y = 0;
 	Move();

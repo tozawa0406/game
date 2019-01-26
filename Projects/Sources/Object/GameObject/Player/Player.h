@@ -113,6 +113,10 @@ public:
 	/* @brief	スタミナの設定				*/
 	inline void  SetStamina(float stamina)	{ stamina_ = stamina;	}
 
+	/* @brief	ライフとスタミナの上限値の取得
+	 * @return	x:ライフ y:スタミナ			*/
+	inline VECTOR2 GetMaxLifeStamina(void) { return VECTOR2(maxLife_, maxStamina_); }
+
 private:
 	/* @brief	死亡判定
 	 * @sa		Update()
@@ -122,6 +126,8 @@ private:
 
 	PlayerState*	state_;				//! プレイヤーのステート
 	float			stamina_;			//! スタミナ
+	int				maxLife_;
+	float			maxStamina_;
 	bool			isDraw_;			//! 抜刀フラグ
 
 	Wapon*			wapon_;				//! 武器

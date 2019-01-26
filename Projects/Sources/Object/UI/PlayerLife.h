@@ -42,11 +42,15 @@ public:
 	inline void SetPlayer(Player* player) { player_ = player; }
 
 private:
+	void MoveBar(CanvasRenderer::Image& bar, float value, const VECTOR2& offset, const float weight);
+
 	//! プレイヤーのポインタ
 	Player* player_;
 
-	//! 背景
-	CanvasRenderer::Image back_;
+	//! ライフ背景
+	CanvasRenderer::Image backLife_;
+	//! スタミナ背景
+	CanvasRenderer::Image backStamina_;
 	//! ライフバー
 	CanvasRenderer::Image life_;
 	//! スタミナバー
