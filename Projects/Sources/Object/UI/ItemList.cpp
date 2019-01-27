@@ -60,6 +60,15 @@ void ItemList::Init(void)
 		backItemBack_[i].SetPattern(2);
 		backItemBack_[i].SetSize(SIZE_ITEM_BACK_LIST);
 	}
+
+	for (int i = 0; i < static_cast<int>(BackItem::MAX); ++i)
+	{
+		item_[i].Init(PRIORITY + 3, static_cast<int>(Resources::Texture::Base::WHITE));
+		float x = POSITION.x + ((ITEM_RANGE * 2) - (i * ITEM_RANGE));
+		item_[i].SetPosition(VECTOR2(x, POSITION.y));
+		item_[i].SetSize(VECTOR2(40));
+	}
+
 	SetItemBack();
 
 	// アイテムの名前
@@ -71,14 +80,14 @@ void ItemList::Init(void)
 
 	// ボタンUI
 	int button = static_cast<int>(ButtonUI::L);
-	ui_[button].Init(PRIORITY + 1, texNum);
+	ui_[button].Init(PRIORITY + 10, texNum);
 	ui_[button].SetPosition(POSITION_L);
 	ui_[button].SetSize(SIZE_L);
 	ui_[button].SetSplit(VECTOR2(2, 8));
 	ui_[button].SetPattern(5);
 
 	button = static_cast<int>(ButtonUI::MARU);
-	ui_[button].Init(PRIORITY + 5, texNum);
+	ui_[button].Init(PRIORITY + 10, texNum);
 	ui_[button].SetPosition(VECTOR2(POSITION.x + (ITEM_RANGE * 3), POSITION.y + 30));
 	ui_[button].SetSize(VECTOR2(60, 50));
 	ui_[button].SetSplit(VECTOR2(4, 8));
@@ -86,16 +95,22 @@ void ItemList::Init(void)
 	ui_[button].SetEnable(false);
 	
 	button = static_cast<int>(ButtonUI::SHIKAKU);
-	ui_[button].Init(PRIORITY + 5, texNum);
+	ui_[button].Init(PRIORITY + 10, texNum);
 	ui_[button].SetPosition(VECTOR2(POSITION.x - (ITEM_RANGE * 3), POSITION.y + 30));
 	ui_[button].SetSize(VECTOR2(60, 50));
 	ui_[button].SetSplit(VECTOR2(4, 8));
 	ui_[button].SetPattern(14);
 	ui_[button].SetEnable(false);
+
+	float size = 25;
+	text_.Init(PRIORITY + 7, "テスト", static_cast<int>(size));
+	text_.SetPosition(VECTOR2(POSITION_ITEM_NAME.x - (size + Half(size)), POSITION_ITEM_NAME.y - Half(size)));
 }
 
 void ItemList::Uninit(void)
 {
+	text_.Uninit();
+	for (auto& i : item_) { i.Uninit(); }
 	for (auto& c : ui_) { c.Uninit(); }
 	for (auto& c : backItemBack_) { c.Uninit(); }
 	itemName_.Uninit();
@@ -119,6 +134,7 @@ void ItemList::Update(void)
 		// 他アイテムの描画
 		for (int i = 0; i < static_cast<int>(BackItem::EMPTY); ++i)
 		{
+			item_[i].SetEnable(true);
 			backItemBack_[i].SetEnable(true);
 		}
 
@@ -142,10 +158,12 @@ void ItemList::Update(void)
 			back_.SetSize(SIZE_BACK);
 
 			// アイテムの表示を消す
+			for (auto& ui : item_) { ui.SetEnable(false); }
 			for (auto& ui : backItemBack_) { ui.SetEnable(false); }
 			// 中央だけ描画
 			for (int i = static_cast<int>(BackItem::FrontRight); i <= static_cast<int>(BackItem::FrontLeft); ++i)
 			{
+				item_[i].SetEnable(true);
 				backItemBack_[i].SetEnable(true);
 			}
 
@@ -166,6 +184,7 @@ void ItemList::Update(void)
 			// UIの描画
 			for (int i = 0; i < static_cast<int>(BackItem::EMPTY); ++i)
 			{
+				item_[i].SetEnable(true);
 				backItemBack_[i].SetEnable(true);
 			}
 
@@ -177,11 +196,15 @@ void ItemList::Update(void)
 	else
 	{
 		// アイテムの移動
-		for (auto& ui : backItemBack_) 
+		for (int i = 0;i < static_cast<int>(BackItem::MAX);++i) 
 		{
-			auto pos = ui.GetPosition();
+			auto pos = backItemBack_[i].GetPosition();
 			pos.x += MOVE_LIST * flag_;
-			ui.SetPosition(pos);
+			backItemBack_[i].SetPosition(pos);
+
+			pos = item_[i].GetPosition();
+			pos.x += MOVE_LIST * flag_;
+			item_[i].SetPosition(pos);
 		}
 		cnt_++;	
 
@@ -189,12 +212,18 @@ void ItemList::Update(void)
 		auto size = backItemBack_[static_cast<int>(BackItem::Center)].GetSize();
 		size -= ITEM_SIZE_DIFF;
 		backItemBack_[static_cast<int>(BackItem::Center)].SetSize(size);
+		size = item_[static_cast<int>(BackItem::Center)].GetSize();
+		size -= 1;
+		item_[static_cast<int>(BackItem::Center)].SetSize(size);		
 
 		// 次に中央に行くアイテムのサイズを大きく
 		int num = static_cast<int>((flag_ > 0) ? BackItem::FrontLeft : BackItem::FrontRight);
 		size = backItemBack_[num].GetSize();
 		size += ITEM_SIZE_DIFF;
 		backItemBack_[num].SetSize(size);
+		size = item_[num].GetSize();
+		size += 1;
+		item_[num].SetSize(size);
 
 		// 一定のフレーム以上移動したら
 		if(cnt_ >= CHANGE_FRAME)
@@ -205,6 +234,7 @@ void ItemList::Update(void)
 				// 変更した位置をリストに更新
 				for (int i = 0; i < static_cast<int>(BackItem::EMPTY); ++i)
 				{
+					item_[i].SetPosition(item_[i + 1].GetPosition());
 					backItemBack_[i].SetPosition(backItemBack_[i + 1].GetPosition());
 				}
 			}
@@ -214,10 +244,12 @@ void ItemList::Update(void)
 				// 変更した位置をリストに更新
 				for (int i = static_cast<int>(BackItem::BackLeft); i > 0; --i)
 				{
+					item_[i].SetPosition(item_[i - 1].GetPosition());
 					backItemBack_[i].SetPosition(backItemBack_[i - 1].GetPosition());
 				}
 				// 逆回りなのでこれだけうまくいかない
 				backItemBack_[static_cast<int>(BackItem::BackRight)].SetPosition(backItemBack_[static_cast<int>(BackItem::EMPTY)].GetPosition());
+				item_[static_cast<int>(BackItem::BackRight)].SetPosition(item_[static_cast<int>(BackItem::EMPTY)].GetPosition());
 			}
 
 			// アイテムの描画順更新
@@ -234,16 +266,21 @@ void ItemList::SetItemBack(void)
 {
 	for (int i = 0; i < static_cast<int>(BackItem::EMPTY); ++i)
 	{
-		// 優先度の更新 3 4 5 4 3の順番
+		// 優先度の更新 3 5 7 5 3の順番
 		int		adjust = max(0, i - 2);
-		int		priority = 3 + i - (2 * adjust);
+		int		priority = 3 + (i * 2) - (4 * adjust);
 		auto&	ui = backItemBack_[i];
 
 		ui.SetPriority(static_cast<uint8>(PRIORITY + priority));
 		// 真ん中だけ大きさが違う
 		ui.SetSize((i == static_cast<int>(BackItem::Center)) ? SIZE_ITEM_BACK : SIZE_ITEM_BACK_LIST);
+
+		auto& item = item_[i];
+		item.SetPriority(static_cast<uint8>(PRIORITY + priority + 1));
+		item.SetSize(VECTOR2((i == static_cast<int>(BackItem::Center)) ? 50 : 50 * 0.8f));
 	}
 	// 移動用一時オブジェクトは非表示
+	item_[static_cast<int>(BackItem::EMPTY)].SetEnable(false);
 	backItemBack_[static_cast<int>(BackItem::EMPTY)].SetEnable(false);
 }
 
@@ -262,6 +299,13 @@ bool ItemList::SetMove(Controller& ctrl, WORD lpad, int lkey, WORD rpad, int rke
 		auto pos = empty.GetPosition();
 		pos.x = POSITION.x - ((ITEM_RANGE * 3) * key);
 		empty.SetPosition(pos);
+
+		auto& emptyItem = item_[static_cast<int>(BackItem::EMPTY)];
+		emptyItem.SetEnable(true);
+		pos = emptyItem.GetPosition();
+		pos.x = POSITION.x - ((ITEM_RANGE * 3) * key);
+		emptyItem.SetPosition(pos);
+
 		// フラグ等の設定
 		cnt_	= 0;
 		flag_	= key;

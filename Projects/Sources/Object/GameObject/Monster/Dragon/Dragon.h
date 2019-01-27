@@ -33,6 +33,7 @@ class Dragon : public GameObject, public GUI
 		SCREAM = 0,
 		BITE,
 		WING_ATTACK,
+		TAIL_ATTACK,
 		TAKE_OFF,
 		HIT,
 		RUSH,
@@ -52,6 +53,7 @@ public:
 		DIE,
 		BITE,
 		WING_ATTACK,
+		TAIL_ATTACK,
 		TAKE_OFF,
 		FLY_IDLE,
 

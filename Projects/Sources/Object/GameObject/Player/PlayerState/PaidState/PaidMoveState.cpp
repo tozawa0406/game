@@ -103,7 +103,10 @@ PlayerState* PaidMoveState::Update(void)
 	// アイテム使用
 	if (ctrl_->Trigger(Input::GAMEPAD_SQUARE, DIK_H))
 	{
-		return new HealState;
+		if (!ctrl_->Press(Input::GAMEPAD_L1, DIK_R))
+		{
+			return new HealState;
+		}
 	}
 	
 	return nullptr;

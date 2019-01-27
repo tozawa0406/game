@@ -149,6 +149,7 @@ namespace Resources
 				D_DIE,
 				D_BITE,
 				D_WING_ATTACK,
+				D_TAIL_ATTACK,
 				D_TAKEOFF,
 				D_FLY_IDLE,
 
@@ -262,6 +263,7 @@ namespace Resources
 		{ directoryName + "terror_dragon_animation/terror_dragon_die.bamx"			, (int)Buttle::DRAGON		},
 		{ directoryName + "terror_dragon_animation/terror_dragon_bite.bamx"			, (int)Buttle::DRAGON		},
 		{ directoryName + "terror_dragon_animation/terror_dragon_wing_attack.bamx"	, (int)Buttle::DRAGON		},
+		{ directoryName + "terror_dragon_animation/terror_dragon_tailAttack.bamx"	, (int)Buttle::DRAGON		},
 		{ directoryName + "terror_dragon_animation/terror_dragon_takeoff.bamx"		, (int)Buttle::DRAGON		},
 		{ directoryName + "terror_dragon_animation/terror_dragon_fly_idle.bamx"		, (int)Buttle::DRAGON		},
 	};

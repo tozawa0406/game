@@ -203,6 +203,9 @@
     <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\PaidState\HealState.cpp">
       <Filter>Source\Object\GameObject\Player\PlayerState\PaidState</Filter>
     </ClCompile>
+    <ClCompile Include="Sources\Object\GameObject\Player\PlayerItemList.cpp">
+      <Filter>Source\Object\GameObject\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sources\Object\UI\Timer.h">
@@ -369,6 +372,9 @@
     </ClInclude>
     <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\PaidState\HealState.h">
       <Filter>Source\Object\GameObject\Player\PlayerState\PaidState</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\GameObject\Player\PlayerItemList.h">
+      <Filter>Source\Object\GameObject\Player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

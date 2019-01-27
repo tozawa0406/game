@@ -183,6 +183,22 @@ void Dragon::Update(void)
 
 	isEndAnim_ = meshAnim_.mesh.Animation(meshAnim_.animSpeed);
 
+	//if (meshAnim_.animation == static_cast<int>(Animation::TAIL_ATTACK))
+	//{
+	//	if (meshAnim_.mesh.GetPattern() >= meshAnim_.mesh.GetMaxAnimation() - 2)
+	//	{
+	//		transform_.rotation.y += 3.14f;
+	//		transform_.position += front_ * 20;
+	//	}
+	//	if (isEndAnim_)
+	//	{
+	//		meshAnim_.animation = static_cast<int>(Animation::WAIT1);
+	//		meshAnim_.mesh.ChangeAnimation(meshAnim_.animation, 15);
+	//	}
+	//}
+
+
+
 	if (TakenDamage()) { return; }
 
 	if (currentAttack_)
@@ -377,7 +393,7 @@ bool Dragon::DebugInput(void)
 	if (currentAttack_) { return true; }
 
 	// 咆哮
-	if (ctrl->Trigger(Input::GAMEPAD_L2, DIK_N))
+	if (ctrl->Trigger(Input::GAMEPAD_L2, DIK_O))
 	{
 		currentAttack_ = attack_[static_cast<int>(AttackPattern::SCREAM)];
 		if (currentAttack_) 
@@ -387,13 +403,19 @@ bool Dragon::DebugInput(void)
 	}
 
 	// ダッシュ
-	if (ctrl->Trigger(Input::GAMEPAD_CROSS, DIK_K))
+	if (ctrl->Trigger(Input::GAMEPAD_CROSS, DIK_M))
 	{
 		currentAttack_ = attack_[static_cast<int>(AttackPattern::RUSH)];
 		if (currentAttack_)
 		{
 			currentAttack_->SetMove();
 		}
+	}
+
+	if (ctrl->Trigger(Input::GAMEPAD_L3, DIK_N))
+	{
+		meshAnim_.animation = static_cast<int>(Animation::TAIL_ATTACK);
+		meshAnim_.mesh.ChangeAnimation(meshAnim_.animation, 15);
 	}
 
 	// 被ダメ

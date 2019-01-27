@@ -108,6 +108,11 @@ private:
 	//! アイテムアイコンの背景
 	CanvasRenderer::Image backItemBack_[static_cast<int>(BackItem::MAX)];
 
+	//! アイテムアイコン
+	CanvasRenderer::Image item_[static_cast<int>(BackItem::MAX)];
+	//! アイテム名前
+	CanvasRenderer::Text  text_;
+
 	//! UI
 	CanvasRenderer::Image ui_[static_cast<int>(ButtonUI::MAX)];
 
