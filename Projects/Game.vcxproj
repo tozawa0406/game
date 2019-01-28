@@ -31,7 +31,6 @@
     <ClCompile Include="Sources\Object\GameObject\Monster\Dragon\Dragon.cpp" />
     <ClCompile Include="Sources\Object\GameObject\Monster\Dragon\DragonMoveController.cpp" />
     <ClCompile Include="Sources\Object\GameObject\Player\Player.cpp" />
-    <ClCompile Include="Sources\Object\GameObject\Player\PlayerItemList.cpp" />
     <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\AttackState\AttackBaseState.cpp" />
     <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\AttackState\SetupAttackState.cpp" />
     <ClCompile Include="Sources\Object\GameObject\Player\PlayerState\AttackState\Slash1AttackState.cpp" />
@@ -59,6 +58,7 @@
     <ClCompile Include="Sources\Object\StaticObject\WallParts.cpp" />
     <ClCompile Include="Sources\Object\UI\ClearFailed.cpp" />
     <ClCompile Include="Sources\Object\UI\ItemList.cpp" />
+    <ClCompile Include="Sources\Object\UI\PlayerItemList.cpp" />
     <ClCompile Include="Sources\Object\UI\PlayerLife.cpp" />
     <ClCompile Include="Sources\Object\UI\Timer.cpp" />
     <ClCompile Include="Sources\Object\Wapon\KohakuSword.cpp" />
@@ -83,7 +83,6 @@
     <ClInclude Include="Sources\Object\GameObject\Monster\Dragon\DragonMoveController.h" />
     <ClInclude Include="Sources\Object\GameObject\Monster\MonsterAttack.h" />
     <ClInclude Include="Sources\Object\GameObject\Player\Player.h" />
-    <ClInclude Include="Sources\Object\GameObject\Player\PlayerItemList.h" />
     <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\AttackState\AttackBaseState.h" />
     <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\AttackState\SetupAttackState.h" />
     <ClInclude Include="Sources\Object\GameObject\Player\PlayerState\AttackState\Slash1AttackState.h" />
@@ -113,6 +112,7 @@
     <ClInclude Include="Sources\Object\StaticObject\WallParts.h" />
     <ClInclude Include="Sources\Object\UI\ClearFailed.h" />
     <ClInclude Include="Sources\Object\UI\ItemList.h" />
+    <ClInclude Include="Sources\Object\UI\PlayerItemList.h" />
     <ClInclude Include="Sources\Object\UI\PlayerLife.h" />
     <ClInclude Include="Sources\Object\UI\Timer.h" />
     <ClInclude Include="Sources\Object\Wapon\KohakuSword.h" />

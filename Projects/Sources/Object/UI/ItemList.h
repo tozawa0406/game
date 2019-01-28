@@ -11,6 +11,7 @@
 #include <FrameWork/Object/Object.h>
 
 #include "../GameObject/Player/Player.h"
+#include "PlayerItemList.h"
 
 class ItemList : public Object, public GUI
 {
@@ -33,6 +34,14 @@ class ItemList : public Object, public GUI
 		MARU,
 		SHIKAKU,
 		MAX
+	};
+
+	struct UI_ITEM_LIST
+	{
+		ITEM_LIST	info;
+		uint8		arrayNum;
+		CanvasRenderer::Image back;
+		CanvasRenderer::Image img;
 	};
 
 public:
@@ -98,6 +107,12 @@ private:
 	 * @return	なし					*/
 	void JudgeCtrl(Controller& ctrl);
 
+	/* @brief	アイテムの情報を取得する
+	 * @param	(list)		格納するリスト
+	 * @param	(arrayNum)	アイテム側の配列番号
+	 * @return	なし					*/
+	void GetItemInfo(UI_ITEM_LIST& list, int arrayNum);
+
 	//! プレイヤーのポインタ
 	Player* player_;
 
@@ -105,16 +120,15 @@ private:
 	CanvasRenderer::Image back_;
 	//! アイテムの名前背景
 	CanvasRenderer::Image itemName_;
-	//! アイテムアイコンの背景
-	CanvasRenderer::Image backItemBack_[static_cast<int>(BackItem::MAX)];
-
-	//! アイテムアイコン
-	CanvasRenderer::Image item_[static_cast<int>(BackItem::MAX)];
+	//! アイテムのUI表示
+	UI_ITEM_LIST item_[static_cast<int>(BackItem::MAX)];
 	//! アイテム名前
 	CanvasRenderer::Text  text_;
 
 	//! UI
 	CanvasRenderer::Image ui_[static_cast<int>(ButtonUI::MAX)];
+
+	PlayerItemList* list_;
 
 	int8	flag_;		//! 左右フラグ
 	uint8	cnt_;		//! カウンタ

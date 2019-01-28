@@ -169,6 +169,7 @@ void Dragon::Update(void)
 		if (moveController_)
 		{
 			int act = (currentAttack_) ? -1 : 0;
+			act = -1;
 			moveController_->Action(act, flag_);
 			if (act >= 0)
 			{
@@ -183,19 +184,17 @@ void Dragon::Update(void)
 
 	isEndAnim_ = meshAnim_.mesh.Animation(meshAnim_.animSpeed);
 
-	//if (meshAnim_.animation == static_cast<int>(Animation::TAIL_ATTACK))
-	//{
-	//	if (meshAnim_.mesh.GetPattern() >= meshAnim_.mesh.GetMaxAnimation() - 2)
-	//	{
-	//		transform_.rotation.y += 3.14f;
-	//		transform_.position += front_ * 20;
-	//	}
-	//	if (isEndAnim_)
-	//	{
-	//		meshAnim_.animation = static_cast<int>(Animation::WAIT1);
-	//		meshAnim_.mesh.ChangeAnimation(meshAnim_.animation, 15);
-	//	}
-	//}
+	if (meshAnim_.animation == static_cast<int>(Animation::TAIL_ATTACK))
+	{
+		velocity_ = 0;
+		if (isEndAnim_)
+		{
+			transform_.rotation.y += 3.14f;
+			transform_.position += front_ * 12.25f;
+			meshAnim_.animation = static_cast<int>(Animation::WAIT1);
+			meshAnim_.mesh.ChangeAnimation(meshAnim_.animation, 30, true);
+		}
+	}
 
 
 
@@ -471,6 +470,8 @@ bool Dragon::DebugInput(void)
 	}
 	return true;
 }
+
+static bool debug_nextFrame_ = false;
 
 void Dragon::GuiUpdate(void)
 {

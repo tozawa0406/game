@@ -1,8 +1,7 @@
 #include "PlayerItemList.h"
+#include <FrameWork/Systems/DebugSetting/GUI.h>
 
-PlayerItemList::PlayerItemList(void) : 
-	player_(nullptr)
-	, current_(0)
+PlayerItemList::PlayerItemList(void)
 {
 	for (auto& item : itemList_)
 	{
@@ -15,10 +14,8 @@ PlayerItemList::~PlayerItemList(void)
 {
 }
 
-void PlayerItemList::Init(Player* player)
+void PlayerItemList::Init(void)
 {
-	if (!player) { return; }
-	player_ = player;
 }
 
 void PlayerItemList::Uninit(void)
@@ -49,15 +46,30 @@ bool PlayerItemList::AddItem(ITEM_LIST addItem)
 	return true;
 }
 
-void PlayerItemList::SelectItem(bool right)
-{
-	current_ += (right) ? 1 : -1;
-
-	// Out of Range–hŽ~
-	if (current_ >= MAX_ITEM)	{ current_ = 0;				}
-	else if (current_ <= 0)		{ current_ = MAX_ITEM - 1;	}
-}
-
 void PlayerItemList::GuiUpdate(void)
 {
+	int i = 0;
+	for (auto& item : itemList_)
+	{
+		if (item.itemID == ItemID::UNKNOWN) { i++; continue; }
+
+		ImGui::Text("array :");
+		ImGui::SameLine();
+		ImGui::Text("%d", i);
+		ImGui::SameLine();
+		ImGui::Text(" num :");
+		ImGui::SameLine();
+		ImGui::Text("%d", item.possession);
+		ImGui::SameLine();
+		if (item.itemID == ItemID::Recovery)
+		{
+			ImGui::Text("Recovery");
+		}
+		else if (item.itemID == ItemID::Rations)
+		{
+			ImGui::Text("Rations");
+		}
+
+		i++;
+	}
 }

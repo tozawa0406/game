@@ -7,13 +7,15 @@
 #ifndef _PLAYER_ITEM_LIST_H_
 #define _PLAYER_ITEM_LIST_H_
 
-#include "Player.h"
+#include <FrameWork/Define/Define.h>
 
 //! @enum	アイテムのリスト
 enum class ItemID : int8
 {
 	UNKNOWN  = -1,
 	Recovery = 0,
+	Rations,
+	MAX
 };
 
 struct ITEM_LIST
@@ -24,8 +26,9 @@ struct ITEM_LIST
 
 class PlayerItemList
 {
-	static constexpr int8 MAX_ITEM = 5;
 public:
+	static constexpr uint8 MAX_ITEM = 5;
+
 	/* @brief	コンストラクタ		*/
 	PlayerItemList(void);
 	/* @brief	デストラクタ		*/
@@ -34,9 +37,9 @@ public:
 
 	
 	/* @brief	初期化処理
-	 * @param	(player)	プレイヤーへのポインタ
+	 * @param	なし
 	 * @return	なし				*/
-	void Init(Player* player);
+	void Init(void);
 	
 	/* @brief	後処理
 	 * @param	なし
@@ -54,21 +57,12 @@ public:
 	 * @return	所持品が一杯の時false	*/
 	bool AddItem(ITEM_LIST addItem);
 
-	/* @brief	現在表示アイテムの変更
-	 * @param	(right)		右回転？
-	 * @return	なし					*/
-	void SelectItem(bool right);
-
 	/* @brief	中央のアイテムの取得処理
-	 * @param	なし
+	 * @param	(arrayNum)		配列番号
 	 * @return	アイテムの情報			*/
-	inline ITEM_LIST GetItemInfo(void) { return itemList_[current_]; }
+	inline ITEM_LIST GetItemInfo(int arrayNum) { return itemList_[arrayNum]; }
 
 private:
-	// プレイヤー
-	Player*		player_;
-	// 現在位置
-	int8		current_;
 	// アイテムのリスト
 	ITEM_LIST	itemList_[MAX_ITEM];
 };
