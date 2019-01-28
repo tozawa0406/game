@@ -119,10 +119,7 @@ void ItemList::Init(void)
 	}
 	
 	GetItemInfo(item_[static_cast<int>(BackItem::Center)]		, 0);
-	GetItemInfo(item_[static_cast<int>(BackItem::FrontRight)]	, 1);
-	GetItemInfo(item_[static_cast<int>(BackItem::BackRight)]	, 2);
-	GetItemInfo(item_[static_cast<int>(BackItem::BackLeft)]		, 3);
-	GetItemInfo(item_[static_cast<int>(BackItem::FrontLeft)]	, 4);
+	SearchNextItem();
 }
 
 void ItemList::Uninit(void)
@@ -278,9 +275,26 @@ void ItemList::Update(void)
 					auto& next = item_[i + 1];
 					item.back.SetPosition(next.back.GetPosition());
 					item.img.SetPosition(next.img.GetPosition());
-					item.arrayNum = next.arrayNum;
-					GetItemInfo(item, item.arrayNum);
+					GetItemInfo(item, next.arrayNum);
 				}
+/*
+				const auto& item = item_[static_cast<int>(BackItem::FrontRight)];
+				if (item.info.itemID == ItemID::UNKNOWN && item.arrayNum == 0)
+				{
+					auto& c = item_[static_cast<int>(BackItem::Center)];
+					if (c.info.itemID == ItemID::UNKNOWN)
+					{
+						GetItemInfo(c, 1);
+						int n = 2;
+						for (int i = static_cast<int>(BackItem::FrontRight); i >= static_cast<int>(BackItem::BackRight); --i)
+						{
+							GetItemInfo(item_[i], n);
+							n++;
+						}
+						GetItemInfo(item_[static_cast<int>(BackItem::FrontLeft)], 0);
+						GetItemInfo(item_[static_cast<int>(BackItem::BackLeft)], PlayerItemList::MAX_ITEM - 1);
+					}
+				}*/
 			}
 			// 左移動だった
 			else
@@ -303,6 +317,7 @@ void ItemList::Update(void)
 				item.arrayNum = next.arrayNum;
 				GetItemInfo(item, item.arrayNum);
 			}
+			SearchNextItem();
 
 			// アイテムの描画順更新
 			SetItemBack();
@@ -433,12 +448,81 @@ void ItemList::JudgeCtrl(Controller& ctrl)
 
 void ItemList::GetItemInfo(UI_ITEM_LIST& list, int arrayNum)
 {
-	if (arrayNum >= PlayerItemList::MAX_ITEM) { return; }
-	list.arrayNum = arrayNum;
+	if (arrayNum < 0 &&  PlayerItemList::MAX_ITEM >= arrayNum) { return; }
+	list.arrayNum = static_cast<uint8>(arrayNum);
 	if (list_)
 	{
 		list.info = list_->GetItemInfo(arrayNum);
+		if (list.info.itemID != ItemID::UNKNOWN)
+		{
+			list.img.SetEnable(true);
+		}
 	}
+}
+
+void ItemList::SearchNextItem(void)
+{
+	uint8 center = item_[static_cast<int>(BackItem::Center)].arrayNum;
+
+	// 右は降順
+	for (int i = center + 1;; ++i)
+	{
+		if (i >= PlayerItemList::MAX_ITEM) { i = 0; }
+		if (FindNext(i, BackItem::FrontRight)) { break; }
+	}
+	for (int i = center + 2;; ++i)
+	{
+		if (i >= PlayerItemList::MAX_ITEM) { i = 0; }
+		if (FindNext(i, BackItem::BackRight)) { break; }
+	}
+
+	// 左は昇順
+	for (int i = center - 1;; --i)
+	{
+		if (i < 0) { i = PlayerItemList::MAX_ITEM - 1; }
+		if (FindNext(i, BackItem::FrontLeft)) { break; }
+	}
+	for (int i = center - 2;; --i)
+	{
+		if (i < 0) { i = PlayerItemList::MAX_ITEM - 1; }
+		if (FindNext(i, BackItem::BackLeft)) 
+		{
+			// 重複する可能性があるので消去
+			if (i == item_[static_cast<int>(BackItem::FrontLeft)].arrayNum)
+			{
+				int minus = i - 1;
+				GetItemInfo(item_[static_cast<int>(BackItem::BackLeft)], (minus < 0) ? PlayerItemList::MAX_ITEM + minus : minus);
+			}
+			else if (i == center)
+			{
+				int minus = i - 2;
+				GetItemInfo(item_[static_cast<int>(BackItem::BackLeft)], (minus < 0) ? PlayerItemList::MAX_ITEM + minus : minus);
+			}
+			break; 
+		}
+	}
+}
+
+bool ItemList::FindNext(int i, BackItem arrangement)
+{
+	const auto& info = list_->GetItemInfo(i);
+	// 0の時は無で良し
+	if (i == 0)
+	{
+		auto& next = item_[static_cast<int>(arrangement)];
+		next.arrayNum = static_cast<uint8>(i);
+		next.info = info;
+		return true;
+	}
+	// 無でない所を探す
+	else if (info.itemID != ItemID::UNKNOWN)
+	{
+		auto& next = item_[static_cast<int>(arrangement)];
+		next.arrayNum = static_cast<uint8>(i);
+		next.info = info;
+		return true;
+	}
+	return false;
 }
 
 void ItemList::GuiUpdate(void)

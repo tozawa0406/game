@@ -113,6 +113,19 @@ private:
 	 * @return	なし					*/
 	void GetItemInfo(UI_ITEM_LIST& list, int arrayNum);
 
+	/* @brief	次のアイテムの検索
+	 * @sa		Init(), Update()
+	 * @param	なし
+	 * @return	なし					*/
+	void SearchNextItem(void);
+
+	/* @brief	次のアイテムを見つけた時
+	 * @sa		SearchNextItem()
+	 * @param	(i)				現在の走査位置
+	 * @param	(arrangement)	配置
+	 * @return	見つけたらtrue			*/
+	bool FindNext(int i, BackItem arrangement);
+
 	//! プレイヤーのポインタ
 	Player* player_;
 
