@@ -8,15 +8,7 @@
 #define _PLAYER_ITEM_LIST_H_
 
 #include <FrameWork/Define/Define.h>
-
-//! @enum	アイテムのリスト
-enum class ItemID : int8
-{
-	UNKNOWN  = -1,
-	Recovery = 0,
-	Rations,
-	MAX
-};
+#include "ItemInfo.h"
 
 struct ITEM_LIST
 {
@@ -54,8 +46,8 @@ public:
 
 	/* @brief	アイテムの取得処理
 	 * @param	(addItem)	追加するアイテムの情報
-	 * @return	所持品が一杯の時false	*/
-	bool AddItem(ITEM_LIST addItem);
+	 * @return	受け取れなかった個数を返す	*/
+	int AddItem(ITEM_LIST addItem);
 
 	/* @brief	中央のアイテムの取得処理
 	 * @param	(arrayNum)		配列番号
@@ -63,6 +55,12 @@ public:
 	inline ITEM_LIST GetItemInfo(int arrayNum) { return itemList_[arrayNum]; }
 
 private:
+	/* @brief	所持数制限
+	 * @sa		AddItem()
+	 * @param	(list)	制限するアイテム
+	 * @return	余ったアイテム数		*/
+	int LimitPossesion(ITEM_LIST& list);
+
 	// アイテムのリスト
 	ITEM_LIST	itemList_[MAX_ITEM];
 };

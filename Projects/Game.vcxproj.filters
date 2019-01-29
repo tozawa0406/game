@@ -376,5 +376,8 @@
     <ClInclude Include="Sources\Object\UI\PlayerItemList.h">
       <Filter>Source\Object\UI</Filter>
     </ClInclude>
+    <ClInclude Include="Sources\Object\UI\ItemInfo.h">
+      <Filter>Source\Object\UI</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

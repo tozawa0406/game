@@ -111,6 +111,7 @@
     <ClInclude Include="Sources\Object\StaticObject\CampWall.h" />
     <ClInclude Include="Sources\Object\StaticObject\WallParts.h" />
     <ClInclude Include="Sources\Object\UI\ClearFailed.h" />
+    <ClInclude Include="Sources\Object\UI\ItemInfo.h" />
     <ClInclude Include="Sources\Object\UI\ItemList.h" />
     <ClInclude Include="Sources\Object\UI\PlayerItemList.h" />
     <ClInclude Include="Sources\Object\UI\PlayerLife.h" />

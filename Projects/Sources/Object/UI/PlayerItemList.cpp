@@ -22,10 +22,10 @@ void PlayerItemList::Uninit(void)
 {
 }
 
-bool PlayerItemList::AddItem(ITEM_LIST addItem)
+int PlayerItemList::AddItem(ITEM_LIST addItem)
 {
 	int inside = 0;
-	for (int i = 1; i < 5; ++i)
+	for (int i = 1; i < MAX_ITEM; ++i)
 	{
 		// アイテムリストの空きを確認
 		if (itemList_[i].itemID == ItemID::UNKNOWN && inside == 0) { inside = i; }
@@ -34,17 +34,37 @@ bool PlayerItemList::AddItem(ITEM_LIST addItem)
 		if (itemList_[i].itemID == addItem.itemID)
 		{
 			itemList_[i].possession += addItem.possession;
-			return true;
+
+			return LimitPossesion(itemList_[i]);
 		}
 	}
 
 	// 0番目は無固定なので所持数一杯
-	if (inside == 0) { return false; }
+	if (inside == 0) { return addItem.possession; }
 
 	// 空きにぶちこんでやるぜ
 	itemList_[inside] = addItem;
-	return true;
+	return LimitPossesion(itemList_[inside]);
 }
+
+int PlayerItemList::LimitPossesion(ITEM_LIST& list)
+{
+	int possession = list.possession;
+	ItemInfo itemInfo;
+	// 所持数制限
+	int arrayMax = sizeof(itemInfo.info) / sizeof(itemInfo.info[0]);
+	for (int j = 0; j < arrayMax; ++j)
+	{
+		if (itemInfo.info[j].id == list.itemID)
+		{
+			list.possession = min(list.possession, itemInfo.info[j].possessionMax);
+			break;
+		}
+	}
+
+	return possession - list.possession;
+}
+
 
 void PlayerItemList::GuiUpdate(void)
 {

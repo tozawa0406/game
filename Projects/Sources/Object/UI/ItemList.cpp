@@ -277,24 +277,6 @@ void ItemList::Update(void)
 					item.img.SetPosition(next.img.GetPosition());
 					GetItemInfo(item, next.arrayNum);
 				}
-/*
-				const auto& item = item_[static_cast<int>(BackItem::FrontRight)];
-				if (item.info.itemID == ItemID::UNKNOWN && item.arrayNum == 0)
-				{
-					auto& c = item_[static_cast<int>(BackItem::Center)];
-					if (c.info.itemID == ItemID::UNKNOWN)
-					{
-						GetItemInfo(c, 1);
-						int n = 2;
-						for (int i = static_cast<int>(BackItem::FrontRight); i >= static_cast<int>(BackItem::BackRight); --i)
-						{
-							GetItemInfo(item_[i], n);
-							n++;
-						}
-						GetItemInfo(item_[static_cast<int>(BackItem::FrontLeft)], 0);
-						GetItemInfo(item_[static_cast<int>(BackItem::BackLeft)], PlayerItemList::MAX_ITEM - 1);
-					}
-				}*/
 			}
 			// ç∂à⁄ìÆÇæÇ¡ÇΩ
 			else
@@ -455,6 +437,16 @@ void ItemList::GetItemInfo(UI_ITEM_LIST& list, int arrayNum)
 		list.info = list_->GetItemInfo(arrayNum);
 		if (list.info.itemID != ItemID::UNKNOWN)
 		{
+			ItemInfo itemInfo;
+			int arrayMax = sizeof(itemInfo.info) / sizeof(itemInfo.info[0]);
+			for (int i = 0; i < arrayMax; ++i)
+			{
+				if (list.info.itemID == itemInfo.info[i].id)
+				{
+					list.img.SetTexNum(itemInfo.info[i].texNum);
+					break;
+				}
+			}
 			list.img.SetEnable(true);
 		}
 	}
@@ -506,20 +498,10 @@ void ItemList::SearchNextItem(void)
 bool ItemList::FindNext(int i, BackItem arrangement)
 {
 	const auto& info = list_->GetItemInfo(i);
-	// 0ÇÃéûÇÕñ≥Ç≈ó«Çµ
-	if (i == 0)
+	// 0Ç©ñ≥Ç≈Ç»Ç¢éû
+	if (i == 0 || info.itemID != ItemID::UNKNOWN)
 	{
-		auto& next = item_[static_cast<int>(arrangement)];
-		next.arrayNum = static_cast<uint8>(i);
-		next.info = info;
-		return true;
-	}
-	// ñ≥Ç≈Ç»Ç¢èäÇíTÇ∑
-	else if (info.itemID != ItemID::UNKNOWN)
-	{
-		auto& next = item_[static_cast<int>(arrangement)];
-		next.arrayNum = static_cast<uint8>(i);
-		next.info = info;
+		GetItemInfo(item_[static_cast<int>(arrangement)], i);
 		return true;
 	}
 	return false;
