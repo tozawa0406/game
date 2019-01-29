@@ -5,7 +5,9 @@
 #include <FrameWork/Systems/Particle/Particle.h>
 #include <random>
 
-HealState::HealState(void) : heal_(false)
+HealState::HealState(void) : 
+	heal_(false)
+	, itemId_(ItemID::UNKNOWN)
 {
 }
 
@@ -28,6 +30,11 @@ void HealState::Init(Player* player, Controller* ctrl)
 
 	// アニメーションの変更
 	meshAnim.mesh.ChangeAnimation(meshAnim.animation, ANIMATION_CHANGE_FRAME15, true);
+
+	if (const auto& itemList = player->GetItemLIst())
+	{
+		itemId_ = itemList->GetCurrentItem().itemID;
+	}
 }
 
 void HealState::Uninit(void)
@@ -42,11 +49,14 @@ PlayerState* HealState::Update(void)
 	const auto& pattern = meshAnim.mesh.GetPattern();
 	if (40 < pattern && pattern < 85)
 	{
-		COLOR c = COLOR(1, 1, 0);
+		COLOR c = COLOR(1, 1, 1);
+		if (itemId_ == ItemID::Recovery)		{ c = COLOR(0, 1, 0); }
+		else if (itemId_ == ItemID::Rations)	{ c = COLOR(1, 1, 0); }
 		if (!heal_) 
 		{
 			heal_ = true;
-			player_->AddMaxStamina();
+			if (itemId_ == ItemID::Recovery)	 { player_->Recovery(30); }
+			else if (itemId_ == ItemID::Rations) { player_->AddMaxStamina(); }
 		}
 
 		if (const auto& systems = Systems::Instance())

@@ -57,7 +57,7 @@ int PlayerItemList::LimitPossesion(ITEM_LIST& list)
 	{
 		if (itemInfo.info[j].id == list.itemID)
 		{
-			list.possession = min(list.possession, itemInfo.info[j].possessionMax);
+			list.possession = min(list.possession, static_cast<uint8>(itemInfo.info[j].possessionMax));
 			break;
 		}
 	}

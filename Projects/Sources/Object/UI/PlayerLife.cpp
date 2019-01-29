@@ -1,4 +1,5 @@
 #include "PlayerLife.h"
+#include "../GameObject/Player/Player.h"
 #include <FrameWork/Windows/Windows.h>
 
 //! @def	•`‰æ‡

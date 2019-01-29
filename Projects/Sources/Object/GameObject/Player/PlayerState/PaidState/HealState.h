@@ -42,7 +42,10 @@ public:
 	void GuiUpdate(void) override;	
 
 private:
-	bool heal_;
+	//! 値計算済みフラグ
+	bool	heal_;
+	//! アイテムの識別子
+	ItemID itemId_;
 };
 
 #endif // _HEAL_STATE_H_

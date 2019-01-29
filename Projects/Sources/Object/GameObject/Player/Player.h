@@ -11,6 +11,10 @@
 #include "../GameObject.h"
 #include "../../Wapon/Wapon.h"
 
+#include "../../UI/PlayerLife.h"
+#include "../../UI/ItemList.h"
+
+class ItemList;
 class PlayerState;
 class Player : public GameObject, public GUI
 {
@@ -120,6 +124,13 @@ public:
 	inline void AddMaxLife(void)	{ maxLife_		= min(150, maxLife_	   + 25); }
 	inline void AddMaxStamina(void) { maxStamina_	= min(150, maxStamina_ + 25); }
 
+	/* @brief	回復処理
+	 * @param	(recovery)	回復値
+	 * @return	なし						*/
+	inline void Recovery(int recovery) { life_ = min(life_ + recovery, maxLife_); }
+
+	inline const ItemList* GetItemLIst(void) { return itemList_; }
+
 private:
 	/* @brief	死亡判定
 	 * @sa		Update()
@@ -127,6 +138,7 @@ private:
 	 * @return	死んでいたらtrue			*/
 	bool IsDedJudge(void);
 
+	ItemList*		itemList_;			//! アイテムリスト
 	PlayerState*	state_;				//! プレイヤーのステート
 	float			stamina_;			//! スタミナ
 	int				maxLife_;

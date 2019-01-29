@@ -6,6 +6,10 @@
 
 #include <FrameWork/Graphics/DirectX11/Dx11Wrapper.h>
 #include "PlayerState/PlayerState.h"
+
+#include "../../UI/PlayerLife.h"
+#include "../../UI/ItemList.h"
+
 #include "PlayerState/PaidState/PaidWaitState.h"
 
 #include "PlayerState/EarplugState.h"
@@ -25,6 +29,7 @@ static const     VECTOR3 COLLISION_OFFSET_POS = VECTOR3(0, 7.5f, 0);
 static const     VECTOR3 COLLISION_SIZE = VECTOR3(3, 15, 3);
 
 Player::Player(const VECTOR3& position) : GameObject(ObjectTag::PLAYER), GUI(Systems::Instance(), this, "player")
+	, itemList_(nullptr)
 	, state_(nullptr)
 	, stamina_(150)
 	, maxLife_(100)
@@ -53,6 +58,13 @@ void Player::Init(void)
 {
 	const auto& systems = Systems::Instance();
 	if (!systems) { return; }
+
+	if (const auto& lifeGauge = manager_->Create<PlayerLife>())
+	{
+		lifeGauge->SetPlayer(this);
+	}
+
+	itemList_ = manager_->Create<ItemList>();
 
 	// ƒƒbƒVƒ…
 	meshAnim_.mesh.Init(systems, static_cast<int>(Resources::Model::Camp::UNITY_CHAN), &transform_);

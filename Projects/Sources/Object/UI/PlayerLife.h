@@ -10,8 +10,7 @@
 #include <FrameWork/Define/Define.h>
 #include <FrameWork/Object/Object.h>
 
-#include "../GameObject/Player/Player.h"
-
+class Player;
 class PlayerLife : public Object
 {
 public:

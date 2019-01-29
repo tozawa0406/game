@@ -169,7 +169,6 @@ void Dragon::Update(void)
 		if (moveController_)
 		{
 			int act = (currentAttack_) ? -1 : 0;
-			act = -1;
 			moveController_->Action(act, flag_);
 			if (act >= 0)
 			{

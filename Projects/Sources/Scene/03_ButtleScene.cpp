@@ -6,8 +6,6 @@
 #include <FrameWork/Systems/Score.h>
 
 #include "../Object/GameObject/Player/Player.h"
-#include "../Object/UI/PlayerLife.h"
-#include "../Object/UI/ItemList.h"
 #include "../Object/GameObject/Monster/Dragon/Dragon.h"
 #include "../Object/UI/Timer.h"
 #include "../Object/Wapon/KohakuSword.h"
@@ -58,14 +56,6 @@ void ButtleScene::Init(void)
 	auto* wapon  = objectManager_->Create<KohakuSword>();
 	player->SetWapon(wapon);
 	objectManager_->Create<Timer>();
-	if (auto* life = objectManager_->Create<PlayerLife>())
-	{
-		life->SetPlayer(player);
-	}
-	if (auto* item = objectManager_->Create<ItemList>())
-	{
-		item->SetPlayer(player);
-	}
 
 	gameObject_[0] = player;
 	gameObject_[1] = objectManager_->Create<Dragon>();

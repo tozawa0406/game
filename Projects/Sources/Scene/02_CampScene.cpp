@@ -57,14 +57,6 @@ void CampScene::Init(void)
 	auto* wapon  = objectManager_->Create<KohakuSword>();
 	player->SetWapon(wapon);
 	objectManager_->Create<Timer>();
-	if (auto* life = objectManager_->Create<PlayerLife>())
-	{
-		life->SetPlayer(player);
-	}
-	if (auto* item = objectManager_->Create<ItemList>())
-	{
-		item->SetPlayer(player);
-	}
 
 	if(const auto& sound = GetSound())
 	{

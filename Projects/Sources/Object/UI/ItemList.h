@@ -9,8 +9,8 @@
 
 #include <FrameWork/Define/Define.h>
 #include <FrameWork/Object/Object.h>
+#include <FrameWork/Systems/Renderer/CanvasRenderer/CanvasRendererText.h>
 
-#include "../GameObject/Player/Player.h"
 #include "PlayerItemList.h"
 
 class ItemList : public Object, public GUI
@@ -72,9 +72,10 @@ public:
 	 * @return	なし				*/
 	void GuiUpdate(void) override;
 
-	/* @brief	プレイヤー(親)の設定処理
-	 * @param	(player)	設定するプレイヤー			*/
-	inline void SetPlayer(Player* player) { player_ = player; }
+	/* @brief	現在のアイテムを返す
+	 * @param	なし
+	 * @return	なし				*/
+	inline const ITEM_LIST& GetCurrentItem(void) const { return item_[static_cast<int>(BackItem::Center)].info; }
 
 private:
 	/* @brief	アイテムの背景の設定
@@ -125,9 +126,6 @@ private:
 	 * @param	(arrangement)	配置
 	 * @return	見つけたらtrue			*/
 	bool FindNext(int i, BackItem arrangement);
-
-	//! プレイヤーのポインタ
-	Player* player_;
 
 	//! 背景
 	CanvasRenderer::Image back_;

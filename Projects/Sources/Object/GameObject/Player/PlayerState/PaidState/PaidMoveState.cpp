@@ -105,7 +105,13 @@ PlayerState* PaidMoveState::Update(void)
 	{
 		if (!ctrl_->Press(Input::GAMEPAD_L1, DIK_R))
 		{
-			return new HealState;
+			if (const auto& itemList = player_->GetItemLIst())
+			{
+				if (itemList->GetCurrentItem().itemID != ItemID::UNKNOWN)
+				{
+					return new HealState;
+				}
+			}
 		}
 	}
 	

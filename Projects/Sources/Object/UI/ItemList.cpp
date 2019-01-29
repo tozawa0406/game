@@ -1,4 +1,5 @@
 #include "ItemList.h"
+#include <FrameWork/Systems/Input/Controller.h>
 #include <FrameWork/Windows/Windows.h>
 
 //! @def	•`‰æ‡
@@ -31,7 +32,6 @@ static constexpr int MOVE_LIST = ITEM_RANGE / CHANGE_FRAME;
 static const	 VECTOR2 ITEM_SIZE_DIFF = VECTOR2(SIZE_ITEM_BACK.x - SIZE_ITEM_BACK_LIST.x, SIZE_ITEM_BACK.y - SIZE_ITEM_BACK_LIST.y) * 0.1f;
 
 ItemList::ItemList(void) : Object(ObjectTag::UI), GUI(Systems::Instance(), this, "ItemList")
-	, player_(nullptr)
 	, flag_(0)
 	, cnt_(0)
 	, list_(nullptr)
@@ -116,6 +116,9 @@ void ItemList::Init(void)
 		add.itemID = ItemID::Rations;
 		add.possession = 10;
 		list_->AddItem(add);
+		add.itemID = ItemID::Recovery;
+		add.possession = 10;
+		list_->AddItem(add);
 	}
 	
 	GetItemInfo(item_[static_cast<int>(BackItem::Center)]		, 0);
@@ -138,7 +141,6 @@ void ItemList::Uninit(void)
 
 void ItemList::Update(void)
 {
-	if (!player_) { return; }
 	const auto& ctrl = GetCtrl(0);
 	if (!ctrl) { return; }
 
