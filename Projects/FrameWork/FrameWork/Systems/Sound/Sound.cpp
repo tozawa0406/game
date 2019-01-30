@@ -22,13 +22,7 @@ HRESULT Sound::Init(void)
 
 	// XAudio2オブジェクトの作成
 	hr = XAudio2Create(&pXAudio2_, 0);
-	if(windows->ErrorMessage("XAudio2オブジェクトの作成に失敗", "エラー", hr))
-	{
-		// COMライブラリの終了処理
-		CoUninitialize();
-
-		return E_FAIL;
-	}
+	if (windows->ErrorMessage("XAudio2オブジェクトの作成に失敗", "エラー", hr)) { return E_FAIL; }
 	
 	// マスターボイスの生成
 	hr = pXAudio2_->CreateMasteringVoice(&pMasteringVoice_);
@@ -60,8 +54,11 @@ Sound::~Sound(void)
 	Release(true);
 	
 	// マスターボイスの破棄
-	pMasteringVoice_->DestroyVoice();
-	pMasteringVoice_ = nullptr;
+	if (pMasteringVoice_)
+	{
+		pMasteringVoice_->DestroyVoice();
+		pMasteringVoice_ = nullptr;
+	}
 	
 	ReleasePtr(pXAudio2_);
 	
@@ -71,7 +68,8 @@ Sound::~Sound(void)
 
 int	Sound::SetUpLoading(Loading* loading, int sceneNum)
 {
-	loading_ = loading;
+	sceneNum_ = sceneNum;
+	loading_  = loading;
 
 	if (!systems_) { return 0; }
 	int size = 0, max = 0;	

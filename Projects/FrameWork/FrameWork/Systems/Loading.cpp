@@ -114,34 +114,46 @@ void Loading::Start(int sceneNum)
 	LoadingSafe(true);
 
 	// 既に持っているリソースの破棄
-	texture_->Release();
-	model_->Release();
-	sound_->Release();
+	if (texture_)	{ texture_->Release();	}
+	if (model_)		{ model_->Release();	}
+	if (sound_)		{ sound_->Release();	}
 
 	// 全リソース数を取得
-	allTask_ += texture_->SetUpLoading(this, sceneNum);
-	allTask_ += model_->SetUpLoading(this, sceneNum);
-	allTask_ += sound_->SetUpLoading(this, sceneNum);
+	if (texture_)	{ allTask_ += texture_->SetUpLoading(this, sceneNum);	}
+	if (model_)		{ allTask_ += model_->SetUpLoading(this, sceneNum);		}
+	if (sound_)		{ allTask_ += sound_->SetUpLoading(this, sceneNum);		}
 
 	thread_ = new std::thread([=]() { return Load(sceneNum); });
 }
 
 bool Loading::Load(int sceneNum)
 {
-	if (FAILED(texture_->Load(sceneNum))) 
+	if (texture_)
 	{
-		SetFail(true);
-		LoadingSafe(false);
+		if (FAILED(texture_->Load(sceneNum)))
+		{
+			SetFail(true);
+			LoadingSafe(false);
+			return true;
+		}
 	}
-	if (FAILED(model_->Load(sceneNum)))   
+	if (model_)
 	{
-		SetFail(true);
-		LoadingSafe(false);
+		if (FAILED(model_->Load(sceneNum)))
+		{
+			SetFail(true);
+			LoadingSafe(false);
+			return true;
+		}
 	}
-	if (FAILED(sound_->Load(sceneNum)))
+	if (sound_)
 	{
-		SetFail(true);
-		LoadingSafe(false);
+		if (FAILED(sound_->Load(sceneNum)))
+		{
+			SetFail(true);
+			LoadingSafe(false);
+			return true;
+		}
 	}
 
 	// 100%を描画するため終了まで100ミリ秒(0.1秒)待つ

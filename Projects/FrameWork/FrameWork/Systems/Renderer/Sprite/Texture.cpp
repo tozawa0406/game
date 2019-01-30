@@ -45,7 +45,8 @@ void Texture::Uninit(void)
 
 int Texture::SetUpLoading(Loading* loading, int sceneNum)
 {
-	loading_ = loading;
+	sceneNum_ = sceneNum;
+	loading_  = loading;
 
 	if (!systems_) { return 0; }
 	int size = 0, max = 0;

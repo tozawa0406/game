@@ -35,12 +35,13 @@ HRESULT Systems::Init(void)
 	if (!Create<Model>					 ((int)SystemsNum::MODEL		  , "モデル"			)) { return E_FAIL; }
 	if (!Create<ShaderManager>			 ((int)SystemsNum::SHADER         , "シェーダー"		)) { return E_FAIL; }
 	if (!Create<Sound>					 ((int)SystemsNum::SOUND          , "サウンド"			)) { return E_FAIL; }
-	if (!Create<Collision2DManager>		 ((int)SystemsNum::COLLISION2D    , "2D当たり判定"		)) { return E_FAIL; }
-	if (!Create<Collision3DManager>		 ((int)SystemsNum::COLLISION3D    , "3D当たり判定"		)) { return E_FAIL; }
-	if (!Create<ColliderRendererManager> ((int)SystemsNum::COLLISIONDRAW  , "当たり判定描画"	)) { return E_FAIL; }
-	if (!Create<ParticleManager>		 ((int)SystemsNum::PARTICLE		  , "パーティクル"		)) { return E_FAIL; }
+//	if (!Create<Collision2DManager>		 ((int)SystemsNum::COLLISION2D    , "2D当たり判定"		)) { return E_FAIL; }
+//	if (!Create<Collision3DManager>		 ((int)SystemsNum::COLLISION3D    , "3D当たり判定"		)) { return E_FAIL; }
+//	if (!Create<ColliderRendererManager> ((int)SystemsNum::COLLISIONDRAW  , "当たり判定描画"	)) { return E_FAIL; }
+//	if (!Create<ParticleManager>		 ((int)SystemsNum::PARTICLE		  , "パーティクル"		)) { return E_FAIL; }
 	if (!Create<SceneManager>			 ((int)SystemsNum::SCENE          , "シーン"			)) { return E_FAIL; }
 	if (!Create<Screenshot>				 ((int)SystemsNum::SCREENSHOT     , "スクリーンショット")) { return E_FAIL; }
+
 
 	return S_OK;
 }

@@ -177,11 +177,13 @@ void SceneManager::ChangeActual(void)
 			}
 			if (!loading_->IsLoading())
 			{
+				loading_->End();
 				if (loading_->IsFail())
 				{
 					systems_->ForceStop();
+					systems_->GetWindow()->ErrorMessage("ロードに失敗しました", "エラー", E_FAIL);
+					return;
 				}
-				loading_->End();
 				startLoad_ = false;
 				if (eachScene_)
 				{

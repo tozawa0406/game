@@ -47,7 +47,8 @@ void Model::Uninit(void)
 
 int	Model::SetUpLoading(Loading* loading, int sceneNum)
 {
-	loading_ = loading;
+	sceneNum_ = sceneNum;
+	loading_  = loading;
 
 	if (!systems_) { return 0; }
 	int size = 0, max = 0;
