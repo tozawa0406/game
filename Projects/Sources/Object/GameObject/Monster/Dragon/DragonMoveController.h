@@ -48,12 +48,21 @@ public:
 	void GuiUpdate(void) override;
 
 private:
+	/* @brief	索敵
+	 * @sa		Action()
+	 * @param	なし
+	 * @return	範囲内にプレイヤーがはいったらtrue	*/
+	bool SearchTarget(void);
+
 	Dragon*			parent_;	//! 親のポインタ
 	GameObject*		target_;	//! 標的のポインタ
 
 	VECTOR3 dir_;		//! 方向
 	bool	isDash_;	//! ダッシュフラグ
 	int		cnt_;		//! カウンタ
+
+	//! 索敵用コライダー
+	Collider3D::Sphere* collider_;
 };
 
 #endif // _DRAGON_MOVE_CONTROLLER_H_

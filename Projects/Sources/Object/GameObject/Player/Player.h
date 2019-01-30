@@ -141,6 +141,7 @@ private:
 	ItemList*		itemList_;			//! アイテムリスト
 	PlayerState*	state_;				//! プレイヤーのステート
 	float			stamina_;			//! スタミナ
+	int				staminaCnt_;		//! スタミナ最大値減少のカウンタ
 	int				maxLife_;
 	float			maxStamina_;
 	bool			isDraw_;			//! 抜刀フラグ

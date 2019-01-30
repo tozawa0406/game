@@ -103,7 +103,7 @@ void Dragon::Init(void)
 		{
 			if (object->GetTag() == ObjectTag::PLAYER)
 			{
-				moveController_->SetTarget(static_cast<GameObject*>(object));
+//				moveController_->SetTarget(static_cast<GameObject*>(object));
 				break;
 			}
 		}

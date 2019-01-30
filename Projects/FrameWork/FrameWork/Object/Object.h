@@ -54,6 +54,11 @@ protected:
 	 * @return	コントロ―ラのポインタ		*/
 	Controller* GetCtrl(int i);
 
+	/* @brief	オブジェクトのマネージャー取得処理
+	 * @param	なし
+	 * @return	オブジェクトマネージャー	*/
+	inline ObjectManager* GetObjectManager(void) { return manager_; }
+
 	//! 姿勢
 	Transform  transform_;
 	//! マネージャー

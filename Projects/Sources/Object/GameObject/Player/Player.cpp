@@ -28,12 +28,16 @@ static const     VECTOR3 COLLISION_OFFSET_POS = VECTOR3(0, 7.5f, 0);
 //! @def	当たり判定のサイズ
 static const     VECTOR3 COLLISION_SIZE = VECTOR3(3, 15, 3);
 
+//! @def	スタミナ減少時間(分単位)
+static constexpr int     STAMINA_DOWN_TIME = 7;
+
 Player::Player(const VECTOR3& position) : GameObject(ObjectTag::PLAYER), GUI(Systems::Instance(), this, "player")
 	, itemList_(nullptr)
 	, state_(nullptr)
 	, stamina_(150)
+	, staminaCnt_(0)
 	, maxLife_(100)
-	, maxStamina_(25)
+	, maxStamina_(100)
 	, isDraw_(false)
 	, body_(nullptr)
 	, hand_(nullptr)
@@ -166,6 +170,13 @@ void Player::Update(void)
 
 	transform_.position += collider_->GetBack();
 
+	// スタミナの最大値減少
+	staminaCnt_++;
+	if (staminaCnt_ > STAMINA_DOWN_TIME * 60 * 60)
+	{
+		staminaCnt_ = 0;
+		maxStamina_ = max(maxStamina_ - 25, 25);
+	}
 }
 
 void Player::Hit(int damage)

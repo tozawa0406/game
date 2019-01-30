@@ -12,6 +12,7 @@ DragonMoveController::DragonMoveController(void) : GUI(Systems::Instance(), null
 	, target_(nullptr)
 	, isDash_(false)
 	, cnt_(0)
+	, collider_(nullptr)
 {
 }
 
@@ -22,15 +23,23 @@ DragonMoveController::~DragonMoveController(void)
 void DragonMoveController::Init(Dragon* parent)
 {
 	parent_ = parent;
+	collider_ = new Collider3D::Sphere(parent);
+	if (collider_)
+	{
+		collider_->SetSize(200);
+	}
 }
 
 void DragonMoveController::Uninit(void)
 {
+	DeletePtr(collider_);
 }
 
 void DragonMoveController::Action(int& act, uint& flag)
 {
-	if (!parent_ || !target_) { return; }
+	// 索敵範囲内にプレイヤーが入った時のみバインドボイス
+	if (SearchTarget()) { act = 0; return; }
+	if (!parent_ || !target_) { act = -1; return; }
 	const int range = 19;
 
 	// 方決定
@@ -106,8 +115,23 @@ void DragonMoveController::Action(int& act, uint& flag)
 			}
 		}
 	}
+}
 
+bool DragonMoveController::SearchTarget(void)
+{
+	if (!collider_ || !collider_->IsEnable()) { return false; }
 
+	auto objects = collider_->Hit();
+	for (auto o : objects)
+	{
+		if (o->GetTag() == ObjectTag::PLAYER)
+		{
+			target_ = static_cast<GameObject*>(o);
+			collider_->SetEnable(false);
+			return true;
+		}
+	}
+	return false;
 }
 
 void DragonMoveController::GuiUpdate(void)
