@@ -34,7 +34,7 @@ void KnockBackState::Init(Player* player, Controller* ctrl)
 	meshAnim.animation = static_cast<int>(Player::Animation::KnockBack);
 	meshAnim.mesh.ChangeAnimation(meshAnim.animation, ANIMATION_CHANGE_FRAME15);
 
-	if (auto collider = player_->GetCollider())
+	if (auto collider = player_->GetDefenseCollider())
 	{
 		collider->SetEnable(false);
 	}
@@ -50,7 +50,7 @@ PlayerState* KnockBackState::Update(void)
 
 	if (player_->IsEndAnim())
 	{
-		if (auto collider = player_->GetCollider())
+		if (auto collider = player_->GetDefenseCollider())
 		{
 			collider->SetEnable(true);
 		}

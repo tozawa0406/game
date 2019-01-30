@@ -11,6 +11,35 @@
 #include "../ColliderRenderer.h"
 #include "../../BaseManager.h"
 
+#include <Object/ObjectTag.h>
+
+//! @enum	当たり判定のタグ
+enum class ColliderTag : int8
+{
+	UNKNOWN = -1,
+	NORMAL = 0,
+	ATTACK,
+	DEFENSE,
+	MAX
+};
+
+struct COLLIDER_TYPE_COLOR
+{
+	ColliderTag	tag;
+	COLOR		color;
+};
+
+class ColliderColor
+{
+public:
+	const COLLIDER_TYPE_COLOR list[static_cast<int>(ColliderTag::MAX)] =
+	{
+		{ ColliderTag::NORMAL , COLOR(1, 1, 1) },
+		{ ColliderTag::ATTACK , COLOR(1, 0, 0) },
+		{ ColliderTag::DEFENSE, COLOR(0, 0, 1) },
+	};
+};
+
 class Object;
 class Collider3DBase
 {
@@ -26,6 +55,7 @@ protected:
 	VECTOR3					size_;
 	VECTOR3					back_;
 
+	ColliderTag				tag_;
 	Object*					object_;
 	ColliderRenderer		renderer_;
 	std::vector<Object*>	list_;
@@ -42,6 +72,7 @@ protected:
 
 private:
 	Type type_;
+	bool isTrigger_;
 	bool enable_;
 
 public:
@@ -54,24 +85,55 @@ public:
 	inline const std::vector<Object*>&			Hit(void)			{ return list_;			}
 	inline const std::vector<Collider3DBase*>&	HitCollider(void)	{ return colliderList_; }
 
-	/* @fn		SetEnable
-	 * @brief	使用状況の設定
-	 * @param	(enable)	使用状況		*/
-	inline void SetEnable(bool enable) { enable_ = enable; }
+	/* @brief	使用状態設定
+	 * @param	(enable)	使用状態
+	 * @return	なし					*/
+	inline void		SetEnable(bool enable) { enable_ = enable; }
 
-	/* @fn		IsEnable
-	 * @brief	使用状況の取得
-	 * @return	使用状況					*/
-	inline bool IsEnable(void) { return enable_; }
+	/* @brief	使用状態取得
+	 * @param	なし
+	 * @return	使用状態				*/
+	inline bool		IsEnable(void) const { return enable_; }
 
+	/* @brief	トリガー設定処理
+	 * @param	(trigger)	トリガー
+	 * @return	なし					*/
+	inline void		SetTrigger(bool trigger) { isTrigger_ = trigger; }
+
+	/* @brief	トリガー状態取得
+	 * @param	なし
+	 * @return	トリガー状態			*/
+	inline bool		IsTrigger(void) { return isTrigger_; }
+
+	/* @brief	オブジェクトの取得
+	 * @param	なし
+	 * @return	オブジェクト			*/
+	inline Object*	GetParent(void) { return object_; }
+
+	/* @brief	オブジェクトのタグを取得
+	 * @param	なし
+	 * @return	オブジェクトのタグ		*/
+	ObjectTag		GetParentTag(void) const;
+	
+	/* @brief	当たり判定の種類設定
+	 * @param	(type)	当たり判定の種類
+	 * @return	なし					*/
+	virtual void	SetColliderTag(ColliderTag tag);
+
+	/* @brief	当たり判定の種類取得
+	 * @param	なし
+	 * @return	当たり判定の種類		*/
+	inline ColliderTag GetColliderTag(void) const { return tag_; }
+	
 	inline void SetParentMtx(const MATRIX* transMtx, const MATRIX* mtx) { transMtx_ = transMtx; parentMtx_ = mtx; }
-	inline void SetOffsetPosition(VECTOR3 offset) { offsetPosition_ = offset; }
-	inline void SetOffsetRotation(VECTOR3 offset) { offsetRotation_ = offset; }
+	inline const MATRIX* GetTransMtx(void)	 const { return transMtx_; }
+	inline const MATRIX* GetParentMtx(void)  const { return parentMtx_; }
+	inline void SetOffsetPosition(const VECTOR3& offset) { offsetPosition_ = offset; }
+	inline const VECTOR3& GetOffsetPosition(void) const { return offsetPosition_; }
+	inline void SetOffsetRotation(const VECTOR3& offset) { offsetRotation_ = offset; }
+	inline const VECTOR3& GetOffsetRotation(void) const { return offsetRotation_; }
 
-	Object* GetParent(void) { return object_; }
-
-	inline COLOR GetGraphicsColor(void) { return renderer_.GetColor(); }
-	virtual inline void SetRendererColor(COLOR color) { renderer_.SetColor(color); }
+	inline COLOR GetRendererColor(void) { return renderer_.GetColor(); }
 
 	inline const VECTOR3& GetBack(void) { return back_; }
 	inline const Transform& GetTransform(void) const { return transform_; }

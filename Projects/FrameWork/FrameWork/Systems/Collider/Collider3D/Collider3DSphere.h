@@ -17,8 +17,8 @@ namespace Collider3D
 		Sphere(Object* obj);
 		void Update(void) override;
 		void SetSize(float d) { size_ = VECTOR3(d, d, d); }
+		void SetColliderTag(ColliderTag tag) override;
 
-		inline void SetRendererColor(COLOR color) override { renderer_.SetColor(color); renderer2_.SetColor(color); }
 	private:
 		Transform			transform2_;
 		ColliderRenderer	renderer2_;

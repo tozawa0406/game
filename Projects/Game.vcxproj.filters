@@ -250,9 +250,6 @@
     <ClInclude Include="Sources\Object\GameObject\Player\Player.h">
       <Filter>Source\Object\GameObject\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Object\GameObject\Monster\MonsterAttack.h">
-      <Filter>Source\Object\GameObject\Monster</Filter>
-    </ClInclude>
     <ClInclude Include="Sources\Object\GameObject\Monster\Dragon\Dragon.h">
       <Filter>Source\Object\GameObject\Monster\Dragon</Filter>
     </ClInclude>
@@ -378,6 +375,9 @@
     </ClInclude>
     <ClInclude Include="Sources\Object\UI\ItemInfo.h">
       <Filter>Source\Object\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\GameObject\Monster\MonsterAttack.h">
+      <Filter>Source\Object\GameObject\Monster</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

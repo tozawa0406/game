@@ -45,6 +45,7 @@ Player::Player(const VECTOR3& position) : GameObject(ObjectTag::PLAYER), GUI(Sys
 	, camera_(nullptr)
 	, wapon_(nullptr)
 	, collider_(nullptr)
+	, colliderDefense_(nullptr)
 {
 	transform_.position = position;
 
@@ -127,6 +128,8 @@ void Player::Init(void)
 	{
 		collider_->SetOffsetPosition(COLLISION_OFFSET_POS);
 		collider_->SetSize(COLLISION_SIZE);
+		colliderDefense_ = new Collider3D::OBB(this);
+		CreateDefenseCollider(*collider_, colliderDefense_);
 	}
 
 	state_ = new PaidWaitState;
@@ -138,6 +141,7 @@ void Player::Init(void)
 
 void Player::Uninit(void)
 {
+	DeletePtr(colliderDefense_);
 	DeletePtr(collider_);
 	// ¶¬‚µ‚½TPSƒJƒƒ‰‚ÌŒãŽn––
 	if (cameraManager_ && camera_)
@@ -181,7 +185,7 @@ void Player::Update(void)
 
 void Player::Hit(int damage)
 {
-	if (collider_->IsEnable())
+	if (colliderDefense_->IsEnable())
 	{
 		life_ -= damage;
 		UninitDeletePtr(state_);

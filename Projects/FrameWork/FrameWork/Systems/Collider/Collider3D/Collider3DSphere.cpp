@@ -30,3 +30,19 @@ void Collider3D::Sphere::Update(void)
 	renderer_.Update(this);
 	renderer2_.Update(this);
 }
+
+void Collider3D::Sphere::SetColliderTag(ColliderTag tag)
+{
+	tag_ = tag;
+
+	ColliderColor color;
+	int max = static_cast<int>(ColliderTag::MAX);
+	for (int i = 0; i < max; ++i)
+	{
+		if (color.list[i].tag == tag_)
+		{
+			renderer_.SetColor(color.list[i].color);
+			renderer2_.SetColor(color.list[i].color);
+		}
+	}
+}

@@ -33,7 +33,8 @@ void Goal::Init(void)
 	{
 		collider_->SetSize(COLLIDER_SIZE);
 		collider_->SetOffsetPosition(COLLIDER_OFFSET);
-		collider_->SetRendererColor(COLOR::RGBA(0, 0, 255));
+		collider_->SetColliderTag(ColliderTag::DEFENSE);
+		collider_->SetTrigger(true);
 		collider_->Update();
 	}
 }

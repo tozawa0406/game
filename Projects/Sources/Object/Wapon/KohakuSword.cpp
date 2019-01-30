@@ -33,7 +33,8 @@ void KohakuSword::Init(void)
 	{
 		collider_->SetOffsetPosition(VECTOR3(0, 0, 60));
 		collider_->SetSize(VECTOR3(2, 20, 105));
-		collider_->SetRendererColor(COLOR(1, 0, 0, 1));
+		collider_->SetColliderTag(ColliderTag::ATTACK);
+		collider_->SetTrigger(true);
 		collider_->SetEnable(false);
 	}
 }
@@ -48,17 +49,18 @@ void KohakuSword::Update(void)
 	if (collider_)
 	{
 		debug_hit_ = false;
-		auto object = collider_->Hit();
+		auto object = collider_->HitCollider();
 
 		for (auto& o : object)
 		{
-			if (o->GetTag() == ObjectTag::ENEMY)
+			if (o->GetParentTag() == ObjectTag::ENEMY &&
+				o->GetColliderTag() == ColliderTag::DEFENSE)
 			{
 				debug_hit_ = true;
 
 				if (!isHit_)
 				{
-					static_cast<GameObject*>(o)->Hit(100);
+					static_cast<GameObject*>(o->GetParent())->Hit(100);
 					VECTOR3 p = transform_.globalPosition + collider_->GetDirect(2) * collider_->GetLen(2);
 					manager_->Create<BloodSplash>(p, effectRotation_);
 					isHit_ = true;

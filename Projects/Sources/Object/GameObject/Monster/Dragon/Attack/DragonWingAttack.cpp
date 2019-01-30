@@ -58,7 +58,8 @@ void DragonWingAttack::Init(GameObject* monster)
 					collider_[num]->SetOffsetPosition(COLLISION_OFFSET_POS_CLAW_L * s);
 					collider_[num]->SetOffsetRotation(COLLISION_OFFSET_ROT_CLAW_L);
 					collider_[num]->SetSize(COLLISION_SIZE_CLAW_L * s);
-					collider_[num]->SetRendererColor(COLOR(1, 0, 0, 1));
+					collider_[num]->SetColliderTag(ColliderTag::ATTACK);
+					collider_[num]->SetTrigger(true);
 					collider_[num]->SetEnable(false);
 				}
 
@@ -78,7 +79,8 @@ void DragonWingAttack::Init(GameObject* monster)
 					collider_[num]->SetOffsetPosition(COLLISION_OFFSET_POS_CLAW_R * s);
 					collider_[num]->SetOffsetRotation(COLLISION_OFFSET_ROT_CLAW_R);
 					collider_[num]->SetSize(COLLISION_SIZE_CLAW_R * s);
-					collider_[num]->SetRendererColor(COLOR(1, 0, 0, 1));
+					collider_[num]->SetColliderTag(ColliderTag::ATTACK);
+					collider_[num]->SetTrigger(true);
 					collider_[num]->SetEnable(false);
 				}
 			}
@@ -145,12 +147,13 @@ bool DragonWingAttack::Update(void)
 
 	for (auto& collider : collider_)
 	{
-		const auto& hits = collider->Hit();
+		const auto& hits = collider->HitCollider();
 		for (auto& hit : hits)
 		{
-			if (hit->GetTag() == ObjectTag::PLAYER)
+			if (hit->GetParentTag() == ObjectTag::PLAYER &&
+				hit->GetColliderTag() == ColliderTag::DEFENSE)
 			{
-				static_cast<GameObject*>(hit)->Hit(40);
+				static_cast<GameObject*>(hit->GetParent())->Hit(30);
 			}
 		}
 	}

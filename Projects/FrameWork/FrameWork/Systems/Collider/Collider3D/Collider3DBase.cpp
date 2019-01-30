@@ -19,6 +19,7 @@ Collider3DBase::Collider3DBase(Object* obj, Type type)
 	, offsetPosition_(VECTOR3(0))
 	, offsetRotation_(VECTOR3(0))
 	, size_(VECTOR3(1))
+	, isTrigger_(false)
 {
 	if (systems_)
 	{
@@ -48,4 +49,24 @@ void Collider3DBase::Init(void)
 	{
 		transform_ = object_->GetTransform();
 	}
+}
+
+void Collider3DBase::SetColliderTag(ColliderTag tag)
+{
+	tag_ = tag;
+
+	ColliderColor color;
+	int max = static_cast<int>(ColliderTag::MAX);
+	for (int i = 0; i < max; ++i)
+	{
+		if (color.list[i].tag == tag_)
+		{
+			renderer_.SetColor(color.list[i].color);
+		}
+	}
+}
+
+ObjectTag Collider3DBase::GetParentTag(void) const
+{
+	return (object_) ? object_->GetTag() : ObjectTag::UKOWN; 
 }

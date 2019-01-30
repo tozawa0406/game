@@ -62,12 +62,13 @@ bool DragonScream::Update(void)
 
 	if (collider_)
 	{
-		const auto& objects = collider_->Hit();
-		for (auto& object : objects)
+		const auto& hits = collider_->HitCollider();
+		for (auto& hit : hits)
 		{
-			if (object && object->GetTag() == ObjectTag::PLAYER)
+			if (hit->GetParentTag() == ObjectTag::PLAYER &&
+				hit->GetColliderTag() == ColliderTag::DEFENSE)
 			{
-				Player* player = static_cast<Player*>(object);
+				Player* player = static_cast<Player*>(hit->GetParent());
 				player->Earplug(attack_);
 			}
 		}

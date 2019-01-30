@@ -76,7 +76,7 @@ void XInput::CreateAxis(INPUT_AXIS& newState, XINPUT_STATE& xs, INPUT_AXIS& stat
 	AxisPress(newState.bit.press, newState.stickLX, state.stickLX, Input::JUDGE_LX_PLUS, false);
 	AxisPress(newState.bit.press, newState.stickLY, state.stickLY, Input::JUDGE_LY_PLUS, false);
 	AxisPress(newState.bit.press, newState.stickRX, state.stickRX, Input::JUDGE_RX_PLUS, false);
-	AxisPress(newState.bit.press, newState.stickRY, state.stickRY, Input::JUDGE_RY_PLUS, false);
+	AxisPress(newState.bit.press, -newState.stickRY, state.stickRY, Input::JUDGE_RY_PLUS, false);
 
 	newState.triggerL = (SHORT)(xs.Gamepad.bLeftTrigger  * rangeTrig);
 	newState.triggerR = (SHORT)(xs.Gamepad.bRightTrigger * rangeTrig);

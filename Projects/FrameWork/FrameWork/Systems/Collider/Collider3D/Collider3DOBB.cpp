@@ -66,13 +66,9 @@ void Collider3D::OBB::Update(void)
 	length_[1] = size_.y * 0.5f * s.y;
 	length_[2] = size_.z * 0.5f * s.z;
 
-	VECTOR3 t;
-	t = VecNorm(VECTOR3(m._11, m._12, m._13));
-	normaDirect_[0] = t;
-	t = VecNorm(VECTOR3(m._21, m._22, m._23));
-	normaDirect_[1] = t;
-	t = VecNorm(VECTOR3(m._31, m._32, m._33));
-	normaDirect_[2] = t;
+	normaDirect_[0] = VecNorm(VECTOR3(m._11, m._12, m._13));
+	normaDirect_[1] = VecNorm(VECTOR3(m._21, m._22, m._23));
+	normaDirect_[2] = VecNorm(VECTOR3(m._31, m._32, m._33));
 
 	renderer_.Update(this);
 

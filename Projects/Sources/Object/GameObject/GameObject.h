@@ -71,6 +71,8 @@ protected:
 	 * @return	なし				*/
 	void OnGround(void);
 
+	void CreateDefenseCollider(const Collider3D::OBB& normal, Collider3D::OBB* copy);
+
 	int life_;						//! ライフ
 
 	MESH_ANIMATION	meshAnim_;		//! メッシュとアニメーション情報

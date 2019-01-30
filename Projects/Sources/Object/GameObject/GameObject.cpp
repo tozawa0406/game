@@ -82,3 +82,23 @@ void GameObject::OnGround(void)
 		}
 	}
 }
+
+void GameObject::CreateDefenseCollider(const Collider3D::OBB& normal, Collider3D::OBB* copy)
+{
+	if (!copy) { return; }
+
+	if (copy)
+	{
+		for (int i = 0; i < 3; ++i)
+		{
+			copy->SetDirect(i, normal.GetDirect(i));
+		}
+		copy->SetOffsetPosition(normal.GetOffsetPosition());
+		copy->SetOffsetRotation(normal.GetOffsetRotation());
+		copy->SetParentMtx(normal.GetTransMtx(), normal.GetParentMtx());
+		copy->SetSize(normal.GetSize() - VECTOR3(0.1f));
+		copy->SetColliderTag(ColliderTag::DEFENSE);
+		copy->SetTrigger(true);
+		copy->SetEnable(normal.IsEnable());
+	}
+}

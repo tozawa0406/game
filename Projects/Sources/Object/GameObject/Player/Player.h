@@ -104,6 +104,9 @@ public:
 	/* @brief	当たり判定の取得処理		*/
 	inline Collider3D::OBB* GetCollider(void) { return collider_; }
 
+	/* @brief	防御当たり判定の取得処理		*/
+	inline Collider3D::OBB* GetDefenseCollider(void) { return colliderDefense_; }
+
 	/* @brief	デバッグ用：敵の操作中にプレイヤーを操作しない	*/
 	inline bool IsDebugCtrl(void) { return (cameraManager_ && cameraManager_->GetMainNum() != 0) ? true : false; }
 
@@ -151,6 +154,7 @@ private:
 	Camera*			camera_;			//! カメラ
 
 	Collider3D::OBB* collider_;			//! 当たり判定
+	Collider3D::OBB* colliderDefense_;			//! 当たり判定
 
 	const MATRIX*	body_;				//! 体のボーン行列
 	const MATRIX*	hand_;				//! 右手のボーン行列

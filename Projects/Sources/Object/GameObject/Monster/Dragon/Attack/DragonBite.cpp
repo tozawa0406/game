@@ -50,7 +50,8 @@ void DragonBite::Init(GameObject* monster)
 					const auto& s = monster->GetTransform().scale;
 					collider_->SetOffsetPosition(COLLISION_OFFSET_POS_HEAD * s);
 					collider_->SetSize(COLLISION_SIZE_HEAD * s);
-					collider_->SetRendererColor(COLOR(1, 0, 0, 1));
+					collider_->SetColliderTag(ColliderTag::ATTACK);
+					collider_->SetTrigger(true);
 					collider_->SetEnable(false);
 				}
 			}
@@ -116,12 +117,13 @@ bool DragonBite::Update(void)
 		collider_->SetEnable(false);
 	}
 
-	const auto& hits = collider_->Hit();
+	const auto& hits = collider_->HitCollider();
 	for (auto& hit : hits)
 	{
-		if (hit->GetTag() == ObjectTag::PLAYER)
+		if (hit->GetParentTag() == ObjectTag::PLAYER &&
+			hit->GetColliderTag() == ColliderTag::DEFENSE)
 		{
-			static_cast<GameObject*>(hit)->Hit(30);
+			static_cast<GameObject*>(hit->GetParent())->Hit(30);
 		}
 	}
 

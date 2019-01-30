@@ -23,9 +23,10 @@ namespace Collider3D
 		void Update(void) override;
 
 		// set
-		void SetSize(VECTOR3 size) { size_ = size; }
-		void SetDirect(int i, VECTOR3 direct) { normaDirect_[i] = VecNorm(direct); }
+		void SetSize(const VECTOR3& size) { size_ = size; }
+		void SetDirect(int i, const VECTOR3& direct) { normaDirect_[i] = VecNorm(direct); }
 
+		inline const VECTOR3& GetSize(void) const { return size_; }
 		// 指定軸番号の方向ベクトルを取得
 		inline const VECTOR3& GetDirect(int i)  const { return normaDirect_[i]; }
 		// 指定軸方向の長さを取得

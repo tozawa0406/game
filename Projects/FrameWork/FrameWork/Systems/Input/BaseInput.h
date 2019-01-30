@@ -62,7 +62,7 @@ protected:
 			button.repeat = 0;
 		}
 	}
-	void AxisPress(WORD& axisPress, SHORT& newAxis, SHORT& axis, WORD bit, bool inverted)
+	void AxisPress(WORD& axisPress, const SHORT& newAxis, SHORT& axis, WORD bit, bool inverted)
 	{
 		if (inverted) { bit *= 2; }
 		if (newAxis > Half(Input::RANGE))

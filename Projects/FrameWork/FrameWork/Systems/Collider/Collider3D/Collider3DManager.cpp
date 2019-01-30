@@ -47,7 +47,6 @@ void Collision3DManager::Update(void)
 			// ‹…
 			if (col1->type_ == Collider3DBase::Type::SPHERE)
 			{
-				
 				if (col2->type_ == Collider3DBase::Type::SPHERE)
 				{
 					if(this->HitSpheres(col1, col2))
@@ -67,8 +66,7 @@ void Collision3DManager::Update(void)
 					Collider3D::OBB* obb2 = static_cast<Collider3D::OBB*>(col2);
 					if(this->HitOBBs(*obb1, *obb2))
 					{
-						if (col1->renderer_.color == COLOR::RGBA(35, 191, 0, 255) &&
-							col2->renderer_.color == COLOR::RGBA(35, 191, 0, 255))
+						if (!col1->isTrigger_ && !col2->isTrigger_)
 						{
 							VECTOR3 back = VECTOR3(0);
 							Back(*obb1, *obb2, back);

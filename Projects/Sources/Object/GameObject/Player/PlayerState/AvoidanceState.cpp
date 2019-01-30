@@ -64,7 +64,7 @@ void AvoidanceState::Init(Player* player, Controller* ctrl)
 		}
 	}
 
-	if (auto collider = player->GetCollider())
+	if (auto collider = player->GetDefenseCollider())
 	{
 		collider->SetEnable(false);
 	}
@@ -97,7 +97,7 @@ PlayerState* AvoidanceState::Update(void)
 		velocity *= 0.5f;
 		player_->SetVelocity(velocity);
 
-		if (auto collider = player_->GetCollider())
+		if (auto collider = player_->GetDefenseCollider())
 		{
 			collider->SetEnable(true);
 		}

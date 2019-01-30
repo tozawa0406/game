@@ -127,6 +127,7 @@ private:
 	uint				flag_;
 	//! 当たり判定
 	Collider3D::OBB*	collision_[static_cast<uint8>(Collision::MAX)];
+	Collider3D::OBB*	collisionDefense_[static_cast<uint8>(Collision::MAX)];
 
 	//! 攻撃処理のインスタンス
 	MonsterAttack*			attack_[static_cast<int>(AttackPattern::MAX)];

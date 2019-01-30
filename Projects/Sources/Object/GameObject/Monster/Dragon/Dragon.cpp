@@ -48,6 +48,7 @@ Dragon::Dragon(void) : GameObject(ObjectTag::ENEMY), GUI(Systems::Instance(), th
 	meshAnim_.animSpeed = 0;
 
 	for (auto& c : collision_) { c = nullptr; }
+	for (auto& c : collisionDefense_) { c = nullptr; }
 
 	for (auto& a : attack_) { a = nullptr; }
 
@@ -98,15 +99,6 @@ void Dragon::Init(void)
 	if (moveController_)
 	{
 		moveController_->Init(this);
-		auto objects = manager_->Get();
-		for (auto object : objects)
-		{
-			if (object->GetTag() == ObjectTag::PLAYER)
-			{
-//				moveController_->SetTarget(static_cast<GameObject*>(object));
-				break;
-			}
-		}
 	}
 
 #ifdef _SELF_DEBUG
@@ -144,6 +136,11 @@ void Dragon::Uninit(void)
 	{
 		DeletePtr(c);
 	}
+	for (auto& c : collisionDefense_)
+	{
+		DeletePtr(c);
+	}
+
 
 	for (auto& a : attack_)
 	{
@@ -262,8 +259,9 @@ void Dragon::SetCollision(int arrayNum, string boneName, const Transform& offset
 		collision_[arrayNum]->SetOffsetPosition(offset.position * s);
 		collision_[arrayNum]->SetOffsetRotation(offset.rotation * s);
 		collision_[arrayNum]->SetSize(offset.scale * s);
+		collisionDefense_[arrayNum] = new Collider3D::OBB(this);
+		CreateDefenseCollider(*collision_[arrayNum], collisionDefense_[arrayNum]);
 	}
-
 }
 
 bool Dragon::TakenDamage(void)
