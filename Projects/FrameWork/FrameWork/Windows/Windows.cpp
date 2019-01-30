@@ -60,7 +60,7 @@ bool Windows::Update(void)
 	}
 
 	// システム系の更新処理
-	if (systems_) { systems_->Update(); }
+	if (systems_) { return systems_->Update(); }
 
 	return false;
 }

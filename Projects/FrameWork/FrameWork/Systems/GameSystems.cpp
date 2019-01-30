@@ -12,7 +12,7 @@
 
 Systems* Systems::system_;
 
-Systems::Systems(Windows* window) : window_(window), graphics_(nullptr)
+Systems::Systems(Windows* window) : window_(window), graphics_(nullptr), isForceStop_(false)
 {
 	graphics_ = window->GetGraphics();
 }
@@ -58,7 +58,7 @@ void Systems::Uninit(void)
 	}
 }
 
-void Systems::Update(void)
+bool Systems::Update(void)
 {
 	for (int i = 0; i < (int)SystemsNum::MAX; ++i)
 	{
@@ -67,6 +67,7 @@ void Systems::Update(void)
 			manager_[i]->Update();
 		}
 	}
+	return isForceStop_;
 }
 
 void Systems::Draw(void)

@@ -177,6 +177,10 @@ void SceneManager::ChangeActual(void)
 			}
 			if (!loading_->IsLoading())
 			{
+				if (loading_->IsFail())
+				{
+					systems_->ForceStop();
+				}
 				loading_->End();
 				startLoad_ = false;
 				if (eachScene_)

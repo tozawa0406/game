@@ -8,7 +8,14 @@
 #include "GameSystems.h"
 #include "../Windows/Windows.h"
 
-Loading::Loading(Systems* systems) : Interface(systems), isLoading_(false), thread_(nullptr), nowLoading_(0), allTask_(0), loadingCnt_(0), patternCnt_(0)
+Loading::Loading(Systems* systems) : Interface(systems)
+	, isLoading_(false)
+	, isFail_(false)
+	, thread_(nullptr)
+	, nowLoading_(0)
+	, allTask_(0)
+	, loadingCnt_(0)
+	, patternCnt_(0)
 {
 	texture_ = systems_->GetTexture();
 	model_   = systems_->GetModel();
@@ -121,9 +128,21 @@ void Loading::Start(int sceneNum)
 
 bool Loading::Load(int sceneNum)
 {
-	texture_->Load(sceneNum);
-	model_->Load(sceneNum);
-	sound_->Load(sceneNum);
+	if (FAILED(texture_->Load(sceneNum))) 
+	{
+		SetFail(true);
+		LoadingSafe(false);
+	}
+	if (FAILED(model_->Load(sceneNum)))   
+	{
+		SetFail(true);
+		LoadingSafe(false);
+	}
+	if (FAILED(sound_->Load(sceneNum)))
+	{
+		SetFail(true);
+		LoadingSafe(false);
+	}
 
 	// 100%‚ğ•`‰æ‚·‚é‚½‚ßI—¹‚Ü‚Å100ƒ~ƒŠ•b(0.1•b)‘Ò‚Â
 	std::this_thread::sleep_for(std::chrono::milliseconds(100));
@@ -161,4 +180,18 @@ void Loading::LoadingSafe(bool loading)
 	std::lock_guard<std::mutex> lock(mutex_);
 	
 	isLoading_ = loading;
+}
+
+bool Loading::IsFail(void)
+{
+	std::lock_guard<std::mutex> lock(mutex_);
+
+	return isFail_;
+}
+
+void Loading::SetFail(bool fail)
+{
+	std::lock_guard<std::mutex> lock(mutex_);
+
+	isFail_ = fail;
 }

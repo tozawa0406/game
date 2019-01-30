@@ -78,6 +78,8 @@ public:
 
 	const ResourceInfoManager& GetResource(void)const { return resources_; }
 
+	void	ForceStop(void) { isForceStop_ = true; }
+
 	void    Uninit(void);
 private:
 	// 自分自身が使う
@@ -87,7 +89,7 @@ private:
 	// Windowsクラスのみが使用
 	Systems(Windows* window);
 	HRESULT Init(void);
-	void    Update(void);
+	bool    Update(void);
 	void    Draw(void);
 
 	Graphics*  graphics_;
@@ -95,6 +97,8 @@ private:
 	// インスタンス
 	Interface* manager_[(int)SystemsNum::MAX];
 	ResourceInfoManager resources_;
+
+	bool isForceStop_;
 };
 
 #endif // _SYSTEMS_H_

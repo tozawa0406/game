@@ -44,11 +44,15 @@ public:
 	void	AddLoading(void) { nowLoading_++; }
 	void	End(void);
 
+	bool IsFail(void);
+
 private:
 	bool Load(int sceneNum);
 
 	bool LoadingSafe(void);
 	void LoadingSafe(bool loading);
+
+	void SetFail(bool fail);
 
 	Texture*		texture_;
 	Model*			model_;
@@ -61,6 +65,7 @@ private:
 	float			patternCnt_;
 
 	bool			isLoading_;
+	bool			isFail_;
 	std::mutex		mutex_;
 	std::thread*	thread_;
 
