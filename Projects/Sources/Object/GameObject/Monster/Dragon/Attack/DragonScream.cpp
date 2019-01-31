@@ -37,10 +37,10 @@ void DragonScream::SetMove(void)
 
 	auto& meshAnim = monster_->GetMeshAnimation();
 
-	meshAnim.animSpeed = 0.75f;
+	meshAnim.animSpeed = DEFAULT_ANIMATION_SPEED;
 	meshAnim.animation   = static_cast<int>(Dragon::Animation::SCREAM);
 
-	meshAnim.mesh.ChangeAnimation(meshAnim.animation, 15);
+	meshAnim.mesh.ChangeAnimation(meshAnim.animation, ANIMATION_CHANGE_FRAME15);
 
 	for (;;)
 	{
@@ -107,10 +107,10 @@ bool DragonScream::Update(void)
 
 	if (monster_->IsEndAnim())
 	{
-		meshAnim.animSpeed = 0.75f;
+		meshAnim.animSpeed = DEFAULT_ANIMATION_SPEED;
 		meshAnim.animation = static_cast<int>(Dragon::Animation::WAIT1);
 		enable_ = false;
-		meshAnim.mesh.ChangeAnimation(meshAnim.animation, 5, true);
+		meshAnim.mesh.ChangeAnimation(meshAnim.animation, ANIMATION_CHANGE_FRAME5, true);
 		return true;
 	}
 	return false;

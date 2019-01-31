@@ -2,10 +2,24 @@
 #include "../Dragon.h"
 #include <FrameWork/Graphics/DirectX11/Dx11Wrapper.h>
 
-//! @def	アニメーションの速度を変える(速くする)タイミング
-static constexpr int CHANGE_FRAME = 20;
-//! @def	噛みつきの終了(当たり判定の消失)
-static constexpr int END_ATTACK   = 40;
+//! @def	ダメージ値
+static constexpr int DAMAGE = 30;
+
+//! @def	アニメーション速度
+static constexpr float ANIMATION_SLOWLY			= 0.2f;
+//! @def	アニメーション速度
+static constexpr float ANIMATION_MORE_SLOWLY	= 0.02f;
+//! @def	アニメーション速度
+static constexpr float ANIMATION_HALF			= 0.5f;
+
+//! @def	アニメーション速度変更タイミング
+static constexpr int CHANGE_ANIMATION_QUICKLY	= 5;
+//! @def	アニメーション速度変更タイミング
+static constexpr int CHANGE_ANIMATION_STOP		= 15;
+//! @def	アニメーション速度変更タイミング
+static constexpr int CHANGE_ANIMATION_SLOWLY	= 16;
+//! @def	アニメーション速度変更タイミング
+static constexpr int CHANGE_ANIMATION_BACK		= 22;
 
 //! @def	頭のボーンの名前
 static const     string BONE_HEAD = "Head";
@@ -14,8 +28,6 @@ static const     VECTOR3 COLLISION_SIZE_HEAD = VECTOR3(6.1f, 6.1f, 6.1f);
 
 DragonBite::DragonBite(void) : 
 	collider_(nullptr)
-	, debug_speed_(0)
-	, debug_changeFrame_(CHANGE_FRAME)
 {
 }
 
@@ -74,14 +86,13 @@ void DragonBite::SetMove(void)
 	auto& meshAnim = monster_->GetMeshAnimation();
 
 	// 速度の設定
-	meshAnim.animSpeed	 = 0.2f;
-	debug_speed_ = meshAnim.animSpeed;
+	meshAnim.animSpeed	 = ANIMATION_SLOWLY;
 
 	// アニメーションの設定
 	meshAnim.animation   = static_cast<int>(Dragon::Animation::BITE);
 
 	// 実際の切り替え
-	meshAnim.mesh.ChangeAnimation(meshAnim.animation, 15);
+	meshAnim.mesh.ChangeAnimation(meshAnim.animation, ANIMATION_CHANGE_FRAME15);
 }
 
 bool DragonBite::Update(void)
@@ -93,28 +104,31 @@ bool DragonBite::Update(void)
 
 	collider_->Update();
 
-	// 演出用
-	frame_++;
-
 	auto& meshAnim = monster_->GetMeshAnimation();
 
 	// 一定の時間を超えたらアニメーション速度を変える
-#ifdef _SELF_DEBUG
-	// デバッグ用
-	if (frame_ > debug_changeFrame_)
-#else
-	if (frame_ > CHANGE_FRAME)
-#endif
+	float p = meshAnim.mesh.GetPattern();
+	// 引く速度よりは早く元の位置に戻す
+	if (p > CHANGE_ANIMATION_BACK)
 	{
-		meshAnim.animSpeed	 = 0.75f;
-		debug_speed_ = meshAnim.animSpeed;
-
-		collider_->SetEnable(true);
+		meshAnim.animSpeed = ANIMATION_HALF;
 	}
-
-	if (frame_ > END_ATTACK)
+	// 首をゆっくり引く
+	else if (p > CHANGE_ANIMATION_SLOWLY)
 	{
+		meshAnim.animSpeed = ANIMATION_SLOWLY;
+	}
+	// 攻撃後軽く止まる
+	else if (p > CHANGE_ANIMATION_STOP)
+	{
+		meshAnim.animSpeed = ANIMATION_MORE_SLOWLY;
 		collider_->SetEnable(false);
+	}
+	// 実際の攻撃のため早く
+	else if (p > CHANGE_ANIMATION_QUICKLY)
+	{
+		meshAnim.animSpeed = DEFAULT_ANIMATION_SPEED;
+		collider_->SetEnable(true);
 	}
 
 	const auto& hits = collider_->HitCollider();
@@ -123,7 +137,7 @@ bool DragonBite::Update(void)
 		if (hit->GetParentTag() == ObjectTag::PLAYER &&
 			hit->GetColliderTag() == ColliderTag::DEFENSE)
 		{
-			static_cast<GameObject*>(hit->GetParent())->Hit(30);
+			static_cast<GameObject*>(hit->GetParent())->Hit(DAMAGE);
 		}
 	}
 
@@ -131,10 +145,10 @@ bool DragonBite::Update(void)
 	if (monster_->IsEndAnim())
 	{
 		// 元に戻す
-		meshAnim.animSpeed = 0.75f;
+		meshAnim.animSpeed = DEFAULT_ANIMATION_SPEED;
 		meshAnim.animation = static_cast<int>(Dragon::Animation::WAIT1);
 		enable_ = false;
-		meshAnim.mesh.ChangeAnimation(meshAnim.animation, 5, true);
+		meshAnim.mesh.ChangeAnimation(meshAnim.animation, ANIMATION_CHANGE_FRAME5, true);
 		return true;
 	}
 	return false;
@@ -149,7 +163,7 @@ void DragonBite::GuiUpdate(void)
 {
 	MonsterAttack::GuiUpdate();
 
-	ImGui::Text("frame : %d", frame_);
-	ImGui::Text("speed : %.2f", debug_speed_);
-	ImGui::DragInt("changeFrame", &debug_changeFrame_);
+	auto& meshAnim = monster_->GetMeshAnimation();
+	ImGui::Text("pattern : %.2f", meshAnim.mesh.GetPattern());
+	ImGui::Text("speed : %.2f", meshAnim.animSpeed);
 }

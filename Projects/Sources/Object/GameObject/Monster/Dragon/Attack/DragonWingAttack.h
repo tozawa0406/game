@@ -62,10 +62,6 @@ public:
 private:
 	//! 翼の当たり判定
 	Collider3D::OBB* collider_[static_cast<int>(Wing::MAX)];
-
-	//! デッバグ機能で使用
-	float debug_speed_;
-	int   debug_changeFrame_;
 };
 
 #endif // _DRAGON_WING_ATTACK_H_

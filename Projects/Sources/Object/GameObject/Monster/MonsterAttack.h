@@ -17,7 +17,7 @@ class MonsterAttack : public GUI
 {
 public:
 	/* @brief	コンストラクタ		*/
-	MonsterAttack(void)	: GUI(Systems::Instance(), nullptr, "attack"), enable_(false), frame_(0), debug_nextFrame_(false)	{}
+	MonsterAttack(void)	: GUI(Systems::Instance(), nullptr, "attack"), enable_(false), debug_nextFrame_(false)	{}
 	/* @brief	デストラクタ		*/
 	virtual ~MonsterAttack(void)	{}
 
@@ -26,7 +26,7 @@ public:
 	/* @brief	後処理				*/
 	virtual void Uninit(void) = 0;
 	/* @brief	準備処理			*/
-	virtual void SetMove(void) { enable_ = true; frame_ = 0; }
+	virtual void SetMove(void) { enable_ = true; }
 	/* @brief	更新処理			*/
 	virtual bool Update(void) = 0;
 	/* @brief	終了処理			*/
@@ -60,10 +60,18 @@ public:
 	}
 
 protected:
+	//! デフォルトのアニメーション速度
+	static constexpr float DEFAULT_ANIMATION_SPEED = 0.75f;
+	//! @def	アニメーション変更速度
+	static constexpr int   ANIMATION_CHANGE_FRAME5 = 5;
+	//! @def	アニメーション変更速度
+	static constexpr int   ANIMATION_CHANGE_FRAME15 = 15;
+	//! @def	アニメーション変更速度
+	static constexpr int   ANIMATION_CHANGE_FRAME30 = 30;
+
+
 	//! 使用フラグ
 	bool	enable_;
-	//! 攻撃中の当たり判定等判断用
-	int		frame_;
 	//! デバッグのフレーム送り
 	bool	debug_nextFrame_;
 	//! 攻撃を行う元のモンスターのポインタ

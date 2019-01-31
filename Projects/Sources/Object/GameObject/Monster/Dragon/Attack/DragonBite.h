@@ -56,10 +56,6 @@ public:
 private:
 	//! 当たり判定
 	Collider3D::OBB* collider_;
-
-	//! デッバグ機能で使用
-	float debug_speed_;
-	int   debug_changeFrame_;
 };
 
 #endif // _DRAGON_BITE_H_

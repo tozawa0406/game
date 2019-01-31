@@ -31,7 +31,7 @@ public:
 	/* @brief	デストラクタ		*/
 	~EachScene(void);
 
-	static const SceneList DEBUG_START_SCENE = SceneList::TITLE;
+	static const SceneList DEBUG_START_SCENE = SceneList::BUTTLE;
 
 
 

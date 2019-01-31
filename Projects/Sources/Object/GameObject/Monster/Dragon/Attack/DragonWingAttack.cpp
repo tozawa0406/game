@@ -2,10 +2,28 @@
 #include "../Dragon.h"
 #include <FrameWork/Graphics/DirectX11/Dx11Wrapper.h>
 
-//! @def	アニメーションの速度を変える(速くする)タイミング
-static constexpr int CHANGE_FRAME = 18;
-//! @def	攻撃の終了
-static constexpr int END_ATTACK = 45;
+//! @def	ダメージ値
+static constexpr int DAMAGE = 20;
+
+//! @def	アニメーション速度
+static constexpr float ANIMATION_SLOWLY			= 0.2f;
+//! @def	アニメーション速度
+static constexpr float ANIMATION_MORE_SLOWLY	= 0.02f;
+//! @def	アニメーション速度
+static constexpr float ANIMATION_HALF			= 0.5f;
+//! @def	アニメーション速度
+static constexpr float ANIMATION_BACK			= 0.3f;
+
+//! @def	アニメーション速度変更タイミング
+static constexpr int CHANGE_ANIMATION_QUICKLY	= 10;
+//! @def	アニメーション速度変更タイミング
+static constexpr int CHANGE_ANIMATION_HALF		= 20;
+//! @def	アニメーション速度変更タイミング
+static constexpr int CHANGE_ANIMATION_STOP		= 29;
+//! @def	アニメーション速度変更タイミング
+static constexpr int CHANGE_ANIMATION_SLOWLY	= 30;
+//! @def	アニメーション速度変更タイミング
+static constexpr int CHANGE_ANIMATION_BACK		= 33;
 
 //! @def	左爪翼のボーンの名前
 static const     string  BONE_CLAW_L = "WingClaw2_L";
@@ -18,9 +36,7 @@ static const     VECTOR3 COLLISION_OFFSET_POS_CLAW_R = VECTOR3(0, 3, 4);
 static const     VECTOR3 COLLISION_OFFSET_ROT_CLAW_R = VECTOR3(0, -2, 0);
 static const     VECTOR3 COLLISION_SIZE_CLAW_R = VECTOR3(7.1f, 2.1f, 2.1f);
 
-DragonWingAttack::DragonWingAttack(void) : 
-	debug_speed_(0)
-	, debug_changeFrame_(CHANGE_FRAME)
+DragonWingAttack::DragonWingAttack(void)
 {
 	for (auto& c : collider_) { c = nullptr; }
 }
@@ -104,14 +120,13 @@ void DragonWingAttack::SetMove(void)
 	MonsterAttack::SetMove();
 
 	// 速度の設定
-	meshAnim.animSpeed	 = 0.6f;
-	debug_speed_ = meshAnim.animSpeed;
+	meshAnim.animSpeed = ANIMATION_SLOWLY;
 
 	// アニメーションの設定
 	meshAnim.animation = static_cast<int>(Dragon::Animation::WING_ATTACK);
 
 	// 実際のアニメーションの切り替え
-	meshAnim.mesh.ChangeAnimation(meshAnim.animation, 15);
+	meshAnim.mesh.ChangeAnimation(meshAnim.animation, ANIMATION_CHANGE_FRAME15);
 }
 
 bool DragonWingAttack::Update(void)
@@ -121,28 +136,31 @@ bool DragonWingAttack::Update(void)
 	// 移動させない
 	monster_->SetVelocity(VECTOR3(0));
 
-	// 演出用
-	frame_++;
-
 	auto& meshAnim = monster_->GetMeshAnimation();
-
+	float p = meshAnim.mesh.GetPattern();
 	// 一定の時間を超えたらアニメーション速度を変える
-#ifdef _SELF_DEBUG
-	// デバッグ用
-	if (frame_ > debug_changeFrame_)
-#else
-	if (frame_ > CHANGE_FRAME)
-#endif
+	if (p > CHANGE_ANIMATION_BACK)
 	{
-		meshAnim.animSpeed    = 0.75f;
-		debug_speed_ = meshAnim.animSpeed;
-
-		for (auto& c : collider_) { c->SetEnable(true); }
+		meshAnim.animSpeed = ANIMATION_BACK;
 	}
-
-	if (frame_ > END_ATTACK)
+	else if (p > CHANGE_ANIMATION_SLOWLY)
 	{
+		meshAnim.animSpeed = ANIMATION_SLOWLY;
+	}
+	else if (p > CHANGE_ANIMATION_STOP)
+	{
+		meshAnim.animSpeed = ANIMATION_MORE_SLOWLY;
 		for (auto& c : collider_) { c->SetEnable(false); }
+	}
+	else if (p > CHANGE_ANIMATION_HALF)
+	{
+		meshAnim.animSpeed = ANIMATION_HALF;
+		for (auto& c : collider_) { c->SetEnable(false); }
+	}
+	else if (p > CHANGE_ANIMATION_QUICKLY)
+	{
+		meshAnim.animSpeed = DEFAULT_ANIMATION_SPEED;
+		for (auto& c : collider_) { c->SetEnable(true); }
 	}
 
 	for (auto& collider : collider_)
@@ -153,7 +171,7 @@ bool DragonWingAttack::Update(void)
 			if (hit->GetParentTag() == ObjectTag::PLAYER &&
 				hit->GetColliderTag() == ColliderTag::DEFENSE)
 			{
-				static_cast<GameObject*>(hit->GetParent())->Hit(30);
+				static_cast<GameObject*>(hit->GetParent())->Hit(DAMAGE);
 			}
 		}
 	}
@@ -162,10 +180,10 @@ bool DragonWingAttack::Update(void)
 	if (monster_->IsEndAnim())
 	{
 		// 元に戻す
-		meshAnim.animSpeed = 0.75f;
+		meshAnim.animSpeed = DEFAULT_ANIMATION_SPEED;
 		meshAnim.animation = static_cast<int>(Dragon::Animation::WAIT1);
 		enable_ = false;
-		meshAnim.mesh.ChangeAnimation(meshAnim.animation, 5, true);
+		meshAnim.mesh.ChangeAnimation(meshAnim.animation, ANIMATION_CHANGE_FRAME30, true);
 		return true;
 	}
 	return false;
@@ -183,7 +201,6 @@ void DragonWingAttack::GuiUpdate(void)
 {
 	MonsterAttack::GuiUpdate();
 
-	ImGui::Text("frame : %d", frame_);
-	ImGui::Text("speed : %.2f", debug_speed_);
-	ImGui::DragInt("changeFrame", &debug_changeFrame_);
+	const auto& meshAnim = monster_->GetMeshAnimation();
+	ImGui::Text("pattern : %.2f", meshAnim.mesh.GetPattern());
 }

@@ -52,9 +52,6 @@ bool DragonTakeOff::Update(void)
 
 	debug_velocity_ = velocity.y;
 
-	// 演出用
-	frame_++;
-
 	// アニメーション終了
 	if (monster_->IsEndAnim())
 	{
@@ -75,7 +72,6 @@ void DragonTakeOff::EndMove(void)
 
 void DragonTakeOff::GuiUpdate(void)
 {
-	ImGui::Text("frame : %d", frame_);
 	ImGui::Text("velocity : %.2f", debug_velocity_);
 	ImGui::Text("y : %.2f", monster_->GetTransform().position.y);
 }
