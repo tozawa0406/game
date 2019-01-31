@@ -1,6 +1,8 @@
 #include "ItemList.h"
 #include <FrameWork/Systems/Input/Controller.h>
 #include <FrameWork/Windows/Windows.h>
+#include <FrameWork/Object/ObjectManager.h>
+#include <FrameWork/Scene/SceneManager.h>
 
 //! @def	•`‰æ‡
 static constexpr int PRIORITY		= 100;
@@ -121,12 +123,34 @@ void ItemList::Init(void)
 		list_->AddItem(add);
 	}
 	
-	GetItemInfo(item_[static_cast<int>(BackItem::Center)]		, 0);
+	if (const auto& scene = manager_->GetScene())
+	{
+		if (const auto& sceneManager = scene->GetManager())
+		{
+			if (const auto& load = sceneManager->GetDontDestroyOnLoad())
+			{
+				int i = load->Load<int>(DontDestroyList::CURRENT_ITEM);
+				GetItemInfo(item_[static_cast<int>(BackItem::Center)], i);
+			}
+		}
+	}
+
 	SearchNextItem();
 }
 
 void ItemList::Uninit(void)
 {
+	if (const auto& scene = manager_->GetScene())
+	{
+		if (const auto& sceneManager = scene->GetManager())
+		{
+			if (const auto& load = sceneManager->GetDontDestroyOnLoad())
+			{
+				load->Save(DontDestroyList::CURRENT_ITEM, static_cast<int>(item_[static_cast<int>(BackItem::Center)].arrayNum));
+			}
+		}
+	}
+
 	DeletePtr(list_);
 	text_.Uninit();
 	for (auto& i : item_) 

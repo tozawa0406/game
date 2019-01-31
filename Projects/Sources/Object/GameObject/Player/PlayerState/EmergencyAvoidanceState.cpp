@@ -69,7 +69,7 @@ void EmergencyAvoidanceState::Init(Player* player, Controller* ctrl)
 		}
 	}
 
-	if (auto collider = player->GetCollider())
+	if (auto collider = player->GetDefenseCollider())
 	{
 		collider->SetEnable(false);
 	}
@@ -86,7 +86,7 @@ PlayerState* EmergencyAvoidanceState::Update(void)
 	if (!player_) { return nullptr; }
 	auto& meshAnim = player_->GetMeshAnimation();
 
-	player_->SetStamina(player_->GetStamina() - 0.1f);
+	player_->SetStamina(player_->GetStamina() - Player::ADD_STAMINA);
 
 	cnt_++;
 	//I—¹
@@ -102,7 +102,7 @@ PlayerState* EmergencyAvoidanceState::Update(void)
 		VECTOR3 velocity = Half(player_->GetVelocity());
 		player_->SetVelocity(velocity);
 
-		if (auto collider = player_->GetCollider())
+		if (auto collider = player_->GetDefenseCollider())
 		{
 			collider->SetEnable(true);
 		}

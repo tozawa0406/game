@@ -11,6 +11,7 @@
 #include "../../UI/ItemList.h"
 
 #include "PlayerState/PaidState/PaidWaitState.h"
+#include "PlayerState/DrawnState/DrawnWaitState.h"
 
 #include "PlayerState/EarplugState.h"
 #include "PlayerState/KnockBackState.h"
@@ -132,15 +133,70 @@ void Player::Init(void)
 		CreateDefenseCollider(*collider_, colliderDefense_);
 	}
 
-	state_ = new PaidWaitState;
+	if (manager_)
+	{
+		if (const auto& scene = manager_->GetScene())
+		{
+			if (const auto& sceneManager = scene->GetManager())
+			{
+				if (const auto& load = sceneManager->GetDontDestroyOnLoad())
+				{
+					int i = load->Load<int>(DontDestroyList::MAX_LIFE);
+					if (i != 0) { maxLife_ = i; }
+					i = load->Load<int>(DontDestroyList::CURRENT_LIFE);
+					if (i != 0) { life_ = i; }
+
+					float f = load->Load<float>(DontDestroyList::MAX_STAMINE);
+					if (f != 0) { maxStamina_ = f; }
+					f = load->Load<float>(DontDestroyList::CURRENT_STAMINA);
+					if (f != 0) { stamina_ = f; }
+
+					i = load->Load<int>(DontDestroyList::STAMINA_CNT);
+					if (i != 0) { staminaCnt_ = i; }
+
+					i = load->Load<int>(DontDestroyList::PLAYER_STATE);
+					if (i == 0) { state_ = new PaidWaitState;  }
+					else		
+					{
+						isDraw_ = true;
+						state_ = new DrawnWaitState; 
+					}
+				}
+			}
+		}
+	}
 	if (state_)
 	{
 		state_->Init(this, GetCtrl(0));
 	}
+
 }
 
 void Player::Uninit(void)
 {
+	if (manager_)
+	{
+		if (const auto& scene = manager_->GetScene())
+		{
+			if (const auto& sceneManager = scene->GetManager())
+			{
+				if (const auto& load = sceneManager->GetDontDestroyOnLoad())
+				{
+					load->Save(DontDestroyList::MAX_LIFE, maxLife_);
+					load->Save(DontDestroyList::CURRENT_LIFE, life_);
+
+					load->Save(DontDestroyList::MAX_STAMINE, maxStamina_);
+					load->Save(DontDestroyList::CURRENT_STAMINA, stamina_);
+
+					load->Save(DontDestroyList::STAMINA_CNT, staminaCnt_);
+
+					int saveData = (isDraw_) ? 1 : 0;
+					load->Save(DontDestroyList::PLAYER_STATE, saveData);
+				}
+			}
+		}
+	}
+
 	DeletePtr(colliderDefense_);
 	DeletePtr(collider_);
 	// ¶¬‚µ‚½TPSƒJƒƒ‰‚ÌŒãn––

@@ -81,7 +81,7 @@ PlayerState* AvoidanceState::Update(void)
 	if (!player_) { return nullptr; }
 	auto& meshAnim = player_->GetMeshAnimation();
 
-	player_->SetStamina(player_->GetStamina() - 0.1f);
+	player_->SetStamina(player_->GetStamina() - Player::ADD_STAMINA);
 
 	//I—¹Žž
 	if (meshAnim.mesh.GetPattern() >= END_AVOIDANCE_ANIMATION)

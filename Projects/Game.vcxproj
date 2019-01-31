@@ -68,6 +68,7 @@
     <ClCompile Include="Sources\Scene\03_ButtleScene.cpp" />
     <ClCompile Include="Sources\Scene\04_PauseScene.cpp" />
     <ClCompile Include="Sources\Scene\05_ResultScene.cpp" />
+    <ClCompile Include="Sources\Scene\DontDestroyOnLoad.cpp" />
     <ClCompile Include="Sources\Scene\ResourceInfoManager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -124,6 +125,7 @@
     <ClInclude Include="Sources\Scene\03_ButtleScene.h" />
     <ClInclude Include="Sources\Scene\04_PauseScene.h" />
     <ClInclude Include="Sources\Scene\05_ResultScene.h" />
+    <ClInclude Include="Sources\Scene\DontDestroyOnLoad.h" />
     <ClInclude Include="Sources\Scene\ResourceInfoManager.h" />
     <ClInclude Include="Sources\Scene\ResourcesModel.h" />
     <ClInclude Include="Sources\Scene\ResourcesSound.h" />

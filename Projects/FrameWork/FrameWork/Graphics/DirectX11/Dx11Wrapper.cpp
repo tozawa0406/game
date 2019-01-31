@@ -952,7 +952,7 @@ void Dx11Wrapper::ReleaseTexture(int texNum, int modelNum)
 	}
 	else
 	{
-		if (tex.size() <= texNum) { return; }
+		if (tex.size() <= static_cast<uint>(texNum)) { return; }
 		ReleasePtr(tex[texNum].data);
 
 		auto& thi = tex[texNum];

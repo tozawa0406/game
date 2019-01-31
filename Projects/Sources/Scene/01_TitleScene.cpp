@@ -55,6 +55,11 @@ void TitleScene::Init(void)
 	{
 		sound->Play((int)Resources::Sound::Title::BGM_TITLE);
 	}
+
+	if (const auto& load = manager_->GetDontDestroyOnLoad())
+	{
+		load->Reset();
+	}
 }
 
 void TitleScene::Uninit(void)

@@ -1,4 +1,6 @@
 #include "Timer.h"
+#include <FrameWork/Object/ObjectManager.h>
+#include <FrameWork/Scene/SceneManager.h>
 
 // デバッグ用
 #ifdef _DEBUG
@@ -126,10 +128,39 @@ void Timer::Init(void)
 	clip_.SetScaleOffset(VECTOR2(Half(back_.GetSize())));
 	clip_.SetSplit(HAND_SPLIT);
 	clip_.SetPattern(CLIP_PATTERN);
+
+	if (const auto& scene = manager_->GetScene())
+	{
+		if (const auto& sceneManager = scene->GetManager())
+		{
+			if (const auto& load = sceneManager->GetDontDestroyOnLoad())
+			{
+				int i = load->Load<int>(DontDestroyList::TIMER_TIME);
+				if (i != 0) { time_ = i; }
+				i = load->Load<int>(DontDestroyList::TIMER_FRAME);
+				if (i != 0) { frame_ = static_cast<uint8>(i); }
+				i = load->Load<int>(DontDestroyList::TIMER_SECOND);
+				if (i != 0) { second_ = static_cast<uint8>(i); }
+			}
+		}
+	}
 }
 
 void Timer::Uninit(void)
 {
+	if (const auto& scene = manager_->GetScene())
+	{
+		if (const auto& sceneManager = scene->GetManager())
+		{
+			if (const auto& load = sceneManager->GetDontDestroyOnLoad())
+			{
+				load->Save(DontDestroyList::TIMER_TIME, time_);
+				load->Save(DontDestroyList::TIMER_FRAME, static_cast<int>(frame_));
+				load->Save(DontDestroyList::TIMER_SECOND, static_cast<int>(second_));
+			}
+		}
+	}
+
 	clip_.Uninit();
 	handNow_.Uninit();
 	handEnd_.Uninit();

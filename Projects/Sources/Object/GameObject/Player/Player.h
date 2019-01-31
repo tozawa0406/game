@@ -50,7 +50,7 @@ public:
 		MAX
 	};
 	//! @def	スタミナ回復値
-	static constexpr float ADD_STAMINA = 0.2f;
+	static constexpr float ADD_STAMINA = 0.3f;
 
 	/* @brief	コンストラクタ		*/
 	Player(const VECTOR3& position);
@@ -91,7 +91,7 @@ public:
 
 	/* @brief	武器の設定
 	 * @param	(wapon)		武器			*/
-	inline void SetWapon(Wapon* wapon) { wapon_ = wapon; wapon->SetParent(transform_, body_, hand_); }
+	inline void SetWapon(Wapon* wapon) { wapon_ = wapon; wapon->SetParent(transform_, body_, hand_); wapon->Setup(!isDraw_);  }
 
 	/* @brief	カメラ取得処理				*/
 	inline Camera*	GetCamera(void)	{ return camera_;		}
