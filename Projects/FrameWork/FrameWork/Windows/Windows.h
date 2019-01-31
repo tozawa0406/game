@@ -19,9 +19,9 @@ class Systems;
 class Windows
 {
 	//! @def	ウィンドウの名前
-	static constexpr char*	CLASS_NAME		= "Game";
+	static constexpr char*	CLASS_NAME		= "Dragon Hunter";
 	//! @def	ウィンドウの名前
-	static constexpr char*	WINDOW_NAME		= "Game";
+	static constexpr char*	WINDOW_NAME		= "Dragon Hunter";
 	//! @def	ウィンドウスタイル
 	static constexpr int	WINDOW_STYLE	= WS_OVERLAPPEDWINDOW ^ WS_MAXIMIZEBOX;
 	//! グラフィックスのタイプ(ダイアログで指定(今回はしない))

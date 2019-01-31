@@ -8,7 +8,7 @@ static constexpr int UI_TEXT_SIZE = 40;
 //! @def	タイトルサイズ
 static constexpr int UI_TITLE_SIZE = 100;
 //! @def	タイトル位置
-static const VECTOR2 TITLE_POSITION = VECTOR2(Half(Windows::WIDTH) - 125, Half(Windows::HEIGHT) - 100);
+static const VECTOR2 TITLE_POSITION = VECTOR2(Half(Windows::WIDTH) - 325, Half(Windows::HEIGHT) - 100);
 //! @def	press描画の位置
 static const VECTOR2 PRESS_POSITION = VECTOR2(Half(Windows::WIDTH) - 165, Windows::HEIGHT * 0.9f - UI_TEXT_SIZE);
 //! @def	pree描画のサイズ
@@ -31,7 +31,7 @@ TitleScene::~TitleScene(void)
 void TitleScene::Init(void)
 {
 	// タイトル
-	title_.Init(UI_PRIORITY, "TITLE", UI_TITLE_SIZE);
+	title_.Init(UI_PRIORITY, "Dragon Hunter", UI_TITLE_SIZE);
 	title_.SetPosition(TITLE_POSITION);
 	title_.SetColor(COLOR(0, 0, 0));
 
