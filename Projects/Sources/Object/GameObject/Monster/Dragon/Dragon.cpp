@@ -19,21 +19,69 @@ static constexpr int MAX_LIFE = 1500;
 //! @def	飛行フラグ
 static constexpr uint IS_FLY = 0x0002;
 
-//! @def	体のボーンの名前
-static const     string BONE_BODY = "Spine2";
-static const	 Transform COLLISION_OFFSET_BODY = Transform(VECTOR3(-4, 1.5f, 0), VECTOR3(0), VECTOR3(18, 9, 15));
-//! @def	頭のボーンの名前
-static const     string BONE_HEAD = "Head";
-static const	 Transform COLLISION_OFFSET_HEAD = Transform(VECTOR3(5, 3, 0), VECTOR3(0), VECTOR3(6, 6, 6));
-//! @def	首1のボーン(体より)
-static const     string BONE_NECK1 = "Neck2";
-static const	 Transform COLLISION_OFFSET_NECK1 = Transform(VECTOR3(1, 2, 0), VECTOR3(0), VECTOR3(8, 8, 10));
-//! @def	首2のボーン(頭より)
-static const     string BONE_NECK2 = "Neck4";
-static const	 Transform COLLISION_OFFSET_NECK2 = Transform(VECTOR3(3, 1, 0), VECTOR3(0), VECTOR3(10, 5, 5));
-//! @def	翼爪のボーンの名前
-static const     string BONE_WING_L_CLAW = "WingClaw2_L";
-static const	 Transform COLLISION_OFFSET_WING_L_CLAW = Transform(VECTOR3(0, -3, -4), VECTOR3(0, -2, 0), VECTOR3(7, 2, 2));
+const BONE_COLLISION Dragon::BONE_COLLISION_OFFSET[static_cast<int>(Collision::MAX)] = 
+{
+//	BODY
+	{ "Spine2", VECTOR3(-4, 1.5f, 0), VECTOR3(0), VECTOR3(18, 9, 15) },
+//	HEAD
+	{ "Head", VECTOR3(5, 3, 0), VECTOR3(0), VECTOR3(6, 6, 6) },
+//	NECK1
+	{ "Neck2", VECTOR3(1, 2, 0), VECTOR3(0), VECTOR3(8, 8, 10) },
+//	NECK2
+	{ "Neck4", VECTOR3(3, 1, 0), VECTOR3(0), VECTOR3(10, 5, 5) },
+//	WING_LL
+	{ "Wing2_L", VECTOR3(-2, 0, 0), VECTOR3(0.05f, 0.02f, -0.01f), VECTOR3(9, 10, 4) },
+//	WING_LC
+	{ "WingDetail10_L", VECTOR3(0, -1, 3.5f), VECTOR3(0, 0, 0), VECTOR3(20, 4, 10) },
+//	WING_LR
+	{ "WingDetail7_L", VECTOR3(-5, 0, -2), VECTOR3(0, -0.015f, -0.005f), VECTOR3(30, 7, 2) },
+//	WING_L_CLAW
+	{ "WingClaw2_L", VECTOR3(0, -1.5f, -5), VECTOR3(0, 0.05f, 0), VECTOR3(7, 2, 2) },
+//	WING_RL
+	{ "Wing2_R", VECTOR3(-2, -0.5f, 0), VECTOR3(0.03f, -0.02f, -0.01f), VECTOR3(9, 4, 10) },
+//	WING_RC
+	{ "WingDetail10_R", VECTOR3(0, 1, -3.5f), VECTOR3(0.05f, 0.01f, -0.01f), VECTOR3(20, 10, 4) },
+//	WING_RR
+	{ "WingDetail7_R", VECTOR3(-5, 0, 2), VECTOR3(0, 0.015f, -0.005f), VECTOR3(30, 7, 2) },
+//	WING_R_CLAW
+	{ "WingClaw2_R", VECTOR3(0, -3, -4), VECTOR3(0, -2, 0), VECTOR3(7, 2, 2) },
+//	ARM_L_UP
+	{ "UpperArm_L", VECTOR3(-2, 0, 0.5f), VECTOR3(0, 0, 0), VECTOR3(8, 7, 5) },
+//	ARM_L_UP2
+	{ "UpperArm_L", VECTOR3(4, 0.75f, 0.5f), VECTOR3(0, 0, 0), VECTOR3(5, 5, 5) },
+//	ARM_L_DOWN
+	{ "LowerArm_L", VECTOR3(2, 0, 1), VECTOR3(0, 0, 0), VECTOR3(8, 3, 3) },
+//	ARM_R_UP
+	{ "UpperArm_R", VECTOR3(-2, 0, 0.5f), VECTOR3(0, 0, 0), VECTOR3(8, 7, 5) },
+//	ARM_R_UP2
+	{ "UpperArm_R", VECTOR3(4, -0.75f, 0.5f), VECTOR3(0, 0, 0), VECTOR3(5, 5, 5) },
+//	ARM_R_DOWN
+	{ "LowerArm_R", VECTOR3(2, 0, 1), VECTOR3(0, 0, 0), VECTOR3(8, 3, 3) },
+//	LEGS_L_UP
+	{ "UpperLeg_L", VECTOR3(1.5f, 1.5f, 0), VECTOR3(0, 0, 0), VECTOR3(7, 5, 5.5f) },
+//	LEGS_L_UP2
+	{ "LowerLeg_L", VECTOR3(3, 1, 1.2f), VECTOR3(0, 0, 0), VECTOR3(7, 3.5f, 3.5f) },
+//	LEGS_L_DOWN
+	{ "LowerLeg2_L", VECTOR3(1.5f, 1.5f, 0), VECTOR3(0, 0, 0), VECTOR3(6, 2.5f, 3) },
+//	LEGS_R_UP
+	{ "UpperLeg_R", VECTOR3(1.5f, -1.5f, 0), VECTOR3(0, 0, 0), VECTOR3(7, 5, 5.5f) },
+//	LEGS_R_UP2
+	{ "LowerLeg_R", VECTOR3(3, -1, 1.2f), VECTOR3(0, 0, 0), VECTOR3(7, 3.5f, 3.5f) },
+//	LEGS_R_DOWN
+	{ "LowerLeg2_R", VECTOR3(1.5f, -1.5f, 0), VECTOR3(0, 0, 0), VECTOR3(6, 2.5f, 3) },
+//	TAIL5
+	{ "Tail5", VECTOR3(0, 1.5f, 0), VECTOR3(0.01f, 0, 0), VECTOR3(3, 3, 5) },
+//	TAIL4
+	{ "Tail4", VECTOR3(1, 1.5f, 0), VECTOR3(0, 0, 0.01f), VECTOR3(5, 4, 4) },
+//	TAIL3
+	{ "Tail3", VECTOR3(1, 1.5f, 0), VECTOR3(0, 0, 0), VECTOR3(7, 5, 5) },
+//	TAIL2
+	{ "Tail2", VECTOR3(1, 1.5f, 0), VECTOR3(0, 0, 0), VECTOR3(7, 5, 5) },
+//	TAIL1
+	{ "Tail1", VECTOR3(1, 1.5f, 0), VECTOR3(0, 0, 0), VECTOR3(5, 6, 6) },
+};
+
+
 
 Dragon::Dragon(void) : GameObject(ObjectTag::ENEMY), GUI(Systems::Instance(), this, "dragon")
 	, flag_(0)
@@ -192,8 +240,6 @@ void Dragon::Update(void)
 		}
 	}
 
-
-
 	if (TakenDamage()) { return; }
 
 	if (currentAttack_)
@@ -219,6 +265,10 @@ void Dragon::Update(void)
 			transform_.position += c->GetBack();
 		}
 	}
+	for (auto& c : collisionDefense_)
+	{
+		if (c) { c->Update(); }
+	}
 }
 
 void Dragon::CreateCollision(void)
@@ -231,24 +281,24 @@ void Dragon::CreateCollision(void)
 			{
 				const auto& model = wrapper->GetModel(meshAnim_.mesh.GetModelNum());
 
-				SetCollision(static_cast<int>(Collision::BODY) , BONE_BODY , COLLISION_OFFSET_BODY , model);
-				SetCollision(static_cast<int>(Collision::HEAD) , BONE_HEAD , COLLISION_OFFSET_HEAD , model);
-				SetCollision(static_cast<int>(Collision::NECK1), BONE_NECK1, COLLISION_OFFSET_NECK1, model);
-				SetCollision(static_cast<int>(Collision::NECK2), BONE_NECK2, COLLISION_OFFSET_NECK2, model);
-				SetCollision(static_cast<int>(Collision::WING_L), BONE_WING_L_CLAW, COLLISION_OFFSET_WING_L_CLAW, model);
+				int max = static_cast<int>(Collision::MAX);
+				for (int i = 0; i < max; ++i)
+				{
+					SetCollision(i, BONE_COLLISION_OFFSET[i], model);
+				}
 			}
 		}
 	}
 }
 
-void Dragon::SetCollision(int arrayNum, string boneName, const Transform& offset, const MODEL& model)
+void Dragon::SetCollision(int arrayNum, const BONE_COLLISION& offset, const MODEL& model)
 {
 	collision_[arrayNum] = new Collider3D::OBB(this);
 	if (collision_[arrayNum])
 	{
 		for (auto& bone : model.bone)
 		{
-			if (bone.name == boneName)
+			if (bone.name == offset.boneName)
 			{
 				collision_[arrayNum]->SetParentMtx(&model.transMtx, &bone.nowBone);
 				break;
@@ -256,9 +306,9 @@ void Dragon::SetCollision(int arrayNum, string boneName, const Transform& offset
 		}
 
 		auto s = transform_.scale;
-		collision_[arrayNum]->SetOffsetPosition(offset.position * s);
-		collision_[arrayNum]->SetOffsetRotation(offset.rotation * s);
-		collision_[arrayNum]->SetSize(offset.scale * s);
+		collision_[arrayNum]->SetSize(offset.size * s);
+		collision_[arrayNum]->SetOffsetPosition(offset.offsetPosition * s);
+		collision_[arrayNum]->SetOffsetRotation(offset.offsetRotation * s);
 		collisionDefense_[arrayNum] = new Collider3D::OBB(this);
 		CreateDefenseCollider(*collision_[arrayNum], collisionDefense_[arrayNum]);
 	}
@@ -361,7 +411,8 @@ bool Dragon::DebugInput(void)
 	Animation tempAnim = static_cast<Animation>(meshAnim_.animation);
 	if (inputDir != 0)
 	{
-		if (tempAnim == Animation::WAIT1 || (tempAnim == Animation::WALK || tempAnim == Animation::RUN))
+		if(!currentAttack_)
+//		if (tempAnim == Animation::WAIT1 || (tempAnim == Animation::WALK || tempAnim == Animation::RUN))
 		{
 			meshAnim_.animSpeed = 0.5f;
 			meshAnim_.animation = static_cast<int>(Animation::WALK);
@@ -469,9 +520,23 @@ bool Dragon::DebugInput(void)
 }
 
 static bool debug_nextFrame_ = false;
+int Dragon::tint = static_cast<int>(Dragon::Collision::WING_R_CLAW);
 
 void Dragon::GuiUpdate(void)
 {
+	BONE_COLLISION ttt;
+	auto s = transform_.scale;
+	ttt.offsetPosition = collision_[tint]->GetOffsetPosition() / s;
+	ImGui::DragFloat3("pos  : ", ttt.offsetPosition, 0.1f);
+	collision_[tint]->SetOffsetPosition(ttt.offsetPosition * s);
+	ttt.offsetRotation = collision_[tint]->GetOffsetRotation() / s;
+	ImGui::DragFloat3("rot  : ", ttt.offsetRotation, 0.01f);
+	collision_[tint]->SetOffsetRotation(ttt.offsetRotation * s);
+	ttt.size = collision_[tint]->GetSize() / s;
+	ImGui::DragFloat3("size : ", ttt.size, 0.1f);
+	collision_[tint]->SetSize(ttt.size * s);
+
+
 	ImGui::Text("Life : %d", life_);
 	if (life_ > Quarter(MAX_LIFE))
 	{

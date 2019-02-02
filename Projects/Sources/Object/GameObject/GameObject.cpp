@@ -93,10 +93,10 @@ void GameObject::CreateDefenseCollider(const Collider3D::OBB& normal, Collider3D
 		{
 			copy->SetDirect(i, normal.GetDirect(i));
 		}
+		copy->SetSize(normal.GetSize() - VECTOR3(0.1f));
 		copy->SetOffsetPosition(normal.GetOffsetPosition());
 		copy->SetOffsetRotation(normal.GetOffsetRotation());
 		copy->SetParentMtx(normal.GetTransMtx(), normal.GetParentMtx());
-		copy->SetSize(normal.GetSize() - VECTOR3(0.1f));
 		copy->SetColliderTag(ColliderTag::DEFENSE);
 		copy->SetTrigger(true);
 		copy->SetEnable(normal.IsEnable());

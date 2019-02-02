@@ -12,6 +12,14 @@
 #include "../MonsterAttack.h"
 #include "DragonMoveController.h"
 
+struct BONE_COLLISION
+{
+	string	boneName;
+	VECTOR3 offsetPosition;
+	VECTOR3 offsetRotation;
+	VECTOR3 size;
+};
+
 class Dragon : public GameObject, public GUI
 {
 	//! @enum	当たり判定
@@ -21,9 +29,31 @@ class Dragon : public GameObject, public GUI
 		HEAD,
 		NECK1,
 		NECK2,
-		TAIL,
-		WING_R,
-		WING_L,
+		WING_LL,
+		WING_LC,
+		WING_LR,
+		WING_L_CLAW,
+		WING_RL,
+		WING_RC,
+		WING_RR,
+		WING_R_CLAW,
+		ARM_L_UP,
+		ARM_L_UP2,
+		ARM_L_DOWN,
+		ARM_R_UP,
+		ARM_R_UP2,
+		ARM_R_DOWN,
+		LEGS_L_UP,
+		LEGS_L_UP2,
+		LEGS_L_DOWN,
+		LEGS_R_UP,
+		LEGS_R_UP2,
+		LEGS_R_DOWN,
+		TAIL5,
+		TAIL4,
+		TAIL3,
+		TAIL2,
+		TAIL1,
 		MAX
 	};
 
@@ -121,7 +151,7 @@ private:
 	 * @param	(offset)	オフセット
 	 * @param	(model)		モデルデータ
 	 * @return	なし				*/
-	void SetCollision(int arrayNum, string boneName, const Transform& offset, const MODEL& model);
+	void SetCollision(int arrayNum, const BONE_COLLISION& offset, const MODEL& model);
 
 	//! フラグ
 	uint				flag_;
@@ -142,6 +172,9 @@ private:
 	Camera*			camera_;			//! カメラ
 
 	bool			debugMove_;			//! デバッグ用コントロールフラグ
+
+	static const BONE_COLLISION BONE_COLLISION_OFFSET[static_cast<int>(Collision::MAX)];
+	static int tint;
 };
 
 #endif // _DRAGON_H_

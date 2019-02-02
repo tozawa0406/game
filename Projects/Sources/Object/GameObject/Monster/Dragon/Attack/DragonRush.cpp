@@ -30,7 +30,7 @@ void DragonRush::SetMove(void)
 	meshAnim.animSpeed = 0.5f;
 	meshAnim.animation   = static_cast<int>(Dragon::Animation::WAIT2);
 
-	meshAnim.mesh.ChangeAnimation(meshAnim.animation, 15);
+	meshAnim.mesh.ChangeAnimation(meshAnim.animation, ANIMATION_CHANGE_FRAME15);
 	cnt_ = 0;
 }
 
@@ -42,10 +42,10 @@ bool DragonRush::Update(void)
 	cnt_++;
 	if (cnt_ > 30)
 	{
-		meshAnim.animSpeed = 0.75f;
+		meshAnim.animSpeed = DEFAULT_ANIMATION_SPEED;
 		meshAnim.animation = static_cast<int>(Dragon::Animation::RUN);
 
-		meshAnim.mesh.ChangeAnimation(meshAnim.animation, 15);
+		meshAnim.mesh.ChangeAnimation(meshAnim.animation, ANIMATION_CHANGE_FRAME15);
 
 		VECTOR3 front = monster_->GetFront();
 		monster_->SetVelocity(-front);
@@ -53,10 +53,10 @@ bool DragonRush::Update(void)
 
 	if (cnt_ > 148)
 	{
-		meshAnim.animSpeed = 0.75f;
+		meshAnim.animSpeed = DEFAULT_ANIMATION_SPEED;
 		meshAnim.animation = static_cast<int>(Dragon::Animation::WAIT1);
 		enable_ = false;
-		meshAnim.mesh.ChangeAnimation(meshAnim.animation, 15, true);
+		meshAnim.mesh.ChangeAnimation(meshAnim.animation, ANIMATION_CHANGE_FRAME15, true);
 		return true;
 	}
 	return false;
