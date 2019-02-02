@@ -22,63 +22,63 @@ static constexpr uint IS_FLY = 0x0002;
 const BONE_COLLISION Dragon::BONE_COLLISION_OFFSET[static_cast<int>(Collision::MAX)] = 
 {
 //	BODY
-	{ "Spine2", VECTOR3(-4, 1.5f, 0), VECTOR3(0), VECTOR3(18, 9, 15) },
-//	HEAD
-	{ "Head", VECTOR3(5, 3, 0), VECTOR3(0), VECTOR3(6, 6, 6) },
-//	NECK1
-	{ "Neck2", VECTOR3(1, 2, 0), VECTOR3(0), VECTOR3(8, 8, 10) },
-//	NECK2
-	{ "Neck4", VECTOR3(3, 1, 0), VECTOR3(0), VECTOR3(10, 5, 5) },
-//	WING_LL
-	{ "Wing2_L", VECTOR3(-2, 0, 0), VECTOR3(0.05f, 0.02f, -0.01f), VECTOR3(9, 10, 4) },
-//	WING_LC
-	{ "WingDetail10_L", VECTOR3(0, -1, 3.5f), VECTOR3(0, 0, 0), VECTOR3(20, 4, 10) },
-//	WING_LR
-	{ "WingDetail7_L", VECTOR3(-5, 0, -2), VECTOR3(0, -0.015f, -0.005f), VECTOR3(30, 7, 2) },
-//	WING_L_CLAW
-	{ "WingClaw2_L", VECTOR3(0, -1.5f, -5), VECTOR3(0, 0.05f, 0), VECTOR3(7, 2, 2) },
-//	WING_RL
-	{ "Wing2_R", VECTOR3(-2, -0.5f, 0), VECTOR3(0.03f, -0.02f, -0.01f), VECTOR3(9, 4, 10) },
-//	WING_RC
-	{ "WingDetail10_R", VECTOR3(0, 1, -3.5f), VECTOR3(0.05f, 0.01f, -0.01f), VECTOR3(20, 10, 4) },
-//	WING_RR
-	{ "WingDetail7_R", VECTOR3(-5, 0, 2), VECTOR3(0, 0.015f, -0.005f), VECTOR3(30, 7, 2) },
-//	WING_R_CLAW
-	{ "WingClaw2_R", VECTOR3(0, -3, -4), VECTOR3(0, -2, 0), VECTOR3(7, 2, 2) },
-//	ARM_L_UP
-	{ "UpperArm_L", VECTOR3(-2, 0, 0.5f), VECTOR3(0, 0, 0), VECTOR3(8, 7, 5) },
-//	ARM_L_UP2
-	{ "UpperArm_L", VECTOR3(4, 0.75f, 0.5f), VECTOR3(0, 0, 0), VECTOR3(5, 5, 5) },
-//	ARM_L_DOWN
-	{ "LowerArm_L", VECTOR3(2, 0, 1), VECTOR3(0, 0, 0), VECTOR3(8, 3, 3) },
-//	ARM_R_UP
-	{ "UpperArm_R", VECTOR3(-2, 0, 0.5f), VECTOR3(0, 0, 0), VECTOR3(8, 7, 5) },
-//	ARM_R_UP2
-	{ "UpperArm_R", VECTOR3(4, -0.75f, 0.5f), VECTOR3(0, 0, 0), VECTOR3(5, 5, 5) },
-//	ARM_R_DOWN
-	{ "LowerArm_R", VECTOR3(2, 0, 1), VECTOR3(0, 0, 0), VECTOR3(8, 3, 3) },
-//	LEGS_L_UP
-	{ "UpperLeg_L", VECTOR3(1.5f, 1.5f, 0), VECTOR3(0, 0, 0), VECTOR3(7, 5, 5.5f) },
-//	LEGS_L_UP2
-	{ "LowerLeg_L", VECTOR3(3, 1, 1.2f), VECTOR3(0, 0, 0), VECTOR3(7, 3.5f, 3.5f) },
-//	LEGS_L_DOWN
-	{ "LowerLeg2_L", VECTOR3(1.5f, 1.5f, 0), VECTOR3(0, 0, 0), VECTOR3(6, 2.5f, 3) },
-//	LEGS_R_UP
-	{ "UpperLeg_R", VECTOR3(1.5f, -1.5f, 0), VECTOR3(0, 0, 0), VECTOR3(7, 5, 5.5f) },
-//	LEGS_R_UP2
-	{ "LowerLeg_R", VECTOR3(3, -1, 1.2f), VECTOR3(0, 0, 0), VECTOR3(7, 3.5f, 3.5f) },
-//	LEGS_R_DOWN
-	{ "LowerLeg2_R", VECTOR3(1.5f, -1.5f, 0), VECTOR3(0, 0, 0), VECTOR3(6, 2.5f, 3) },
-//	TAIL5
-	{ "Tail5", VECTOR3(0, 1.5f, 0), VECTOR3(0.01f, 0, 0), VECTOR3(3, 3, 5) },
-//	TAIL4
-	{ "Tail4", VECTOR3(1, 1.5f, 0), VECTOR3(0, 0, 0.01f), VECTOR3(5, 4, 4) },
-//	TAIL3
-	{ "Tail3", VECTOR3(1, 1.5f, 0), VECTOR3(0, 0, 0), VECTOR3(7, 5, 5) },
-//	TAIL2
-	{ "Tail2", VECTOR3(1, 1.5f, 0), VECTOR3(0, 0, 0), VECTOR3(7, 5, 5) },
-//	TAIL1
-	{ "Tail1", VECTOR3(1, 1.5f, 0), VECTOR3(0, 0, 0), VECTOR3(5, 6, 6) },
+	{ "Spine2"			, VECTOR3(-4   ,  1.5f ,  0   ), VECTOR3(0    ,  0     ,  0     ), VECTOR3(18,  9   , 15   ) },
+//	HEAD							 				  		          	       						        	   
+	{ "Head"			, VECTOR3( 5   ,  3    ,  0   ), VECTOR3(0    ,  0     ,  0     ), VECTOR3( 6,  6   ,  6   ) },
+//	NECK1							  	  		         	  	       	     						    		   
+	{ "Neck2"			, VECTOR3( 1   ,  2    ,  0   ), VECTOR3(0    ,  0     ,  0     ), VECTOR3( 8,  8   , 10   ) },
+//	NECK2							  	  		         	  	       	     						        	   
+	{ "Neck4"			, VECTOR3( 3   ,  1    ,  0   ), VECTOR3(0    ,  0     ,  0     ), VECTOR3(10,  5   ,  5   ) },
+//	WING_LL							 		  		  		  											    	   
+	{ "Wing2_L"			, VECTOR3(-2   ,  0    ,  0   ), VECTOR3(0.05f,  0.02f , -0.01f ), VECTOR3( 9, 10   ,  4   ) },
+//	WING_LC							 									  								    	   
+	{ "WingDetail10_L"	, VECTOR3( 0   , -1    ,  3.5f), VECTOR3(0    ,  0     ,  0     ), VECTOR3(20,  4   , 10   ) },
+//	WING_LR							  							     								        	   
+	{ "WingDetail7_L"	, VECTOR3(-5   ,  0    , -2   ), VECTOR3(0    , -0.015f, -0.005f), VECTOR3(30,  7   ,  2   ) },
+//	WING_L_CLAW						  							     								        	   
+	{ "WingClaw2_L"		, VECTOR3( 0   , -1.5f , -5   ), VECTOR3(0    ,  0.05f ,  0     ), VECTOR3( 7,  2   ,  2   ) },
+//	WING_RL							  																        	   
+	{ "Wing2_R"			, VECTOR3(-2   , -0.5f ,  0   ), VECTOR3(0.03f, -0.02f , -0.01f ), VECTOR3( 9,  4   , 10   ) },
+//	WING_RC							  																        	   
+	{ "WingDetail10_R"	, VECTOR3( 0   ,  1    , -3.5f), VECTOR3(0.05f,  0.01f , -0.01f ), VECTOR3(20, 10   ,  4   ) },
+//	WING_RR							 		   			    											    
+	{ "WingDetail7_R"	, VECTOR3(-5   ,  0    ,  2   ), VECTOR3(0    ,  0.015f, -0.005f), VECTOR3(30,  7   ,  2   ) },
+//	WING_R_CLAW						 		   			    	     								        	   
+	{ "WingClaw2_R"		, VECTOR3( 0   ,  2    ,  4.5f), VECTOR3(0    ,  0.04f ,  0     ), VECTOR3( 7,  2   ,  2   ) },
+//	ARM_L_UP						 		   		   	 		          							        	   
+	{ "UpperArm_L"		, VECTOR3(-2   ,  0    ,  0.5f), VECTOR3(0    ,  0     ,  0     ), VECTOR3( 8,  7   ,  5   ) },
+//	ARM_L_UP2						 							        	     	       			        	   
+	{ "UpperArm_L"		, VECTOR3( 4   ,  0.75f,  0.5f), VECTOR3(0    ,  0     ,  0     ), VECTOR3( 5,  5   ,  5   ) },
+//	ARM_L_DOWN						 							        	     	       			        	   
+	{ "LowerArm_L"		, VECTOR3( 2   ,  0    ,  1   ), VECTOR3(0    ,  0     ,  0     ), VECTOR3( 8,  3   ,  3   ) },
+//	ARM_R_UP						 		   		   	       	              						        	   
+	{ "UpperArm_R"		, VECTOR3(-2   ,  0    ,  0.5f), VECTOR3(0    ,  0     ,  0     ), VECTOR3( 8,  7   ,  5   ) },
+//	ARM_R_UP2						 							        	     	       			        	   
+	{ "UpperArm_R"		, VECTOR3( 4   , -0.75f,  0.5f), VECTOR3(0    ,  0     ,  0     ), VECTOR3( 5,  5   ,  5   ) },
+//	ARM_R_DOWN						  							        	     	       			        	   
+	{ "LowerArm_R"		, VECTOR3( 2   ,  0    ,  1   ), VECTOR3(0    ,  0     ,  0     ), VECTOR3( 8,  3   ,  3   ) },
+//	LEGS_L_UP													        	     	       			        
+	{ "UpperLeg_L"		, VECTOR3( 1.5f,  1.5f ,  0   ), VECTOR3(0    ,  0     ,  0     ), VECTOR3( 7,  5   ,  5.5f) },
+//	LEGS_L_UP2													        	     	       
+	{ "LowerLeg_L"		, VECTOR3( 3   ,  1    ,  1.2f), VECTOR3(0    ,  0     ,  0     ), VECTOR3( 7,  3.5f,  3.5f) },
+//	LEGS_L_DOWN													        	     	       		    
+	{ "LowerLeg2_L"		, VECTOR3( 1.5f,  1.5f ,  0   ), VECTOR3(0    ,  0     ,  0     ), VECTOR3( 6,  2.5f,  3   ) },
+//	LEGS_R_UP													     	 	          			    
+	{ "UpperLeg_R"		, VECTOR3( 1.5f, -1.5f ,  0   ), VECTOR3(0    ,  0     ,  0     ), VECTOR3( 7,  5   ,  5.5f) },
+//	LEGS_R_UP2													        	     	       		    
+	{ "LowerLeg_R"		, VECTOR3( 3   , -1    ,  1.2f), VECTOR3(0    ,  0     ,  0     ), VECTOR3( 7,  3.5f,  3.5f) },
+//	LEGS_R_DOWN													        	     	       		        
+	{ "LowerLeg2_R"		, VECTOR3( 1.5f, -1.5f ,  0   ), VECTOR3(0    ,  0     ,  0     ), VECTOR3( 6,  2.5f,  3   ) },
+//	TAIL5											  		       	  	       					        		   
+	{ "Tail5"			, VECTOR3( 0   ,  1.5f ,  0   ), VECTOR3(0.01f,  0     ,  0     ), VECTOR3( 3,  3   ,  5   ) },
+//	TAIL4							  		     	  				  	      					               	   
+	{ "Tail4"			, VECTOR3( 1   ,  1.5f ,  0   ), VECTOR3(0    ,  0     ,  0.01f ), VECTOR3( 5,  4   ,  4   ) },
+//	TAIL3							  		     	  	   	          	      					               	   
+	{ "Tail3"			, VECTOR3( 1   ,  1.5f ,  0   ), VECTOR3(0    ,  0     ,  0     ), VECTOR3( 7,  5   ,  5   ) },
+//	TAIL2							  		     	  	   	          	       					               	   
+	{ "Tail2"			, VECTOR3( 1   ,  1.5f ,  0   ), VECTOR3(0    ,  0     ,  0     ), VECTOR3( 7,  5   ,  5   ) },
+//	TAIL1							  		     	  	   	          	       					               	   
+	{ "Tail1"			, VECTOR3( 1   ,  1.5f ,  0   ), VECTOR3(0    ,  0     ,  0     ), VECTOR3( 5,  6   ,  6   ) },
 };
 
 
