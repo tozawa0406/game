@@ -27,6 +27,7 @@
     <ClCompile Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonRush.cpp" />
     <ClCompile Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonScream.cpp" />
     <ClCompile Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonTakeOff.cpp" />
+    <ClCompile Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonTurn.cpp" />
     <ClCompile Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonWingAttack.cpp" />
     <ClCompile Include="Sources\Object\GameObject\Monster\Dragon\Dragon.cpp" />
     <ClCompile Include="Sources\Object\GameObject\Monster\Dragon\DragonMoveController.cpp" />
@@ -73,12 +74,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sources\Object\Billboard\BloodSplash.h" />
+    <ClInclude Include="Sources\Object\GameObject\AttackManager.h" />
     <ClInclude Include="Sources\Object\GameObject\GameObject.h" />
     <ClInclude Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonBite.h" />
     <ClInclude Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonHit.h" />
     <ClInclude Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonRush.h" />
     <ClInclude Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonScream.h" />
     <ClInclude Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonTakeOff.h" />
+    <ClInclude Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonTurn.h" />
     <ClInclude Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonWingAttack.h" />
     <ClInclude Include="Sources\Object\GameObject\Monster\Dragon\Dragon.h" />
     <ClInclude Include="Sources\Object\GameObject\Monster\Dragon\DragonMoveController.h" />

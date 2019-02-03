@@ -1,6 +1,5 @@
 #include "DragonWingAttack.h"
 #include "../Dragon.h"
-#include <FrameWork/Graphics/DirectX11/Dx11Wrapper.h>
 
 //! @def	ダメージ値
 static constexpr int DAMAGE = 20;
@@ -25,17 +24,6 @@ static constexpr int CHANGE_ANIMATION_SLOWLY	= 30;
 //! @def	アニメーション速度変更タイミング
 static constexpr int CHANGE_ANIMATION_BACK		= 33;
 
-//! @def	左爪翼のボーンの名前
-static const     string  BONE_CLAW_L = "WingClaw2_L";
-static const     VECTOR3 COLLISION_OFFSET_POS_CLAW_L = VECTOR3(0, -3, -4);
-static const     VECTOR3 COLLISION_OFFSET_ROT_CLAW_L = VECTOR3(0, -2, 0);
-static const     VECTOR3 COLLISION_SIZE_CLAW_L = VECTOR3(7.1f, 2.1f, 2.1f);
-//! @def	右爪翼のボーンの名前
-static const     string  BONE_CLAW_R = "WingClaw2_R";
-static const     VECTOR3 COLLISION_OFFSET_POS_CLAW_R = VECTOR3(0, 3, 4);
-static const     VECTOR3 COLLISION_OFFSET_ROT_CLAW_R = VECTOR3(0, -2, 0);
-static const     VECTOR3 COLLISION_SIZE_CLAW_R = VECTOR3(7.1f, 2.1f, 2.1f);
-
 DragonWingAttack::DragonWingAttack(void)
 {
 	for (auto& c : collider_) { c = nullptr; }
@@ -49,60 +37,35 @@ void DragonWingAttack::Init(GameObject* monster)
 {
 	MonsterAttack::Init(monster);
 
-	// 当たり判定の生成
-	if (const auto& systems = Systems::Instance())
+	Dragon* temp = static_cast<Dragon*>(monster);
+
+	const int max = static_cast<int>(Wing::MAX);
+	Dragon::Collision collisionNum[max] = 
 	{
-		if (const auto& renderer = systems->GetGraphics())
+		Dragon::Collision::WING_L_CLAW, 
+		Dragon::Collision::WING_LC, 
+		Dragon::Collision::WING_LR,
+		Dragon::Collision::WING_R_CLAW, 
+		Dragon::Collision::WING_RC, 
+		Dragon::Collision::WING_RR,
+	};
+
+	for (int i = 0; i < max; ++i)
+	{
+		const auto& tempCol = temp->GetCollider(collisionNum[i]);
+		auto& col = collider_[i];
+		col = new Collider3D::OBB(monster);
+		if (col)
 		{
-			if (Dx11Wrapper* wrapper = static_cast<Dx11Wrapper*>(renderer->GetWrapper()))
-			{
-				const auto& model = wrapper->GetModel(static_cast<int>(Resources::Model::Buttle::DRAGON));
-
-				int num = static_cast<int>(Wing::CLAW_L);
-				collider_[num] = new Collider3D::OBB(monster);
-				if (collider_[num])
-				{
-					for (auto& bone : model.bone)
-					{
-						if (bone.name == BONE_CLAW_L)
-						{
-							collider_[num]->SetParentMtx(&model.transMtx, &bone.nowBone);
-							break;
-						}
-					}
-					const auto& s = monster->GetTransform().scale;
-					collider_[num]->SetOffsetPosition(COLLISION_OFFSET_POS_CLAW_L * s);
-					collider_[num]->SetOffsetRotation(COLLISION_OFFSET_ROT_CLAW_L);
-					collider_[num]->SetSize(COLLISION_SIZE_CLAW_L * s);
-					collider_[num]->SetColliderTag(ColliderTag::ATTACK);
-					collider_[num]->SetTrigger(true);
-					collider_[num]->SetEnable(false);
-				}
-
-				num = static_cast<int>(Wing::CLAW_R);
-				collider_[num] = new Collider3D::OBB(monster);
-				if (collider_[num])
-				{
-					for (auto& bone : model.bone)
-					{
-						if (bone.name == BONE_CLAW_R)
-						{
-							collider_[num]->SetParentMtx(&model.transMtx, &bone.nowBone);
-							break;
-						}
-					}
-					const auto& s = monster->GetTransform().scale;
-					collider_[num]->SetOffsetPosition(COLLISION_OFFSET_POS_CLAW_R * s);
-					collider_[num]->SetOffsetRotation(COLLISION_OFFSET_ROT_CLAW_R);
-					collider_[num]->SetSize(COLLISION_SIZE_CLAW_R * s);
-					collider_[num]->SetColliderTag(ColliderTag::ATTACK);
-					collider_[num]->SetTrigger(true);
-					collider_[num]->SetEnable(false);
-				}
-			}
+			col->SetSize(tempCol->GetSize());
+			col->SetOffsetPosition(tempCol->GetOffsetPosition() + VECTOR3(0.1f));
+			col->SetOffsetRotation(tempCol->GetOffsetRotation());
+			col->SetParentMtx(tempCol->GetTransMtx(), tempCol->GetParentMtx());
+			col->SetColliderTag(ColliderTag::ATTACK);
+			col->SetTrigger(true);
+			col->SetEnable(false);
 		}
 	}
-
 }
 
 void DragonWingAttack::Uninit(void)
@@ -127,6 +90,10 @@ void DragonWingAttack::SetMove(void)
 
 	// 実際のアニメーションの切り替え
 	meshAnim.mesh.ChangeAnimation(meshAnim.animation, ANIMATION_CHANGE_FRAME15);
+
+	const auto& attackManager = monster_->GetAttackManager();
+	if (!attackManager) { return; }
+	attackID_ = attackManager->CreateAttackID();
 }
 
 bool DragonWingAttack::Update(void)
@@ -155,7 +122,6 @@ bool DragonWingAttack::Update(void)
 	else if (p > CHANGE_ANIMATION_HALF)
 	{
 		meshAnim.animSpeed = ANIMATION_HALF;
-		for (auto& c : collider_) { c->SetEnable(false); }
 	}
 	else if (p > CHANGE_ANIMATION_QUICKLY)
 	{
@@ -171,7 +137,10 @@ bool DragonWingAttack::Update(void)
 			if (hit->GetParentTag() == ObjectTag::PLAYER &&
 				hit->GetColliderTag() == ColliderTag::DEFENSE)
 			{
-				static_cast<GameObject*>(hit->GetParent())->Hit(DAMAGE);
+				if (attackManager_->CheckList(attackID_))
+				{
+					static_cast<GameObject*>(hit->GetParent())->Hit(DAMAGE, attackID_);
+				}
 			}
 		}
 	}

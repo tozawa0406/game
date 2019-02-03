@@ -15,7 +15,11 @@ class DragonWingAttack : public MonsterAttack
 	enum class Wing : uint8
 	{
 		CLAW_L = 0,
+		LC,
+		LR,
 		CLAW_R,
+		RC,
+		RR,
 
 		MAX
 	};

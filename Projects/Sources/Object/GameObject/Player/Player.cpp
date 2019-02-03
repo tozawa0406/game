@@ -239,8 +239,10 @@ void Player::Update(void)
 	}
 }
 
-void Player::Hit(int damage)
+void Player::Hit(int damage, uint8 attackID)
 {
+	if (UpdateHitAttackID(attackID)) { return; }
+
 	if (colliderDefense_->IsEnable())
 	{
 		life_ -= damage;
@@ -257,11 +259,10 @@ void Player::Hit(int damage)
 	}
 }
 
-void Player::Earplug(uint8 attack)
+void Player::Earplug(uint8 attackID)
 {
-	if (hitAttack_ == attack) { return; }
+	if (UpdateHitAttackID(attackID)) { return; }
 
-	hitAttack_ = attack;
 	UninitDeletePtr(state_);
 	state_ = new EarplugState;
 	if (state_)

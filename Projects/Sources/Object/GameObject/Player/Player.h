@@ -81,13 +81,14 @@ public:
 	
 	/* @brief	ダメージ処理
 	 * @param	(damage)	ダメージ
+	 * @param	(attackID)	攻撃ID
 	 * @return	なし				*/
-	void Hit(int damage) override;
+	void Hit(int damage, uint8 attackID) override;
 
 	/* @brief	耳栓移行処理
-	 * @param	なし
+	 * @param	(attackID)	攻撃ID
 	 * @return	なし				*/
-	void Earplug(uint8 attack);
+	void Earplug(uint8 attackID);
 
 	/* @brief	武器の設定
 	 * @param	(wapon)		武器			*/
@@ -158,8 +159,6 @@ private:
 
 	const MATRIX*	body_;				//! 体のボーン行列
 	const MATRIX*	hand_;				//! 右手のボーン行列
-
-	uint8			hitAttack_;			//! 受けた攻撃を2度受けないように
 };
 
 #endif // _PLAYER_H_

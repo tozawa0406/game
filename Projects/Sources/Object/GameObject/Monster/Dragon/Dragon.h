@@ -22,6 +22,20 @@ struct BONE_COLLISION
 
 class Dragon : public GameObject, public GUI
 {
+	//! @enum	攻撃パターン
+	enum class AttackPattern : uint8
+	{
+		SCREAM = 0,
+		BITE,
+		WING_ATTACK,
+		TAIL_ATTACK,
+		TAKE_OFF,
+		HIT,
+		RUSH,
+
+		MAX
+	};
+public:
 	//! @enum	当たり判定
 	enum class Collision : uint8
 	{
@@ -57,20 +71,6 @@ class Dragon : public GameObject, public GUI
 		MAX
 	};
 
-	//! @enum	攻撃パターン
-	enum class AttackPattern : uint8
-	{
-		SCREAM = 0,
-		BITE,
-		WING_ATTACK,
-		TAIL_ATTACK,
-		TAKE_OFF,
-		HIT,
-		RUSH,
-
-		MAX
-	};
-public:
 	//! @enum	アニメーション
 	enum class Animation : uint8
 	{
@@ -123,8 +123,15 @@ public:
 	
 	/* @brief	ダメージ処理
 	 * @param	(damage)	ダメージ
+	 * @param	(attackID)	攻撃ID
 	 * @return	なし				*/
-	void Hit(int damage) override;
+	void Hit(int damage, uint8 attackID) override;
+
+	inline void SetPosition(const VECTOR3& pos) { transform_.position = pos; }
+
+	inline void SetRotation(const VECTOR3& rot) { transform_.rotation = rot; }
+
+	const Collider3D::OBB* GetCollider(Collision num) const { return collision_[static_cast<int>(num)]; }
 
 private:
 	/* @brief	当たり判定生成処理
@@ -132,7 +139,10 @@ private:
 	 * @param	なし
 	 * @return	なし				*/
 	void CreateCollision(void);
-	
+
+	template<class T>
+	void CreateAttack(AttackPattern attack);
+
 	/* @brief	デバッグ用操作
 	 * @sa		Update()
 	 * @param	なし
@@ -174,7 +184,6 @@ private:
 	bool			debugMove_;			//! デバッグ用コントロールフラグ
 
 	static const BONE_COLLISION BONE_COLLISION_OFFSET[static_cast<int>(Collision::MAX)];
-	static int tint;
 };
 
 #endif // _DRAGON_H_

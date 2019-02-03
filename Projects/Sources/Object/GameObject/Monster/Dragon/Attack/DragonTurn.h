@@ -1,22 +1,37 @@
 /*
- * @file		DragonScream.h
- * @brief		龍の咆哮
+ * @file		DragonTurn.h
+ * @brief		回転攻撃
  * @author		戸澤翔太
- * @data		2018/11/06
+ * @data		2019/02/02
  */
-#ifndef _DRAGON_SCREAM_H_
-#define _DRAGON_SCREAM_H_
+#ifndef _DRAGON_TURN_H_
+#define _DRAGON_TURN_H_
 
 #include "../../MonsterAttack.h"
-#include <FrameWork/Systems/Collider/Collider3D/Collider3DSphere.h>
 
-class DragonScream : public MonsterAttack
+class DragonTurn : public MonsterAttack
 {
+	//! 攻撃当たり判定
+	enum class Collision : uint8
+	{
+		WING_LR = 0,
+		WING_LC,
+		WING_RR,
+		WING_RC,
+		TAIL_5,
+		TAIL_4,
+		TAIL_3,
+		TAIL_2,
+		TAIL_1,
+		MAX
+	};
 public:
 	/* @brief	コンストラクタ		*/
-	DragonScream(void);
+	DragonTurn(void);
 	/* @brief	デストラクタ		*/
-	~DragonScream(void);
+	~DragonTurn(void);
+
+
 	
 	/* @brief	初期化処理
 	 * @param	(monster)	当たり判定の親クラスに登録
@@ -44,13 +59,17 @@ public:
 	/* @brief	モーションの終了処理
 	 * @param	なし
 	 * @return	なし				*/
-	void EndMove(void) override;	
-
+	void EndMove(void) override;
+	
+	/* @brief	Guiの更新処理
+	 * @param	なし
+	 * @return	なし
+	 * @detail	攻撃元オブジェクトから呼ばれる		*/
 	void GuiUpdate(void) override;
 
 private:
 	//! 当たり判定
-	Collider3D::Sphere* collider_;
+	Collider3D::OBB* collider_[static_cast<int>(Collision::MAX)];
 };
 
-#endif // _DRAGON_SCREAM_H_
+#endif // _DRAGON_TURN_H_

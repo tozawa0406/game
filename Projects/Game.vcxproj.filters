@@ -209,6 +209,9 @@
     <ClCompile Include="Sources\Scene\DontDestroyOnLoad.cpp">
       <Filter>Source\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonTurn.cpp">
+      <Filter>Source\Object\GameObject\Monster\Dragon\Attack</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sources\Object\UI\Timer.h">
@@ -384,6 +387,12 @@
     </ClInclude>
     <ClInclude Include="Sources\Scene\DontDestroyOnLoad.h">
       <Filter>Source\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonTurn.h">
+      <Filter>Source\Object\GameObject\Monster\Dragon\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\GameObject\AttackManager.h">
+      <Filter>Source\Object\GameObject</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

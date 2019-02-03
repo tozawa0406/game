@@ -18,6 +18,8 @@
 #include <FrameWork/Object/ObjectManager.h>
 #include "../Object/UI/ClearFailed.h"
 
+#include "../Object/GameObject/AttackManager.h"
+
 class GameObject;
 class ButtleScene : public BaseScene, public GUI
 {
@@ -62,6 +64,8 @@ private:
 
 	//! “V‹…
 	SkyDome*		sky_;
+	//! UŒ‚ŠÇ—ƒNƒ‰ƒX
+	AttackManager*	attackManager_;
 };
 
 #endif // _BUTTLE_SCENE_H_

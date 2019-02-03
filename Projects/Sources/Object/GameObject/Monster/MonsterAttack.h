@@ -12,12 +12,13 @@
 #include <FrameWork/Systems/DebugSetting/GUI.h>
 
 #include "../GameObject.h"
+#include <random>
 
 class MonsterAttack : public GUI
 {
 public:
 	/* @brief	コンストラクタ		*/
-	MonsterAttack(void)	: GUI(Systems::Instance(), nullptr, "attack"), enable_(false), debug_nextFrame_(false)	{}
+	MonsterAttack(void)	: GUI(Systems::Instance(), nullptr, "attack"), enable_(false), debug_nextFrame_(false), attackManager_(nullptr)	{}
 	/* @brief	デストラクタ		*/
 	virtual ~MonsterAttack(void)	{}
 
@@ -26,7 +27,13 @@ public:
 	/* @brief	後処理				*/
 	virtual void Uninit(void) = 0;
 	/* @brief	準備処理			*/
-	virtual void SetMove(void) { enable_ = true; }
+	virtual void SetMove(void) 
+	{
+		enable_ = true;
+		if (!attackManager_) { attackManager_ = monster_->GetAttackManager(); }
+		attackID_ = attackManager_->CreateAttackID();
+	}
+
 	/* @brief	更新処理			*/
 	virtual bool Update(void) = 0;
 	/* @brief	終了処理			*/
@@ -69,13 +76,16 @@ protected:
 	//! @def	アニメーション変更速度
 	static constexpr int   ANIMATION_CHANGE_FRAME30 = 30;
 
-
+	const AttackManager*	attackManager_;
 	//! 使用フラグ
 	bool	enable_;
 	//! デバッグのフレーム送り
 	bool	debug_nextFrame_;
 	//! 攻撃を行う元のモンスターのポインタ
 	GameObject* monster_;
+
+	//! 前回の攻撃ID
+	uint8 attackID_;
 };
 
 #endif // _MONSTAER_ATTACK_H_

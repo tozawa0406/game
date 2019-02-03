@@ -10,6 +10,7 @@
 #include "Attack/DragonTakeOff.h"
 #include "Attack/DragonHit.h"
 #include "Attack/DragonRush.h"
+#include "Attack/DragonTurn.h"
 
 //! @def	ëÂÇ´Ç≥
 static constexpr float SCALE = 0.9f;
@@ -118,30 +119,14 @@ void Dragon::Init(void)
 	meshAnim_.mesh.Init(Systems::Instance(), (int)Resources::Model::Buttle::DRAGON, &transform_);
 
 	CreateCollision();
-	
-	int arrayNum = static_cast<int>(AttackPattern::SCREAM);
-	attack_[arrayNum] = new DragonScream;
-	if (attack_[arrayNum]) { attack_[arrayNum]->Init(this); }
 
-	arrayNum = static_cast<int>(AttackPattern::BITE);
-	attack_[arrayNum] = new DragonBite;
-	if (attack_[arrayNum]) { attack_[arrayNum]->Init(this); }
-
-	arrayNum = static_cast<int>(AttackPattern::WING_ATTACK);
-	attack_[arrayNum] = new DragonWingAttack;
-	if (attack_[arrayNum]) { attack_[arrayNum]->Init(this); }
-
-	arrayNum = static_cast<int>(AttackPattern::TAKE_OFF);
-	attack_[arrayNum] = new DragonTakeOff;
-	if (attack_[arrayNum]) { attack_[arrayNum]->Init(this); }
-
-	arrayNum = static_cast<int>(AttackPattern::HIT);
-	attack_[arrayNum] = new DragonHit;
-	if (attack_[arrayNum]) { attack_[arrayNum]->Init(this); }
-
-	arrayNum = static_cast<int>(AttackPattern::RUSH);
-	attack_[arrayNum] = new DragonRush;
-	if (attack_[arrayNum]) { attack_[arrayNum]->Init(this); }
+	CreateAttack<DragonScream		>(AttackPattern::SCREAM		);
+	CreateAttack<DragonBite			>(AttackPattern::BITE		);
+	CreateAttack<DragonWingAttack	>(AttackPattern::WING_ATTACK);
+	CreateAttack<DragonTakeOff		>(AttackPattern::TAKE_OFF	);
+	CreateAttack<DragonHit			>(AttackPattern::HIT		);
+	CreateAttack<DragonRush			>(AttackPattern::RUSH		);
+	CreateAttack<DragonTurn			>(AttackPattern::TAIL_ATTACK);
 
 	moveController_ = new DragonMoveController;
 	if (moveController_)
@@ -228,18 +213,6 @@ void Dragon::Update(void)
 
 	isEndAnim_ = meshAnim_.mesh.Animation(meshAnim_.animSpeed);
 
-	if (meshAnim_.animation == static_cast<int>(Animation::TAIL_ATTACK))
-	{
-		velocity_ = 0;
-		if (isEndAnim_)
-		{
-			transform_.rotation.y += 3.14f;
-			transform_.position += front_ * 12.25f;
-			meshAnim_.animation = static_cast<int>(Animation::WAIT1);
-			meshAnim_.mesh.ChangeAnimation(meshAnim_.animation, 30, true);
-		}
-	}
-
 	if (TakenDamage()) { return; }
 
 	if (currentAttack_)
@@ -289,6 +262,14 @@ void Dragon::CreateCollision(void)
 			}
 		}
 	}
+}
+
+template<class T>
+void Dragon::CreateAttack(AttackPattern attack)
+{
+	int arrayNum = static_cast<int>(attack);
+	attack_[arrayNum] = new T;
+	if (attack_[arrayNum]) { attack_[arrayNum]->Init(this); }
 }
 
 void Dragon::SetCollision(int arrayNum, const BONE_COLLISION& offset, const MODEL& model)
@@ -374,8 +355,10 @@ bool Dragon::TakenDamage(void)
 	return false;
 }
 
-void Dragon::Hit(int damage)
+void Dragon::Hit(int damage, uint8 attackID)
 {
+	if (UpdateHitAttackID(attackID)) { return; }
+
 	life_ -= damage; 
 	accumulation_ += damage;
 }
@@ -412,7 +395,6 @@ bool Dragon::DebugInput(void)
 	if (inputDir != 0)
 	{
 		if(!currentAttack_)
-//		if (tempAnim == Animation::WAIT1 || (tempAnim == Animation::WALK || tempAnim == Animation::RUN))
 		{
 			meshAnim_.animSpeed = 0.5f;
 			meshAnim_.animation = static_cast<int>(Animation::WALK);
@@ -448,7 +430,6 @@ bool Dragon::DebugInput(void)
 			currentAttack_->SetMove();
 		}
 	}
-
 	// É_ÉbÉVÉÖ
 	if (ctrl->Trigger(Input::GAMEPAD_CROSS, DIK_M))
 	{
@@ -458,11 +439,14 @@ bool Dragon::DebugInput(void)
 			currentAttack_->SetMove();
 		}
 	}
-
-	if (ctrl->Trigger(Input::GAMEPAD_L3, DIK_N))
+	// âÒì]çUåÇ
+	if (ctrl->Trigger(Input::GAMEPAD_R1, DIK_N))
 	{
-		meshAnim_.animation = static_cast<int>(Animation::TAIL_ATTACK);
-		meshAnim_.mesh.ChangeAnimation(meshAnim_.animation, 15);
+		currentAttack_ = attack_[static_cast<int>(AttackPattern::TAIL_ATTACK)];
+		if (currentAttack_)
+		{
+			currentAttack_->SetMove();
+		}
 	}
 
 	// îÌÉ_ÉÅ
@@ -519,24 +503,8 @@ bool Dragon::DebugInput(void)
 	return true;
 }
 
-static bool debug_nextFrame_ = false;
-int Dragon::tint = static_cast<int>(Dragon::Collision::WING_R_CLAW);
-
 void Dragon::GuiUpdate(void)
 {
-	BONE_COLLISION ttt;
-	auto s = transform_.scale;
-	ttt.offsetPosition = collision_[tint]->GetOffsetPosition() / s;
-	ImGui::DragFloat3("pos  : ", ttt.offsetPosition, 0.1f);
-	collision_[tint]->SetOffsetPosition(ttt.offsetPosition * s);
-	ttt.offsetRotation = collision_[tint]->GetOffsetRotation() / s;
-	ImGui::DragFloat3("rot  : ", ttt.offsetRotation, 0.01f);
-	collision_[tint]->SetOffsetRotation(ttt.offsetRotation * s);
-	ttt.size = collision_[tint]->GetSize() / s;
-	ImGui::DragFloat3("size : ", ttt.size, 0.1f);
-	collision_[tint]->SetSize(ttt.size * s);
-
-
 	ImGui::Text("Life : %d", life_);
 	if (life_ > Quarter(MAX_LIFE))
 	{

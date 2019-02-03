@@ -22,6 +22,7 @@ ButtleScene::ButtleScene(void) : GUI(Systems::Instance(), nullptr, "SceneButtle"
 	, clearUI_(nullptr)
 	, endCnt_(0)
 	, sky_(nullptr)
+	, attackManager_(nullptr)
 {
 	for (auto& g : gameObject_) { g = nullptr; }
 }
@@ -51,14 +52,21 @@ void ButtleScene::Init(void)
 
 	CreateField();
 
+	attackManager_ = new AttackManager;
+
 	auto* player = objectManager_->Create<Player>(VECTOR3(0, 0, -180));
 	assert(player);
 	auto* wapon  = objectManager_->Create<KohakuSword>();
 	player->SetWapon(wapon);
+	player->SetAttackManager(attackManager_);
+	wapon->SetAttackManager(attackManager_);
 	objectManager_->Create<Timer>();
 
+	auto* dragon = objectManager_->Create<Dragon>();
+	dragon->SetAttackManager(attackManager_);
+
 	gameObject_[0] = player;
-	gameObject_[1] = objectManager_->Create<Dragon>();
+	gameObject_[1] = dragon;
 
 	clearUI_ = objectManager_->Create<ClearFailed>();
 	if (clearUI_)
@@ -78,6 +86,7 @@ void ButtleScene::Uninit(void)
 	{
 		sound->Stop((int)Resources::Sound::Camp::BGM_GAME);
 	}
+	UninitDeletePtr(attackManager_);
 	UninitDeletePtr(objectManager_);
 	DeletePtr(meshField_);
 	DeletePtr(sky_);

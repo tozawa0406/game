@@ -24,6 +24,7 @@ CampScene::CampScene(void) : GUI(Systems::Instance(), nullptr, "SceneCamp")
 	, objectManager_(nullptr)
 	, sky_(nullptr)
 	, goal_(nullptr)
+	, attackManager_(nullptr)
 {
 }
 
@@ -52,10 +53,14 @@ void CampScene::Init(void)
 
 	CreateField();
 
+	attackManager_ = new AttackManager;
+
 	auto* player = objectManager_->Create<Player>(VECTOR3(0));
 	assert(player);
 	auto* wapon  = objectManager_->Create<KohakuSword>();
 	player->SetWapon(wapon);
+	player->SetAttackManager(attackManager_);
+	wapon->SetAttackManager(attackManager_);
 	objectManager_->Create<Timer>();
 
 	if(const auto& sound = GetSound())
@@ -70,6 +75,7 @@ void CampScene::Uninit(void)
 	{
 		sound->Stop((int)Resources::Sound::Camp::BGM_GAME);
 	}
+	UninitDeletePtr(attackManager_);
 	UninitDeletePtr(objectManager_);
 	DeletePtr(meshField_);
 	DeletePtr(sky_);

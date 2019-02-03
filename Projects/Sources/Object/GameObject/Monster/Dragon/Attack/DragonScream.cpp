@@ -41,17 +41,6 @@ void DragonScream::SetMove(void)
 	meshAnim.animation   = static_cast<int>(Dragon::Animation::SCREAM);
 
 	meshAnim.mesh.ChangeAnimation(meshAnim.animation, ANIMATION_CHANGE_FRAME15);
-
-	for (;;)
-	{
-		std::random_device randDev;
-		uint8 attack = static_cast<uint8>(randDev() % 255);
-
-		if (attack_ == attack) { continue; }
-
-		attack_ = attack;
-		break;
-	}
 }
 
 bool DragonScream::Update(void)
@@ -68,8 +57,11 @@ bool DragonScream::Update(void)
 			if (hit->GetParentTag() == ObjectTag::PLAYER &&
 				hit->GetColliderTag() == ColliderTag::DEFENSE)
 			{
-				Player* player = static_cast<Player*>(hit->GetParent());
-				player->Earplug(attack_);
+				if (attackManager_->CheckList(attackID_))
+				{
+					Player* player = static_cast<Player*>(hit->GetParent());
+					player->Earplug(attackID_);
+				}
 			}
 		}
 	}

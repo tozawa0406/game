@@ -1,6 +1,5 @@
 #include "DragonBite.h"
 #include "../Dragon.h"
-#include <FrameWork/Graphics/DirectX11/Dx11Wrapper.h>
 
 //! @def	ダメージ値
 static constexpr int DAMAGE = 30;
@@ -21,11 +20,6 @@ static constexpr int CHANGE_ANIMATION_SLOWLY	= 16;
 //! @def	アニメーション速度変更タイミング
 static constexpr int CHANGE_ANIMATION_BACK		= 22;
 
-//! @def	頭のボーンの名前
-static const     string BONE_HEAD = "Head";
-static const     VECTOR3 COLLISION_OFFSET_POS_HEAD = VECTOR3(5, 3, 0);
-static const     VECTOR3 COLLISION_SIZE_HEAD = VECTOR3(6.1f, 6.1f, 6.1f);
-
 DragonBite::DragonBite(void) : 
 	collider_(nullptr)
 {
@@ -39,35 +33,20 @@ void DragonBite::Init(GameObject* monster)
 {
 	MonsterAttack::Init(monster);
 
-	// 当たり判定の追加
-	if (const auto& systems = Systems::Instance())
-	{
-		if (const auto& renderer = systems->GetGraphics())
-		{
-			if (Dx11Wrapper* wrapper = static_cast<Dx11Wrapper*>(renderer->GetWrapper()))
-			{
-				const auto& model = wrapper->GetModel(static_cast<int>(Resources::Model::Buttle::DRAGON));
+	Dragon* temp = static_cast<Dragon*>(monster);
 
-				collider_ = new Collider3D::OBB(monster);
-				if (collider_)
-				{
-					for (auto& bone : model.bone)
-					{
-						if (bone.name == BONE_HEAD)
-						{
-							collider_->SetParentMtx(&model.transMtx, &bone.nowBone);
-							break;
-						}
-					}
-					const auto& s = monster->GetTransform().scale;
-					collider_->SetOffsetPosition(COLLISION_OFFSET_POS_HEAD * s);
-					collider_->SetSize(COLLISION_SIZE_HEAD * s);
-					collider_->SetColliderTag(ColliderTag::ATTACK);
-					collider_->SetTrigger(true);
-					collider_->SetEnable(false);
-				}
-			}
-		}
+	const auto& tempCol = temp->GetCollider(Dragon::Collision::HEAD);
+	auto& col = collider_;
+	col = new Collider3D::OBB(monster);
+	if (col)
+	{
+		col->SetSize(tempCol->GetSize());
+		col->SetOffsetPosition(tempCol->GetOffsetPosition() + VECTOR3(0.1f));
+		col->SetOffsetRotation(tempCol->GetOffsetRotation());
+		col->SetParentMtx(tempCol->GetTransMtx(), tempCol->GetParentMtx());
+		col->SetColliderTag(ColliderTag::ATTACK);
+		col->SetTrigger(true);
+		col->SetEnable(false);
 	}
 }
 
@@ -137,7 +116,10 @@ bool DragonBite::Update(void)
 		if (hit->GetParentTag() == ObjectTag::PLAYER &&
 			hit->GetColliderTag() == ColliderTag::DEFENSE)
 		{
-			static_cast<GameObject*>(hit->GetParent())->Hit(DAMAGE);
+			if (attackManager_->CheckList(attackID_))
+			{
+				static_cast<GameObject*>(hit->GetParent())->Hit(DAMAGE, attackID_);
+			}
 		}
 	}
 

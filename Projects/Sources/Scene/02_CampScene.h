@@ -18,6 +18,8 @@
 #include <FrameWork/Object/ObjectManager.h>
 #include "../Object/StaticObject/Goal.h"
 
+#include "../Object/GameObject/AttackManager.h"
+
 class CampScene : public BaseScene, public GUI
 {
 public:
@@ -57,6 +59,8 @@ private:
 
 	//! “V‹…
 	SkyDome*		sky_;
+	//! UŒ‚ŠÇ—ƒNƒ‰ƒX
+	AttackManager*	attackManager_;
 };
 
 #endif // _CAMP_SCENE_H_

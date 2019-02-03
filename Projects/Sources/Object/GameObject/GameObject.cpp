@@ -10,7 +10,9 @@ GameObject::GameObject(ObjectTag tag) : Object(tag)
 	, velocity_(VECTOR3(0))
 	, front_(VECTOR3(0))
 	, right_(VECTOR3(0))
+	, attackManager_(nullptr)
 {
+	for (auto& id : hitAttackID_) { id = 0; }
 }
 
 GameObject::~GameObject(void)
@@ -101,4 +103,20 @@ void GameObject::CreateDefenseCollider(const Collider3D::OBB& normal, Collider3D
 		copy->SetTrigger(true);
 		copy->SetEnable(normal.IsEnable());
 	}
+}
+
+bool GameObject::UpdateHitAttackID(uint8 newAttack)
+{
+	for (auto& id : hitAttackID_) { if (id == newAttack) { return true; } }
+	if (!attackManager_) { return true; }
+
+	attackManager_->DeleteKey(hitAttackID_[HIT_ATTACK_ID_MAX - 1]);
+	for (int i = HIT_ATTACK_ID_MAX - 1; i > 0; --i)
+	{
+		hitAttackID_[i] = hitAttackID_[i - 1];
+	}
+	hitAttackID_[0] = newAttack;
+	attackManager_->AddKey(newAttack);
+
+	return false;
 }

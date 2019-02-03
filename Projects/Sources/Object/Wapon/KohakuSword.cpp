@@ -58,12 +58,11 @@ void KohakuSword::Update(void)
 			{
 				debug_hit_ = true;
 
-				if (!isHit_)
+				if (attackManager_->CheckList(attackID_))
 				{
-					static_cast<GameObject*>(o->GetParent())->Hit(100);
+					static_cast<GameObject*>(o->GetParent())->Hit(100, attackID_);
 					VECTOR3 p = transform_.globalPosition + collider_->GetDirect(2) * collider_->GetLen(2);
 					manager_->Create<BloodSplash>(p, effectRotation_);
-					isHit_ = true;
 				}
 			}
 		}
