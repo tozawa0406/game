@@ -27,6 +27,8 @@ void KohakuSword::Init(void)
 	// ƒƒbƒVƒ…
 	mesh_.Init(Systems::Instance(), (int)Resources::Model::Camp::SWORD, &transform_);
 
+	baseOffensivePower_ = 50;
+
 	// “–‚½‚è”»’è
 	collider_ = new Collider3D::OBB(this);
 	if (collider_)
@@ -60,7 +62,7 @@ void KohakuSword::Update(void)
 
 				if (attackManager_->CheckList(attackID_))
 				{
-					static_cast<GameObject*>(o->GetParent())->Hit(100, attackID_);
+					static_cast<GameObject*>(o->GetParent())->Hit(offensivePower_, attackID_);
 					VECTOR3 p = transform_.globalPosition + collider_->GetDirect(2) * collider_->GetLen(2);
 					manager_->Create<BloodSplash>(p, effectRotation_);
 				}

@@ -15,7 +15,7 @@
 class Wapon : public Object
 {
 public:
-	Wapon(void) : Object(ObjectTag::WAPON), collider_(nullptr), body_(nullptr), hand_(nullptr), effectRotation_(0) {}
+	Wapon(void) : Object(ObjectTag::WAPON), collider_(nullptr), body_(nullptr), hand_(nullptr), effectRotation_(0), offensivePower_(0), baseOffensivePower_(0) {}
 	virtual ~Wapon(void) {}
 
 	/* @brief	”²“”[“ˆ—			*/
@@ -55,6 +55,8 @@ public:
 	/* @brief	UŒ‚ŠÇ—ƒNƒ‰ƒX‚Ìİ’è		*/
 	inline void SetAttackManager(AttackManager* attackManager) { attackManager_ = attackManager; }
 
+	inline void SetOffensivePower(int offensivePower) { offensivePower_ = offensivePower + baseOffensivePower_; }
+
 protected:
 	//! ”[“ˆ—
 	virtual void PaidSword(void) = 0;
@@ -75,6 +77,10 @@ protected:
 
 	//! a‚Á‚½ƒGƒtƒFƒNƒg‚Ì‰ñ“]
 	float effectRotation_;
+	//! UŒ‚—Í
+	int offensivePower_;
+	//! •Ší–ˆ‚ÌŠî‘bUŒ‚—Í
+	int baseOffensivePower_;
 
 	//! ‘O‰ñ‚ÌUŒ‚ID
 	uint8 attackID_;

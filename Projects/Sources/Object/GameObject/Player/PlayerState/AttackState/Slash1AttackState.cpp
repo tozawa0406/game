@@ -38,6 +38,11 @@ void Slash1AttackState::Init(Player* player, Controller* ctrl)
 	move_			= MOVE;
 
 	AttackBaseState::Init(player, ctrl);
+
+	if (auto* wapon = player_->GetWapon())
+	{
+		wapon->SetOffensivePower(50);
+	}
 }
 
 void Slash1AttackState::Uninit(void)

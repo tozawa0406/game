@@ -41,6 +41,11 @@ void SetupAttackState::Init(Player* player, Controller* ctrl)
 	AttackBaseState::Init(player, ctrl);
 
 	isDraw_ = false;
+
+	if (auto* wapon = player_->GetWapon())
+	{
+		wapon->SetOffensivePower(50);
+	}
 }
 
 void SetupAttackState::Uninit(void)
