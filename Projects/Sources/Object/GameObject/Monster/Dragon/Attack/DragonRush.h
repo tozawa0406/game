@@ -11,6 +11,36 @@
 
 class DragonRush : public MonsterAttack
 {
+	//! @def	当たり判定
+	enum class Collision : uint8
+	{
+		BODY = 0,
+		HEAD,
+		NECK1,
+		NECK2,
+		WING_LL,
+		WING_LC,
+		WING_LR,
+		WING_L_CLAW,
+		WING_RL,
+		WING_RC,
+		WING_RR,
+		WING_R_CLAW,
+		ARM_L_UP,
+		ARM_L_UP2,
+		ARM_L_DOWN,
+		ARM_R_UP,
+		ARM_R_UP2,
+		ARM_R_DOWN,
+		LEGS_L_UP,
+		LEGS_L_UP2,
+		LEGS_L_DOWN,
+		LEGS_R_UP,
+		LEGS_R_UP2,
+		LEGS_R_DOWN,
+		MAX
+	};
+
 public:
 	/* @brief	コンストラクタ		*/
 	DragonRush(void);
@@ -52,7 +82,10 @@ public:
 	void GuiUpdate(void) override;
 
 private:
-	int cnt_;		//! カウンタ
+	//! 複数のアニメーションを使うのでカウンタが必要
+	int cnt_;
+	//! 当たり判定
+	Collider3D::OBB* collider_[static_cast<int>(Collision::MAX)];
 };
 
 #endif // _DRAGON_RUSH_H_

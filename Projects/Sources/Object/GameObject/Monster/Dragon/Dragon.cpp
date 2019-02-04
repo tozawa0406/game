@@ -440,19 +440,9 @@ bool Dragon::DebugInput(void)
 		}
 	}
 	// ‰ñ“]UŒ‚
-	if (ctrl->Trigger(Input::GAMEPAD_R1, DIK_N))
-	{
-		currentAttack_ = attack_[static_cast<int>(AttackPattern::TAIL_ATTACK)];
-		if (currentAttack_)
-		{
-			currentAttack_->SetMove();
-		}
-	}
-
-	// ”íƒ_ƒ
 	if (ctrl->Trigger(Input::GAMEPAD_CIRCLE, DIK_O))
 	{
-		currentAttack_ = attack_[static_cast<int>(AttackPattern::HIT)];
+		currentAttack_ = attack_[static_cast<int>(AttackPattern::TAIL_ATTACK)];
 		if (currentAttack_)
 		{
 			currentAttack_->SetMove();

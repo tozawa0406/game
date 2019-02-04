@@ -41,6 +41,7 @@ void DragonMoveController::Action(int& act, uint& flag)
 	if (SearchTarget()) { act = 0; return; }
 	if (!parent_ || !target_) { act = -1; return; }
 	const int range = 19;
+	if (act < 0) { return; }
 
 	// •ûŒˆ’è
 	dir_ = target_->GetTransform().position - parent_->GetTransform().position;
