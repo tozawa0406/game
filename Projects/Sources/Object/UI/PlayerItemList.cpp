@@ -65,6 +65,18 @@ int PlayerItemList::LimitPossesion(ITEM_LIST& list)
 	return possession - list.possession;
 }
 
+void PlayerItemList::UseItem(int arrayNum)
+{
+	if (arrayNum < 0 || MAX_ITEM <= arrayNum) { return; }
+
+	auto& list = itemList_[arrayNum];
+	list.possession--;
+	if (list.possession == 0)
+	{
+		list.itemID = ItemID::UNKNOWN;
+		list.possession = 0;
+	}
+}
 
 void PlayerItemList::GuiUpdate(void)
 {

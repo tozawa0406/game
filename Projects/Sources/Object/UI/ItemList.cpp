@@ -19,6 +19,8 @@ static const	 VECTOR2 SIZE_ITEM_BACK = VECTOR2(125, 100);
 static const	 VECTOR2 SIZE_ITEM_BACK_LIST = VECTOR2(SIZE_ITEM_BACK.x * 0.8f, SIZE_ITEM_BACK.y * 0.8f);
 //! @def	アイテムの名前
 static const	 VECTOR2 POSITION_ITEM_NAME = VECTOR2(POSITION.x, POSITION.y + 60);
+//! @def	アイテム名のサイズ
+static constexpr float   NAME_SIZE = 25;
 //! @def	LボタンUI位置
 static const	 VECTOR2 POSITION_L = VECTOR2(POSITION.x - 95, POSITION.y);
 //! @def	LボタンUIサイズ
@@ -106,9 +108,27 @@ void ItemList::Init(void)
 	ui_[button].SetPattern(14);
 	ui_[button].SetEnable(false);
 
-	float size = 25;
-	text_.Init(PRIORITY + 7, "テスト", static_cast<int>(size));
-	text_.SetPosition(VECTOR2(POSITION_ITEM_NAME.x - (size + Half(size)), POSITION_ITEM_NAME.y - Half(size)));
+	text_.Init(PRIORITY + 7, "回復薬携帯食料", static_cast<int>(NAME_SIZE));
+	text_.SetPosition(VECTOR2(POSITION_ITEM_NAME.x, POSITION_ITEM_NAME.y - Half(NAME_SIZE) - 1));
+
+	useUI_.Init(PRIORITY + 10, texNum);
+	useUI_.SetPosition(VECTOR2(POSITION.x - (ITEM_RANGE - 10), POSITION.y + 20));
+	useUI_.SetSize(VECTOR2(60, 50) * 1.2f);
+	useUI_.SetSplit(VECTOR2(4, 8));
+	useUI_.SetPattern(14);
+
+	possession_.Init(PRIORITY + 10, "0123456789∞", static_cast<int>(NAME_SIZE));
+	possession_.SetPosition(VECTOR2(POSITION.x + (ITEM_RANGE - 10 - Half(NAME_SIZE)), POSITION.y + 20 - Half(NAME_SIZE)));
+	possession_.SetEnable(false);
+
+	possessionBack_.Init(PRIORITY + 9, texNum);
+	possessionBack_.SetPosition(VECTOR2(POSITION.x + (ITEM_RANGE - 3), POSITION.y + 18));
+	possessionBack_.SetSplit(VECTOR2(2, 4));
+	possessionBack_.SetPattern(2);
+	possessionBack_.SetRotationOffset(VECTOR2(30, 25));
+	possessionBack_.SetAngle(1.6f);
+	possessionBack_.SetSize(VECTOR2(60, 50));
+	possessionBack_.SetEnable(false);
 
 	list_ = new PlayerItemList;
 	if (list_)
@@ -116,7 +136,7 @@ void ItemList::Init(void)
 		list_->Init();
 		ITEM_LIST add;
 		add.itemID = ItemID::Rations;
-		add.possession = 10;
+		add.possession = -1;
 		list_->AddItem(add);
 		add.itemID = ItemID::Recovery;
 		add.possession = 10;
@@ -152,6 +172,9 @@ void ItemList::Uninit(void)
 	}
 
 	DeletePtr(list_);
+	possessionBack_.Uninit();
+	possession_.Uninit();
+	useUI_.Uninit();
 	text_.Uninit();
 	for (auto& i : item_) 
 	{
@@ -335,6 +358,58 @@ void ItemList::Update(void)
 			cnt_	= 0;
 		}
 	}
+
+	SetItemInfo();
+}
+
+void ItemList::SetItemInfo(void)
+{
+	ItemID center = item_[static_cast<int>(BackItem::Center)].info.itemID;
+	VECTOR2 textPos = VECTOR2(POSITION_ITEM_NAME.x, POSITION_ITEM_NAME.y - Half(NAME_SIZE) - 1);
+	if (center == ItemID::UNKNOWN)
+	{
+		text_.SetString("");
+	}
+	else if (center == ItemID::Recovery)
+	{
+		text_.SetString("回復薬");
+		textPos.x -= NAME_SIZE + Half(NAME_SIZE);
+	}
+	else if (center == ItemID::Rations)
+	{
+		text_.SetString("携帯食料");
+		textPos.x -= NAME_SIZE * 2;
+	}
+	text_.SetPosition(textPos);
+
+	auto& item = item_[static_cast<int>(BackItem::Center)];
+	if (item.info.itemID != ItemID::UNKNOWN)
+	{
+		item.info = list_->GetItemInfo(item.arrayNum);
+		possessionBack_.SetEnable(true);
+		possession_.SetEnable(true);
+		float adjust = 0;
+		if (item.info.possession >= 0)
+		{
+			char buf[10];
+			sprintf_s(buf, "%d", item.info.possession);
+			possession_.SetString(buf);
+			adjust = (item.info.possession < 10) ? -2.5f : Quarter(NAME_SIZE);
+		}
+		else 
+		{
+			adjust = 4;
+			possession_.SetString("∞");
+		}
+		auto pos = possession_.GetPosition();
+		pos.x = POSITION.x + (ITEM_RANGE - 10 - adjust);
+		possession_.SetPosition(pos);
+	}
+	else
+	{
+		possessionBack_.SetEnable(false);
+		possession_.SetEnable(false);
+	}
 }
 
 void ItemList::SetItemBack(void)
@@ -416,6 +491,7 @@ bool ItemList::SetMove(Controller& ctrl, WORD lpad, int lkey, WORD rpad, int rke
 
 void ItemList::SetButtonUIEnable(bool l, bool maru, bool shikaku)
 {
+	useUI_.SetEnable(l);
 	ui_[static_cast<int>(ButtonUI::L)].SetEnable(l);
 	ui_[static_cast<int>(ButtonUI::MARU)].SetEnable(maru);
 	ui_[static_cast<int>(ButtonUI::SHIKAKU)].SetEnable(shikaku);
@@ -435,6 +511,7 @@ void ItemList::JudgeCtrl(Controller& ctrl)
 		ui_[button[0]].SetPattern(5);
 		ui_[button[1]].SetPattern(15);
 		ui_[button[2]].SetPattern(14);
+		useUI_.SetPattern(14);
 	}
 	else if (type == Controller::CtrlNum::X)
 	{
@@ -443,6 +520,7 @@ void ItemList::JudgeCtrl(Controller& ctrl)
 		ui_[button[0]].SetPattern(10);
 		ui_[button[1]].SetPattern(25);
 		ui_[button[2]].SetPattern(24);
+		useUI_.SetPattern(24);
 	}
 	else if (type == Controller::CtrlNum::Key)
 	{
@@ -451,6 +529,7 @@ void ItemList::JudgeCtrl(Controller& ctrl)
 		ui_[button[0]].SetPattern(11);
 		ui_[button[1]].SetPattern(27);
 		ui_[button[2]].SetPattern(26);
+		useUI_.SetPattern(26);
 	}
 }
 
@@ -491,7 +570,15 @@ void ItemList::SearchNextItem(void)
 	for (int i = center + 2;; ++i)
 	{
 		if (i >= PlayerItemList::MAX_ITEM) { i = 0; }
-		if (FindNext(i, BackItem::BackRight)) { break; }
+		if (FindNext(i, BackItem::BackRight))
+		{
+			if (i == item_[static_cast<int>(BackItem::FrontRight)].arrayNum)
+			{
+				int plus = i + 1;
+				GetItemInfo(item_[static_cast<int>(BackItem::BackRight)], (plus >= PlayerItemList::MAX_ITEM) ? plus - PlayerItemList::MAX_ITEM : plus);
+			}
+			break;
+		}
 	}
 
 	// 左は昇順

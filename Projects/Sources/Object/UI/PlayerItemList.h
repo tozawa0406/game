@@ -13,7 +13,7 @@
 struct ITEM_LIST
 {
 	ItemID itemID;
-	uint8  possession;
+	int8  possession;
 };
 
 class PlayerItemList
@@ -53,6 +53,11 @@ public:
 	 * @param	(arrayNum)		配列番号
 	 * @return	アイテムの情報			*/
 	inline ITEM_LIST GetItemInfo(int arrayNum) { return itemList_[arrayNum]; }
+
+	/* @brief	アイテムの使用
+	 * @param	(arrayNum)	配列番号
+	 * @return	なし					*/
+	void UseItem(int arrayNum);
 
 private:
 	/* @brief	所持数制限

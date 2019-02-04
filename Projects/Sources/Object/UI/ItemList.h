@@ -77,7 +77,17 @@ public:
 	 * @return	なし				*/
 	inline const ITEM_LIST& GetCurrentItem(void) const { return item_[static_cast<int>(BackItem::Center)].info; }
 
+	/* @brief	アイテム使用
+	 * @param	なし
+	 * @return	なし				*/
+	void UseItem(void) const { if (list_) { list_->UseItem(item_[static_cast<int>(BackItem::Center)].arrayNum); } }
+
 private:
+	/* @brief	中央アイテム情報の設定
+	 * @param	なし
+	 * @return	なし				*/
+	void SetItemInfo(void);
+
 	/* @brief	アイテムの背景の設定
 	 * @sa		Update()
 	 * @param	なし
@@ -135,6 +145,13 @@ private:
 	UI_ITEM_LIST item_[static_cast<int>(BackItem::MAX)];
 	//! アイテム名前
 	CanvasRenderer::Text  text_;
+	//! アイテム使用UI
+	CanvasRenderer::Image useUI_;
+	//! 所持数
+	CanvasRenderer::Text  possession_;
+	//! 所持数背景
+	CanvasRenderer::Image possessionBack_;
+
 
 	//! UI
 	CanvasRenderer::Image ui_[static_cast<int>(ButtonUI::MAX)];

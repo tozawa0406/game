@@ -34,6 +34,7 @@ void HealState::Init(Player* player, Controller* ctrl)
 	if (const auto& itemList = player->GetItemLIst())
 	{
 		itemId_ = itemList->GetCurrentItem().itemID;
+		itemList->UseItem();
 	}
 }
 
