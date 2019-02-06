@@ -62,6 +62,14 @@ void ButtleScene::Init(void)
 	wapon->SetAttackManager(attackManager_);
 	objectManager_->Create<Timer>();
 
+#ifdef _DEBUG
+	if (const auto& itemList = player->GetItemList())
+	{
+		itemList->AddItem(ItemID::Rations, -1);
+		itemList->AddItem(ItemID::Recovery, 10);
+	}
+#endif
+
 	auto* dragon = objectManager_->Create<Dragon>();
 	dragon->SetAttackManager(attackManager_);
 

@@ -30,7 +30,7 @@ static const     VECTOR3 COLLISION_OFFSET_POS = VECTOR3(0, 7.5f, 0);
 static const     VECTOR3 COLLISION_SIZE = VECTOR3(3, 15, 3);
 
 //! @def	スタミナ減少時間(分単位)
-static constexpr int     STAMINA_DOWN_TIME = 7;
+static constexpr int     STAMINA_DOWN_TIME = 5;
 
 Player::Player(const VECTOR3& position) : GameObject(ObjectTag::PLAYER), GUI(Systems::Instance(), this, "player")
 	, itemList_(nullptr)
@@ -141,20 +141,20 @@ void Player::Init(void)
 			{
 				if (const auto& load = sceneManager->GetDontDestroyOnLoad())
 				{
-					int i = load->Load<int>(DontDestroyList::MAX_LIFE);
-					if (i != 0) { maxLife_ = i; }
-					i = load->Load<int>(DontDestroyList::CURRENT_LIFE);
-					if (i != 0) { life_ = i; }
+					int i = load->Load<int>("MaxLife", 0);
+					if (i > 0) { maxLife_ = i; }
+					i = load->Load<int>("CurrentLife", 0);
+					if (i > 0) { life_ = i; }
 
-					float f = load->Load<float>(DontDestroyList::MAX_STAMINE);
-					if (f != 0) { maxStamina_ = f; }
-					f = load->Load<float>(DontDestroyList::CURRENT_STAMINA);
-					if (f != 0) { stamina_ = f; }
+					float f = load->Load<float>("MaxStamina", 0);
+					if (f > 0) { maxStamina_ = f; }
+					f = load->Load<float>("CurrentStamina", 0);
+					if (f > 0) { stamina_ = f; }
 
-					i = load->Load<int>(DontDestroyList::STAMINA_CNT);
-					if (i != 0) { staminaCnt_ = i; }
+					i = load->Load<int>("StaminaCnt", 0);
+					if (i > 0) { staminaCnt_ = i; }
 
-					i = load->Load<int>(DontDestroyList::PLAYER_STATE);
+					i = load->Load<int>("PlayerState", 0);
 					if (i == 0) { state_ = new PaidWaitState;  }
 					else		
 					{
@@ -182,16 +182,16 @@ void Player::Uninit(void)
 			{
 				if (const auto& load = sceneManager->GetDontDestroyOnLoad())
 				{
-					load->Save(DontDestroyList::MAX_LIFE, maxLife_);
-					load->Save(DontDestroyList::CURRENT_LIFE, life_);
+					load->Save("MaxLife", maxLife_);
+					load->Save("CurrentLife", life_);
 
-					load->Save(DontDestroyList::MAX_STAMINE, maxStamina_);
-					load->Save(DontDestroyList::CURRENT_STAMINA, stamina_);
+					load->Save("MaxStamina", maxStamina_);
+					load->Save("CurrentStamina", stamina_);
 
-					load->Save(DontDestroyList::STAMINA_CNT, staminaCnt_);
+					load->Save("StaminaCnt", staminaCnt_);
 
 					int saveData = (isDraw_) ? 1 : 0;
-					load->Save(DontDestroyList::PLAYER_STATE, saveData);
+					load->Save("PlayerState", saveData);
 				}
 			}
 		}

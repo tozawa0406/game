@@ -133,14 +133,10 @@ void ItemList::Init(void)
 	list_ = new PlayerItemList;
 	if (list_)
 	{
-		list_->Init();
-		ITEM_LIST add;
-		add.itemID = ItemID::Rations;
-		add.possession = -1;
-		list_->AddItem(add);
-		add.itemID = ItemID::Recovery;
-		add.possession = 10;
-		list_->AddItem(add);
+		if (const auto& scene = manager_->GetScene())
+		{
+			list_->Init(scene);
+		}
 	}
 	
 	if (const auto& scene = manager_->GetScene())
@@ -149,7 +145,7 @@ void ItemList::Init(void)
 		{
 			if (const auto& load = sceneManager->GetDontDestroyOnLoad())
 			{
-				int i = load->Load<int>(DontDestroyList::CURRENT_ITEM);
+				int i = load->Load<int>("CurrentItem", 0);
 				GetItemInfo(item_[static_cast<int>(BackItem::Center)], i);
 			}
 		}
@@ -166,12 +162,12 @@ void ItemList::Uninit(void)
 		{
 			if (const auto& load = sceneManager->GetDontDestroyOnLoad())
 			{
-				load->Save(DontDestroyList::CURRENT_ITEM, static_cast<int>(item_[static_cast<int>(BackItem::Center)].arrayNum));
+				load->Save("CurrentItem", static_cast<int>(item_[static_cast<int>(BackItem::Center)].arrayNum));
 			}
 		}
 	}
 
-	DeletePtr(list_);
+	UninitDeletePtr(list_);
 	possessionBack_.Uninit();
 	possession_.Uninit();
 	useUI_.Uninit();
@@ -188,6 +184,7 @@ void ItemList::Uninit(void)
 
 void ItemList::Update(void)
 {
+	SearchNextItem();
 	const auto& ctrl = GetCtrl(0);
 	if (!ctrl) { return; }
 

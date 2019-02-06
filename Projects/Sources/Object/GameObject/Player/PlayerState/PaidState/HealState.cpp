@@ -31,7 +31,7 @@ void HealState::Init(Player* player, Controller* ctrl)
 	// アニメーションの変更
 	meshAnim.mesh.ChangeAnimation(meshAnim.animation, ANIMATION_CHANGE_FRAME15, true);
 
-	if (const auto& itemList = player->GetItemLIst())
+	if (const auto& itemList = player->GetItemList())
 	{
 		itemId_ = itemList->GetCurrentItem().itemID;
 		itemList->UseItem();

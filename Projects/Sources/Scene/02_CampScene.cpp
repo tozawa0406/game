@@ -34,6 +34,11 @@ CampScene::~CampScene(void)
 
 void CampScene::Init(void)
 {
+	if (const auto& load = manager_->GetDontDestroyOnLoad())
+	{
+		load->Reset();
+	}
+
 	if (systems_)
 	{
 		if (const auto& graphics = systems_->GetGraphics())
@@ -62,6 +67,12 @@ void CampScene::Init(void)
 	player->SetAttackManager(attackManager_);
 	wapon->SetAttackManager(attackManager_);
 	objectManager_->Create<Timer>();
+
+	if (const auto& itemList = player->GetItemList())
+	{
+		itemList->AddItem(ItemID::Rations, -1);
+		itemList->AddItem(ItemID::Recovery, 10);
+	}
 
 	if(const auto& sound = GetSound())
 	{

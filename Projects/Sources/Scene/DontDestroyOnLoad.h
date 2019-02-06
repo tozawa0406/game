@@ -10,22 +10,6 @@
 #include <FrameWork/Define/Define.h>
 #include <unordered_map>
 
-enum class DontDestroyList : uint8
-{
-	PLAYER_STATE,
-	MAX_LIFE,
-	MAX_STAMINE,
-	CURRENT_LIFE,
-	CURRENT_STAMINA,
-	STAMINA_CNT,
-	TIMER_TIME,
-	TIMER_FRAME,
-	TIMER_SECOND,
-	CURRENT_ITEM,
-
-	MAX
-};
-
 class DontDestroyOnLoad
 {
 public:
@@ -55,28 +39,28 @@ public:
 	 * @param	(value)		保持する値
 	 * @return	なし				*/
 	template<class T>
-	void Save(DontDestroyList num, T value) {}
+	void Save(const string& key, T value) { UNREFERENCED_PARAMETER(key); UNREFERENCED_PARAMETER(value); }
 	template<>
-	void Save(DontDestroyList num, int value) { intList_[num] = value; }	
+	void Save(const string& key, int value) { intList_[key] = value; }
 	template<>
-	void Save(DontDestroyList num, float value) { floatList_[num] = value; }
+	void Save(const string& key, float value) { floatList_[key] = value; }
 
 	/* @brief	値のロード処理
-	 * @param	(num)		リスト番号
+	 * @param	(num)			リスト番号
+	 * @param	(defaultValue)	キーがなかった時に帰ってくる値
 	 * @return	値					*/
 	template<class T>
-	T		Load(DontDestroyList num) { return num; }
+	T		Load(const string& key, T defaultValue) { return num; }
 	template<>
-	int		Load<int>(DontDestroyList num) { return (intList_.count(num) == 0) ? 0 : intList_[num]; }
+	int		Load<int>(const string& key, int defaultValue) { return (intList_.count(key) == 0) ? defaultValue : intList_[key]; }
 	template<>
-	float	Load<float>(DontDestroyList num) { return (floatList_.count(num) == 0) ? 0 : floatList_[num]; }
-
+	float	Load<float>(const string& key, float defaultValue) { return (floatList_.count(key) == 0) ? defaultValue : floatList_[key]; }
 
 private:
 	//! intを格納するマップ
-	std::unordered_map<DontDestroyList, int>	intList_;
+	std::unordered_map<string, int>	intList_;
 	//! floatを格納するマップ
-	std::unordered_map<DontDestroyList, float>	floatList_;
+	std::unordered_map<string, float>	floatList_;
 
 };
 

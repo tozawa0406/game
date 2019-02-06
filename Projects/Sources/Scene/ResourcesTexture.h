@@ -43,6 +43,9 @@ namespace Resources
 
 			TIMER_UI,
 
+			ITEM_RECOVERY,
+			ITEM_RATION,
+
 			MAX
 		};
 
@@ -56,6 +59,9 @@ namespace Resources
 			ITEM_UI,
 
 			TIMER_UI,
+
+			ITEM_RECOVERY,
+			ITEM_RATION,
 
 			CLEAR_FAILED_UI,
 
@@ -81,27 +87,34 @@ namespace Resources
 
 		const string campFileName[(int)Camp::MAX - (int)Base::MAX]
 		{
-			{ directoryName + "field.jpg"				},
-			{ directoryName + "slash.jpg"				},
-			{ directoryName + "effect.jpg"				},
+			{ directoryName + "field.jpg"					},
+			{ directoryName + "slash.jpg"					},
+			{ directoryName + "effect.jpg"					},
 
-			{ directoryName + "UI/game/hpbar.png"		},
-			{ directoryName + "UI/game/itemlist.png"	},
+			{ directoryName + "UI/game/hpbar.png"			},
+			{ directoryName + "UI/game/itemlist.png"		},
 
-			{ directoryName + "UI/timer.png"			},
+			{ directoryName + "UI/timer.png"				},
+
+			{ directoryName + "UI/game/item/recovery.png"	},
+			{ directoryName + "UI/game/item/ration.png"		},
 		};
 
 		const string buttleFileName[(int)Buttle::MAX - (int)Base::MAX]
 		{
-			{ directoryName + "field.jpg"				},
-			{ directoryName + "slash.jpg"				},
-			{ directoryName + "effect.jpg"				},
+			{ directoryName + "field.jpg"					},
+			{ directoryName + "slash.jpg"					},
+			{ directoryName + "effect.jpg"					},
 
-			{ directoryName + "UI/game/hpbar.png"		},
-			{ directoryName + "UI/game/itemlist.png"	},
+			{ directoryName + "UI/game/hpbar.png"			},
+			{ directoryName + "UI/game/itemlist.png"		},
 
-			{ directoryName + "UI/timer.png"			},
-			{ directoryName + "UI/clear_failed.png"		},
+			{ directoryName + "UI/timer.png"				},
+
+			{ directoryName + "UI/game/item/recovery.png"	},
+			{ directoryName + "UI/game/item/ration.png"		},
+
+			{ directoryName + "UI/clear_failed.png"			},
 		};
 
 		//const string resultFileName[(int)Result::MAX - (int)Base::MAX]

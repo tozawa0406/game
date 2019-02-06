@@ -135,12 +135,12 @@ void Timer::Init(void)
 		{
 			if (const auto& load = sceneManager->GetDontDestroyOnLoad())
 			{
-				int i = load->Load<int>(DontDestroyList::TIMER_TIME);
-				if (i != 0) { time_ = i; }
-				i = load->Load<int>(DontDestroyList::TIMER_FRAME);
-				if (i != 0) { frame_ = static_cast<uint8>(i); }
-				i = load->Load<int>(DontDestroyList::TIMER_SECOND);
-				if (i != 0) { second_ = static_cast<uint8>(i); }
+				int i = load->Load<int>("TimerTime", 0);
+				if (i > 0) { time_ = i; }
+				i = load->Load<int>("TimerFrame", 0);
+				if (i > 0) { frame_ = static_cast<uint8>(i); }
+				i = load->Load<int>("TimerSecond", 0);
+				if (i > 0) { second_ = static_cast<uint8>(i); }
 			}
 		}
 	}
@@ -154,9 +154,9 @@ void Timer::Uninit(void)
 		{
 			if (const auto& load = sceneManager->GetDontDestroyOnLoad())
 			{
-				load->Save(DontDestroyList::TIMER_TIME, time_);
-				load->Save(DontDestroyList::TIMER_FRAME, static_cast<int>(frame_));
-				load->Save(DontDestroyList::TIMER_SECOND, static_cast<int>(second_));
+				load->Save("TimerTime", time_);
+				load->Save("TimerFrame", static_cast<int>(frame_));
+				load->Save("TimerSecond", static_cast<int>(second_));
 			}
 		}
 	}

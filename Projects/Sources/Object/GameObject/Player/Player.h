@@ -133,7 +133,7 @@ public:
 	 * @return	‚È‚µ						*/
 	inline void Recovery(int recovery) { life_ = min(life_ + recovery, maxLife_); }
 
-	inline const ItemList* GetItemLIst(void) { return itemList_; }
+	inline const ItemList* GetItemList(void) { return itemList_; }
 
 private:
 	/* @brief	Ž€–S”»’è

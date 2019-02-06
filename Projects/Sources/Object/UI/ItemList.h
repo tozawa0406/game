@@ -82,6 +82,12 @@ public:
 	 * @return	なし				*/
 	void UseItem(void) const { if (list_) { list_->UseItem(item_[static_cast<int>(BackItem::Center)].arrayNum); } }
 
+	/* @brief	アイテム追加
+	 * @param	(id)	アイテムID
+	 * @param	(num)	数
+	 * @return	なし				*/
+	void AddItem(ItemID id, int8 num) const { if (list_) { list_->AddItem(ITEM_LIST(id, num)); } }
+
 private:
 	/* @brief	中央アイテム情報の設定
 	 * @param	なし

@@ -1,5 +1,6 @@
 #include "PlayerItemList.h"
 #include <FrameWork/Systems/DebugSetting/GUI.h>
+#include <FrameWork/Scene/SceneManager.h>
 
 PlayerItemList::PlayerItemList(void)
 {
@@ -14,12 +15,54 @@ PlayerItemList::~PlayerItemList(void)
 {
 }
 
-void PlayerItemList::Init(void)
+void PlayerItemList::Init(BaseScene* scene)
 {
+	if (!scene) { return; }
+	scene_ = scene;
+
+	if (const auto& sceneManager = scene->GetManager())
+	{
+		if (const auto& load = sceneManager->GetDontDestroyOnLoad())
+		{
+			for (int i = 0; i < MAX_ITEM; ++i)
+			{
+				char buf[3];
+				sprintf_s(buf, "%d", i);
+				string key = "ItemID_";
+				key += buf;
+				int a = load->Load<int>(key, -1);
+				if (a >= 0) { itemList_[i].itemID = static_cast<ItemID>(a); }
+				key = "ItemPossession_";
+				key += buf;
+				a = load->Load<int>(key, 0);
+				if (a != 0) { itemList_[i].possession = static_cast<int8>(a); }
+			}
+		}
+	}
 }
 
 void PlayerItemList::Uninit(void)
 {
+	if (!scene_) { return; }
+
+	if (const auto& sceneManager = scene_->GetManager())
+	{
+		if (const auto& load = sceneManager->GetDontDestroyOnLoad())
+		{
+			for (int i = 0; i < MAX_ITEM; ++i)
+			{
+				char buf[3];
+				sprintf_s(buf, "%d", i);
+				string key = "ItemID_";
+				key += buf;
+				load->Save(key, static_cast<int>(itemList_[i].itemID));
+				key = "ItemPossession_";
+				key += buf;
+				load->Save(key, static_cast<int>(itemList_[i].possession));
+			}
+		}
+	}
+
 }
 
 int PlayerItemList::AddItem(ITEM_LIST addItem)

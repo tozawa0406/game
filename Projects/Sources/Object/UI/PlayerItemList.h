@@ -9,11 +9,15 @@
 
 #include <FrameWork/Define/Define.h>
 #include "ItemInfo.h"
+#include <FrameWork/Scene/BaseScene.h>
 
 struct ITEM_LIST
 {
 	ItemID itemID;
 	int8  possession;
+
+	ITEM_LIST(void) : itemID(ItemID::UNKNOWN), possession(0) {}
+	ITEM_LIST(ItemID id, int8 possession) : itemID(id), possession(possession) {}
 };
 
 class PlayerItemList
@@ -29,9 +33,9 @@ public:
 
 	
 	/* @brief	初期化処理
-	 * @param	なし
+	 * @param	(scene)		シーンの情報
 	 * @return	なし				*/
-	void Init(void);
+	void Init(BaseScene* sceme);
 	
 	/* @brief	後処理
 	 * @param	なし
@@ -66,8 +70,10 @@ private:
 	 * @return	余ったアイテム数		*/
 	int LimitPossesion(ITEM_LIST& list);
 
-	// アイテムのリスト
+	//! アイテムのリスト
 	ITEM_LIST	itemList_[MAX_ITEM];
+	//! シーンへのポインタ
+	BaseScene*	scene_;
 };
 
 #endif // _DIE_STATE_H_

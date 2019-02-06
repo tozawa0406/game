@@ -105,7 +105,7 @@ PlayerState* PaidMoveState::Update(void)
 	{
 		if (!ctrl_->Press(Input::GAMEPAD_L1, DIK_R))
 		{
-			if (const auto& itemList = player_->GetItemLIst())
+			if (const auto& itemList = player_->GetItemList())
 			{
 				if (itemList->GetCurrentItem().itemID != ItemID::UNKNOWN)
 				{

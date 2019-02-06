@@ -29,10 +29,10 @@ struct ITEM_INFO
 class ItemInfo
 {
 public:
-	const ITEM_INFO info[2] =
+	const ITEM_INFO info[static_cast<int>(ItemID::MAX)] =
 	{
-		{ ItemID::Recovery, 10, static_cast<int>(Resources::Texture::Base::WHITE) },
-		{ ItemID::Rations , 10, static_cast<int>(Resources::Texture::Camp::FIELD) }
+		{ ItemID::Recovery, 10, static_cast<int>(Resources::Texture::Camp::ITEM_RECOVERY)	},
+		{ ItemID::Rations , 10, static_cast<int>(Resources::Texture::Camp::ITEM_RATION)		}
 	};
 };
 
