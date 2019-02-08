@@ -57,8 +57,8 @@ PlayerState* Slash2AttackState::Update(void)
 
 	if (auto wapon = player_->GetWapon())
 	{
-		int inv = (dir_.z >= 0) ? 1 : -1;
-		wapon->SetRotation(-1.57f * inv);
+//		int inv = (dir_.z >= 0) ? 1 : -1;
+		wapon->SetRotation(-1.57f);
 	}
 
 	if (auto temp = AttackBaseState::Update())

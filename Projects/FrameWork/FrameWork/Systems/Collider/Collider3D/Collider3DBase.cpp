@@ -70,3 +70,20 @@ ObjectTag Collider3DBase::GetParentTag(void) const
 {
 	return (object_) ? object_->GetTag() : ObjectTag::UKOWN; 
 }
+
+void Collider3DBase::RemoveIgnoreList(ObjectTag tag)
+{
+	for (auto itr = ignoreList_.begin(); itr != ignoreList_.end();)
+	{
+		if ((*itr) == tag)
+		{
+			itr = ignoreList_.erase(itr);
+			break;
+		}
+		else
+		{
+			itr++;
+		}
+	}
+}
+

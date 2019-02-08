@@ -112,7 +112,7 @@ void DragonMoveController::Action(int& act, uint& flag)
 			{
 				cnt_ = 0;
 				std::random_device randDev;
-				act = (randDev() % 3) + 1;
+				act = (randDev() % 4) + 1;
 			}
 		}
 	}

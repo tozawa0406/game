@@ -29,9 +29,9 @@ class Dragon : public GameObject, public GUI
 		BITE,
 		WING_ATTACK,
 		TAIL_ATTACK,
+		RUSH,
 		TAKE_OFF,
 		HIT,
-		RUSH,
 
 		MAX
 	};
@@ -127,11 +127,30 @@ public:
 	 * @return	なし				*/
 	void Hit(int damage, uint8 attackID) override;
 
+	/* @brief	位置設定
+	 * @param	(pos)	設定したい位置
+	 * @return	なし				*/
 	inline void SetPosition(const VECTOR3& pos) { transform_.position = pos; }
 
+	/* @brief	回転設定
+	 * @param	(rot)	設定したい回転
+	 * @return	なし				*/
 	inline void SetRotation(const VECTOR3& rot) { transform_.rotation = rot; }
 
+	/* @breif	コライダー情報取得
+	 * @param	(num)	コライダー番号
+	 * @return	コライダー情報		*/
 	const Collider3D::OBB* GetCollider(Collision num) const { return collision_[static_cast<int>(num)]; }
+
+	/* @brief	当たり判定無視リストの追加
+	 * @param	(tag)	追加するタグ
+	 * @return	なし				*/
+	inline void AddIgnore(ObjectTag addTag) { for (auto& c : collision_) { c->AddIgnoreList(addTag); } }
+
+	/* @brief	当たり判定の無視リストの削除
+	 * @param	(tag)	削除するタグ
+	 * @return	なし				*/
+	inline void RemoveIgnore(ObjectTag removeTag) { for (auto& c : collision_) { c->RemoveIgnoreList(removeTag); } }
 
 private:
 	/* @brief	当たり判定生成処理

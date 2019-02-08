@@ -34,18 +34,18 @@ public:
 	Particle(ParticleManager* manager, PARTICLE_DATA data);
 	~Particle(void);
 
-	void Update(void);
+	virtual void Update(void);
 	void SetTexture(int texNum) { texNum_ = texNum; }
 
 	const Transform& GetTransform(void)    const { return transform_; }
 	int				 GetTexNum(void)       const { return texNum_;    }
 	uint			 GetVertexBuffer(void) const { return vertexBuffer_; }
 
+	COLOR			 GetColor(void)		   const { return data_.vertex.color; }
+
 private:
 	void Destroy(void) { destroy_ = true; }
 
-	int				texNum_;
-	Transform		transform_;
 	bool			destroy_;
 	int				frame_;
 	PARTICLE_DATA	data_;
@@ -54,6 +54,10 @@ private:
 
 	ParticleManager* manager_;
 	Systems*		 systems_;
+
+protected:
+	Transform		transform_;
+	int				texNum_;
 };
 
 #endif // _EFFECT_H_

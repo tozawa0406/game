@@ -8,10 +8,10 @@
 #define _BLOOD_SPLASH_H_
 
 #include <FrameWork/Define/Define.h>
-#include <FrameWork/Object/Object.h>
+#include <FrameWork/Systems/Particle/Particle.h>
 #include <FrameWork/Systems/DebugSetting/GUI.h>
 
-class BloodSplash : public Object
+class BloodSplash : public Particle
 {
 public:
 	/* @brief	コンストラクタ
@@ -20,29 +20,6 @@ public:
 	BloodSplash(VECTOR3 position, float rotation);
 	/* @brief	デストラクタ		*/
 	~BloodSplash(void);
-
-
-	
-	/* @brief	初期化処理
-	 * @param	なし
-	 * @return	なし				*/
-	void Init(void)   override;
-	
-	/* @brief	後処理
-	 * @param	なし
-	 * @return	なし				*/
-	void Uninit(void) override;
-	
-	/* @brief	後処理
-	 * @param	なし
-	 * @return	なし				*/
-	void Update(void) override;
-
-private:
-	//! 出現してからのフレーム数
-	uint8			cnt_;
-	//! レンダラ
-	SpriteRenderer	renderer_;
 };
 
 

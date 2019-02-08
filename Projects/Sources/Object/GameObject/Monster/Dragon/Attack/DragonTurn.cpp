@@ -142,7 +142,7 @@ bool DragonTurn::Update(void)
 		Dragon* temp = static_cast<Dragon*>(monster_);
 		if (!temp) { return true; }
 		Transform trans = temp->GetTransform();
-		trans.rotation.y += 3.14f;
+		trans.rotation.y += (trans.rotation.y > 3.14f) ? -3.14f : 3.14f;
 		trans.position += temp->GetFront() * 12.25f;
 		temp->SetPosition(trans.position);
 		temp->SetRotation(trans.rotation);

@@ -78,7 +78,6 @@ void ParticleManager::Draw(void)
 	{
 		if (obj) 
 		{
-			shader->SetParam(MATRIX().Identity().Create(&obj->transform_), obj->data_.vertex.color, VECTOR4(0, 0, 1, 1));
 			dev->Draw(obj, shader);
 		}
 	}

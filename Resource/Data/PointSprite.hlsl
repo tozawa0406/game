@@ -63,41 +63,47 @@ void GS_Main(point GS_IN In[1],                       // ポイント プリミティブの
 	float4x4 inv = View;
 	inv._14_24_34 = 0;
 
-	position = float4(In[0].position.x - s, In[0].position.y + s, In[0].position.z, 1.0f);
-	position = float4(- s,  + s, 0, 1.0f);
+	matrix translation = 0;
+	translation._11_22_33_44 = 1;
+	matrix world = transpose(World);
+	translation._41_42_43 = world._41_42_43;
+	world._41_42_43 = 0;
+
+	position = float4(-s,  +s, 0, 1.0f);
 	Out.position = position;
-	Out.position = mul(position, inv);
-	Out.position = mul(Out.position, transpose(World));
+	Out.position = mul(Out.position, world);
+	Out.position = mul(Out.position, inv);
+	Out.position = mul(Out.position, translation);
 	Out.position = mul(Out.position, transpose(View));
 	Out.position = mul(Out.position, transpose(Proj));
 	Out.texcoord = float2(0, 0);
 	TriStream.Append(Out);
 
-	position = float4(In[0].position.x + s, In[0].position.y + s, In[0].position.z, 1.0f);
 	position = float4(s, +s, 0, 1.0f);
 	Out.position = position;
-	Out.position = mul(position, inv);
-	Out.position = mul(Out.position, transpose(World));
+	Out.position = mul(Out.position, world);
+	Out.position = mul(Out.position, inv);
+	Out.position = mul(Out.position, translation);
 	Out.position = mul(Out.position, transpose(View));
 	Out.position = mul(Out.position, transpose(Proj));
 	Out.texcoord = float2(1, 0);
 	TriStream.Append(Out);
 
-	position = float4(In[0].position.x - s, In[0].position.y - s, In[0].position.z, 1.0f);
 	position = float4(-s, -s, 0, 1.0f);
 	Out.position = position;
-	Out.position = mul(position, inv);
-	Out.position = mul(Out.position, transpose(World));
+	Out.position = mul(Out.position, world);
+	Out.position = mul(Out.position, inv);
+	Out.position = mul(Out.position, translation);
 	Out.position = mul(Out.position, transpose(View));
 	Out.position = mul(Out.position, transpose(Proj));
 	Out.texcoord = float2(0, 1);
 	TriStream.Append(Out);
 
-	position = float4(In[0].position.x + s, In[0].position.y - s, In[0].position.z, 1.0f);
 	position = float4(s, -s, 0, 1.0f);
 	Out.position = position;
-	Out.position = mul(position, inv);
-	Out.position = mul(Out.position, transpose(World));
+	Out.position = mul(Out.position, world);
+	Out.position = mul(Out.position, inv);
+	Out.position = mul(Out.position, translation);
 	Out.position = mul(Out.position, transpose(View));
 	Out.position = mul(Out.position, transpose(Proj));
 	Out.texcoord = float2(1, 1);

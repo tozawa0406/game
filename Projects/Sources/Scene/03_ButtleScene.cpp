@@ -14,6 +14,8 @@
 
 #include "../Object/StaticObject/WallParts.h"
 
+#include "../Object/Billboard/BloodSplash.h"
+
 //! UI•\¦‚µ‚Ä‚©‚çI—¹‚Ü‚Å‚ÌŠÔ
 static constexpr int END_TIME = 120;
 
@@ -54,7 +56,7 @@ void ButtleScene::Init(void)
 
 	attackManager_ = new AttackManager;
 
-	auto* player = objectManager_->Create<Player>(VECTOR3(0, 0, -180));
+	auto* player = objectManager_->Create<Player>(VECTOR3(0, 0, -170));
 	assert(player);
 	auto* wapon  = objectManager_->Create<KohakuSword>();
 	player->SetWapon(wapon);
@@ -71,7 +73,10 @@ void ButtleScene::Init(void)
 #endif
 
 	auto* dragon = objectManager_->Create<Dragon>();
-	dragon->SetAttackManager(attackManager_);
+	if (dragon)
+	{
+		dragon->SetAttackManager(attackManager_);
+	}
 
 	gameObject_[0] = player;
 	gameObject_[1] = dragon;

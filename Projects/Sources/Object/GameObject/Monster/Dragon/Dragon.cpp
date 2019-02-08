@@ -15,7 +15,7 @@
 //! @def	大きさ
 static constexpr float SCALE = 0.9f;
 //! @def	ライフ
-static constexpr int MAX_LIFE = 1500;
+static constexpr int MAX_LIFE = 2500;
 
 //! @def	飛行フラグ
 static constexpr uint IS_FLY = 0x0002;
@@ -158,7 +158,6 @@ void Dragon::Init(void)
 		camera_ = cameraManager_->CreateAtObjCamera(this, 1, VECTOR3(0, 25, -30));
 	}
 #endif
-
 }
 
 void Dragon::Uninit(void)

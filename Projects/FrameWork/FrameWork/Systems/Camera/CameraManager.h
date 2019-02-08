@@ -48,7 +48,7 @@ public:
 	void DebugMove(void);
 
 	// ’Ç]ƒJƒƒ‰‚Ìì¬
-	Camera* CreateAtObjCamera(Object* obj, int i, VECTOR3 pos = VECTOR3(0, 15, -10));
+	Camera* CreateAtObjCamera(Object* obj, int i, VECTOR3 pos = VECTOR3(0, 10, -20));
 	// ’Ç]ƒJƒƒ‰‚Ìíœ
 	void	     DestroyObjCamera(Camera* obj);
 

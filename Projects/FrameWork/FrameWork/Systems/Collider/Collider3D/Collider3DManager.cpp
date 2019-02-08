@@ -35,14 +35,8 @@ void Collision3DManager::Update(void)
 		if (!col1->enable_) { continue; }
 		for (auto col2 : obj_)
 		{
-			// 不使用
-			if (!col2->enable_) { continue; }
-			// 同一
-			if (col1 == col2) { continue; }
-			// 同一の親
-			if (col1->object_ == col2->object_) { continue; }
-			// 動かないオブジェクト同士
-			if (col1->object_->GetTag() == ObjectTag::STATIC && col2->object_->GetTag() == ObjectTag::STATIC) { continue; }
+			// 当たり判定の必要を確認
+			if (CheckNeedCollision(col1, col2)) { continue; }
 
 			// 球
 			if (col1->type_ == Collider3DBase::Type::SPHERE)
@@ -103,6 +97,35 @@ void Collision3DManager::Update(void)
 		}
 	}
 
+}
+
+bool Collision3DManager::CheckNeedCollision(const Collider3DBase* col1, const Collider3DBase* col2)
+{
+	// 不使用
+	if (!col2->enable_) { return true; }
+
+	// 同一
+	if (col1 == col2)	{ return true; }
+
+	// 同一の親
+	if (col1->object_ == col2->object_) { return true; }
+
+	// 動かないオブジェクト同士
+	if (col1->object_->GetTag() == ObjectTag::STATIC && col2->object_->GetTag() == ObjectTag::STATIC) { return true; }
+
+	// 無視リストの確認
+	bool ignore = false;
+	for (auto tag : col1->GetIgnoreList())
+	{
+		if (tag == col2->object_->GetTag())
+		{
+			ignore = true;
+			break;
+		}
+	}
+	if (ignore) { return true; }
+
+	return false;
 }
 
 // 点と線の当たり判定

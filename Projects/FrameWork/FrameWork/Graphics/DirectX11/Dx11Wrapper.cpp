@@ -649,6 +649,8 @@ void Dx11Wrapper::Draw(const Particle* obj, const Shader* shader)
 	const auto& sampler  = pixelShader_[shader->GetPixelShader()].sampler;
 	const auto& constant = constantBuffer_[shader->GetConstantBuffer(0)];
 
+	shader->SetParam(MATRIX().Identity().Create(&obj->GetTransform()), obj->GetColor(), VECTOR4(0, 0, 1, 1));
+
 	// アルファブレンドのセット
 	float blendFactor[] = { 0.0f, 0.0f, 0.0f, 0.0f };
 	pContext->OMSetBlendState(blendState_[(int)ALFA_BREND::ADD], blendFactor, 0xffffff);

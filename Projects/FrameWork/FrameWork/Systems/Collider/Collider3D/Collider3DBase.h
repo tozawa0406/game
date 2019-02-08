@@ -55,6 +55,7 @@ protected:
 	VECTOR3					size_;
 	VECTOR3					back_;
 
+	std::vector<ObjectTag>	ignoreList_;
 	ColliderTag				tag_;
 	Object*					object_;
 	ColliderRenderer		renderer_;
@@ -84,6 +85,21 @@ public:
 
 	inline const std::vector<Object*>&			Hit(void)			{ return list_;			}
 	inline const std::vector<Collider3DBase*>&	HitCollider(void)	{ return colliderList_; }
+
+	/* @brief	無視リストの取得
+	 * @param	なし
+	 * @return	なし					*/
+	inline const std::vector<ObjectTag>&		GetIgnoreList(void) const { return ignoreList_;	}
+
+	/* @brief	無視リストに追加
+	 * @param	(tag)	無視リストに追加するオブジェクトのタグ
+	 * @reurn	なし					*/
+	inline void AddIgnoreList(ObjectTag tag) { ignoreList_.emplace_back(tag); }
+
+	/* @brief	無視リストから削除
+	 * @param	(tag)	削除したいタグ
+	 * @return	なし					*/
+	void RemoveIgnoreList(ObjectTag tag);
 
 	/* @brief	使用状態設定
 	 * @param	(enable)	使用状態

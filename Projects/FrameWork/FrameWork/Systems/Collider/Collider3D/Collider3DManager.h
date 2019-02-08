@@ -328,6 +328,12 @@ public:
 private:
 	Collision3DManager(Systems* systems) : BaseManager(systems) {}
 
+	/* @brief	当たり判定をする必要があるか調べる
+	 * @param	(col1)	一個目
+	 * @param	(col2)	二個目
+	 * @return	必要がないならtrue			*/
+	bool CheckNeedCollision(const Collider3DBase* col1, const Collider3DBase* col2);
+
 	// 点と線の当たり判定
 	bool HitPointSegment(Point p, Segment s);
 	// 線と線の当たり判定

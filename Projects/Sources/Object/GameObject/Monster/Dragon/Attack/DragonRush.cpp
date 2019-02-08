@@ -84,6 +84,8 @@ bool DragonRush::Update(void)
 	if (!monster_) { return true; }
 	auto& meshAnim = monster_->GetMeshAnimation();
 
+	monster_->SetVelocity(VECTOR3(0));
+
 	cnt_++;
 	if (cnt_ > END_RUN)
 	{
@@ -126,6 +128,12 @@ bool DragonRush::Update(void)
 					if (attackManager_->CheckList(attackID_))
 					{
 						static_cast<GameObject*>(hit->GetParent())->Hit(DAMAGE, attackID_);
+
+						Dragon* dragon = static_cast<Dragon*>(monster_);
+						if (!dragon) { return false; }
+
+						dragon->AddIgnore(ObjectTag::PLAYER);
+						break;
 					}
 				}
 			}
@@ -138,6 +146,10 @@ bool DragonRush::Update(void)
 
 void DragonRush::EndMove(void)
 {
+	Dragon* dragon = static_cast<Dragon*>(monster_);
+	if (!dragon) { return; }
+
+	dragon->RemoveIgnore(ObjectTag::PLAYER);
 }
 
 void DragonRush::GuiUpdate(void)
