@@ -54,6 +54,9 @@
     <Filter Include="Source\Scene">
       <UniqueIdentifier>{3c00dc18-912c-462f-9a47-13fac996df8f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Object\UI\Tutorial">
+      <UniqueIdentifier>{3f14d377-713c-4451-a832-aebf8b99086b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sources\Object\UI\Timer.cpp">
@@ -211,6 +214,12 @@
     </ClCompile>
     <ClCompile Include="Sources\Object\GameObject\Monster\Dragon\Attack\DragonTurn.cpp">
       <Filter>Source\Object\GameObject\Monster\Dragon\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Object\UI\Tutorial\TutorialManager.cpp">
+      <Filter>Source\Object\UI\Tutorial</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Object\UI\Tutorial\Tutorial01Move.cpp">
+      <Filter>Source\Object\UI\Tutorial</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -393,6 +402,15 @@
     </ClInclude>
     <ClInclude Include="Sources\Object\GameObject\AttackManager.h">
       <Filter>Source\Object\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\UI\Tutorial\TutorialManager.h">
+      <Filter>Source\Object\UI\Tutorial</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\UI\Tutorial\TutorialBase.h">
+      <Filter>Source\Object\UI\Tutorial</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\UI\Tutorial\Tutorial01Move.h">
+      <Filter>Source\Object\UI\Tutorial</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

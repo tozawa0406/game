@@ -19,6 +19,7 @@
 #include "../Object/StaticObject/Goal.h"
 
 #include "../Object/GameObject/AttackManager.h"
+#include "../Object/UI/Tutorial/TutorialManager.h"
 
 class CampScene : public BaseScene, public GUI
 {
@@ -61,6 +62,8 @@ private:
 	SkyDome*		sky_;
 	//! 攻撃管理クラス
 	AttackManager*	attackManager_;
+	//! チュートリアル
+	TutorialManager*	tutorialManager_;
 };
 
 #endif // _CAMP_SCENE_H_

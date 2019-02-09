@@ -46,6 +46,14 @@ namespace Resources
 			ITEM_RECOVERY,
 			ITEM_RATION,
 
+			UI_PS4CTRL,
+			UI_PS4CTRL_L3,
+			UI_PS4CTRL_R3,
+
+			UI_XCTRL,
+			UI_XCTRL_L,
+			UI_XCTRL_R,
+
 			MAX
 		};
 
@@ -98,6 +106,14 @@ namespace Resources
 
 			{ directoryName + "UI/game/item/recovery.png"	},
 			{ directoryName + "UI/game/item/ration.png"		},
+
+			{ directoryName + "UI/tutorial/PS4ctrl/PS4controller.png" },
+			{ directoryName + "UI/tutorial/PS4ctrl/L3stick.png" },
+			{ directoryName + "UI/tutorial/PS4ctrl/R3stick.png" },
+
+			{ directoryName + "UI/tutorial/Xctrl/Xcontroller.png" },
+			{ directoryName + "UI/tutorial/Xctrl/Lstick.png" },
+			{ directoryName + "UI/tutorial/Xctrl/Rstick.png" },
 		};
 
 		const string buttleFileName[(int)Buttle::MAX - (int)Base::MAX]

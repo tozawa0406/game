@@ -25,6 +25,7 @@ CampScene::CampScene(void) : GUI(Systems::Instance(), nullptr, "SceneCamp")
 	, sky_(nullptr)
 	, goal_(nullptr)
 	, attackManager_(nullptr)
+	, tutorialManager_(nullptr)
 {
 }
 
@@ -73,6 +74,7 @@ void CampScene::Init(void)
 		itemList->AddItem(ItemID::Rations, -1);
 		itemList->AddItem(ItemID::Recovery, 10);
 	}
+	tutorialManager_ = objectManager_->Create<TutorialManager>();
 
 	if(const auto& sound = GetSound())
 	{
