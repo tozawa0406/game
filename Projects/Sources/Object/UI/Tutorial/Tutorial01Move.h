@@ -12,15 +12,22 @@
 class Tutorial01Move : public TutorialBase
 {
 public:
+	/* @brief	コンストラクタ		*/
 	Tutorial01Move(void);
+	/* @brief	デストラクタ		*/
 	~Tutorial01Move(void);
 
+	/* @brief	初期化処理			*/
 	void			Init(TutorialManager* manager, Controller* ctrl) override;
+	/* @brief	後処理				*/
 	void			Uninit(void)			override;
+	/* @brief	更新処理			*/
 	TutorialBase*	Update(void)			override;
 
 private:
+	//! デフォルト位置
 	VECTOR2 defaultPosition;
+	//! スティックUIのポインタ
 	CanvasRenderer::Image* stick_;
 
 };

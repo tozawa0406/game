@@ -40,7 +40,7 @@ void TutorialManager::Init(void)
 
 void TutorialManager::Uninit(void)
 {
-	DeletePtr(tutorial_);
+	UninitDeletePtr(tutorial_);
 	for (auto& stick : ctrlStick_) { stick.Uninit(); }
 	ctrlImage_.Uninit();
 }

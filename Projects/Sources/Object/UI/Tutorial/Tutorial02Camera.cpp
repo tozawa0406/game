@@ -1,28 +1,26 @@
-#include "Tutorial01Move.h"
-#include <FrameWork/Systems/Input/Controller.h>
-
 #include "Tutorial02Camera.h"
+#include <FrameWork/Systems/Input/Controller.h>
 
 static constexpr short THRESHOLD = 10;
 
-Tutorial01Move::Tutorial01Move(void) :
+Tutorial02Camera::Tutorial02Camera(void) :
 	stick_(nullptr)
 	, defaultPosition(VECTOR2(0))
 {
 }
 
-Tutorial01Move::~Tutorial01Move(void)
+Tutorial02Camera::~Tutorial02Camera(void)
 {
 }
 
-void Tutorial01Move::Init(TutorialManager* manager, Controller* ctrl)
+void Tutorial02Camera::Init(TutorialManager* manager, Controller* ctrl)
 {
 	if (!manager) { return; }
 
-	maxCnt_ = 5 * 60;
+	maxCnt_ = 3 * 60;
 	TutorialBase::Init(manager, ctrl);	
 
-	stick_ = manager_->GetStickUIPtr(false);
+	stick_ = manager_->GetStickUIPtr(true);
 	if (stick_)
 	{
 		defaultPosition = stick_->GetPosition();
@@ -30,7 +28,7 @@ void Tutorial01Move::Init(TutorialManager* manager, Controller* ctrl)
 	}
 }
 
-void Tutorial01Move::Uninit(void)
+void Tutorial02Camera::Uninit(void)
 {
 	stick_->SetPosition(defaultPosition);
 	stick_->SetColor(COLOR(1, 1, 1, 0.75f));
@@ -38,11 +36,10 @@ void Tutorial01Move::Uninit(void)
 	TutorialBase::Uninit();
 }
 
-TutorialBase* Tutorial01Move::Update(void)
+TutorialBase* Tutorial02Camera::Update(void)
 {
 	if (!ctrl_ || !stick_) { return nullptr; }
 
-	// デフォルトの設定
 	stick_->SetPosition(defaultPosition);
 	stick_->SetColor(COLOR(1, 0.5f, 0.5f, 1));
 
@@ -51,8 +48,8 @@ TutorialBase* Tutorial01Move::Update(void)
 	if (type == Controller::CtrlNum::PS4 ||
 		type == Controller::CtrlNum::X)
 	{
-		short x = ctrl_->GetAxis().stickLX;
-		short y = ctrl_->GetAxis().stickLY;
+		short x = ctrl_->GetAxis().stickRX;
+		short y = ctrl_->GetAxis().stickRY;
 		if (Abs(x) > THRESHOLD || Abs(y) > THRESHOLD)
 		{
 			VECTOR2 pos = defaultPosition;
@@ -63,14 +60,14 @@ TutorialBase* Tutorial01Move::Update(void)
 	}
 
 	// チュートリアル判定
-	if (ctrl_->PressRange(Input::AXIS_LX, DIK_A, DIK_D) != 0 || ctrl_->PressRange(Input::AXIS_LY, DIK_S, DIK_W) != 0)
+	if (ctrl_->PressRange(Input::AXIS_RX, DIK_J, DIK_L) != 0 || ctrl_->PressRange(Input::AXIS_RY, DIK_K, DIK_I) != 0)
 	{
 		stick_->SetColor(COLOR(1, 0, 0, 1));
 		if (cnt_ >= 0) { cnt_++; }
 	}
 
 	UpdateTimer();
-	if (Finish()) { return new Tutorial02Camera; }
+	if (Finish()) { return nullptr; }
 
 	return nullptr;
 }

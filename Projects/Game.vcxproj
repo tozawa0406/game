@@ -63,6 +63,8 @@
     <ClCompile Include="Sources\Object\UI\PlayerLife.cpp" />
     <ClCompile Include="Sources\Object\UI\Timer.cpp" />
     <ClCompile Include="Sources\Object\UI\Tutorial\Tutorial01Move.cpp" />
+    <ClCompile Include="Sources\Object\UI\Tutorial\Tutorial02Camera.cpp" />
+    <ClCompile Include="Sources\Object\UI\Tutorial\TutorialBase.cpp" />
     <ClCompile Include="Sources\Object\UI\Tutorial\TutorialManager.cpp" />
     <ClCompile Include="Sources\Object\Wapon\KohakuSword.cpp" />
     <ClCompile Include="Sources\Scene\00_EachScene.cpp" />
@@ -123,6 +125,7 @@
     <ClInclude Include="Sources\Object\UI\PlayerLife.h" />
     <ClInclude Include="Sources\Object\UI\Timer.h" />
     <ClInclude Include="Sources\Object\UI\Tutorial\Tutorial01Move.h" />
+    <ClInclude Include="Sources\Object\UI\Tutorial\Tutorial02Camera.h" />
     <ClInclude Include="Sources\Object\UI\Tutorial\TutorialBase.h" />
     <ClInclude Include="Sources\Object\UI\Tutorial\TutorialManager.h" />
     <ClInclude Include="Sources\Object\Wapon\KohakuSword.h" />
