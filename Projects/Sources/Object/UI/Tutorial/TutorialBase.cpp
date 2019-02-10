@@ -15,7 +15,7 @@ static const		COLOR GAUGE_COLOR			= COLOR::RGBA(221, 238, 255);
 //! @def	成功時のゲージ点滅色
 static const		COLOR GAUGE_SUCCESS_COLOR	= COLOR(1, 0.3f, 0.3f);
 //! @def	ゲージ背景の色
-static const		COLOR GAUGE_BACK_COLOR		= COLOR(0.3f);
+static const		COLOR GAUGE_BACK_COLOR		= COLOR(0.3f, 0.3f, 0.3f);
 
 //! @def	最大割合
 static constexpr	float	MAX_PERCENT		= 100;
@@ -39,7 +39,7 @@ void TutorialBase::Init(TutorialManager* manager, Controller* ctrl)
 	ctrl_		= ctrl; 
 
 	// 共通変数
-	int texNum = static_cast<int>(Resources::Texture::Base::WHITE);
+	int texNum	= static_cast<int>(Resources::Texture::Base::WHITE);
 	VECTOR2 pos = TutorialManager::POSITION;
 	pos.y += GAUGE_POSITION_Y;
 

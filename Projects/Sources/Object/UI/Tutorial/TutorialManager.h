@@ -17,6 +17,15 @@ class TutorialManager : public Object
 public:
 	//! @def	UIポジション
 	static const VECTOR2 POSITION;
+	//! @def	UIポジション(Keyboard)
+	static const VECTOR2 POSITION_KEYBOARD;
+
+	//! @def	UIの大きさ(Keyboard)
+	static const VECTOR2 SIZE_KEY;
+	//! @def	UIの大きさ(PS4)
+	static const VECTOR2 SIZE_PS4;
+	//! @def	UIの大きさ(X)
+	static const VECTOR2 SIZE_X;
 
 	/* @brief	コンストラクタ		*/
 	TutorialManager(void);

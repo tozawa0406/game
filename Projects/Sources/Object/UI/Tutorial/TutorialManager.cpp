@@ -4,6 +4,10 @@
 #include <FrameWork/Systems/Input/Controller.h>
 
 const VECTOR2 TutorialManager::POSITION = VECTOR2(Half(Windows::WIDTH), Half(Windows::HEIGHT) - 150);
+const VECTOR2 TutorialManager::POSITION_KEYBOARD = VECTOR2(Half(Windows::WIDTH), Half(Windows::HEIGHT) - 175);
+const VECTOR2 TutorialManager::SIZE_KEY = VECTOR2(512, 217) * 0.6f;
+const VECTOR2 TutorialManager::SIZE_PS4 = VECTOR2(512, 320) * 0.6f;
+const VECTOR2 TutorialManager::SIZE_X   = VECTOR2(470, 320) * 0.6f;
 
 TutorialManager::TutorialManager(void) : Object(ObjectTag::UI)
 	, tutorial_(nullptr)
@@ -70,27 +74,32 @@ void TutorialManager::JudgeCtrlType(void)
 		ctrlNum = ctrl->GetCtrlNum();
 	}
 
+	VECTOR2 pos = 0;
 	VECTOR2 size = 0;
 	int texNum[3] = { 0, 0, 0 };
 	switch (ctrlNum)
 	{
 	case Controller::CtrlNum::Key:
-		size		= VECTOR2(512, 320) * 0.6f;
-		texNum[0]	= static_cast<int>(Resources::Texture::Camp::UI_PS4CTRL);
-		texNum[1]	= static_cast<int>(Resources::Texture::Camp::UI_PS4CTRL_L3);
-		texNum[2]	= static_cast<int>(Resources::Texture::Camp::UI_PS4CTRL_R3);
+		pos			= POSITION_KEYBOARD;
+		size		= SIZE_KEY;
+		texNum[0]	= static_cast<int>(Resources::Texture::Camp::UI_KEY);
+		for (auto& stick : ctrlStick_) { stick.SetEnable(false); }
 		break;
 	case Controller::CtrlNum::PS4:
-		size		= VECTOR2(512, 320) * 0.6f;
+		pos			= POSITION;
+		size		= SIZE_PS4;
 		texNum[0]	= static_cast<int>(Resources::Texture::Camp::UI_PS4CTRL);
 		texNum[1]	= static_cast<int>(Resources::Texture::Camp::UI_PS4CTRL_L3);
 		texNum[2]	= static_cast<int>(Resources::Texture::Camp::UI_PS4CTRL_R3);
+		for (auto& stick : ctrlStick_) { stick.SetEnable(true); }
 		break;
 	case Controller::CtrlNum::X:
-		size		= VECTOR2(470, 320) * 0.6f;
+		pos			= POSITION;
+		size		= SIZE_X;
 		texNum[0]	= static_cast<int>(Resources::Texture::Camp::UI_XCTRL);
 		texNum[1]	= static_cast<int>(Resources::Texture::Camp::UI_XCTRL_L);
 		texNum[2]	= static_cast<int>(Resources::Texture::Camp::UI_XCTRL_R);
+		for (auto& stick : ctrlStick_) { stick.SetEnable(true); }
 		break;
 	}
 	CanvasRenderer::Image* img[3] = { &ctrlImage_, &ctrlStick_[0], &ctrlStick_[1] };
@@ -99,5 +108,6 @@ void TutorialManager::JudgeCtrlType(void)
 	{
 		img[i]->SetTexNum(texNum[i]);
 		img[i]->SetSize(size);
+		img[i]->SetPosition(pos);
 	}
 }

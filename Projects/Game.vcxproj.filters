@@ -221,10 +221,13 @@
     <ClCompile Include="Sources\Object\UI\Tutorial\Tutorial01Move.cpp">
       <Filter>Source\Object\UI\Tutorial</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Object\UI\Tutorial\Tutorial02Camera.cpp">
+    <ClCompile Include="Sources\Object\UI\Tutorial\TutorialBase.cpp">
       <Filter>Source\Object\UI\Tutorial</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Object\UI\Tutorial\TutorialBase.cpp">
+    <ClCompile Include="Sources\Object\UI\Tutorial\Tutorial02Dash.cpp">
+      <Filter>Source\Object\UI\Tutorial</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Object\UI\Tutorial\Tutorial03Camera.cpp">
       <Filter>Source\Object\UI\Tutorial</Filter>
     </ClCompile>
   </ItemGroup>
@@ -418,7 +421,10 @@
     <ClInclude Include="Sources\Object\UI\Tutorial\Tutorial01Move.h">
       <Filter>Source\Object\UI\Tutorial</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Object\UI\Tutorial\Tutorial02Camera.h">
+    <ClInclude Include="Sources\Object\UI\Tutorial\Tutorial02Dash.h">
+      <Filter>Source\Object\UI\Tutorial</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\UI\Tutorial\Tutorial03Camera.h">
       <Filter>Source\Object\UI\Tutorial</Filter>
     </ClInclude>
   </ItemGroup>
