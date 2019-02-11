@@ -3,6 +3,8 @@
 #include <FrameWork/Systems/Input/KeyInput.h>
 #include "../../GameObject/Player/Player.h"
 
+#include "Tutorial05Item.h"
+
 Tutorial04Avoidance::Tutorial04Avoidance(void) : 
 	effectCnt_(0)
 	, player_(nullptr)
@@ -63,7 +65,7 @@ TutorialBase* Tutorial04Avoidance::Update(void)
 	}
 
 	UpdateTimer();
-	if (Finish()) { return nullptr; }
+	if (Finish()) { return new Tutorial05Item; }
 
 	return nullptr;
 }

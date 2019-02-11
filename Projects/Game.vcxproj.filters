@@ -233,6 +233,9 @@
     <ClCompile Include="Sources\Object\UI\Tutorial\Tutorial04Avoidance.cpp">
       <Filter>Source\Object\UI\Tutorial</Filter>
     </ClCompile>
+    <ClCompile Include="Sources\Object\UI\Tutorial\Tutorial05Item.cpp">
+      <Filter>Source\Object\UI\Tutorial</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sources\Object\UI\Timer.h">
@@ -431,6 +434,9 @@
       <Filter>Source\Object\UI\Tutorial</Filter>
     </ClInclude>
     <ClInclude Include="Sources\Object\UI\Tutorial\Tutorial04Avoidance.h">
+      <Filter>Source\Object\UI\Tutorial</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Object\UI\Tutorial\Tutorial05Item.h">
       <Filter>Source\Object\UI\Tutorial</Filter>
     </ClInclude>
   </ItemGroup>
