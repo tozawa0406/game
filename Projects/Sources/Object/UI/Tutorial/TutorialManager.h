@@ -40,6 +40,11 @@ public:
 	/* @brief	更新処理			*/
 	void Update(void) override;
 
+	/* @brief	チュートリアルを行わない
+	 * @param	なし
+	 * @return	なし				*/
+	void SkipTutorial(void);
+
 	/* @brief	スティックUIのポインタを取得
 	 * @param	(right)		右側ならtrue
 	 * @return	スティックUIのポインタ―		*/
@@ -54,6 +59,11 @@ public:
 	 * @param	なし
 	 * @return	プレイヤー			*/
 	inline Player*	GetPlayer(void)				{ return player_; }
+
+	/* @brief	チュートリアルの終了
+	 * @param	なし
+	 * @return	なし				*/
+	inline void End(void) { end_ = true; }
 
 private:
 	/* @brief	コントローラの種類判定
@@ -70,6 +80,8 @@ private:
 	CanvasRenderer::Image ctrlStick_[2];
 	//! プレイヤー
 	Player* player_;
+	//! チュートリアル中はコントローラを出す
+	bool	end_;
 };
 
 #endif // _TUTORIAL_MANAGER_H_

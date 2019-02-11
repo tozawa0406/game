@@ -1,9 +1,8 @@
 #include "TutorialManager.h"
 #include <FrameWork/Windows/Windows.h>
 #include "Tutorial01Move.h"
+#include "TutorialFormal.h"
 #include <FrameWork/Systems/Input/Controller.h>
-
-#include "Tutorial04Avoidance.h"
 
 const VECTOR2 TutorialManager::POSITION = VECTOR2(Half(Windows::WIDTH), Half(Windows::HEIGHT) - 150);
 const VECTOR2 TutorialManager::POSITION_KEYBOARD = VECTOR2(Half(Windows::WIDTH), Half(Windows::HEIGHT) - 175);
@@ -11,9 +10,13 @@ const VECTOR2 TutorialManager::SIZE_KEY = VECTOR2(512, 217) * 0.6f;
 const VECTOR2 TutorialManager::SIZE_PS4 = VECTOR2(512, 320) * 0.6f;
 const VECTOR2 TutorialManager::SIZE_X   = VECTOR2(470, 320) * 0.6f;
 
+//! @def	ƒRƒ“ƒgƒ[ƒ‰”Ô†
+static constexpr int CTRL_NUM = 0;
+
 TutorialManager::TutorialManager(void) : Object(ObjectTag::UI)
 	, tutorial_(nullptr)
 	, player_(nullptr)
+	, end_(false)
 {
 }
 
@@ -39,10 +42,9 @@ void TutorialManager::Init(void)
 	}
 
 	tutorial_ = new Tutorial01Move;
-//	tutorial_ = new Tutorial04Avoidance;
 	if (tutorial_)
 	{
-		tutorial_->Init(this, GetCtrl(0));
+		tutorial_->Init(this, GetCtrl(CTRL_NUM));
 	}
 }
 
@@ -62,9 +64,9 @@ void TutorialManager::Update(void)
 		const auto& next = tutorial_->Update();
 		if (next)
 		{
-			tutorial_->Uninit();
+			UninitDeletePtr(tutorial_);
 			tutorial_ = next;
-			tutorial_->Init(this, GetCtrl(0));
+			tutorial_->Init(this, GetCtrl(CTRL_NUM));
 		}
 	}
 }
@@ -73,13 +75,13 @@ void TutorialManager::JudgeCtrlType(void)
 {
 	if (!manager_) { return; }
 	uint8 ctrlNum = 0;
-	if (const auto& ctrl = GetCtrl(0))
+	if (const auto& ctrl = GetCtrl(CTRL_NUM))
 	{
 		ctrlNum = ctrl->GetCtrlNum();
 	}
 
-	VECTOR2 pos = 0;
-	VECTOR2 size = 0;
+	VECTOR2 pos   = 0;
+	VECTOR2 size  = 0;
 	int texNum[3] = { 0, 0, 0 };
 	switch (ctrlNum)
 	{
@@ -95,7 +97,7 @@ void TutorialManager::JudgeCtrlType(void)
 		texNum[0]	= static_cast<int>(Resources::Texture::Camp::UI_PS4CTRL);
 		texNum[1]	= static_cast<int>(Resources::Texture::Camp::UI_PS4CTRL_L3);
 		texNum[2]	= static_cast<int>(Resources::Texture::Camp::UI_PS4CTRL_R3);
-		for (auto& stick : ctrlStick_) { stick.SetEnable(true); }
+		for (auto& stick : ctrlStick_) { stick.SetEnable(!end_); }
 		break;
 	case Controller::CtrlNum::X:
 		pos			= POSITION;
@@ -103,15 +105,26 @@ void TutorialManager::JudgeCtrlType(void)
 		texNum[0]	= static_cast<int>(Resources::Texture::Camp::UI_XCTRL);
 		texNum[1]	= static_cast<int>(Resources::Texture::Camp::UI_XCTRL_L);
 		texNum[2]	= static_cast<int>(Resources::Texture::Camp::UI_XCTRL_R);
-		for (auto& stick : ctrlStick_) { stick.SetEnable(true); }
+		for (auto& stick : ctrlStick_) { stick.SetEnable(!end_); }
 		break;
 	}
 	CanvasRenderer::Image* img[3] = { &ctrlImage_, &ctrlStick_[0], &ctrlStick_[1] };
 
-	for (int i = 0;i < 3;++i)
+	for (int i = 0; i < 3; ++i)
 	{
 		img[i]->SetTexNum(texNum[i]);
 		img[i]->SetSize(size);
 		img[i]->SetPosition(pos);
+	}
+	ctrlImage_.SetEnable(!end_);
+}
+
+void TutorialManager::SkipTutorial(void)
+{
+	UninitDeletePtr(tutorial_);
+	tutorial_ = new TutorialFormal;
+	if (tutorial_)
+	{
+		tutorial_->Init(this, GetCtrl(CTRL_NUM));
 	}
 }

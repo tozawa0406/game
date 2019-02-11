@@ -54,6 +54,7 @@ namespace Resources
 			UI_PS4CTRL_L1,
 			UI_PS4CTRL_SQUARE,
 			UI_PS4CTRL_CIRCLE,
+			UI_PS4CTRL_TRIANGLE,
 
 			UI_XCTRL,
 			UI_XCTRL_L,
@@ -63,6 +64,7 @@ namespace Resources
 			UI_XCTRL_LB,
 			UI_XCTRL_X,
 			UI_XCTRL_B,
+			UI_XCTRL_Y,
 
 			UI_KEY,
 			UI_KEY_A,
@@ -78,6 +80,8 @@ namespace Resources
 			UI_KEY_R,
 			UI_KEY_T,
 			UI_KEY_Y,
+			UI_KEY_U,
+			UI_KEY_H,
 
 			MAX
 		};
@@ -132,14 +136,15 @@ namespace Resources
 			{ directoryName + "UI/game/item/recovery.png"	},
 			{ directoryName + "UI/game/item/ration.png"		},
 
-			{ directoryName + "UI/tutorial/PS4ctrl/PS4controller.png" },
-			{ directoryName + "UI/tutorial/PS4ctrl/L3stick.png" },
-			{ directoryName + "UI/tutorial/PS4ctrl/R3stick.png" },
-			{ directoryName + "UI/tutorial/PS4ctrl/R1.png"	},
-			{ directoryName + "UI/tutorial/PS4ctrl/cross.png"	},
-			{ directoryName + "UI/tutorial/PS4ctrl/L1.png"	},
-			{ directoryName + "UI/tutorial/PS4ctrl/square.png"	},
-			{ directoryName + "UI/tutorial/PS4ctrl/circle.png"	},
+			{ directoryName + "UI/tutorial/PS4ctrl/PS4controller.png"	},
+			{ directoryName + "UI/tutorial/PS4ctrl/L3stick.png"			},
+			{ directoryName + "UI/tutorial/PS4ctrl/R3stick.png"			},
+			{ directoryName + "UI/tutorial/PS4ctrl/R1.png"				},
+			{ directoryName + "UI/tutorial/PS4ctrl/cross.png"			},
+			{ directoryName + "UI/tutorial/PS4ctrl/L1.png"				},
+			{ directoryName + "UI/tutorial/PS4ctrl/square.png"			},
+			{ directoryName + "UI/tutorial/PS4ctrl/circle.png"			},
+			{ directoryName + "UI/tutorial/PS4ctrl/triangle.png"		},
 
 			{ directoryName + "UI/tutorial/Xctrl/Xcontroller.png" },
 			{ directoryName + "UI/tutorial/Xctrl/Lstick.png" },
@@ -149,6 +154,7 @@ namespace Resources
 			{ directoryName + "UI/tutorial/Xctrl/LB.png"	},
 			{ directoryName + "UI/tutorial/Xctrl/X.png"		},
 			{ directoryName + "UI/tutorial/Xctrl/B.png"		},
+			{ directoryName + "UI/tutorial/Xctrl/Y.png"		},
 
 			{ directoryName + "UI/tutorial/keyboard/keyboard.png" },
 			{ directoryName + "UI/tutorial/keyboard/a.png"	},
@@ -164,6 +170,8 @@ namespace Resources
 			{ directoryName + "UI/tutorial/keyboard/r.png"	},
 			{ directoryName + "UI/tutorial/keyboard/t.png"	},
 			{ directoryName + "UI/tutorial/keyboard/y.png"	},
+			{ directoryName + "UI/tutorial/keyboard/u.png"	},
+			{ directoryName + "UI/tutorial/keyboard/h.png"	},
 		};
 
 		const string buttleFileName[(int)Buttle::MAX - (int)Base::MAX]

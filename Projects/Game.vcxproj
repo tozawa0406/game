@@ -67,7 +67,9 @@
     <ClCompile Include="Sources\Object\UI\Tutorial\Tutorial03Camera.cpp" />
     <ClCompile Include="Sources\Object\UI\Tutorial\Tutorial04Avoidance.cpp" />
     <ClCompile Include="Sources\Object\UI\Tutorial\Tutorial05Item.cpp" />
+    <ClCompile Include="Sources\Object\UI\Tutorial\Tutorial06Attack.cpp" />
     <ClCompile Include="Sources\Object\UI\Tutorial\TutorialBase.cpp" />
+    <ClCompile Include="Sources\Object\UI\Tutorial\TutorialFormal.cpp" />
     <ClCompile Include="Sources\Object\UI\Tutorial\TutorialManager.cpp" />
     <ClCompile Include="Sources\Object\Wapon\KohakuSword.cpp" />
     <ClCompile Include="Sources\Scene\00_EachScene.cpp" />
@@ -132,7 +134,9 @@
     <ClInclude Include="Sources\Object\UI\Tutorial\Tutorial03Camera.h" />
     <ClInclude Include="Sources\Object\UI\Tutorial\Tutorial04Avoidance.h" />
     <ClInclude Include="Sources\Object\UI\Tutorial\Tutorial05Item.h" />
+    <ClInclude Include="Sources\Object\UI\Tutorial\Tutorial06Attack.h" />
     <ClInclude Include="Sources\Object\UI\Tutorial\TutorialBase.h" />
+    <ClInclude Include="Sources\Object\UI\Tutorial\TutorialFormal.h" />
     <ClInclude Include="Sources\Object\UI\Tutorial\TutorialManager.h" />
     <ClInclude Include="Sources\Object\Wapon\KohakuSword.h" />
     <ClInclude Include="Sources\Object\Wapon\Wapon.h" />

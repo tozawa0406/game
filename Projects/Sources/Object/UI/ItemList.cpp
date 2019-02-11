@@ -112,17 +112,17 @@ void ItemList::Init(void)
 	text_.SetPosition(VECTOR2(POSITION_ITEM_NAME.x, POSITION_ITEM_NAME.y - Half(NAME_SIZE) - 1));
 
 	useUI_.Init(PRIORITY + 10, texNum);
-	useUI_.SetPosition(VECTOR2(POSITION.x - (ITEM_RANGE - 10), POSITION.y + 20));
+	useUI_.SetPosition(VECTOR2(POSITION.x - (ITEM_RANGE - 10), POSITION.y + 25));
 	useUI_.SetSize(VECTOR2(60, 50) * 1.2f);
 	useUI_.SetSplit(VECTOR2(4, 8));
 	useUI_.SetPattern(14);
 
 	possession_.Init(PRIORITY + 10, "0123456789Åá", static_cast<int>(NAME_SIZE));
-	possession_.SetPosition(VECTOR2(POSITION.x + (ITEM_RANGE - 10 - Half(NAME_SIZE)), POSITION.y + 20 - Half(NAME_SIZE)));
+	possession_.SetPosition(VECTOR2(POSITION.x + (ITEM_RANGE - 10 - Half(NAME_SIZE)), POSITION.y + 25 - Half(NAME_SIZE)));
 	possession_.SetEnable(false);
 
 	possessionBack_.Init(PRIORITY + 9, texNum);
-	possessionBack_.SetPosition(VECTOR2(POSITION.x + (ITEM_RANGE - 3), POSITION.y + 18));
+	possessionBack_.SetPosition(VECTOR2(POSITION.x + (ITEM_RANGE - 3), POSITION.y + 23));
 	possessionBack_.SetSplit(VECTOR2(2, 4));
 	possessionBack_.SetPattern(2);
 	possessionBack_.SetRotationOffset(VECTOR2(30, 25));

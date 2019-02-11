@@ -2,6 +2,8 @@
 #include <FrameWork/Systems/Input/Controller.h>
 #include <FrameWork/Systems/Input/KeyInput.h>
 
+#include "Tutorial06Attack.h"
+
 Tutorial05Item::Tutorial05Item(void) : 
 	effectCnt_(0)
 {
@@ -71,7 +73,7 @@ TutorialBase* Tutorial05Item::Update(void)
 	}
 
 	UpdateTimer();
-	if (Finish()) { return nullptr; }
+	if (Finish()) { return new Tutorial06Attack; }
 
 	return nullptr;
 }
