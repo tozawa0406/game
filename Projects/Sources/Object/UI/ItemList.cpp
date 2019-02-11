@@ -404,6 +404,7 @@ void ItemList::SetItemInfo(void)
 	}
 	else
 	{
+		useUI_.SetEnable(false);
 		possessionBack_.SetEnable(false);
 		possession_.SetEnable(false);
 	}
@@ -508,6 +509,9 @@ void ItemList::JudgeCtrl(Controller& ctrl)
 		ui_[button[0]].SetPattern(5);
 		ui_[button[1]].SetPattern(15);
 		ui_[button[2]].SetPattern(14);
+		useUI_.SetTexNum(static_cast<int>(Resources::Texture::Camp::ITEM_UI));
+		useUI_.SetSplit(VECTOR2(4, 8));
+		useUI_.SetSize(VECTOR2(60, 50) * 1.2f);
 		useUI_.SetPattern(14);
 	}
 	else if (type == Controller::CtrlNum::X)
@@ -517,6 +521,9 @@ void ItemList::JudgeCtrl(Controller& ctrl)
 		ui_[button[0]].SetPattern(10);
 		ui_[button[1]].SetPattern(25);
 		ui_[button[2]].SetPattern(24);
+		useUI_.SetTexNum(static_cast<int>(Resources::Texture::Camp::ITEM_UI));
+		useUI_.SetSplit(VECTOR2(4, 8));
+		useUI_.SetSize(VECTOR2(60, 50) * 1.2f);
 		useUI_.SetPattern(24);
 	}
 	else if (type == Controller::CtrlNum::Key)
@@ -526,7 +533,10 @@ void ItemList::JudgeCtrl(Controller& ctrl)
 		ui_[button[0]].SetPattern(11);
 		ui_[button[1]].SetPattern(27);
 		ui_[button[2]].SetPattern(26);
-		useUI_.SetPattern(26);
+		useUI_.SetTexNum(static_cast<int>(Resources::Texture::Camp::UI_TUTORIAL));
+		useUI_.SetSplit(VECTOR2(6, 4));
+		useUI_.SetSize(VECTOR2(45) * 1.2f);
+		useUI_.SetPattern(22);
 	}
 }
 

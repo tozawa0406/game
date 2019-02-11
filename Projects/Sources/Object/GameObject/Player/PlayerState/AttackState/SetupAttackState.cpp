@@ -11,6 +11,8 @@ static constexpr int COLLISION_START = 30;
 static constexpr int COLLISION_END = 45;
 //! @def	移動距離
 static constexpr float MOVE = 0.1f;
+//! @def	エフェクトの回転角度
+static constexpr float EFFECT_ROTATION = 0.8f;
 //! @def	移動開始
 static constexpr int MOVE_START = 20;
 //! @def	移動終了
@@ -34,6 +36,7 @@ void SetupAttackState::Init(Player* player, Controller* ctrl)
 	changeFrame_	= ANIMATION_CHANGE_FRAME30;
 	collisionStart_ = COLLISION_START;
 	collisionEnd_	= COLLISION_END;
+	effectRot_		= EFFECT_ROTATION;
 	moveStart_		= MOVE_START;
 	moveEnd_		= MOVE_END;
 	move_			= MOVE;
@@ -56,12 +59,6 @@ PlayerState* SetupAttackState::Update(void)
 {
 	if (!player_) { return nullptr; }
 	auto& meshAnim = player_->GetMeshAnimation();
-
-	if (auto wapon = player_->GetWapon())
-	{
-		int inv = (dir_.z >= 0) ? 1 : -1;
-		wapon->SetRotation(0.8f * inv);
-	}
 
 	if (auto temp = AttackBaseState::Update())
 	{

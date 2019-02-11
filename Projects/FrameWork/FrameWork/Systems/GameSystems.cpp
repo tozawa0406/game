@@ -42,7 +42,6 @@ HRESULT Systems::Init(void)
 	if (!Create<SceneManager>			 ((int)SystemsNum::SCENE          , "シーン"			)) { return E_FAIL; }
 	if (!Create<Screenshot>				 ((int)SystemsNum::SCREENSHOT     , "スクリーンショット")) { return E_FAIL; }
 
-
 	return S_OK;
 }
 

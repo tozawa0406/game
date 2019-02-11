@@ -64,7 +64,11 @@ void CampScene::Init(void)
 	tutorialManager_ = objectManager_->Create<TutorialManager>();
 	auto* player = objectManager_->Create<Player>(VECTOR3(0));
 	assert(player);
-	if (tutorialManager_) { tutorialManager_->SetPlayer(player); }
+	if (tutorialManager_) 
+	{
+		tutorialManager_->SetPlayer(player); 
+//		tutorialManager_->SkipTutorial();
+	}
 	auto* wapon  = objectManager_->Create<KohakuSword>();
 	player->SetWapon(wapon);
 	player->SetAttackManager(attackManager_);
@@ -94,6 +98,14 @@ void CampScene::Uninit(void)
 	DeletePtr(meshField_);
 	DeletePtr(sky_);
 	DeletePtr(light_);
+
+	if (systems_)
+	{
+		if (const auto& particleManager = systems_->GetParticleManager())
+		{
+			particleManager->Uninit();
+		}
+	}
 }
 
 SceneList CampScene::Update(void)

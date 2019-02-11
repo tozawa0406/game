@@ -104,6 +104,14 @@ void ButtleScene::Uninit(void)
 	DeletePtr(meshField_);
 	DeletePtr(sky_);
 	DeletePtr(light_);
+
+	if (systems_)
+	{
+		if (const auto& particleManager = systems_->GetParticleManager())
+		{
+			particleManager->Uninit();
+		}
+	}
 }
 
 SceneList ButtleScene::Update(void)

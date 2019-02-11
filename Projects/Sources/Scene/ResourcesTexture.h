@@ -46,6 +46,8 @@ namespace Resources
 			ITEM_RECOVERY,
 			ITEM_RATION,
 
+			UI_TUTORIAL,
+
 			UI_PS4CTRL,
 			UI_PS4CTRL_L3,
 			UI_PS4CTRL_R3,
@@ -100,6 +102,8 @@ namespace Resources
 			ITEM_RECOVERY,
 			ITEM_RATION,
 
+			UI_TUTORIAL,
+
 			CLEAR_FAILED_UI,
 
 			MAX
@@ -135,6 +139,8 @@ namespace Resources
 
 			{ directoryName + "UI/game/item/recovery.png"	},
 			{ directoryName + "UI/game/item/ration.png"		},
+
+			{ directoryName + "UI/tutorial/ctrlset.png"		},
 
 			{ directoryName + "UI/tutorial/PS4ctrl/PS4controller.png"	},
 			{ directoryName + "UI/tutorial/PS4ctrl/L3stick.png"			},
@@ -187,6 +193,8 @@ namespace Resources
 
 			{ directoryName + "UI/game/item/recovery.png"	},
 			{ directoryName + "UI/game/item/ration.png"		},
+
+			{ directoryName + "UI/tutorial/ctrlset.png"		},
 
 			{ directoryName + "UI/clear_failed.png"			},
 		};

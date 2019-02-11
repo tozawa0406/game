@@ -81,8 +81,6 @@ HRESULT LoadM::LoadAnimation(string fileName, MODEL& model)
 		}
 	}
 
-
-	model;
 	fclose(fp);
 
 	return S_OK;

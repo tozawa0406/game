@@ -23,6 +23,7 @@ AttackBaseState::AttackBaseState(void) :
 	, changeFrame_(0)
 	, collisionStart_(0)
 	, collisionEnd_(0)
+	, effectRot_(0)
 	, moveStart_(0)
 	, moveEnd_(0)
 	, move_(0)
@@ -98,6 +99,7 @@ PlayerState* AttackBaseState::Update(void)
 		{
 			// •Ší‚ÌUŒ‚‚ðŠJŽn
 			wapon->AttackStart();
+			wapon->SetRotation(effectRot_);
 		}
 	}
 	if (pattern > collisionEnd_)

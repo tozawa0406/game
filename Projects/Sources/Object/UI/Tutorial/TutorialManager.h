@@ -9,6 +9,7 @@
 
 #include <FrameWork/Define/Define.h>
 #include <FrameWork/Systems/Renderer/CanvasRenderer/CanvasRendererImage.h> 
+#include <FrameWork/Systems/Renderer/CanvasRenderer/CanvasRendererText.h> 
 #include <FrameWork/Object/Object.h>
 
 class Player;

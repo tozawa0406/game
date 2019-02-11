@@ -11,6 +11,8 @@ static constexpr int COLLISION_START = 40;
 static constexpr int COLLISION_END = 65;
 //! @def	移動距離
 static constexpr float MOVE = 0.1f;
+//! @def	エフェクトの回転角度
+static constexpr float EFFECT_ROTATION = 0;
 //! @def	移動開始
 static constexpr int MOVE_START = 37;
 //! @def	移動終了
@@ -33,6 +35,7 @@ void Slash3AttackState::Init(Player* player, Controller* ctrl)
 	changeFrame_	= ANIMATION_CHANGE_FRAME30;
 	collisionStart_ = COLLISION_START;
 	collisionEnd_	= COLLISION_END;
+	effectRot_		= EFFECT_ROTATION;
 	moveStart_		= MOVE_START;
 	moveEnd_		= MOVE_END;
 	move_			= MOVE;
@@ -53,11 +56,6 @@ PlayerState* Slash3AttackState::Update(void)
 {
 	if (!player_) { return nullptr; }
 	auto& meshAnim = player_->GetMeshAnimation();
-
-	if (auto wapon = player_->GetWapon())
-	{
-		wapon->SetRotation(0);
-	}
 
 	if (auto temp = AttackBaseState::Update())
 	{

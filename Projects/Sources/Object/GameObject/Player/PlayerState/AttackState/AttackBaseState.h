@@ -52,6 +52,7 @@ protected:
 	int		collisionStart_;	//! 当たり判定の開始
 	int		collisionEnd_;		//! 当たり判定の終了
 
+	float	effectRot_;		//! ヒットエフェクトの回転角度
 	int		moveStart_;		//! 動き始め
 	int		moveEnd_;		//! 動き終わり
 
