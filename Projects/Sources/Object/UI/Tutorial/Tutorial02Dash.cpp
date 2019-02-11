@@ -40,6 +40,7 @@ void Tutorial02Dash::Init(TutorialManager* manager, Controller* ctrl)
 	dash_.SetPosition(TutorialManager::POSITION_KEYBOARD);	
 	dash_.SetSize(TutorialManager::SIZE_KEY);
 	dash_.SetColor(COLOR(1, 0.5f, 0.5f, 1));
+	dash_.SetEnable(false);
 }
 
 void Tutorial02Dash::Uninit(void)
@@ -114,22 +115,25 @@ void Tutorial02Dash::InputDifference(uint8 type)
 {
 	for (auto& key : key_) { key.SetEnable((type == Controller::CtrlNum::Key) ? true : false); }
 
+	Resources::Texture::Camp texNum = Resources::Texture::Camp::UI_KEY_LSHIFT;
+	VECTOR2 pos		= TutorialManager::POSITION_KEYBOARD;
+	VECTOR2 size	= TutorialManager::SIZE_KEY;
 	switch (type)
 	{
-	case Controller::CtrlNum::Key:
-		dash_.SetTexNum(static_cast<int>(Resources::Texture::Camp::UI_KEY_LSHIFT));
-		dash_.SetPosition(TutorialManager::POSITION_KEYBOARD);
-		dash_.SetSize(TutorialManager::SIZE_KEY);
-		break;
 	case Controller::CtrlNum::PS4:
-		dash_.SetPosition(TutorialManager::POSITION);
-		dash_.SetTexNum(static_cast<int>(Resources::Texture::Camp::UI_PS4CTRL_R1));
-		dash_.SetSize(TutorialManager::SIZE_PS4);
+		pos		= TutorialManager::POSITION;
+		texNum	= Resources::Texture::Camp::UI_PS4CTRL_R1;
+		size	= TutorialManager::SIZE_PS4;
 		break;
 	case Controller::CtrlNum::X:
-		dash_.SetPosition(TutorialManager::POSITION);
-		dash_.SetTexNum(static_cast<int>(Resources::Texture::Camp::UI_XCTRL_RB));
-		dash_.SetSize(TutorialManager::SIZE_X);
+		pos		= TutorialManager::POSITION;
+		texNum	= Resources::Texture::Camp::UI_XCTRL_RB;
+		size	= TutorialManager::SIZE_X;
 		break;
 	}
+
+	dash_.SetPosition(pos);
+	dash_.SetTexNum(static_cast<int>(texNum));
+	dash_.SetSize(size);
+	dash_.SetEnable(true);
 }

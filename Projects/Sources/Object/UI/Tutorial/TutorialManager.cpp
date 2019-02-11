@@ -3,6 +3,8 @@
 #include "Tutorial01Move.h"
 #include <FrameWork/Systems/Input/Controller.h>
 
+#include "Tutorial04Avoidance.h"
+
 const VECTOR2 TutorialManager::POSITION = VECTOR2(Half(Windows::WIDTH), Half(Windows::HEIGHT) - 150);
 const VECTOR2 TutorialManager::POSITION_KEYBOARD = VECTOR2(Half(Windows::WIDTH), Half(Windows::HEIGHT) - 175);
 const VECTOR2 TutorialManager::SIZE_KEY = VECTOR2(512, 217) * 0.6f;
@@ -11,6 +13,7 @@ const VECTOR2 TutorialManager::SIZE_X   = VECTOR2(470, 320) * 0.6f;
 
 TutorialManager::TutorialManager(void) : Object(ObjectTag::UI)
 	, tutorial_(nullptr)
+	, player_(nullptr)
 {
 }
 
@@ -36,6 +39,7 @@ void TutorialManager::Init(void)
 	}
 
 	tutorial_ = new Tutorial01Move;
+//	tutorial_ = new Tutorial04Avoidance;
 	if (tutorial_)
 	{
 		tutorial_->Init(this, GetCtrl(0));

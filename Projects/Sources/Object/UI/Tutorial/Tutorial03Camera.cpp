@@ -2,6 +2,8 @@
 #include <FrameWork/Systems/Input/Controller.h>
 #include <FrameWork/Systems/Input/KeyInput.h>
 
+#include "Tutorial04Avoidance.h"
+
 static constexpr short THRESHOLD = 10;
 
 Tutorial03Camera::Tutorial03Camera(void) :
@@ -17,7 +19,7 @@ void Tutorial03Camera::Init(TutorialManager* manager, Controller* ctrl)
 {
 	if (!manager) { return; }
 
-	maxCnt_ = 3 * 60;
+	maxCnt_ = 2 * 60;
 	TutorialBase::Init(manager, ctrl);	
 
 	stick_ = manager_->GetStickUIPtr(true);
@@ -93,7 +95,7 @@ TutorialBase* Tutorial03Camera::Update(void)
 	}
 
 	UpdateTimer();
-	if (Finish()) { return nullptr; }
+	if (Finish()) { return new Tutorial04Avoidance; }
 
 	return nullptr;
 }

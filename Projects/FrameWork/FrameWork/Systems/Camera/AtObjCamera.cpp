@@ -139,6 +139,11 @@ void AtObjCamera::Move(void)
 			mtxRotY.Rotation(right_, rot_.y);
 		}
 		else { rot_.y = 0; }
+
+		if (rot_.y < 0 && localPosition_.y < -5)
+		{
+			mtxRotY.Identity();
+		}
 		
 		// ベクトルの座標変換
 		localPosition_ = VecTransform(localPosition_, mtxRotX);

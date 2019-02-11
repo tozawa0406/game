@@ -65,6 +65,7 @@
     <ClCompile Include="Sources\Object\UI\Tutorial\Tutorial01Move.cpp" />
     <ClCompile Include="Sources\Object\UI\Tutorial\Tutorial02Dash.cpp" />
     <ClCompile Include="Sources\Object\UI\Tutorial\Tutorial03Camera.cpp" />
+    <ClCompile Include="Sources\Object\UI\Tutorial\Tutorial04Avoidance.cpp" />
     <ClCompile Include="Sources\Object\UI\Tutorial\TutorialBase.cpp" />
     <ClCompile Include="Sources\Object\UI\Tutorial\TutorialManager.cpp" />
     <ClCompile Include="Sources\Object\Wapon\KohakuSword.cpp" />
@@ -128,6 +129,7 @@
     <ClInclude Include="Sources\Object\UI\Tutorial\Tutorial01Move.h" />
     <ClInclude Include="Sources\Object\UI\Tutorial\Tutorial02Dash.h" />
     <ClInclude Include="Sources\Object\UI\Tutorial\Tutorial03Camera.h" />
+    <ClInclude Include="Sources\Object\UI\Tutorial\Tutorial04Avoidance.h" />
     <ClInclude Include="Sources\Object\UI\Tutorial\TutorialBase.h" />
     <ClInclude Include="Sources\Object\UI\Tutorial\TutorialManager.h" />
     <ClInclude Include="Sources\Object\Wapon\KohakuSword.h" />

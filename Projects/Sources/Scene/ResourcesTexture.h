@@ -50,11 +50,13 @@ namespace Resources
 			UI_PS4CTRL_L3,
 			UI_PS4CTRL_R3,
 			UI_PS4CTRL_R1,
+			UI_PS4CTRL_CROSS,
 
 			UI_XCTRL,
 			UI_XCTRL_L,
 			UI_XCTRL_R,
-			UI_XCTRL_RB,
+			UI_XCTRL_RB, 
+			UI_XCTRL_A,
 
 			UI_KEY,
 			UI_KEY_A,
@@ -66,6 +68,7 @@ namespace Resources
 			UI_KEY_K,
 			UI_KEY_L,
 			UI_KEY_LSHIFT,
+			UI_KEY_M,
 
 			MAX
 		};
@@ -124,11 +127,13 @@ namespace Resources
 			{ directoryName + "UI/tutorial/PS4ctrl/L3stick.png" },
 			{ directoryName + "UI/tutorial/PS4ctrl/R3stick.png" },
 			{ directoryName + "UI/tutorial/PS4ctrl/R1.png"	},
+			{ directoryName + "UI/tutorial/PS4ctrl/cross.png"	},
 
 			{ directoryName + "UI/tutorial/Xctrl/Xcontroller.png" },
 			{ directoryName + "UI/tutorial/Xctrl/Lstick.png" },
 			{ directoryName + "UI/tutorial/Xctrl/Rstick.png" },
 			{ directoryName + "UI/tutorial/Xctrl/RB.png"	},
+			{ directoryName + "UI/tutorial/Xctrl/A.png"		},
 
 			{ directoryName + "UI/tutorial/keyboard/keyboard.png" },
 			{ directoryName + "UI/tutorial/keyboard/a.png"	},
@@ -140,6 +145,7 @@ namespace Resources
 			{ directoryName + "UI/tutorial/keyboard/k.png"	},
 			{ directoryName + "UI/tutorial/keyboard/l.png"	},
 			{ directoryName + "UI/tutorial/keyboard/Lshift.png"	},
+			{ directoryName + "UI/tutorial/keyboard/m.png"	 },
 		};
 
 		const string buttleFileName[(int)Buttle::MAX - (int)Base::MAX]

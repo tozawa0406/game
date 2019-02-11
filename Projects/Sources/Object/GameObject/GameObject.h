@@ -36,6 +36,9 @@ public:
 				それ以外で使うな							*/
 	inline MESH_ANIMATION& GetMeshAnimation(void) { return meshAnim_; }
 
+	/* @brief	アニメーションの取得		*/
+	inline int GetAnimation(void) { return meshAnim_.animation; }
+
 	/* @brief	移動速度取得		*/
 	inline const VECTOR3&  GetVelocity(void)					{ return velocity_;		}
 	/* @brief	移動速度の設定		*/

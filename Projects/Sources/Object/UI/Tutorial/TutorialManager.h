@@ -11,6 +11,7 @@
 #include <FrameWork/Systems/Renderer/CanvasRenderer/CanvasRendererImage.h> 
 #include <FrameWork/Object/Object.h>
 
+class Player;
 class TutorialBase;
 class TutorialManager : public Object
 {
@@ -44,6 +45,16 @@ public:
 	 * @return	スティックUIのポインタ―		*/
 	inline CanvasRenderer::Image* GetStickUIPtr(bool right) { return &ctrlStick_[(!right) ? 0 : 1]; }
 
+	/* @brief	プレイヤーの設定
+	 * @param	(player)	プレイヤー
+	 * @return	なし				*/
+	inline void		SetPlayer(Player* player)	{ player_ = player; }
+
+	/* @brief	プレイヤーの取得処理
+	 * @param	なし
+	 * @return	プレイヤー			*/
+	inline Player*	GetPlayer(void)				{ return player_; }
+
 private:
 	/* @brief	コントローラの種類判定
 	 * @sa		Update()
@@ -57,6 +68,8 @@ private:
 	CanvasRenderer::Image ctrlImage_;
 	//! スティック
 	CanvasRenderer::Image ctrlStick_[2];
+	//! プレイヤー
+	Player* player_;
 };
 
 #endif // _TUTORIAL_MANAGER_H_
