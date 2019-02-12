@@ -51,7 +51,7 @@ void TutorialFormal::Init(TutorialManager* manager, Controller* ctrl)
 		auto& name = manual_[i].name;
 		name.Init(PRIORITY, "”²“”[“‹Ù‹}‰ñ”ğUŒ‚‘–‚é", static_cast<int>(FONT_SIZE));
 		name.SetPosition(VECTOR2(UI_ICON_POSITION.x + Half(UI_SIZE), UI_ICON_POSITION.y - Half(FONT_SIZE) + (i * UI_SIZE)));
-		name.SetSize(VECTOR2(FONT_SIZE));
+		name.SetSize(VECTOR2(static_cast<float>(FONT_SIZE)));
 		name.SetString(word[i]);
 		name.SetColor(COLOR(0.5f, 0.5f, 0.5f));
 
@@ -100,30 +100,20 @@ TutorialBase* TutorialFormal::Update(void)
 	case Player::Animation::Earplug:
 	case Player::Animation::Standup:
 	case Player::Animation::Heal:
+	case Player::Animation::Setup:
 		NoIconState();
 		break;
-	case Player::Animation::WalkSetup:
-		break;
-	case Player::Animation::Setup:
+	case Player::Animation::SetupWait:
+	case Player::Animation::SetupWalk:
+		SetupState();
 		break;
 	case Player::Animation::SetupDrawn:
-		break;
-	case Player::Animation::SetupWait:
-		break;
-	case Player::Animation::SetupWalk:
-		break;
 	case Player::Animation::Slash_1:
-		break;
 	case Player::Animation::Slash_2:
-		break;
 	case Player::Animation::Slash_3:
-		break;
-	case Player::Animation::MAX:
-		break;
-	default:
+		AttackState();
 		break;
 	}
-
 
 	UpdateTimer();
 	if (Finish()) { return nullptr; }
@@ -197,6 +187,25 @@ void TutorialFormal::RunState(void)
 {
 	float  icon[2] = { 0 + ctrlTypeIcon_, 12 + ctrlTypeIcon_ };
 	string word[2] = { "UŒ‚", "‹Ù‹}‰ñ”ğ" };
+
+	SetIcon(2, icon, word);
+	manual_[2].SetEnable(false);
+	manual_[3].SetEnable(false);
+}
+
+void TutorialFormal::SetupState(void)
+{
+	float  icon[3] = { 0 + ctrlTypeIcon_, 18 + ctrlTypeIcon_, 12 + ctrlTypeIcon_ };
+	string word[3] = { "UŒ‚", "”[“", "‰ñ”ğ" };
+
+	SetIcon(3, icon, word);
+	manual_[3].SetEnable(false);
+}
+
+void TutorialFormal::AttackState(void)
+{
+	float  icon[2] = { 0 + ctrlTypeIcon_, 12 + ctrlTypeIcon_ };
+	string word[2] = { "UŒ‚", "‰ñ”ğ" };
 
 	SetIcon(2, icon, word);
 	manual_[2].SetEnable(false);

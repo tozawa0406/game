@@ -7,6 +7,7 @@ BaseScene::BaseScene(void) :
 	, systems_(nullptr)
 	, light_(nullptr)
 	, meshField_(nullptr)
+	, sceneNum_(SceneList::MAX)
 {
 }
 

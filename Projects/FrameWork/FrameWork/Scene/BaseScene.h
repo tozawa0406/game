@@ -30,7 +30,7 @@ public:
 	virtual ~BaseScene(void);
 
 	/* @brief	初期化処理			*/
-	virtual void Init(void)   = 0;
+	virtual void Init(SceneList sceneNum) { sceneNum_ = sceneNum; };
 	/* @brief	後処理				*/
 	virtual void Uninit(void) = 0;
 
@@ -53,6 +53,9 @@ public:
 	/* @brief	メッシュフィールド取得処理		*/
 	inline MeshField*	GetMeshField(void)	{ return meshField_;	}
 
+	/* @brief	シーン番号の取得	*/
+	inline SceneList GetSceneNum(void) { return sceneNum_; }
+
 protected:	
 	/* @brief	コントローラの取得処理
 	 * @param	(i)		コントローラの番号
@@ -72,6 +75,8 @@ protected:
 	Light*			light_;
 	//! メッシュフィールド
 	MeshField*		meshField_;
+	//! 自分のシーン番号
+	SceneList		sceneNum_;
 };
 
 #endif // _BASE_SCENE_H_

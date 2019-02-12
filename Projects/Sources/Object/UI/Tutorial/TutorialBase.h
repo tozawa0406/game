@@ -37,7 +37,6 @@ public:
 	virtual TutorialBase* Update(void) = 0;
 
 protected:
-
 	/* @brief	タイマーの更新処理
 	 * @sa		Update()
 	 * @param	なし
@@ -57,11 +56,28 @@ protected:
 	TutorialManager*	manager_;
 	// コントローラのポインタ
 	Controller*			ctrl_;
+	//! セリフ
+	CanvasRenderer::Text text_;
+
 
 	// 進行度ゲージ
 	CanvasRenderer::Image gauge_;
 	// ゲージの背景
 	CanvasRenderer::Image gaugeBack_;
+
+	//! @def	セリフの文字サイズ
+	static constexpr int FONT_SIZE = 20;
+	//! @def	セリフ位置
+	static const VECTOR2 TEXT_POSITION;
+	//! @def	セリフ描画領域
+	static const VECTOR2 TEXT_DRAW_SIZE;
+
+	//! @def	押下色
+	static const COLOR COLOR_PUSH;
+	//! @def	待機色
+	static const COLOR COLOR_WAIT;
+	//! @def	白
+	static const COLOR COLOR_WHITE;
 };
 
 #endif // _TUTORIAL_BASE_H_

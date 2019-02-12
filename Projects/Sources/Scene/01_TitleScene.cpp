@@ -28,8 +28,10 @@ TitleScene::~TitleScene(void)
 {
 }
 
-void TitleScene::Init(void)
+void TitleScene::Init(SceneList sceneNum)
 {
+	BaseScene::Init(sceneNum);
+
 	// ƒ^ƒCƒgƒ‹
 	title_.Init(UI_PRIORITY, "Dragon Hunter", UI_TITLE_SIZE);
 	title_.SetPosition(TITLE_POSITION);

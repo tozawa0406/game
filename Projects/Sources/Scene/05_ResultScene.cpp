@@ -25,8 +25,10 @@ ResultScene::~ResultScene(void)
 {
 }
 
-void ResultScene::Init(void)
+void ResultScene::Init(SceneList sceneNum)
 {
+	BaseScene::Init(sceneNum);
+
 	thanks_.Init(UI_PRIORITY, "Thank you for Playing!", 70);
 	thanks_.SetPosition(VECTOR2(250, 300));
 

@@ -54,6 +54,10 @@ private:
 	void WalkState(void);
 	/* @brief	走り時のアイコン		*/
 	void RunState(void);
+	/* @brief	抜刀待機時アイコン		*/
+	void SetupState(void);
+	/* @brief	攻撃時アイコン			*/
+	void AttackState(void);
 
 	//! プレイヤー
 	Player*	player_;

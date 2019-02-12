@@ -3,6 +3,7 @@
 #include "Tutorial01Move.h"
 #include "TutorialFormal.h"
 #include <FrameWork/Systems/Input/Controller.h>
+#include <FrameWork/Object/ObjectManager.h>
 
 const VECTOR2 TutorialManager::POSITION = VECTOR2(Half(Windows::WIDTH), Half(Windows::HEIGHT) - 150);
 const VECTOR2 TutorialManager::POSITION_KEYBOARD = VECTOR2(Half(Windows::WIDTH), Half(Windows::HEIGHT) - 175);
@@ -26,13 +27,31 @@ TutorialManager::~TutorialManager(void)
 
 void TutorialManager::Init(void)
 {
-	ctrlImage_.Init(210, static_cast<int>(Resources::Texture::Camp::UI_PS4CTRL));
-	ctrlImage_.SetPosition(POSITION);
-	ctrlImage_.SetSize(VECTOR2(512, 320) * 0.6f);
-	ctrlImage_.SetColor(COLOR(1, 1, 1, 0.75f));
+	if (!manager_) { return; }
 
-	ctrlStick_[0].Init(211, static_cast<int>(Resources::Texture::Camp::UI_PS4CTRL_L3));
-	ctrlStick_[1].Init(211, static_cast<int>(Resources::Texture::Camp::UI_PS4CTRL_R3));
+	if (const auto& scene = manager_->GetScene())
+	{
+		if (scene->GetSceneNum() == SceneList::CAMP)
+		{
+			ctrlImage_.Init(210, static_cast<int>(Resources::Texture::Camp::UI_PS4CTRL));
+			ctrlImage_.SetPosition(POSITION);
+			ctrlImage_.SetSize(VECTOR2(512, 320) * 0.6f);
+			ctrlImage_.SetColor(COLOR(1, 1, 1, 0.75f));
+
+			ctrlStick_[0].Init(211, static_cast<int>(Resources::Texture::Camp::UI_PS4CTRL_L3));
+			ctrlStick_[1].Init(211, static_cast<int>(Resources::Texture::Camp::UI_PS4CTRL_R3));
+
+			charactor_.Init(210, static_cast<int>(Resources::Texture::Base::LOAD));
+			charactor_.SetSplit(VECTOR2(3, 2));
+			charactor_.SetPosition(VECTOR2(Windows::WIDTH - 100, 150));
+			charactor_.SetSize(VECTOR2(95, 60));
+			charactor_.SetPattern(2);
+
+			baloon_.Init(210, static_cast<int>(Resources::Texture::Camp::UI_BALOON));
+			baloon_.SetPosition(VECTOR2(Windows::WIDTH - 270, 160));
+			baloon_.SetSize(VECTOR2(250, 60));
+		}
+	}
 
 	for (auto& stick : ctrlStick_)
 	{
@@ -40,16 +59,12 @@ void TutorialManager::Init(void)
 		stick.SetSize(ctrlImage_.GetSize());
 		stick.SetColor(ctrlImage_.GetColor());
 	}
-
-	tutorial_ = new Tutorial01Move;
-	if (tutorial_)
-	{
-		tutorial_->Init(this, GetCtrl(CTRL_NUM));
-	}
 }
 
 void TutorialManager::Uninit(void)
 {
+	baloon_.Uninit();
+	charactor_.Uninit();
 	UninitDeletePtr(tutorial_);
 	for (auto& stick : ctrlStick_) { stick.Uninit(); }
 	ctrlImage_.Uninit();
@@ -74,6 +89,11 @@ void TutorialManager::Update(void)
 void TutorialManager::JudgeCtrlType(void)
 {
 	if (!manager_) { return; }
+	if (const auto& scene = manager_->GetScene())
+	{
+		if (scene->GetSceneNum() != SceneList::CAMP) { return; }
+	}
+
 	uint8 ctrlNum = 0;
 	if (const auto& ctrl = GetCtrl(CTRL_NUM))
 	{
@@ -123,6 +143,16 @@ void TutorialManager::SkipTutorial(void)
 {
 	UninitDeletePtr(tutorial_);
 	tutorial_ = new TutorialFormal;
+	if (tutorial_)
+	{
+		tutorial_->Init(this, GetCtrl(CTRL_NUM));
+	}
+}
+
+void TutorialManager::StartTutorial(void)
+{
+	UninitDeletePtr(tutorial_);
+	tutorial_ = new Tutorial01Move;
 	if (tutorial_)
 	{
 		tutorial_->Init(this, GetCtrl(CTRL_NUM));

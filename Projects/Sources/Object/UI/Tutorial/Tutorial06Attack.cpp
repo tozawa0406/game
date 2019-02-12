@@ -30,6 +30,12 @@ void Tutorial06Attack::Init(TutorialManager* manager, Controller* ctrl)
 	key_.SetPosition(TutorialManager::POSITION_KEYBOARD);
 	key_.SetSize(TutorialManager::SIZE_KEY);
 	key_.SetEnable(false);
+
+	text_.Init(211, "これで攻撃するにゃ", FONT_SIZE);
+	text_.SetPosition(TEXT_POSITION);
+	text_.SetDrawSize(TEXT_DRAW_SIZE);
+	text_.SetColor(COLOR(0, 0, 0));
+	text_.SetFaldBack(true);
 }
 
 void Tutorial06Attack::Uninit(void)
@@ -46,7 +52,7 @@ TutorialBase* Tutorial06Attack::Update(void)
 	JedgeCtrlType();
 
 	// デフォルトの設定
-	key_.SetColor(COLOR(1, 0.5f, 0.5f, 1));
+	key_.SetColor(COLOR_WAIT);
 
 	// チュートリアル判定
 	WORD	gamepad = (cnt_ < CHANGE_UI) ? Input::GAMEPAD_TRIANGLE: Input::GAMEPAD_SQUARE;
@@ -62,7 +68,7 @@ TutorialBase* Tutorial06Attack::Update(void)
 
 	if (effectCnt_ > 0)
 	{
-		key_.SetColor(COLOR(1, 0, 0, 1));
+		key_.SetColor(COLOR_PUSH);
 		effectCnt_++;
 		if (effectCnt_ > 5) { effectCnt_ = 0; }
 	}

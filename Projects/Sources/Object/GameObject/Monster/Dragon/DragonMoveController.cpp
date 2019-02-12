@@ -5,7 +5,7 @@
 //! @def	走る範囲
 static constexpr int DASH_RANGE = 75;
 //! @def	攻撃のスパン
-static constexpr int ATTACK_RANGE = 90;
+static constexpr int ATTACK_RANGE = 60;
 
 DragonMoveController::DragonMoveController(void) : GUI(Systems::Instance(), nullptr, "DragonController")
 	, parent_(nullptr)
@@ -40,7 +40,7 @@ void DragonMoveController::Action(int& act, uint& flag)
 	// 索敵範囲内にプレイヤーが入った時のみバインドボイス
 	if (SearchTarget()) { act = 0; return; }
 	if (!parent_ || !target_) { act = -1; return; }
-	const int range = 19;
+	const int range = 25;
 	if (act < 0) { return; }
 
 	// 方決定

@@ -13,8 +13,7 @@
 #include "../Object/UI/ClearFailed.h"
 
 #include "../Object/StaticObject/WallParts.h"
-
-#include "../Object/Billboard/BloodSplash.h"
+#include "../Object/UI/Tutorial/TutorialManager.h"
 
 //! UI•\¦‚µ‚Ä‚©‚çI—¹‚Ü‚Å‚ÌŠÔ
 static constexpr int END_TIME = 120;
@@ -33,8 +32,10 @@ ButtleScene::~ButtleScene(void)
 {
 }
 
-void ButtleScene::Init(void)
+void ButtleScene::Init(SceneList sceneNum)
 {
+	BaseScene::Init(sceneNum);
+
 	if (systems_)
 	{
 		if (const auto& graphics = systems_->GetGraphics())
@@ -56,9 +57,15 @@ void ButtleScene::Init(void)
 
 	attackManager_ = new AttackManager;
 
-	auto* player = objectManager_->Create<Player>(VECTOR3(0, 0, -170));
+	auto tutorialManager = objectManager_->Create<TutorialManager>();
+	auto player = objectManager_->Create<Player>(VECTOR3(0, 0, -170));
 	assert(player);
-	auto* wapon  = objectManager_->Create<KohakuSword>();
+	if (tutorialManager) 
+	{
+		tutorialManager->SetPlayer(player); 
+		tutorialManager->SkipTutorial();
+	}
+	auto wapon  = objectManager_->Create<KohakuSword>();
 	player->SetWapon(wapon);
 	player->SetAttackManager(attackManager_);
 	wapon->SetAttackManager(attackManager_);

@@ -9,8 +9,9 @@
 //! @def	消費スタミナ
 static constexpr float DEC_STAMINA = 0.1f;
 
-PaidMoveState::PaidMoveState(void) : 
+PaidMoveState::PaidMoveState(void) :
 	dash_(false)
+	, breath_(false)
 {
 }
 
@@ -43,14 +44,22 @@ PlayerState* PaidMoveState::Update(void)
 	if (ctrl_->Trigger(Input::GAMEPAD_L3, DIK_LSHIFT)) { dash_ = true; }
 
 	float inputDash = 1.0f;
-	if (ctrl_->Press(Input::GAMEPAD_R1, DIK_LSHIFT) || dash_)
+	float stamina = player_->GetStamina();
+	if (!breath_)
 	{
-		float stamina = player_->GetStamina();
-		if (stamina > 0)
+		if (ctrl_->Press(Input::GAMEPAD_R1, DIK_LSHIFT) || dash_)
 		{
-			inputDash = 2.5f;
-			player_->SetStamina(stamina - (Player::ADD_STAMINA + DEC_STAMINA));
+			if (stamina > 0)
+			{
+				inputDash = 2.5f;
+				player_->SetStamina(stamina - (Player::ADD_STAMINA + DEC_STAMINA));
+			}
+			else { breath_ = true; }
 		}
+	}
+	else
+	{
+		if (stamina > 25) { breath_ = false; }
 	}
 
 	inputDir *= inputDash;

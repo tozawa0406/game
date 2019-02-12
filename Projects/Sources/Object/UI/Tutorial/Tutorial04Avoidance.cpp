@@ -28,6 +28,12 @@ void Tutorial04Avoidance::Init(TutorialManager* manager, Controller* ctrl)
 	key_.SetEnable(false);
 
 	player_ = manager->GetPlayer();
+
+	text_.Init(211, "回避の練習にゃ", FONT_SIZE);
+	text_.SetPosition(TEXT_POSITION);
+	text_.SetDrawSize(TEXT_DRAW_SIZE);
+	text_.SetColor(COLOR(0, 0, 0));
+	text_.SetFaldBack(true);
 }
 
 void Tutorial04Avoidance::Uninit(void)
@@ -44,7 +50,7 @@ TutorialBase* Tutorial04Avoidance::Update(void)
 	JudgeCtrlType();
 
 	// デフォルトの設定
-	key_.SetColor(COLOR(1, 0.5f, 0.5f, 1));
+	key_.SetColor(COLOR_WAIT);
 
 	// チュートリアル判定
 	if (ctrl_->Trigger(Input::GAMEPAD_CROSS, DIK_M))
@@ -60,7 +66,7 @@ TutorialBase* Tutorial04Avoidance::Update(void)
 	if (effectCnt_ > 0)
 	{
 		effectCnt_++;
-		key_.SetColor(COLOR(1, 0, 0, 1));
+		key_.SetColor(COLOR_PUSH);
 		if (effectCnt_ > 5) { effectCnt_ = 0; }
 	}
 

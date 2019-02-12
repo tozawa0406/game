@@ -41,6 +41,11 @@ public:
 	/* @brief	更新処理			*/
 	void Update(void) override;
 
+	/* @brief	チュートリアル開始
+	 * @param	なし
+	 * @return	なし				*/
+	void StartTutorial(void);
+
 	/* @brief	チュートリアルを行わない
 	 * @param	なし
 	 * @return	なし				*/
@@ -79,6 +84,10 @@ private:
 	CanvasRenderer::Image ctrlImage_;
 	//! スティック
 	CanvasRenderer::Image ctrlStick_[2];
+	//! キャラクター
+	CanvasRenderer::Image charactor_;
+	//! 吹き出し
+	CanvasRenderer::Image baloon_;
 	//! プレイヤー
 	Player* player_;
 	//! チュートリアル中はコントローラを出す

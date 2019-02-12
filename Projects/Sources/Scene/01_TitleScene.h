@@ -20,9 +20,9 @@ public:
 
 	
 	/* @brief	‰Šú‰»ˆ—
-	 * @param	‚È‚µ
+	 * @param	(sceneNum)	ƒV[ƒ“”Ô†
 	 * @return	‚È‚µ				*/
-	void Init(void)   override;
+	void Init(SceneList sceneNum) override;
 
 	/* @brief	Œãˆ—
 	 * @param	‚È‚µ

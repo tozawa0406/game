@@ -1,5 +1,11 @@
 #include "TutorialBase.h"
 
+const VECTOR2	TutorialBase::TEXT_POSITION		= VECTOR2(Windows::WIDTH - 380, 140);
+const VECTOR2	TutorialBase::TEXT_DRAW_SIZE	= VECTOR2(200, 40);
+const COLOR		TutorialBase::COLOR_PUSH  = COLOR(1, 0, 0.3f, 1);
+const COLOR		TutorialBase::COLOR_WAIT  = COLOR(1, 0.6f, 0.6f, 1);
+const COLOR		TutorialBase::COLOR_WHITE = COLOR(1);
+
 //! @def	ï`âÊèá
 static constexpr	uint8 PRIORITY = 210;
 
@@ -62,6 +68,7 @@ void TutorialBase::Init(TutorialManager* manager, Controller* ctrl)
 
 void TutorialBase::Uninit(void)
 {
+	text_.Uninit();
 	gauge_.Uninit();
 	gaugeBack_.Uninit();
 }

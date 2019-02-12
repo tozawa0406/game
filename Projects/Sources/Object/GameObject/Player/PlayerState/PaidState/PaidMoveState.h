@@ -42,7 +42,10 @@ public:
 	void GuiUpdate(void)override;
 
 private:
+	//! ‘–‚è”»’è
 	bool dash_;
+	//! ‘§Ø‚ê”»’è
+	bool breath_;
 };
 
 #endif // _PAID_MOVE_STATE_H_

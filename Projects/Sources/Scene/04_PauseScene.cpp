@@ -18,8 +18,10 @@ Pause::~Pause(void)
 {
 }
 
-void Pause::Init(void)
+void Pause::Init(SceneList sceneNum)
 {
+	BaseScene::Init(sceneNum);
+
 	 // ˆÃ“]
 	 back_.SetPosition(VECTOR2(Half(Windows::WIDTH), Half(Windows::HEIGHT)));
 	 back_.SetSize(VECTOR2(Windows::WIDTH, Windows::HEIGHT));

@@ -28,6 +28,12 @@ void Tutorial05Item::Init(TutorialManager* manager, Controller* ctrl)
 		key_[i].SetSize(TutorialManager::SIZE_KEY);
 		key_[i].SetEnable(false);
 	}
+
+	text_.Init(211, "どのアイテムを使おうかにゃ……", FONT_SIZE);
+	text_.SetPosition(TEXT_POSITION);
+	text_.SetDrawSize(TEXT_DRAW_SIZE);
+	text_.SetColor(COLOR(0, 0, 0));
+	text_.SetFaldBack(true);
 }
 
 void Tutorial05Item::Uninit(void)
@@ -44,14 +50,14 @@ TutorialBase* Tutorial05Item::Update(void)
 	JedgeCtrlType();
 
 	// デフォルトの設定
-	key_[0].SetColor(COLOR(1, 0.5f, 0.5f, 1));
+	key_[0].SetColor(COLOR_WAIT);
 	for (int i = 1; i < 3; ++i) { key_[i].SetColor(COLOR(1)); }
 
 	// チュートリアル判定
 	if (ctrl_->Press(Input::GAMEPAD_L1, DIK_R))
 	{
-		key_[0].SetColor(COLOR(1, 0, 0, 1));
-		for (int i = 1; i < 3; ++i) { key_[i].SetColor(COLOR(1, 0.5f, 0.5f, 1)); }
+		key_[0].SetColor(COLOR_PUSH);
+		for (int i = 1; i < 3; ++i) { key_[i].SetColor(COLOR_WAIT); }
 
 		if (ctrl_->Trigger(Input::GAMEPAD_SQUARE, DIK_T))
 		{
@@ -67,7 +73,7 @@ TutorialBase* Tutorial05Item::Update(void)
 
 	if (effectCnt_ > 0)
 	{
-		key_[(effectCnt_ / 5) + 1].SetColor(COLOR(1, 0, 0, 1));
+		key_[(effectCnt_ / 5) + 1].SetColor(COLOR_PUSH);
 		effectCnt_++;
 		if (effectCnt_ % 5 == 0) { effectCnt_ = 0; }
 	}

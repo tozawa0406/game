@@ -74,7 +74,7 @@ BaseScene* EachScene::CreateScene(SceneManager* manager, SceneList sceneNum)
 	if (temp) 
 	{
 		temp->SetManager(manager);
-		temp->Init(); 
+		temp->Init(sceneNum); 
 	}
 
 	return temp;
@@ -97,7 +97,7 @@ BaseScene* EachScene::CreatePause(SceneManager* manager, SceneList sceneNum)
 	if (temp) 
 	{
 		temp->SetManager(manager);
-		temp->Init(); 
+		temp->Init(sceneNum); 
 	}
 
 	return temp;

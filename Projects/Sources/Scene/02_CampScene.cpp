@@ -33,8 +33,10 @@ CampScene::~CampScene(void)
 {
 }
 
-void CampScene::Init(void)
+void CampScene::Init(SceneList sceneNum)
 {
+	BaseScene::Init(sceneNum);
+
 	if (const auto& load = manager_->GetDontDestroyOnLoad())
 	{
 		load->Reset();
@@ -67,7 +69,7 @@ void CampScene::Init(void)
 	if (tutorialManager_) 
 	{
 		tutorialManager_->SetPlayer(player); 
-//		tutorialManager_->SkipTutorial();
+		tutorialManager_->StartTutorial();
 	}
 	auto* wapon  = objectManager_->Create<KohakuSword>();
 	player->SetWapon(wapon);

@@ -47,6 +47,7 @@ namespace Resources
 			ITEM_RATION,
 
 			UI_TUTORIAL,
+			UI_BALOON,
 
 			UI_PS4CTRL,
 			UI_PS4CTRL_L3,
@@ -141,6 +142,7 @@ namespace Resources
 			{ directoryName + "UI/game/item/ration.png"		},
 
 			{ directoryName + "UI/tutorial/ctrlset.png"		},
+			{ directoryName + "UI/tutorial/baloon.png"		},
 
 			{ directoryName + "UI/tutorial/PS4ctrl/PS4controller.png"	},
 			{ directoryName + "UI/tutorial/PS4ctrl/L3stick.png"			},
