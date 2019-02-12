@@ -27,6 +27,7 @@ AttackBaseState::AttackBaseState(void) :
 	, moveStart_(0)
 	, moveEnd_(0)
 	, move_(0)
+	, voice_(0)
 {
 }
 
@@ -79,6 +80,13 @@ void AttackBaseState::Init(Player* player, Controller* ctrl)
 
 void AttackBaseState::Uninit(void)
 {
+	if (!player_) { return; }
+
+	if (Wapon* wapon = player_->GetWapon())
+	{
+		// 武器の攻撃を終了
+		wapon->AttackEnd();
+	}
 }
 
 PlayerState* AttackBaseState::Update(void)
@@ -93,19 +101,26 @@ PlayerState* AttackBaseState::Update(void)
 	// アニメーションの情報
 	float pattern = meshAnim.mesh.GetPattern();
 
-	if (pattern > collisionStart_)
+	if (pattern > collisionEnd_)
+	{
+		// 武器の攻撃を終了
+		wapon->AttackEnd();
+	}
+	else if (pattern > collisionStart_)
 	{
 		if (!wapon->IsAttack())
 		{
 			// 武器の攻撃を開始
 			wapon->AttackStart();
 			wapon->SetRotation(effectRot_);
+			if (const auto& systems = Systems::Instance())
+			{
+				if (const auto& sound = systems->GetSound())
+				{
+					sound->Play(voice_);
+				}
+			}
 		}
-	}
-	if (pattern > collisionEnd_)
-	{
-		// 武器の攻撃を終了
-		wapon->AttackEnd();
 	}
 
 	if(moveStart_ < pattern && pattern < moveEnd_)

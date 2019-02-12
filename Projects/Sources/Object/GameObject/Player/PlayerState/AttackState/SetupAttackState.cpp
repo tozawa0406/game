@@ -40,6 +40,7 @@ void SetupAttackState::Init(Player* player, Controller* ctrl)
 	moveStart_		= MOVE_START;
 	moveEnd_		= MOVE_END;
 	move_			= MOVE;
+	voice_			= static_cast<int>(Resources::Sound::Camp::UNITYCHAN_ATTACK01);
 
 	AttackBaseState::Init(player, ctrl);
 
@@ -53,6 +54,7 @@ void SetupAttackState::Init(Player* player, Controller* ctrl)
 
 void SetupAttackState::Uninit(void)
 {
+	AttackBaseState::Uninit();
 }
 
 PlayerState* SetupAttackState::Update(void)
@@ -69,7 +71,7 @@ PlayerState* SetupAttackState::Update(void)
 	// アニメーションの情報
 	int animMax = meshAnim.mesh.GetMaxAnimation();
 	// 終了前に
-	if (pattern > (Quarter(animMax) * 3.0f))
+	if (pattern > (Quarter(animMax) * 3.5f))
 	{
 		// 回避コマンドで回避ステート
 		if (ctrl_->Trigger(Input::GAMEPAD_CROSS, DIK_M))

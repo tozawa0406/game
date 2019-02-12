@@ -137,6 +137,8 @@ void TutorialManager::JudgeCtrlType(void)
 		img[i]->SetPosition(pos);
 	}
 	ctrlImage_.SetEnable(!end_);
+	charactor_.SetEnable(!end_);
+	baloon_.SetEnable(!end_);
 }
 
 void TutorialManager::SkipTutorial(void)

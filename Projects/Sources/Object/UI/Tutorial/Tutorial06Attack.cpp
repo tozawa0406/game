@@ -114,7 +114,8 @@ bool Tutorial06Attack::AddCount(int playerAnim)
 	// î≤ìÅ
 	if (cnt_ == 0)
 	{
-		if (anim == Player::Animation::Wait ||
+		if ((anim == Player::Animation::Wait ||
+		   (anim == Player::Animation::WaitTime1 || anim == Player::Animation::WaitTime2)) ||
 		   (anim == Player::Animation::Run  || anim == Player::Animation::Walk))
 		{
 			return true;

@@ -58,6 +58,7 @@ protected:
 
 	float	move_;		//! 1ƒtƒŒ[ƒ€‚Å“®‚­‹——£
 
+	int		voice_;		//! º
 	bool	next_;		//! Ÿ‚ÌUŒ‚‚Ì“ü—Í
 	VECTOR3 dir_;		//! •ûŒü
 

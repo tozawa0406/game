@@ -39,6 +39,7 @@ void Slash1AttackState::Init(Player* player, Controller* ctrl)
 	moveStart_		= MOVE_START;
 	moveEnd_		= MOVE_END;
 	move_			= MOVE;
+	voice_			= static_cast<int>(Resources::Sound::Camp::UNITYCHAN_ATTACK01);
 
 	AttackBaseState::Init(player, ctrl);
 
@@ -50,6 +51,7 @@ void Slash1AttackState::Init(Player* player, Controller* ctrl)
 
 void Slash1AttackState::Uninit(void)
 {
+	AttackBaseState::Uninit();
 }
 
 PlayerState* Slash1AttackState::Update(void)
