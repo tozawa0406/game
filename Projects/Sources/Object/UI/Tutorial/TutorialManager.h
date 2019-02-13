@@ -71,6 +71,11 @@ public:
 	 * @return	なし				*/
 	inline void End(void) { end_ = true; }
 
+	/* @brief	キャラクターのパターンを変更する
+	 * @param	(p)		パターン
+	 * @return	なし*/
+	inline void SetCharactorPattern(float p) { charactor_.SetPattern(p); }
+
 private:
 	/* @brief	コントローラの種類判定
 	 * @sa		Update()

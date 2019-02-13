@@ -1,7 +1,7 @@
 #include "BloodSplash.h"
 
 //! @def	大きさ
-static const VECTOR3 SCALE = VECTOR3(1.5f, 30, 1);
+static const VECTOR3 SCALE = VECTOR3(1.5f, 50, 1);
 //! @def	消えるタイミング(フレーム)
 static constexpr int DESTROY = 30;
 

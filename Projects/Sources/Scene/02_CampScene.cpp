@@ -85,7 +85,7 @@ void CampScene::Init(SceneList sceneNum)
 
 	if(const auto& sound = GetSound())
 	{
-		sound->Play((int)Resources::Sound::Camp::BGM_GAME);
+//		sound->Play((int)Resources::Sound::Camp::BGM_GAME);
 	}
 }
 

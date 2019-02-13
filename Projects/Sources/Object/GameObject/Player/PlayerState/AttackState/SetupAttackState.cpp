@@ -73,15 +73,6 @@ PlayerState* SetupAttackState::Update(void)
 	// 終了前に
 	if (pattern > (Quarter(animMax) * 3.5f))
 	{
-		// 回避コマンドで回避ステート
-		if (ctrl_->Trigger(Input::GAMEPAD_CROSS, DIK_M))
-		{
-			if (player_->GetStamina() > AvoidanceState::DEC_STAMINA)
-			{
-				return new AvoidanceState;
-			}
-		}
-
 		if (next_)
 		{
 			// 次の攻撃を行う
@@ -91,6 +82,20 @@ PlayerState* SetupAttackState::Update(void)
 			meshAnim.mesh.ChangeAnimation(meshAnim.animation, ANIMATION_CHANGE_FRAME15);
 
 			return new Slash2AttackState;
+		}
+	}
+
+	Wapon* wapon = player_->GetWapon();
+	if (!wapon) { return nullptr; }
+	if(!wapon->IsAttack() && pattern > Half(animMax))
+	{
+		// 回避コマンドで回避ステート
+		if (ctrl_->Trigger(Input::GAMEPAD_CROSS, DIK_M))
+		{
+			if (player_->GetStamina() > AvoidanceState::DEC_STAMINA)
+			{
+				return new AvoidanceState;
+			}
 		}
 	}
 

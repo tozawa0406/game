@@ -45,7 +45,7 @@ void TutorialManager::Init(void)
 			charactor_.SetSplit(VECTOR2(3, 2));
 			charactor_.SetPosition(VECTOR2(Windows::WIDTH - 100, 150));
 			charactor_.SetSize(VECTOR2(95, 60));
-			charactor_.SetPattern(2);
+			charactor_.SetPattern(0);
 
 			baloon_.Init(210, static_cast<int>(Resources::Texture::Camp::UI_BALOON));
 			baloon_.SetPosition(VECTOR2(Windows::WIDTH - 270, 160));

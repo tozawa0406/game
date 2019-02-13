@@ -5,7 +5,7 @@
 static constexpr int DAMAGE = 40;
 
 //! @def	アニメーション速度
-static constexpr float ANIMATION_SLOWLY = 0.2f;
+static constexpr float ANIMATION_SLOWLY = 0.1f;
 //! @def	アニメーション速度
 static constexpr float ANIMATION_MORE_SLOWLY = 0.02f;
 

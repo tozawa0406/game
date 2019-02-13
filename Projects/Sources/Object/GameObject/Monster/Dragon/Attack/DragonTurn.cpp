@@ -31,10 +31,6 @@ void DragonTurn::Init(GameObject* monster)
 	const int max = static_cast<int>(Collision::MAX);
 	Dragon::Collision collisionNum[max] =
 	{
-		Dragon::Collision::WING_LR,
-		Dragon::Collision::WING_LC,
-		Dragon::Collision::WING_RR,
-		Dragon::Collision::WING_RC,
 		Dragon::Collision::TAIL5,
 		Dragon::Collision::TAIL4,
 		Dragon::Collision::TAIL3,

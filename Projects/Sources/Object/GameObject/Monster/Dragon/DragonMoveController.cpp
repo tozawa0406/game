@@ -41,9 +41,10 @@ void DragonMoveController::Action(int& act, uint& flag)
 	if (SearchTarget()) { act = 0; return; }
 	if (!parent_ || !target_) { act = -1; return; }
 	const int range = 25;
+
 	if (act < 0) { return; }
 
-	// •ûŒˆ’è
+	// •ûŒüŒˆ’è
 	dir_ = target_->GetTransform().position - parent_->GetTransform().position;
 	dir_.y = 0;
 
@@ -113,6 +114,13 @@ void DragonMoveController::Action(int& act, uint& flag)
 				cnt_ = 0;
 				std::random_device randDev;
 				act = (randDev() % 4) + 1;
+
+				float dot = VecDot(dir_, parent_->GetFront());
+				if (dot > -0.5f)
+				{
+					std::random_device randomDev;
+					act = (randomDev() % 2) + 3;
+				}
 			}
 		}
 	}
@@ -137,5 +145,7 @@ bool DragonMoveController::SearchTarget(void)
 
 void DragonMoveController::GuiUpdate(void)
 {
+	float dot = VecDot(dir_, parent_->GetFront());
+	ImGui::Text("dot : %.2f", dot);
 	ImGui::Text("dir : %.2f,%.2f, %.2f", dir_.x, dir_.y, dir_.z);
 }

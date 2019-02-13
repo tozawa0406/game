@@ -14,11 +14,7 @@ class DragonTurn : public MonsterAttack
 	//! çUåÇìñÇΩÇËîªíË
 	enum class Collision : uint8
 	{
-		WING_LR = 0,
-		WING_LC,
-		WING_RR,
-		WING_RC,
-		TAIL_5,
+		TAIL_5 = 0,
 		TAIL_4,
 		TAIL_3,
 		TAIL_2,

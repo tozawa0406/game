@@ -51,6 +51,8 @@ public:
 private:
 	//! “–‚½‚è”»’è
 	Collider3D::Sphere* collider_;
+	//! ƒ{ƒCƒX
+	uint8 voiceFlag_;
 };
 
 #endif // _DRAGON_SCREAM_H_

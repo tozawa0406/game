@@ -37,11 +37,14 @@ void Tutorial01Move::Init(TutorialManager* manager, Controller* ctrl)
 		key_[i].SetEnable(false);
 	}
 
-	text_.Init(211, "ˆÚ“®‚µ‚Ä‚Ý‚é‚É‚á", FONT_SIZE);
+	text_.Init(211, "ˆÚ“®‚µ‚Ä‚Ý‚é‚É‚á", 50);
+	text_.SetSize(FONT_SIZE);
 	text_.SetPosition(TEXT_POSITION);
 	text_.SetColor(COLOR(0, 0, 0));
 	text_.SetFaldBack(true);
 	text_.SetDrawSize(TEXT_DRAW_SIZE);
+
+	manager->SetCharactorPattern(0);
 }
 
 void Tutorial01Move::Uninit(void)

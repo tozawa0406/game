@@ -34,6 +34,8 @@ void Tutorial04Avoidance::Init(TutorialManager* manager, Controller* ctrl)
 	text_.SetDrawSize(TEXT_DRAW_SIZE);
 	text_.SetColor(COLOR(0, 0, 0));
 	text_.SetFaldBack(true);
+
+	manager->SetCharactorPattern(1);
 }
 
 void Tutorial04Avoidance::Uninit(void)

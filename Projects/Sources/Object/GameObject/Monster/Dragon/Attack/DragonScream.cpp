@@ -3,8 +3,12 @@
 #include "../Dragon.h"
 #include "../../../Player/Player.h"
 
+static constexpr uint8 VOICE1 = 0x01;
+static constexpr uint8 VOICE2 = 0x02;
+
 DragonScream::DragonScream(void) : 
 	collider_(nullptr)
+	, voiceFlag_(0)
 {
 }
 
@@ -34,6 +38,8 @@ void DragonScream::SetMove(void)
 	if (enable_ || !monster_) { return; }
 
 	MonsterAttack::SetMove();
+
+	voiceFlag_ = 0;
 
 	auto& meshAnim = monster_->GetMeshAnimation();
 
@@ -66,16 +72,18 @@ bool DragonScream::Update(void)
 		}
 	}
 
-	RenderTarget* rtv = nullptr;
+	Sound*			sound	= nullptr;
+	RenderTarget*	rtv		= nullptr;
 	if (const auto& sys = Systems::Instance())
 	{
 		if (const auto& gra = sys->GetGraphics())
 		{
 			rtv = gra->GetRenderTarget();
 		}
+		sound = sys->GetSound();
 	}
 
-	if (!rtv) { return false; }
+	if (!rtv || !sound) { return false; }
 
 	auto& meshAnim = monster_->GetMeshAnimation();
 	float pattern = meshAnim.mesh.GetPattern();
@@ -86,12 +94,25 @@ bool DragonScream::Update(void)
 			rtv->FeedbackBlur(30);
 		}
 	}
+	else if (pattern > 50)
+	{
+		if (!BitCheck(voiceFlag_, VOICE2))
+		{
+			sound->Play(static_cast<int>(Resources::Sound::Buttle::DRAGON_ROAR));
+			BitAdd(voiceFlag_, VOICE2);
+		}
+	}
 	else if (pattern > 20)
 	{
 		rtv->FeedbackBlur(-1);
 		if (collider_)
 		{
 			collider_->SetEnable(true);
+		}
+		if (!BitCheck(voiceFlag_, VOICE1))
+		{
+			sound->Play(static_cast<int>(Resources::Sound::Buttle::DRAGON_ROAR));
+			BitAdd(voiceFlag_, VOICE1);
 		}
 
 		meshAnim.animSpeed = 0.5f;
