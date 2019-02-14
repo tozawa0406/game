@@ -31,11 +31,12 @@ void Tutorial06Attack::Init(TutorialManager* manager, Controller* ctrl)
 	key_.SetSize(TutorialManager::SIZE_KEY);
 	key_.SetEnable(false);
 
-	text_.Init(211, "これで攻撃するにゃ", FONT_SIZE);
+	text_.Init(211, "これで攻撃するにゃ最後に武器を納刀にゃ", FONT_SIZE);
 	text_.SetPosition(TEXT_POSITION);
 	text_.SetDrawSize(TEXT_DRAW_SIZE);
 	text_.SetColor(COLOR(0, 0, 0));
 	text_.SetFaldBack(true);
+	text_.SetString("これで攻撃するにゃ");
 
 	manager->SetCharactorPattern(2);
 }
@@ -55,6 +56,11 @@ TutorialBase* Tutorial06Attack::Update(void)
 
 	// デフォルトの設定
 	key_.SetColor(COLOR_WAIT);
+
+	if (cnt_ >= CHANGE_UI)
+	{
+		text_.SetString("最後に武器を納刀にゃ");
+	}
 
 	// チュートリアル判定
 	WORD	gamepad = (cnt_ < CHANGE_UI) ? Input::GAMEPAD_TRIANGLE: Input::GAMEPAD_SQUARE;
