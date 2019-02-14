@@ -115,7 +115,9 @@ void DragonMoveController::Action(int& act, uint& flag)
 				std::random_device randDev;
 				act = (randDev() % 4) + 1;
 
-				float dot = VecDot(dir_, parent_->GetFront());
+				dir_ = target_->GetTransform().position - parent_->GetTransform().position;
+				dir_.y = 0;
+				float dot = VecDot(VecNorm(dir_), parent_->GetFront());
 				if (dot > -0.5f)
 				{
 					std::random_device randomDev;

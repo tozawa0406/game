@@ -38,7 +38,7 @@ void Tutorial01Move::Init(TutorialManager* manager, Controller* ctrl)
 	}
 
 	text_.Init(211, "ˆÚ“®‚µ‚Ä‚Ý‚é‚É‚á", 50);
-	text_.SetSize(FONT_SIZE);
+	text_.SetSize(static_cast<float>(FONT_SIZE));
 	text_.SetPosition(TEXT_POSITION);
 	text_.SetColor(COLOR(0, 0, 0));
 	text_.SetFaldBack(true);
