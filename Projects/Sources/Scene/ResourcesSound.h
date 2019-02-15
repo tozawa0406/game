@@ -85,11 +85,11 @@ namespace Resources
 		};
 		const SOUNDPARAM titleFileName[(int)Title::MAX - (int)Base::MAX]
 		{
-			{ BGMDirectoryName + "Title/bgm_maoudamashii_fantasy08.wav", -1 },
+			{ BGMDirectoryName + "Title/bgm_maoudamashii_fantasy08.wav", 255 },
 		};
 		const SOUNDPARAM campFileName[(int)Camp::MAX - (int)Base::MAX]
 		{
-			{ BGMDirectoryName + "Game/bgm_maoudamashii_orchestra24.wav"	, -1 },
+			{ BGMDirectoryName + "Game/bgm_maoudamashii_orchestra24.wav"	, 255 },
 
 			{ SEDirectoryName + "unitychan/attack01.wav"					,  0 },
 			{ SEDirectoryName + "unitychan/attack02.wav"					,  0 },
@@ -100,7 +100,7 @@ namespace Resources
 		};
 		const SOUNDPARAM buttleFileName[(int)Buttle::MAX - (int)Base::MAX]
 		{
-			{ BGMDirectoryName + "Game/bgm_maoudamashii_orchestra24.wav"	, -1 },
+			{ BGMDirectoryName + "Game/bgm_maoudamashii_orchestra24.wav"	, 255 },
 
 			{ SEDirectoryName + "unitychan/attack01.wav"					,  0 },
 			{ SEDirectoryName + "unitychan/attack02.wav"					,  0 },
@@ -113,7 +113,7 @@ namespace Resources
 		};
 		const SOUNDPARAM resultFileName[(int)Result::MAX - (int)Base::MAX]
 		{
-			{ BGMDirectoryName + "Result/bgm_maoudamashii_orchestra14.wav"	, -1 },
+			{ BGMDirectoryName + "Result/bgm_maoudamashii_orchestra14.wav"	, 255 },
 		};
 	};
 }

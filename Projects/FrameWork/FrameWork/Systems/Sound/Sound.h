@@ -7,9 +7,11 @@
 #define _SOUND_H_
 
 #include "../../Define/Define.h"
-#include <xAudio2.h>
+#include <xaudio2.h>
 #include "../BaseManager.h"
 #include <Scene/ResourcesSound.h>
+
+#pragma comment(lib, "xaudio2.lib")
 
 //-----------------------------------------------------------------------------
 //	ƒNƒ‰ƒXéŒ¾
