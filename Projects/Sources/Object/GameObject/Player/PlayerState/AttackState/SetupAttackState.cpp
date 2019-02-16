@@ -102,11 +102,11 @@ PlayerState* SetupAttackState::Update(void)
 	if (pattern > 30)
 	{
 		// •Ší‚Ìó‘ÔØ‚è‘Ö‚¦
-		if (const auto& wapon = player_->GetWapon())
+		if (const auto& w = player_->GetWapon())
 		{
 			if (isDraw_ == player_->IsDraw())
 			{
-				wapon->Setup(isDraw_);
+				w->Setup(isDraw_);
 				player_->SetDraw(!player_->IsDraw());
 			}
 		}

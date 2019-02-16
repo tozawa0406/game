@@ -183,9 +183,6 @@
     <ClCompile Include="FrameWork\Systems\Sound\Sound.cpp" />
     <ClCompile Include="FrameWork\Windows\Windows.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="FrameWork\Windows\resource.rc" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{285422C2-A7B8-44FA-88AB-3155C5D56D8F}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -345,9 +342,4 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
-  <ProjectExtensions>
-    <VisualStudio>
-      <UserProperties RESOURCE_FILE="Sources\Windows\20180319.rc" />
-    </VisualStudio>
-  </ProjectExtensions>
 </Project>

@@ -452,4 +452,14 @@
       <Filter>Source\Object\UI\Tutorial</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="FrameWork\FrameWork\Windows\resource.rc">
+      <Filter>Source\リソース ファイル</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="FrameWork\FrameWork\Windows\icon.ico">
+      <Filter>Source\リソース ファイル</Filter>
+    </Image>
+  </ItemGroup>
 </Project>

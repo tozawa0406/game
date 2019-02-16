@@ -156,8 +156,7 @@ void Windows::SetWindowInfo(void)
 	wcex_.cbClsExtra    = 0;
 	wcex_.cbWndExtra    = 0;
 	wcex_.hInstance     = hInstance_;
-//	wcex_.hIcon			= LoadIcon(hInstance_, MAKEINTRESOURCE(IDI_ICON1));
-	wcex_.hIcon			= NULL;
+	wcex_.hIcon			= LoadIcon(hInstance_, MAKEINTRESOURCE(IDI_ICON1));
 	wcex_.hCursor       = LoadCursor(NULL, IDC_ARROW);
 	wcex_.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
 	wcex_.lpszMenuName  = NULL;

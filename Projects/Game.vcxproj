@@ -157,6 +157,12 @@
       <Project>{285422c2-a7b8-44fa-88ab-3155c5d56d8f}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="FrameWork\FrameWork\Windows\resource.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="FrameWork\FrameWork\Windows\icon.ico" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{0903C5E1-428A-40EC-917D-4EAC7CFB3525}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -309,7 +315,7 @@
   </ImportGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties RESOURCE_FILE="Sources\Windows\20180319.rc" />
+      <UserProperties RESOURCE_FILE="FrameWork\FrameWork\Windows\resource.rc" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>
