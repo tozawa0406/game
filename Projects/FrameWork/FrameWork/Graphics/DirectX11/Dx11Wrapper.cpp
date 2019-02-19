@@ -1089,7 +1089,8 @@ HRESULT Dx11Wrapper::LoadModelAnimation(string fileName, int parent)
 
 void Dx11Wrapper::ReleaseModel(int modelNum)
 {
-	if (model_.size() <= modelNum) { return; }
+	int size = static_cast<int>(model_.size());
+	if (size <= modelNum) { return; }
 
 	for (auto& mesh : model_[modelNum].mesh)
 	{
