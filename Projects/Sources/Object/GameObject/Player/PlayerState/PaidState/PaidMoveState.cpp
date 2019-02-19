@@ -62,15 +62,49 @@ PlayerState* PaidMoveState::Update(void)
 		if (stamina > 25) { breath_ = false; }
 	}
 
+	if (static_cast<int>(stamina) % 15 == 0)
+	{
+		if (const auto& systems = Systems::Instance())
+		{
+			if (const auto& sound = systems->GetSound())
+			{
+				sound->Play(static_cast<int>(Resources::Sound::Camp::UNITYCHAN_BREATH));
+			}
+		}
+	}
+
 	inputDir *= inputDash;
 
 	// アニメーション切り替え
 	if (fabs(inputDir.x) + fabs(inputDir.y) > 0)
 	{
 		meshAnim.animSpeed = 0.55f;
-		meshAnim.animation = static_cast<int>((inputDash <= 1) ? Player::Animation::Walk : Player::Animation::Run);
-		int cnt = (meshAnim.animation == static_cast<int>(Player::Animation::Run)) ? 15 : ANIMATION_CHANGE_FRAME30;
-		meshAnim.mesh.ChangeAnimation(meshAnim.animation, cnt);
+
+		int p = static_cast<int>(meshAnim.mesh.GetPattern());
+		Player::Animation anim = Player::Animation::Walk;
+		int frame = ANIMATION_CHANGE_FRAME30;
+		bool se = (p == 15 || p == 35) ? true : false;
+		if (inputDash > 1)
+		{
+			anim = Player::Animation::Run;
+			frame = ANIMATION_CHANGE_FRAME15;
+			se = (p == 12 || p == 24) ? true : false;
+
+		}
+
+		meshAnim.animation = static_cast<int>(anim);
+		meshAnim.mesh.ChangeAnimation(meshAnim.animation, frame);
+
+		if (se)
+		{
+			if (const auto& systems = Systems::Instance())
+			{
+				if (const auto& sound = systems->GetSound())
+				{
+					sound->Play(static_cast<int>(Resources::Sound::Camp::UNITYCHAN_WALK));
+				}
+			}
+		}
 	}
 	// 入力がないと待機モーションへ
 	else

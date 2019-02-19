@@ -360,6 +360,14 @@ void Dragon::Hit(int damage, uint8 attackID)
 
 	life_ -= damage; 
 	accumulation_ += damage;
+
+	if (const auto& systems = Systems::Instance())
+	{
+		if (const auto& sound = systems->GetSound())
+		{
+			sound->Play(static_cast<int>(Resources::Sound::Buttle::WAPON_HIT));
+		}
+	}
 }
 
 bool Dragon::DebugInput(void)

@@ -257,6 +257,14 @@ void Player::Hit(int damage, uint8 attackID)
 		}
 		state_->Init(this, GetCtrl(0));
 	}
+
+	if (const auto& systems = Systems::Instance())
+	{
+		if (const auto& sound = systems->GetSound())
+		{
+			sound->Play(static_cast<int>(Resources::Sound::Camp::UNITYCHAN_HIT));
+		}
+	}
 }
 
 void Player::Earplug(uint8 attackID)

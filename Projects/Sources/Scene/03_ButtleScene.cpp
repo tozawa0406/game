@@ -96,7 +96,7 @@ void ButtleScene::Init(SceneList sceneNum)
 
 	if(const auto& sound = GetSound())
 	{
-//		sound->Play((int)Resources::Sound::Camp::BGM_GAME);
+		sound->Play((int)Resources::Sound::Buttle::BGM_GAME);
 	}
 }
 

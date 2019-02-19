@@ -44,12 +44,16 @@ namespace Resources
 		{
 			BGM_GAME = (int)Base::MAX,
 
+			UNITYCHAN_WALK,
+			UNITYCHAN_DRINK,
+			UNITYCHAN_DRAWN,
 			UNITYCHAN_ATTACK01,
 			UNITYCHAN_ATTACK02,
 			UNITYCHAN_ATTACK03,
 			UNITYCHAN_HIT,
 			UNITYCHAN_HEAL,
 			UNITYCHAN_BREATH,
+			WAPON_ATTACK,
 
 			MAX
 		};
@@ -58,12 +62,17 @@ namespace Resources
 		{
 			BGM_GAME = (int)Base::MAX,
 
+			UNITYCHAN_WALK,
+			UNITYCHAN_DRINK,
+			UNITYCHAN_DRAWN,
 			UNITYCHAN_ATTACK01,
 			UNITYCHAN_ATTACK02,
 			UNITYCHAN_ATTACK03,
 			UNITYCHAN_HIT,
 			UNITYCHAN_HEAL,
 			UNITYCHAN_BREATH,
+			WAPON_ATTACK,
+			WAPON_HIT,
 
 			DRAGON_ROAR,
 
@@ -91,23 +100,32 @@ namespace Resources
 		{
 			{ BGMDirectoryName + "Game/bgm_maoudamashii_orchestra24.wav"	, 255 },
 
+			{ SEDirectoryName + "unitychan/walk.wav"						,  0 },
+			{ SEDirectoryName + "unitychan/drink.wav"						,  0 },
+			{ SEDirectoryName + "unitychan/drawn.wav"						,  0 },
 			{ SEDirectoryName + "unitychan/attack01.wav"					,  0 },
 			{ SEDirectoryName + "unitychan/attack02.wav"					,  0 },
 			{ SEDirectoryName + "unitychan/attack03.wav"					,  0 },
 			{ SEDirectoryName + "unitychan/hit.wav"							,  0 },
 			{ SEDirectoryName + "unitychan/heal.wav"						,  0 },
 			{ SEDirectoryName + "unitychan/breath.wav"						,  0 },
+			{ SEDirectoryName + "unitychan/attack.wav"						,  0 },
 		};
 		const SOUNDPARAM buttleFileName[(int)Buttle::MAX - (int)Base::MAX]
 		{
 			{ BGMDirectoryName + "Game/bgm_maoudamashii_orchestra24.wav"	, 255 },
 
+			{ SEDirectoryName + "unitychan/walk.wav"						,  0 },
+			{ SEDirectoryName + "unitychan/drink.wav"						,  0 },
+			{ SEDirectoryName + "unitychan/drawn.wav"						,  0 },
 			{ SEDirectoryName + "unitychan/attack01.wav"					,  0 },
 			{ SEDirectoryName + "unitychan/attack02.wav"					,  0 },
 			{ SEDirectoryName + "unitychan/attack03.wav"					,  0 },
 			{ SEDirectoryName + "unitychan/hit.wav"							,  0 },
 			{ SEDirectoryName + "unitychan/heal.wav"						,  0 },
 			{ SEDirectoryName + "unitychan/breath.wav"						,  0 },
+			{ SEDirectoryName + "unitychan/attack.wav"						,  0 },
+			{ SEDirectoryName + "unitychan/attackHit.wav"					,  0 },
 
 			{ SEDirectoryName + "monster1.wav"								,  0 },
 		};

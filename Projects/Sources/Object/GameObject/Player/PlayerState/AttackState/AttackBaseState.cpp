@@ -118,6 +118,7 @@ PlayerState* AttackBaseState::Update(void)
 				if (const auto& sound = systems->GetSound())
 				{
 					sound->Play(voice_);
+					sound->Play(static_cast<int>(Resources::Sound::Camp::WAPON_ATTACK));
 				}
 			}
 		}

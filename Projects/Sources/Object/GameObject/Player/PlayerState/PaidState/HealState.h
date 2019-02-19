@@ -45,7 +45,9 @@ private:
 	//! 値計算済みフラグ
 	bool	heal_;
 	//! アイテムの識別子
-	ItemID itemId_;
+	ItemID	itemId_;
+	//! 飲み込み音
+	bool	drink_;
 };
 
 #endif // _HEAL_STATE_H_

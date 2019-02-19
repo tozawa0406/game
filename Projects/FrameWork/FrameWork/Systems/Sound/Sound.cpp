@@ -120,14 +120,14 @@ HRESULT Sound::LoadSound(SOUNDPARAM param, int i)
 	hFile = CreateFile(temp.c_str(), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
 	if (hFile == INVALID_HANDLE_VALUE)
 	{
-		error = temp + "の生成に失敗(1)";
+		error = temp + "を開けませんでした";
 		windows->ErrorMessage(error.c_str(), "エラー", E_FAIL);
 		return HRESULT_FROM_WIN32(GetLastError());
 	}
 	if (SetFilePointer(hFile, 0, NULL, FILE_BEGIN) == INVALID_SET_FILE_POINTER)
 	{// ファイルポインタを先頭に移動
 
-		error = temp + "の生成に失敗(2)";
+		error = temp + "の生成に失敗(1)";
 		windows->ErrorMessage(error.c_str(), "エラー", E_FAIL);
 		return HRESULT_FROM_WIN32(GetLastError());
 	}

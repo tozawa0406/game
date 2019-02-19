@@ -56,6 +56,14 @@ PlayerState* SetupState::Update(void)
 		{
 			if (isDraw_ == player_->IsDraw())
 			{
+				if (const auto& systems = Systems::Instance())
+				{
+					if (const auto& sound = systems->GetSound())
+					{
+						sound->Play(static_cast<int>(Resources::Sound::Camp::UNITYCHAN_DRAWN));
+					}
+				}
+
 				wapon->Setup(isDraw_);
 				player_->SetDraw(!player_->IsDraw());
 			}

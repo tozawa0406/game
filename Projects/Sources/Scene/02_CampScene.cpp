@@ -82,11 +82,6 @@ void CampScene::Init(SceneList sceneNum)
 		itemList->AddItem(ItemID::Rations, -1);
 		itemList->AddItem(ItemID::Recovery, 10);
 	}
-
-	if(const auto& sound = GetSound())
-	{
-		sound->Play((int)Resources::Sound::Camp::BGM_GAME);
-	}
 }
 
 void CampScene::Uninit(void)

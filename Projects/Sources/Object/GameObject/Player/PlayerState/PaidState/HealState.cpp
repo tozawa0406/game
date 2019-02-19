@@ -8,6 +8,7 @@
 HealState::HealState(void) : 
 	heal_(false)
 	, itemId_(ItemID::UNKNOWN)
+	, drink_(false)
 {
 }
 
@@ -53,15 +54,21 @@ PlayerState* HealState::Update(void)
 		COLOR c = COLOR(1, 1, 1);
 		if (itemId_ == ItemID::Recovery)		{ c = COLOR(0, 1, 0); }
 		else if (itemId_ == ItemID::Rations)	{ c = COLOR(1, 1, 0); }
-		if (!heal_) 
-		{
-			heal_ = true;
-			if (itemId_ == ItemID::Recovery)	 { player_->Recovery(30); }
-			else if (itemId_ == ItemID::Rations) { player_->AddMaxStamina(); }
-		}
 
 		if (const auto& systems = Systems::Instance())
 		{
+			if (!heal_)
+			{
+				heal_ = true;
+				if (itemId_ == ItemID::Recovery) { player_->Recovery(30); }
+				else if (itemId_ == ItemID::Rations) { player_->AddMaxStamina(); }
+
+				if (const auto& sound = systems->GetSound())
+				{
+					sound->Play(static_cast<int>(Resources::Sound::Camp::UNITYCHAN_HEAL));
+				}
+			}
+
 			VECTOR2 v = VecCircle(360) * 0.1f;
 			auto p = player_->GetTransform().position;
 			p.y += 10;
@@ -70,6 +77,17 @@ PlayerState* HealState::Update(void)
 			PARTICLE_DATA data = PARTICLE_DATA(p, r, 30, c, VECTOR3(v.x, v.y, v.x));
 			const auto& particle = new Particle(systems->GetParticleManager(), data);
 			particle->SetTexture(static_cast<int>(Resources::Texture::Camp::EFFECT));
+		}
+	}
+	else if (pattern > 20 && !drink_)
+	{
+		drink_ = true;
+		if (const auto& systems = Systems::Instance())
+		{
+			if (const auto& sound = systems->GetSound())
+			{
+				sound->Play(static_cast<int>(Resources::Sound::Camp::UNITYCHAN_DRINK));
+			}
 		}
 	}
 
