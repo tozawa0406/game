@@ -29,7 +29,9 @@ namespace Resources
 
 		enum class Title : int8
 		{
-			MAX = (int)Base::MAX
+			TITLE = (int)Base::MAX,
+
+			MAX
 		};
 
 		enum class Camp : int8
@@ -123,9 +125,10 @@ namespace Resources
 			{ directoryName + "UI/load.png"				},
 		};
 
-		//const string titleFileName[(int)Title::MAX - (int)Base::MAX]
-		//{		  
-		//};
+		const string titleFileName[(int)Title::MAX - (int)Base::MAX]
+		{
+			{ directoryName + "title.png"				},
+		};
 
 		const string campFileName[(int)Camp::MAX - (int)Base::MAX]
 		{

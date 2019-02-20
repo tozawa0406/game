@@ -22,7 +22,7 @@ const string* ResourceInfoManager::LoadTexture(SceneList state, int& size, int& 
 	case SceneList::TITLE:
 		max = static_cast<int>(Resources::Texture::Title::MAX);
 		size = max - baseMax;
-//		return &texture_.titleFileName[0];
+		return &texture_.titleFileName[0];
 		break;
 	case SceneList::CAMP:
 		max = static_cast<int>(Resources::Texture::Camp::MAX);
@@ -116,7 +116,6 @@ const ANIMATION_INFO* ResourceInfoManager::LoadModelAnimation(SceneList state, i
 
 	return nullptr;
 }
-
 
 const SOUNDPARAM* ResourceInfoManager::LoadSound(SceneList state, int& size, int& max) const
 {
