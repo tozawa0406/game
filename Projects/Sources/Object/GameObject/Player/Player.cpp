@@ -245,6 +245,8 @@ void Player::Hit(int damage, uint8 attackID)
 
 	if (colliderDefense_->IsEnable())
 	{
+		if (meshAnim_.animation == static_cast<int>(Animation::Die)) { return; }
+
 		life_ -= damage;
 		UninitDeletePtr(state_);
 		if (life_ > 0)

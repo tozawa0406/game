@@ -46,6 +46,7 @@ namespace Resources
 
 			UNITYCHAN_WALK,
 			UNITYCHAN_DRINK,
+			UNITYCHAN_AVOIDANCE,
 			UNITYCHAN_DRAWN,
 			UNITYCHAN_ATTACK01,
 			UNITYCHAN_ATTACK02,
@@ -64,6 +65,7 @@ namespace Resources
 
 			UNITYCHAN_WALK,
 			UNITYCHAN_DRINK,
+			UNITYCHAN_AVOIDANCE,
 			UNITYCHAN_DRAWN,
 			UNITYCHAN_ATTACK01,
 			UNITYCHAN_ATTACK02,
@@ -102,6 +104,7 @@ namespace Resources
 
 			{ SEDirectoryName + "unitychan/walk.wav"						,  0 },
 			{ SEDirectoryName + "unitychan/drink.wav"						,  0 },
+			{ SEDirectoryName + "unitychan/avoidance.wav"					,  0 },
 			{ SEDirectoryName + "unitychan/drawn.wav"						,  0 },
 			{ SEDirectoryName + "unitychan/attack01.wav"					,  0 },
 			{ SEDirectoryName + "unitychan/attack02.wav"					,  0 },
@@ -117,6 +120,7 @@ namespace Resources
 
 			{ SEDirectoryName + "unitychan/walk.wav"						,  0 },
 			{ SEDirectoryName + "unitychan/drink.wav"						,  0 },
+			{ SEDirectoryName + "unitychan/avoidance.wav"					,  0 },
 			{ SEDirectoryName + "unitychan/drawn.wav"						,  0 },
 			{ SEDirectoryName + "unitychan/attack01.wav"					,  0 },
 			{ SEDirectoryName + "unitychan/attack02.wav"					,  0 },

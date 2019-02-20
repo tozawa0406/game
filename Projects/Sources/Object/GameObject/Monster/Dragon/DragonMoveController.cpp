@@ -139,6 +139,15 @@ bool DragonMoveController::SearchTarget(void)
 		{
 			target_ = static_cast<GameObject*>(o);
 			collider_->SetEnable(false);
+
+			if (const auto& systems = Systems::Instance())
+			{
+				if (const auto& sound = systems->GetSound())
+				{
+					sound->Play(static_cast<int>(Resources::Sound::Buttle::BGM_GAME));
+				}
+			}
+
 			return true;
 		}
 	}

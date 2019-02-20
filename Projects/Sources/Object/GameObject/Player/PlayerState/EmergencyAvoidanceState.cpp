@@ -75,6 +75,14 @@ void EmergencyAvoidanceState::Init(Player* player, Controller* ctrl)
 	}
 
 	player->SetStamina(player->GetStamina() - DEC_STAMINA);
+
+	if (const auto& systems = Systems::Instance())
+	{
+		if (const auto& sound = systems->GetSound())
+		{
+			sound->Play(static_cast<int>(Resources::Sound::Camp::UNITYCHAN_AVOIDANCE));
+		}
+	}
 }
 
 void EmergencyAvoidanceState::Uninit(void)

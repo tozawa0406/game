@@ -93,11 +93,6 @@ void ButtleScene::Init(SceneList sceneNum)
 	{
 		clearUI_->SetEnable(false);
 	}
-
-	if(const auto& sound = GetSound())
-	{
-		sound->Play((int)Resources::Sound::Buttle::BGM_GAME);
-	}
 }
 
 void ButtleScene::Uninit(void)

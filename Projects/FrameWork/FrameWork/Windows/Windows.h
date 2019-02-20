@@ -29,7 +29,7 @@ class Windows
 
 public:
 	//! @def	フルスクリーン設定
-	static constexpr bool FULL_SCREEN	= false;
+	static constexpr bool FULL_SCREEN	= true;
 	//! @def	FPSの設定
 	static constexpr int  FPS			= 60;
 	//! @def	ウィンドウ横サイズ

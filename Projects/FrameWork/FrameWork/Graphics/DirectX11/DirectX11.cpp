@@ -109,7 +109,7 @@ bool DirectX11::SetDevice(void)
 	sd.OutputWindow							= window_->GetHWND();
 	sd.SwapEffect							= DXGI_SWAP_EFFECT_DISCARD;
 	sd.Flags								= DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
-	sd.Windowed								= true;// !Windows::FULL_SCREEN;
+	sd.Windowed								= !Windows::FULL_SCREEN;
 
 	hr = pDXGIFactory->CreateSwapChain(pDevice_, &sd, &pSwapChain_);
 	if (FAILED(hr)) { return false; }
